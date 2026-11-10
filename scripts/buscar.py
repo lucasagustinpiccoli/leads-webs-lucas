@@ -27,6 +27,12 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output")
 API = "https://places.googleapis.com/v1/places:searchText"
+USO = os.path.join(OUT, "uso-api.json")
+# Freno propio para no salir del cupo gratis: cada página de resultados cuenta como 1 llamada.
+# Con los campos que pedimos, Text Search entra en el nivel "Enterprise" de Google, que tiene 1.000 llamadas
+# gratis por mes (verificar en https://developers.google.com/maps/billing-and-pricing/pricing).
+# El freno corta bastante antes, en 500, y se cambia con PLACES_LIMITE_MENSUAL.
+LIMITE_MENSUAL = int(os.environ.get("PLACES_LIMITE_MENSUAL", "500"))
 
 # Solo los campos que usamos: la API cobra según los campos pedidos.
 FIELD_MASK = ",".join([
@@ -56,7 +62,32 @@ def localidades(zona, zonas):
     return zonas.get(zona.strip().lower(), [zona.strip()])
 
 
+def uso_del_mes():
+    mes = dt.date.today().strftime("%Y-%m")
+    try:
+        with open(USO, encoding="utf-8") as f:
+            return mes, json.load(f).get(mes, 0)
+    except (FileNotFoundError, ValueError):
+        return mes, 0
+
+
+def sumar_uso():
+    mes, n = uso_del_mes()
+    try:
+        with open(USO, encoding="utf-8") as f:
+            todo = json.load(f)
+    except (FileNotFoundError, ValueError):
+        todo = {}
+    todo[mes] = n + 1
+    os.makedirs(OUT, exist_ok=True)
+    with open(USO, "w", encoding="utf-8") as f:
+        json.dump(todo, f, indent=1)
+
+
 def buscar_texto(query, api_key, page_token=None):
+    mes, n = uso_del_mes()
+    if n >= LIMITE_MENSUAL:
+        sys.exit(f"Freno de uso: ya van {n} llamadas en {mes} (límite {LIMITE_MENSUAL}). No se llama a la API.")
     body = {"textQuery": query, "languageCode": "es", "regionCode": "AR", "pageSize": 20}
     if page_token:
         body["pageToken"] = page_token
@@ -66,6 +97,7 @@ def buscar_texto(query, api_key, page_token=None):
     )
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
+            sumar_uso()
             return json.load(r)
     except urllib.error.HTTPError as e:
         sys.exit(f"Error {e.code} de la API de Places para '{query}':\n{e.read().decode(errors='replace')}")
@@ -186,6 +218,9 @@ def main():
     escribir_csv(filas, path)
     con_web = sum(1 for x in filas if x["web"])
     print(f"Listo: {len(filas)} negocios ({con_web} con algo en el campo web) -> {os.path.relpath(path, ROOT)}")
+    if not a.desde_raw:
+        mes, n = uso_del_mes()
+        print(f"Uso de la API en {mes}: {n} llamadas de {LIMITE_MENSUAL} (freno propio).")
 
 
 if __name__ == "__main__":
