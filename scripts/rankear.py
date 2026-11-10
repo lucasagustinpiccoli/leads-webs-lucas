@@ -35,7 +35,8 @@ COLUMNAS = ["ranking", "puntaje", "demo", "motivo", "negocio", "rubro", "categor
             "place_id"]
 
 # Rubros con más margen primero (plan: clínicas, dentistas, estudios, veterinarias antes que negocios chicos).
-PESO_RUBRO = {"dentista": 10, "clinica": 10, "abogado": 10, "contador": 9, "veterinaria": 9, "taller": 7}
+PESO_RUBRO = {"dentista": 10, "clinica": 10, "abogado": 10, "salon_eventos": 10, "veterinaria": 9, "idiomas": 9,
+              "estetica": 9, "contador": 8, "academia": 8, "ropa": 7}
 
 AGREGADORES = ("linktr.ee", "linkin.bio", "beacons.ai", "taplink", "bio.link", "msha.ke", "lnk.bio", "linkbio",
                "wa.me", "api.whatsapp.com", "wa.link", "whatsapp.com")
@@ -127,6 +128,8 @@ def preparar(lugares, rubros, excluir):
         descartes[motivo] = descartes.get(motivo, 0) + 1
 
     for p in lugares.values():
+        if p["rubro_clave"] not in rubros:  # rubro sacado de config/rubros.json (ej. talleres)
+            descartar("rubro fuera de la lista"); continue
         nombre = sin_acentos(p["nombre"])
         if p.get("cerrado"):
             descartar("cerrado"); continue

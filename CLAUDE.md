@@ -34,7 +34,8 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - Teléfono: celular (+54 9) → 20; fijo → 12.
 - Presencia: solo Instagram 20; solo Facebook / agregador / WhatsApp 17; web gratuita o caída 15; sin nada 14.
   Quien ya invierte en redes entiende el valor de estar online y es más fácil de convencer.
-- Rubro: dentista, clínica, abogado 10; contador, veterinaria 9; taller 7.
+- Rubro: dentista, clínica, abogado, salón de eventos 10; veterinaria, idiomas, estética 9; contador, academia 8; ropa 7.
+  Talleres quedaron afuera: el 97% no tiene web, a un taller se lo elige por cercanía y recomendación.
 - −10 si la dirección no coincide con la localidad buscada.
 
 **Límite conocido:** sin login, Google Maps está en "vista limitada" y no da la cantidad de reseñas.
@@ -69,7 +70,7 @@ fotos, horarios, link_maps, web, estado_negocio, busqueda`
 1. ✅ Revisión de la herramienta de Sol.
 2. ✅ Extracción por rubro y zona (scrape_maps.js; buscar.py con Places como alternativa).
 3. ✅ Filtro de negocios con web propia (rankear.py).
-4. ✅ Puntaje de prospecto y selección de demos (rankear.py). Tanda 01: Caseros, Ramos Mejía, Morón, Castelar.
+4. ✅ Puntaje de prospecto y selección de demos (rankear.py). Tanda 01: Caseros, Ramos Mejía, Morón, Castelar (10 rubros, sin talleres).
 5. ⏳ Plantilla de landing alimentada por JSON.
 6. ⏳ Mensajes de contacto.
 7. ⏳ Planilla de seguimiento.

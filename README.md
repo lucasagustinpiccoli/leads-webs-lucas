@@ -45,6 +45,7 @@ conviene usarlo en volumen bajo. Si aparece un CAPTCHA, el script se frena.
    ```
    El CSV queda en `output/`. No hace falta instalar nada: usa solo la librería estándar de Python.
 
-Rubros disponibles: `veterinaria`, `dentista`, `taller`, `contador`, `abogado`, `clinica` (editables en
+Rubros disponibles: `veterinaria`, `dentista`, `contador`, `abogado`, `clinica`, `salon_eventos`, `idiomas`,
+`academia`, `estetica`, `ropa` (editables en
 `config/rubros.json`). Zonas: cualquier localidad, o `"zona oeste"` / `"caba"` para recorrer todas las de
 `config/zonas.json`.

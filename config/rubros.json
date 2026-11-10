@@ -1,26 +1,79 @@
 {
   "veterinaria": {
     "nombre": "Veterinaria",
-    "busquedas": ["veterinaria", "clínica veterinaria"]
+    "busquedas": [
+      "veterinaria",
+      "clínica veterinaria"
+    ]
   },
   "dentista": {
     "nombre": "Dentista",
-    "busquedas": ["dentista", "consultorio odontológico", "odontólogo"]
-  },
-  "taller": {
-    "nombre": "Taller mecánico",
-    "busquedas": ["taller mecánico", "mecánica del automotor"]
+    "busquedas": [
+      "dentista",
+      "consultorio odontológico",
+      "odontólogo"
+    ]
   },
   "contador": {
     "nombre": "Estudio contable",
-    "busquedas": ["estudio contable", "contador"]
+    "busquedas": [
+      "estudio contable",
+      "contador"
+    ]
   },
   "abogado": {
     "nombre": "Estudio jurídico",
-    "busquedas": ["estudio jurídico", "abogado"]
+    "busquedas": [
+      "estudio jurídico",
+      "abogado"
+    ]
   },
   "clinica": {
     "nombre": "Consultorio / centro médico",
-    "busquedas": ["consultorio médico", "centro médico", "kinesiología"]
+    "busquedas": [
+      "consultorio médico",
+      "centro médico",
+      "kinesiología"
+    ]
+  },
+  "salon_eventos": {
+    "nombre": "Salón de eventos",
+    "busquedas": [
+      "salón de eventos",
+      "salón de fiestas",
+      "quinta para eventos"
+    ]
+  },
+  "idiomas": {
+    "nombre": "Instituto de idiomas",
+    "busquedas": [
+      "instituto de inglés",
+      "instituto de idiomas",
+      "clases de inglés"
+    ]
+  },
+  "academia": {
+    "nombre": "Academia",
+    "busquedas": [
+      "academia de baile",
+      "escuela de música",
+      "apoyo escolar"
+    ]
+  },
+  "estetica": {
+    "nombre": "Centro de estética",
+    "busquedas": [
+      "centro de estética",
+      "estética facial",
+      "depilación definitiva"
+    ]
+  },
+  "ropa": {
+    "nombre": "Tienda de ropa",
+    "busquedas": [
+      "tienda de ropa",
+      "local de ropa",
+      "boutique"
+    ]
   }
 }
