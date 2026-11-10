@@ -1,0 +1,32 @@
+{
+  "_nota": "Textos base del rubro. {negocio} y {localidad} se reemplazan. Todo es genérico: nada afirma servicios puntuales del negocio.",
+  "rubro_label": "Salón de eventos",
+  "meta_descripcion": "{negocio}: salón de eventos en {localidad}. Cumpleaños, casamientos, infantiles y eventos empresariales. Pedí tu presupuesto por WhatsApp.",
+  "titular": "Celebrá tu evento en {localidad}",
+  "bajada": "Cumpleaños de 15, casamientos, infantiles y eventos empresariales. Contanos qué te imaginás y lo armamos juntos.",
+  "cta": "Pedí tu presupuesto",
+  "seccion_tipos": "Eventos que hacemos",
+  "tipos": [
+    {"icono": "fifteen", "titulo": "Cumpleaños de 15", "texto": "La noche más esperada, con la ambientación que soñaste."},
+    {"icono": "rings", "titulo": "Casamientos", "texto": "Un espacio para que solo te ocupes de disfrutar."},
+    {"icono": "balloon", "titulo": "Infantiles", "texto": "Festejos seguros y divertidos para los más chicos."},
+    {"icono": "briefcase", "titulo": "Empresariales", "texto": "Fiestas de fin de año, lanzamientos y reuniones."}
+  ],
+  "seccion_porque": "Por qué elegirnos",
+  "porque_extra": [
+    {"titulo": "Atención personalizada", "texto": "Te acompañamos desde la primera consulta hasta el último baile."},
+    {"titulo": "Presupuesto a medida", "texto": "Según la fecha, la cantidad de invitados y lo que necesites."}
+  ],
+  "seccion_galeria": "Así se viven nuestros eventos",
+  "seccion_ubicacion": "Dónde estamos",
+  "seccion_presupuesto": "Pedí tu presupuesto",
+  "bajada_presupuesto": "Completá estos datos y te respondemos por WhatsApp.",
+  "form_tipos": ["Cumpleaños de 15", "Casamiento", "Infantil", "Empresarial", "Otro"],
+  "mensaje_wa": "¡Hola {negocio}! Quiero pedir presupuesto para un evento.",
+  "paletas": [
+    {"primario": "#7a3b5e", "acento": "#d9a441", "fondo": "#fbf7f4", "oscuro": "#2b1a24"},
+    {"primario": "#1f4e5f", "acento": "#e0a96d", "fondo": "#f6f8f7", "oscuro": "#14262d"},
+    {"primario": "#5b3fa0", "acento": "#f2b5c4", "fondo": "#faf8fd", "oscuro": "#221a33"},
+    {"primario": "#2f5d3a", "acento": "#e7c46b", "fondo": "#f7f8f3", "oscuro": "#18291c"}
+  ]
+}

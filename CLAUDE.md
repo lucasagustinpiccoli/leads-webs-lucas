@@ -40,6 +40,20 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 
 **Límite conocido:** sin login, Google Maps está en "vista limitada" y no da la cantidad de reseñas.
 
+## Demos (paso 5)
+
+- `python scripts/demo.py --demos --rubro salon_eventos` → genera las demos marcadas "Sí" de ese rubro en la última tanda.
+  `--ranking N` para una sola; `--render output/demos/{carpeta}/datos.json` para regenerar después de editar.
+- Cada demo: `output/demos/{ranking}-{negocio}/datos.json` (editable) + `index.html`. Si `datos.json` ya existe,
+  no se pisa: se regenera desde ahí.
+- Motor único `templates/landing.html`; textos por rubro en `config/landing/{rubro}.json`. Hoy solo `salon_eventos`.
+  Para otro rubro: copiar ese JSON, cambiar textos e íconos.
+- Reglas de contenido: los datos del negocio salen de Maps (nombre, dirección, teléfono, rating, cantidad de fotos,
+  Instagram). Todo lo demás es genérico del rubro: **no afirmar servicios, precios ni capacidades que no viste**.
+  La franja "Demo preparada para…" y el `noindex` se quedan hasta que el cliente compre.
+- Fotos: lista `fotos` en `datos.json` (URLs o rutas). Si está vacía se ven placeholders con los colores de la paleta.
+- En el sandbox de Claude el mapa embebido sale gris (bloquea maps.gstatic.com); en un navegador normal carga.
+
 ## Otras herramientas
 
 - `python scripts/buscar.py --rubro {clave} --zona {localidad | "zona oeste" | "caba"} [--max 60]`
@@ -71,6 +85,6 @@ fotos, horarios, link_maps, web, estado_negocio, busqueda`
 2. ✅ Extracción por rubro y zona (scrape_maps.js; buscar.py con Places como alternativa).
 3. ✅ Filtro de negocios con web propia (rankear.py).
 4. ✅ Puntaje de prospecto y selección de demos (rankear.py). Tanda 01: Caseros, Ramos Mejía, Morón, Castelar (10 rubros, sin talleres).
-5. ⏳ Plantilla de landing alimentada por JSON.
+5. ✅ Plantilla de landing alimentada por JSON (demo.py). Rubro listo: salones de eventos (5 demos de la tanda 01).
 6. ⏳ Mensajes de contacto.
 7. ⏳ Planilla de seguimiento.

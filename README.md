@@ -21,6 +21,16 @@ no repite negocios ya entregados.
 Lee Google Maps de la misma forma que la herramienta de Sol. Eso va contra los términos de Google, así que
 conviene usarlo en volumen bajo. Si aparece un CAPTCHA, el script se frena.
 
+## Demos
+
+```bash
+python scripts/demo.py --demos --rubro salon_eventos
+```
+
+Genera una landing por prospecto en `output/demos/{ranking}-{negocio}/index.html`, con sus datos reales de Maps
+(nombre, dirección, teléfono, rating, fotos), botón y formulario de presupuesto por WhatsApp y mapa. Para cambiar
+textos o sumar fotos, editá `datos.json` en esa carpeta y corré `python scripts/demo.py --render <ruta a datos.json>`.
+
 ## Alternativa oficial: API de Places (necesita tarjeta)
 
 1. Crear una API key de Google Places:
