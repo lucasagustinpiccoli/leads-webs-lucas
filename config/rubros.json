@@ -1,0 +1,26 @@
+{
+  "veterinaria": {
+    "nombre": "Veterinaria",
+    "busquedas": ["veterinaria", "clínica veterinaria"]
+  },
+  "dentista": {
+    "nombre": "Dentista",
+    "busquedas": ["dentista", "consultorio odontológico", "odontólogo"]
+  },
+  "taller": {
+    "nombre": "Taller mecánico",
+    "busquedas": ["taller mecánico", "mecánica del automotor"]
+  },
+  "contador": {
+    "nombre": "Estudio contable",
+    "busquedas": ["estudio contable", "contador"]
+  },
+  "abogado": {
+    "nombre": "Estudio jurídico",
+    "busquedas": ["estudio jurídico", "abogado"]
+  },
+  "clinica": {
+    "nombre": "Consultorio / centro médico",
+    "busquedas": ["consultorio médico", "centro médico", "kinesiología"]
+  }
+}
