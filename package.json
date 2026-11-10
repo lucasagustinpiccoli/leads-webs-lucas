@@ -1,0 +1,11 @@
+{
+  "name": "leads-webs-lucas",
+  "private": true,
+  "description": "Scraper de Google Maps para buscar negocios sin web",
+  "scripts": {
+    "scrape": "node scripts/scrape_maps.js"
+  },
+  "dependencies": {
+    "playwright": "1.49.1"
+  }
+}

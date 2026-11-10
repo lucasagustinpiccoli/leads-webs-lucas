@@ -1,0 +1,11 @@
+{
+  "_nota": "Nombres que descartan un negocio (cadenas, prepagas, entes públicos, grandes instituciones). Se compara sin acentos y en minúscula.",
+  "nombres": [
+    "hospital", "sanatorio", "municipal", "municipalidad", "centro de salud", "caps ", "universidad", "facultad",
+    "osde", "swiss medical", "galeno", "medicus", "omint", "ioma", "pami", "anses", "afip", "arca ",
+    "colegio de", "consejo profesional", "defensoria", "juzgado", "tribunal", "poder judicial",
+    "puppis", "dentalis", "sonrisa dental center", "diagnostico maipu", "cemic", "fleni", "hospital italiano",
+    "ypf", "shell", "axion", "puma energy", "renault", "volkswagen", "ford", "fiat", "toyota", "chevrolet", "peugeot",
+    "midas", "norauto"
+  ]
+}

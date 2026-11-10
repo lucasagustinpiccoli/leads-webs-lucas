@@ -1,9 +1,27 @@
 # Leads para webs
 
-Busca negocios locales sin página web con la API de Google Places, los califica y prepara una demo y un mensaje
+Busca negocios locales sin página web en Google Maps, los califica y prepara una demo y un mensaje
 para cada uno. Los mensajes los manda Lucas a mano. Plan completo en [`docs/plan.md`](docs/plan.md).
 
-## Puesta en marcha
+## Uso (sin API ni tarjeta)
+
+Necesita Node.js y Python 3.
+
+```bash
+npm install
+npx playwright install chromium
+node scripts/scrape_maps.js --localidades "Caseros,Ramos Mejía,Morón,Castelar"
+python scripts/rankear.py
+```
+
+Queda `output/tanda-01-{fecha}.csv` con 100 prospectos sin web propia, rankeados, y los 15 mejores marcados para
+demo (máximo 5 por rubro). Para la tanda siguiente, scrapeá otras localidades y volvé a correr `rankear.py`:
+no repite negocios ya entregados.
+
+Lee Google Maps de la misma forma que la herramienta de Sol. Eso va contra los términos de Google, así que
+conviene usarlo en volumen bajo. Si aparece un CAPTCHA, el script se frena.
+
+## Alternativa oficial: API de Places (necesita tarjeta)
 
 1. Crear una API key de Google Places:
    - En [Google Cloud Console](https://console.cloud.google.com/), crear un proyecto y activar la facturación (Places tiene un cupo gratis mensual; revisá los precios vigentes antes de escalar).
