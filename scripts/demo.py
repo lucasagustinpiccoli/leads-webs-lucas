@@ -11,7 +11,7 @@ Cada demo queda en output/demos/{ranking}-{negocio}/ con:
   index.html  la landing lista para abrir o subir.
 
 Para agregar fotos reales: poné URLs o rutas en "fotos" dentro de datos.json y corré --render.
-Textos base por rubro: config/landing/{rubro}.json (hoy: salon_eventos).
+Textos base por rubro: config/landing/{rubro}.json. Para sumar un rubro, ver el skill landing-rubro-nuevo.
 """
 import argparse
 import csv
@@ -33,7 +33,8 @@ OUT = os.path.join(ROOT, "output")
 TEMPLATE = os.path.join(ROOT, "templates", "landing.html")
 
 ICONOS = {
-    "wa": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>',
+    # Logo oficial de WhatsApp, del paquete simple-icons 13.21.0 (licencia CC0).
+    "wa": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
 }
 
 e = html.escape
@@ -139,14 +140,14 @@ def render(d):
     if r:
         datos.append((r, "de calificación en Google"))
     if d["fotos_en_google"] >= 10:
-        datos.append((f'+{d["fotos_en_google"] // 10 * 10}', "fotos del salón en Google"))
+        datos.append((f'+{d["fotos_en_google"] // 10 * 10}', d["fotos_label"]))
     datos.append((d["localidad"], d["direccion"]))
     datos_html = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in datos[:3])
 
     tipos = "".join(
         f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" alt="" loading="lazy"></div>'
         f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
-    galeria = "".join(f'<figure><img src="{e(u)}" alt="Ambientación de un evento" loading="lazy"></figure>' for u in gal)
+    galeria = "".join(f'<figure><img src="{e(u)}" alt="{e(d["alt_galeria"])}" loading="lazy"></figure>' for u in gal)
 
     contacto = "".join(f"<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>" for k, v in
                        [("Dirección", d["direccion"]), ("Teléfono", d["telefono"]), ("Horarios", d["horarios"])] if v)
@@ -155,7 +156,8 @@ def render(d):
     ig_user = "@" + partes[0] if partes and partes[0] not in ("p", "reel", "explore") else ("Instagram" if ig else "")
     instagram_html = (f'<a class="btn btn-chico" style="background:transparent;border:1px solid var(--linea)" href="{e(ig)}" '
                       f'target="_blank" rel="noopener">{e(ig_user)}</a>') if ig else ""
-    instagram_pie = f'<a href="{e(ig)}" target="_blank" rel="noopener">{e(ig_user)}</a>' if ig else "WhatsApp"
+    instagram_pie = (f'<a href="{e(ig)}" target="_blank" rel="noopener">{e(ig_user)}</a>' if ig
+                     else f'<a href="{e(wa_link)}" target="_blank" rel="noopener">WhatsApp</a>')
 
     corto = re.split(r"\s[-|]\s", d["negocio"])[0].strip()
     gigante = f'<span style="font-size:clamp(48px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
@@ -169,7 +171,7 @@ def render(d):
         "instagram_pie": instagram_pie, "negocio_corto": gigante, "mapa_src": e(mapa),
         "boton_wa_hero": boton_wa("btn-vidrio"), "boton_wa_ubicacion": boton_wa("btn-oscuro"),
         "boton_wa_flotante": f'<a class="wa-flotante" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="WhatsApp">{ICONOS["wa"]}</a>',
-        "form_opciones": "".join(f"<option>{e(o)}</option>" for o in d["form_tipos"]),
+        "form_html": formulario(d["form"]), "form_boton": e(d["form"]["boton"]),
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
     with open(TEMPLATE, encoding="utf-8") as f:
@@ -180,6 +182,22 @@ def render(d):
         falta = out[out.index("{{"):out.index("{{") + 40]
         sys.exit(f"Quedó un campo sin completar en la plantilla: {falta}")
     return out
+
+
+def formulario(fm):
+    """Campos del formulario según el rubro. Cada campo con data-etiqueta se suma al mensaje de WhatsApp."""
+    c = ['<label>Tu nombre<input name="nombre" autocomplete="name" required aria-describedby="form-error">'
+         '<span class="error" id="form-error" role="alert">Poné tu nombre para que sepamos a quién responder.</span></label>']
+    if fm.get("tipos"):
+        ops = "".join(f"<option>{e(o)}</option>" for o in fm["tipos"])
+        c.append(f'<label>{e(fm["tipo_label"])}<select name="tipo" data-etiqueta="{e(fm["tipo_label"])}">{ops}</select></label>')
+    if fm.get("fecha_label"):
+        c.append(f'<label>{e(fm["fecha_label"])}<input name="fecha" type="date" data-etiqueta="{e(fm["fecha_label"])}"></label>')
+    if fm.get("cantidad_label"):
+        c.append(f'<label>{e(fm["cantidad_label"])}<input name="cantidad" type="number" min="1" inputmode="numeric" '
+                 f'data-etiqueta="{e(fm["cantidad_label"])}"></label>')
+    c.append(f'<label class="ancho">{e(fm["extra_label"])}<textarea name="extra" rows="3" data-etiqueta=""></textarea></label>')
+    return "\n        ".join(c)
 
 
 def escribir(d, carpeta):

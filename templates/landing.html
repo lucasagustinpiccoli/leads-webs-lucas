@@ -75,7 +75,7 @@
   .datos b{font-family:var(--display);font-weight:var(--d-peso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:clamp(34px,4vw,56px);line-height:1;display:block;margin-bottom:10px}
   .datos span{color:var(--suave);font-size:15px}
 
-  /* Tipos de evento: fila de tarjetas verticales con scroll horizontal en mobile */
+  /* Tipos (de evento, de servicio...): fila de tarjetas verticales con scroll horizontal en mobile */
   .cabecera{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px}
   .cabecera h2,.titulo{font-size:clamp(34px,4.4vw,64px)}
   .tipos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
@@ -115,7 +115,7 @@
   input:focus,select:focus,textarea:focus{outline:2px solid var(--oscuro);outline-offset:1px}
   .ancho{grid-column:1/-1}
   form .btn{grid-column:1/-1;justify-self:start;margin-top:6px}
-  .error{grid-column:1/-1;color:#a3261b;font-size:14px;display:none}
+  .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
 
   /* Footer con nombre grande */
   footer{background:var(--oscuro);color:#fff;margin:0 12px 12px;border-radius:var(--r);padding:clamp(40px,5vw,64px) 0 0;overflow:hidden}
@@ -166,7 +166,7 @@
   <div class="w">
     <a class="marca" href="#inicio">{{negocio}}</a>
     <ul>
-      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#tipos">{{nav_tipos}}</a></li>
       <li><a href="#galeria">Galería</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
     </ul>
@@ -177,7 +177,7 @@
 <main id="inicio">
   <div class="hero">
     <div class="hero-marco">
-      <img src="{{hero_img}}" alt="Salón preparado para una fiesta" fetchpriority="high">
+      <img src="{{hero_img}}" alt="{{alt_hero}}" fetchpriority="high">
       <div class="hero-contenido">
         <div>
           <p class="eyebrow entra">{{eyebrow}}</p>
@@ -200,7 +200,7 @@
     </div>
   </section>
 
-  <section id="eventos" style="padding-top:0">
+  <section id="tipos" style="padding-top:0">
     <div class="w">
       <div class="cabecera revela"><h2 class="display">{{seccion_tipos}}</h2></div>
       <div class="tipos revela">{{tipos_html}}</div>
@@ -241,13 +241,8 @@
         <p class="bajada">{{bajada_presupuesto}}</p>
       </div>
       <form id="form-presupuesto" class="revela" novalidate>
-        <label>Tu nombre<input name="nombre" autocomplete="name" required></label>
-        <label>Tipo de evento<select name="tipo">{{form_opciones}}</select></label>
-        <label>Fecha aproximada<input name="fecha" type="date"></label>
-        <label>Cantidad de invitados<input name="invitados" type="number" min="1" inputmode="numeric"></label>
-        <label class="ancho">Algo más que quieras contarnos<textarea name="extra" rows="3"></textarea></label>
-        <p class="error" id="form-error" role="alert">Poné tu nombre para que sepamos a quién responder.</p>
-        <button class="btn btn-oscuro" type="submit">{{icono_wa}}Enviar por WhatsApp</button>
+        {{form_html}}
+        <button class="btn btn-oscuro" type="submit">{{icono_wa}}{{form_boton}}</button>
       </form>
     </div>
   </section>
@@ -272,12 +267,14 @@
     f.addEventListener("submit", function(e){
       e.preventDefault();
       var d = new FormData(f);
-      if (!String(d.get("nombre") || "").trim()) { err.style.display = "block"; f.nombre.focus(); return; }
-      err.style.display = "none";
-      var l = [base, "Soy " + d.get("nombre") + ".", "Tipo de evento: " + d.get("tipo")];
-      if (d.get("fecha")) l.push("Fecha: " + d.get("fecha").split("-").reverse().join("/"));
-      if (d.get("invitados")) l.push("Invitados: " + d.get("invitados"));
-      if (d.get("extra")) l.push(d.get("extra"));
+      if (!String(d.get("nombre") || "").trim()) { err.style.display = "block"; f.nombre.setAttribute("aria-invalid", "true"); f.nombre.focus(); return; }
+      err.style.display = "none"; f.nombre.removeAttribute("aria-invalid");
+      var l = [base, "Soy " + d.get("nombre") + "."];
+      f.querySelectorAll("[data-etiqueta]").forEach(function(c){
+        var v = String(c.value || "").trim(); if (!v) return;
+        if (c.type === "date") v = v.split("-").reverse().join("/");
+        l.push(c.dataset.etiqueta ? c.dataset.etiqueta + ": " + v : v);
+      });
       window.open(wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(l.join("\n")) : "{{link_maps}}", "_blank", "noopener");
     });
     var els = document.querySelectorAll(".revela");

@@ -1,6 +1,10 @@
 {
   "_nota": "Textos base del rubro. {negocio} y {localidad} se reemplazan. Nada afirma servicios puntuales del negocio: son textos genéricos para la demo.",
   "rubro_label": "Salón de eventos",
+  "nav_tipos": "Eventos",
+  "alt_hero": "Salón preparado para una fiesta",
+  "alt_galeria": "Ambientación de un evento",
+  "fotos_label": "fotos del salón en Google",
   "meta_descripcion": "{negocio}, salón de eventos en {localidad}. Cumpleaños de 15, casamientos, infantiles y eventos empresariales. Pedí tu presupuesto por WhatsApp.",
   "eyebrow": "Salón de eventos en {localidad}",
   "titular": "Tu fiesta, como la imaginaste.",
@@ -35,13 +39,20 @@
   "seccion_ubicacion": "Vení a conocer el salón",
   "seccion_presupuesto": "Pedí tu presupuesto",
   "bajada_presupuesto": "Completá estos datos y te respondemos por WhatsApp.",
-  "form_tipos": [
-    "Cumpleaños de 15",
-    "Casamiento",
-    "Infantil",
-    "Empresarial",
-    "Otro"
-  ],
+  "form": {
+    "tipo_label": "Tipo de evento",
+    "tipos": [
+      "Cumpleaños de 15",
+      "Casamiento",
+      "Infantil",
+      "Empresarial",
+      "Otro"
+    ],
+    "fecha_label": "Fecha aproximada",
+    "cantidad_label": "Cantidad de invitados",
+    "extra_label": "Algo más que quieras contarnos",
+    "boton": "Enviar por WhatsApp"
+  },
   "mensaje_wa": "¡Hola {negocio}! Quiero pedir presupuesto para un evento.",
   "imagenes": {
     "hero": [
@@ -88,8 +99,8 @@
       "tinta": "#161514",
       "suave": "#5f5b57",
       "oscuro": "#161514",
-      "acento": "#d0573b",
-      "acento_tinta": "#ffffff",
+      "acento": "#d65e40",
+      "acento_tinta": "#161514",
       "display": "'Archivo', system-ui, sans-serif",
       "display_peso": "800",
       "display_caso": "uppercase",
@@ -105,8 +116,8 @@
       "tinta": "#17222b",
       "suave": "#5a6670",
       "oscuro": "#1b2a35",
-      "acento": "#e8692e",
-      "acento_tinta": "#ffffff",
+      "acento": "#ec7134",
+      "acento_tinta": "#1b2a35",
       "display": "'Manrope', system-ui, sans-serif",
       "display_peso": "600",
       "display_caso": "none",
