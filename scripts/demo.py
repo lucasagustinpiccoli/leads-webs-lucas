@@ -21,8 +21,9 @@ import html
 import json
 import os
 import re
+import shutil
 import sys
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from buscar import cargar, slug  # noqa: E402
@@ -33,14 +34,6 @@ TEMPLATE = os.path.join(ROOT, "templates", "landing.html")
 
 ICONOS = {
     "wa": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>',
-    "pin": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-    "tel": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
-    "reloj": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-    "foto": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg>',
-    "fifteen": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.2l5-.7z"/><path d="M8 21h8"/></svg>',
-    "rings": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9" cy="14" r="5"/><circle cx="15" cy="14" r="5"/><path d="m10 4 2 3 2-3"/></svg>',
-    "balloon": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3a6 6 0 0 1 6 6c0 4-3.5 7-6 7s-6-3-6-7a6 6 0 0 1 6-6z"/><path d="M12 16l-1 2h2l-1-2zM12 18c0 2-2 2-2 4"/></svg>',
-    "briefcase": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>',
 }
 
 e = html.escape
@@ -74,6 +67,10 @@ def direccion_corta(d):
     return re.sub(r"\b[A-Z]\d{4}[A-Z]{0,3}\s*", "", d).strip(" ,")
 
 
+def _hash(s):
+    return int(hashlib.md5(s.encode()).hexdigest(), 16)
+
+
 def armar_datos(fila):
     """Fila de la tanda + textos base del rubro -> datos.json (todo resuelto, listo para editar)."""
     clave = rubro_clave(fila["rubro"])
@@ -84,71 +81,94 @@ def armar_datos(fila):
         base = json.load(f)
     neg, loc = fila["negocio"].strip(), fila["localidad"]
     sub = lambda s: s.replace("{negocio}", neg).replace("{localidad}", loc)  # noqa: E731
-    # La paleta sale del nombre: cada demo se ve distinta pero siempre igual para el mismo negocio.
-    paleta = base["paletas"][int(hashlib.md5(neg.encode()).hexdigest(), 16) % len(base["paletas"])]
+    # Tema, foto principal y galería rotan según el puesto en la tanda (así las demos de un mismo lote no se repiten)
+    # y el nombre desempata. Quedan guardados en datos.json, así que no cambian al regenerar.
+    n = int(fila["ranking"])
+    h = _hash(neg)
+    imgs = base["imagenes"]
+    hero = imgs["hero"][n % len(imgs["hero"])]
+    pool = [x for x in imgs["galeria"] if x != hero]
+    k = (n * 2 + h) % len(pool)
+    galeria = (pool[k:] + pool[:k])[:5]
     return {
-        "_nota": "Editá lo que quieras y corré: python scripts/demo.py --render <este archivo>",
+        "_nota": "Editá lo que quieras y corré: python scripts/demo.py --render <este archivo>. "
+                 "En 'fotos' poné las fotos reales del cliente (URLs o rutas): la primera va al hero y las siguientes a la galería.",
         "rubro": clave, "ranking": int(fila["ranking"]),
         "negocio": neg, "localidad": loc, "direccion": direccion_corta(fila["direccion"]), "telefono": fila["telefono"],
         "whatsapp": fila["whatsapp"], "rating": fila["rating"], "fotos_en_google": int(fila["fotos"] or 0),
         "link_maps": fila["link_maps"], "instagram": fila["web"] if "instagram.com" in fila["web"] else "",
         "horarios": "",
         "fotos": [],
-        "paleta": paleta,
-        **{k: (sub(v) if isinstance(v, str) else v) for k, v in base.items()
-           if k not in ("_nota", "paletas")},
+        "tema": base["temas"][n % len(base["temas"])],
+        "hero_stock": hero, "galeria_stock": galeria,
+        **{k2: (sub(v) if isinstance(v, str) else v) for k2, v in base.items()
+           if k2 not in ("_nota", "temas", "imagenes")},
     }
 
 
-def tarjetas_porque(d):
-    cards = []
-    r = fmt_rating(d["rating"])
-    if r:
-        cards.append((f"{r} ★", "Calificación en Google", "Así nos califican quienes ya festejaron con nosotros."))
-    n = d["fotos_en_google"]
-    if n >= 10:
-        cards.append((f"+{n // 10 * 10}", "Fotos en Google", "Mirá cómo quedan los eventos antes de decidir."))
-    for x in d["porque_extra"]:
-        if len(cards) >= 3:
-            break
-        cards.append(("", x["titulo"], x["texto"]))
-    return "".join(
-        f'<div class="card">{f"<div class=grande>{e(g)}</div>" if g else ""}<h3>{e(t)}</h3><p>{e(p)}</p></div>'
-        for g, t, p in cards[:3])
+def imagenes(d):
+    """Devuelve (hero, [galeria x5], {tipo: img}) usando las fotos reales si las hay y el stock para completar."""
+    stock = lambda n: f"img/{n}"  # noqa: E731
+    reales = list(d.get("fotos") or [])
+    hero = reales[0] if reales else stock(d["hero_stock"])
+    gal = reales[1:6] + [stock(n) for n in d["galeria_stock"]]
+    return hero, gal[:5], {t["titulo"]: stock(t["imagen"]) for t in d["tipos"]}
+
+
+def copiar_stock(d, carpeta):
+    src = os.path.join(ROOT, "templates", "assets", d["rubro"])
+    dst = os.path.join(carpeta, "img")
+    os.makedirs(dst, exist_ok=True)
+    for n in {d["hero_stock"], *d["galeria_stock"], *(t["imagen"] for t in d["tipos"])}:
+        shutil.copyfile(os.path.join(src, n), os.path.join(dst, n))
 
 
 def render(d):
     wa = d["whatsapp"]
     wa_link = f"https://wa.me/{wa}?text={quote(d['mensaje_wa'])}" if wa else d["link_maps"]
 
-    def boton(clase, texto):
-        return f'<a class="btn btn-wa {clase}" href="{e(wa_link)}" target="_blank" rel="noopener">{ICONOS["wa"]}<span>{e(texto)}</span></a>'
+    def boton_wa(clase):
+        return (f'<a class="btn {clase}" href="{e(wa_link)}" target="_blank" rel="noopener">'
+                f'{ICONOS["wa"]}<span>WhatsApp</span></a>')
 
-    datos_contacto = [("pin", d["direccion"]), ("tel", d["telefono"]), ("reloj", d["horarios"])]
-    filas = "".join(f'<div class="dato">{ICONOS[i]}<span>{e(v)}</span></div>' for i, v in datos_contacto if v)
+    hero, gal, img_tipo = imagenes(d)
     r = fmt_rating(d["rating"])
-    tarjeta = ('<div class="tarjeta-rating">'
-               + (f'<div class="num">{r}</div><div class="estrellas">★★★★★</div><small>Calificación en Google</small><hr>' if r else "")
-               + filas + "</div>")
-    tipos = "".join(f'<div class="card"><div class="ico">{ICONOS.get(t["icono"], ICONOS["fifteen"])}</div>'
-                    f'<h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div>' for t in d["tipos"])
-    fotos = d["fotos"][:5]
-    galeria = "".join(f'<div><img src="{e(u)}" alt="Evento en {e(d["negocio"])}" loading="lazy"></div>' for u in fotos)
-    galeria += "".join(f'<div class="ph"><div>{ICONOS["foto"]}Foto de tus eventos</div></div>' for _ in range(5 - len(fotos)))
-    contacto = (f'<h3 style="font-family:var(--titulo);font-size:26px;color:var(--oscuro)">{e(d["negocio"])}</h3>'
-                + filas.replace('class="dato"', 'class="dato" style="opacity:1;color:var(--texto)"')
-                + boton("", "Escribinos por WhatsApp"))
-    if d.get("instagram"):
-        contacto += f'<a href="{e(d["instagram"])}" target="_blank" rel="noopener" style="color:var(--primario);font-weight:600">Seguinos en Instagram →</a>'
+    rating = (f'<div class="rating entra"><b>{r}</b><span>Calificación en Google</span></div>' if r else "")
+
+    datos = []
+    if r:
+        datos.append((r, "de calificación en Google"))
+    if d["fotos_en_google"] >= 10:
+        datos.append((f'+{d["fotos_en_google"] // 10 * 10}', "fotos del salón en Google"))
+    datos.append((d["localidad"], d["direccion"]))
+    datos_html = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in datos[:3])
+
+    tipos = "".join(
+        f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" alt="" loading="lazy"></div>'
+        f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
+    galeria = "".join(f'<figure><img src="{e(u)}" alt="Ambientación de un evento" loading="lazy"></figure>' for u in gal)
+
+    contacto = "".join(f"<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>" for k, v in
+                       [("Dirección", d["direccion"]), ("Teléfono", d["telefono"]), ("Horarios", d["horarios"])] if v)
+    ig = d.get("instagram", "")
+    partes = [x for x in urlparse(ig).path.split("/") if x] if ig else []
+    ig_user = "@" + partes[0] if partes and partes[0] not in ("p", "reel", "explore") else ("Instagram" if ig else "")
+    instagram_html = (f'<a class="btn btn-chico" style="background:transparent;border:1px solid var(--linea)" href="{e(ig)}" '
+                      f'target="_blank" rel="noopener">{e(ig_user)}</a>') if ig else ""
+    instagram_pie = f'<a href="{e(ig)}" target="_blank" rel="noopener">{e(ig_user)}</a>' if ig else "WhatsApp"
+
+    corto = re.split(r"\s[-|]\s", d["negocio"])[0].strip()
+    gigante = f'<span style="font-size:clamp(48px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
     mapa = "https://www.google.com/maps?q=" + quote(f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
 
     valores = {
         **{k: e(str(v)) for k, v in d.items() if isinstance(v, (str, int, float))},
-        **{k: e(v) for k, v in d["paleta"].items()},
-        "boton_wa_nav": boton("btn-chico", "WhatsApp"), "boton_wa_hero": boton("", "Escribinos"),
+        **{k: str(v) for k, v in d["tema"].items()},  # valores CSS del tema (fuentes, colores)
+        "hero_img": e(hero), "rating_html": rating, "datos_html": datos_html, "tipos_html": tipos,
+        "galeria_html": galeria, "contacto_html": contacto, "instagram_html": instagram_html,
+        "instagram_pie": instagram_pie, "negocio_corto": gigante, "mapa_src": e(mapa),
+        "boton_wa_hero": boton_wa("btn-vidrio"), "boton_wa_ubicacion": boton_wa("btn-oscuro"),
         "boton_wa_flotante": f'<a class="wa-flotante" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="WhatsApp">{ICONOS["wa"]}</a>',
-        "tarjeta_rating": tarjeta, "tipos_html": tipos, "porque_html": tarjetas_porque(d),
-        "galeria_html": galeria, "contacto_html": contacto, "mapa_src": e(mapa),
         "form_opciones": "".join(f"<option>{e(o)}</option>" for o in d["form_tipos"]),
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
@@ -160,6 +180,12 @@ def render(d):
         falta = out[out.index("{{"):out.index("{{") + 40]
         sys.exit(f"Quedó un campo sin completar en la plantilla: {falta}")
     return out
+
+
+def escribir(d, carpeta):
+    copiar_stock(d, carpeta)
+    with open(os.path.join(carpeta, "index.html"), "w", encoding="utf-8") as f:
+        f.write(render(d))
 
 
 def main():
@@ -174,8 +200,7 @@ def main():
     if a.render:
         with open(a.render, encoding="utf-8") as f:
             d = json.load(f)
-        with open(os.path.join(os.path.dirname(a.render), "index.html"), "w", encoding="utf-8") as f:
-            f.write(render(d))
+        escribir(d, os.path.dirname(a.render))
         print(f"Regenerada: {os.path.relpath(os.path.dirname(a.render), ROOT)}/index.html")
         return
 
@@ -200,8 +225,7 @@ def main():
             os.makedirs(carpeta, exist_ok=True)
             with open(jp, "w", encoding="utf-8") as f:
                 json.dump(d, f, ensure_ascii=False, indent=2)
-        with open(os.path.join(carpeta, "index.html"), "w", encoding="utf-8") as f:
-            f.write(render(d))
+        escribir(d, carpeta)
         print(f"  #{fila['ranking']} {fila['negocio']} -> {os.path.relpath(carpeta, ROOT)}/index.html")
 
 

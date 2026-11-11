@@ -1,32 +1,119 @@
 {
-  "_nota": "Textos base del rubro. {negocio} y {localidad} se reemplazan. Todo es genérico: nada afirma servicios puntuales del negocio.",
+  "_nota": "Textos base del rubro. {negocio} y {localidad} se reemplazan. Nada afirma servicios puntuales del negocio: son textos genéricos para la demo.",
   "rubro_label": "Salón de eventos",
-  "meta_descripcion": "{negocio}: salón de eventos en {localidad}. Cumpleaños, casamientos, infantiles y eventos empresariales. Pedí tu presupuesto por WhatsApp.",
-  "titular": "Celebrá tu evento en {localidad}",
-  "bajada": "Cumpleaños de 15, casamientos, infantiles y eventos empresariales. Contanos qué te imaginás y lo armamos juntos.",
-  "cta": "Pedí tu presupuesto",
-  "seccion_tipos": "Eventos que hacemos",
+  "meta_descripcion": "{negocio}, salón de eventos en {localidad}. Cumpleaños de 15, casamientos, infantiles y eventos empresariales. Pedí tu presupuesto por WhatsApp.",
+  "eyebrow": "Salón de eventos en {localidad}",
+  "titular": "Tu fiesta, como la imaginaste.",
+  "bajada": "Cumpleaños de 15, casamientos, infantiles y eventos de empresa en {localidad}. Contanos la fecha y armamos tu presupuesto.",
+  "cta": "Pedí presupuesto",
+  "intro": "Un salón en {localidad} para celebrar lo importante. Vos traés la fecha y la idea; el resto lo pensamos juntos.",
+  "seccion_tipos": "Para cada celebración",
   "tipos": [
-    {"icono": "fifteen", "titulo": "Cumpleaños de 15", "texto": "La noche más esperada, con la ambientación que soñaste."},
-    {"icono": "rings", "titulo": "Casamientos", "texto": "Un espacio para que solo te ocupes de disfrutar."},
-    {"icono": "balloon", "titulo": "Infantiles", "texto": "Festejos seguros y divertidos para los más chicos."},
-    {"icono": "briefcase", "titulo": "Empresariales", "texto": "Fiestas de fin de año, lanzamientos y reuniones."}
+    {
+      "titulo": "Cumpleaños de 15",
+      "texto": "La noche más esperada del año.",
+      "imagen": "mesa-fiesta-luces.jpg"
+    },
+    {
+      "titulo": "Casamientos",
+      "texto": "Para que solo te ocupes de disfrutar.",
+      "imagen": "mesa-novios.jpg"
+    },
+    {
+      "titulo": "Infantiles",
+      "texto": "Festejos cómodos para grandes y chicos.",
+      "imagen": "mesa-flores-pastel.jpg"
+    },
+    {
+      "titulo": "Empresariales",
+      "texto": "Fin de año, lanzamientos y reuniones.",
+      "imagen": "salon-aranas.jpg"
+    }
   ],
-  "seccion_porque": "Por qué elegirnos",
-  "porque_extra": [
-    {"titulo": "Atención personalizada", "texto": "Te acompañamos desde la primera consulta hasta el último baile."},
-    {"titulo": "Presupuesto a medida", "texto": "Según la fecha, la cantidad de invitados y lo que necesites."}
-  ],
-  "seccion_galeria": "Así se viven nuestros eventos",
-  "seccion_ubicacion": "Dónde estamos",
+  "seccion_galeria": "Un lugar para recordar",
+  "banda": "Elegí la fecha. Del resto nos ocupamos juntos.",
+  "seccion_ubicacion": "Vení a conocer el salón",
   "seccion_presupuesto": "Pedí tu presupuesto",
   "bajada_presupuesto": "Completá estos datos y te respondemos por WhatsApp.",
-  "form_tipos": ["Cumpleaños de 15", "Casamiento", "Infantil", "Empresarial", "Otro"],
+  "form_tipos": [
+    "Cumpleaños de 15",
+    "Casamiento",
+    "Infantil",
+    "Empresarial",
+    "Otro"
+  ],
   "mensaje_wa": "¡Hola {negocio}! Quiero pedir presupuesto para un evento.",
-  "paletas": [
-    {"primario": "#7a3b5e", "acento": "#d9a441", "fondo": "#fbf7f4", "oscuro": "#2b1a24"},
-    {"primario": "#1f4e5f", "acento": "#e0a96d", "fondo": "#f6f8f7", "oscuro": "#14262d"},
-    {"primario": "#5b3fa0", "acento": "#f2b5c4", "fondo": "#faf8fd", "oscuro": "#221a33"},
-    {"primario": "#2f5d3a", "acento": "#e7c46b", "fondo": "#f7f8f3", "oscuro": "#18291c"}
+  "imagenes": {
+    "hero": [
+      "mesas-noche-verde.jpg",
+      "mesas-redondas-flores-blancas.jpg",
+      "mesa-larga-flores.jpg",
+      "mesas-eucalipto.jpg",
+      "salon-arana-mesas.jpg"
+    ],
+    "galeria": [
+      "mesas-redondas-flores-blancas.jpg",
+      "detalle-velas-eucalipto.jpg",
+      "salon-sillas-vestidas.jpg",
+      "mesa-larga-terraza.jpg",
+      "detalle-copas-menu.jpg",
+      "mesas-eucalipto.jpg",
+      "mesa-larga-flores.jpg",
+      "salon-arana-mesas.jpg",
+      "mesas-noche-verde.jpg"
+    ]
+  },
+  "temas": [
+    {
+      "nombre": "bosque",
+      "fondo": "#ecebe5",
+      "superficie": "#f6f5f1",
+      "tinta": "#1d2620",
+      "suave": "#5d665f",
+      "oscuro": "#1f2b23",
+      "acento": "#b9d48a",
+      "acento_tinta": "#1f2b23",
+      "display": "'Cormorant Garamond', Georgia, serif",
+      "display_peso": "500",
+      "display_caso": "none",
+      "display_tracking": "-0.01em",
+      "cuerpo": "'Hanken Grotesk', system-ui, sans-serif",
+      "fuentes": "family=Cormorant+Garamond:wght@500;600&family=Hanken+Grotesk:wght@400;500;600",
+      "display_ancho": "100%"
+    },
+    {
+      "nombre": "noche",
+      "fondo": "#f1efec",
+      "superficie": "#faf9f7",
+      "tinta": "#161514",
+      "suave": "#5f5b57",
+      "oscuro": "#161514",
+      "acento": "#d0573b",
+      "acento_tinta": "#ffffff",
+      "display": "'Archivo', system-ui, sans-serif",
+      "display_peso": "800",
+      "display_caso": "uppercase",
+      "display_tracking": "-0.02em",
+      "cuerpo": "'Archivo', system-ui, sans-serif",
+      "fuentes": "family=Archivo:wdth,wght@75..100,400..800",
+      "display_ancho": "78%"
+    },
+    {
+      "nombre": "lago",
+      "fondo": "#eef0f1",
+      "superficie": "#f8f9fa",
+      "tinta": "#17222b",
+      "suave": "#5a6670",
+      "oscuro": "#1b2a35",
+      "acento": "#e8692e",
+      "acento_tinta": "#ffffff",
+      "display": "'Manrope', system-ui, sans-serif",
+      "display_peso": "600",
+      "display_caso": "none",
+      "display_tracking": "-0.035em",
+      "cuerpo": "'Manrope', system-ui, sans-serif",
+      "fuentes": "family=Manrope:wght@400;500;600;700",
+      "display_ancho": "100%"
+    }
   ]
 }

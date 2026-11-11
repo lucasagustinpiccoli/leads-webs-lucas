@@ -20,23 +20,45 @@ class TestDemo(unittest.TestCase):
 
     def test_render_completo_y_escapado(self):
         d = demo.armar_datos(FILA)
-        self.assertEqual(d["titular"], "Celebrá tu evento en Morón")
+        self.assertEqual(d["eyebrow"], "Salón de eventos en Morón")
         self.assertEqual(d["instagram"], FILA["web"])
         out = demo.render(d)
         self.assertNotIn("{{", out)
         self.assertNotIn("<Prueba>", out)          # el nombre va escapado
         self.assertIn("Salón &lt;Prueba&gt;", out)
         self.assertIn("4,6", out)
-        self.assertIn("+30", out)                  # 33 fotos -> "+30"
+        self.assertIn("+30", out)                  # 33 fotos en Google -> "+30"
+        self.assertIn("@prueba", out)
         self.assertIn("https://wa.me/5491124829057", out)
         self.assertIn('content="noindex, nofollow"', out)
+        self.assertNotIn("\u2014", out)            # sin em-dash
+        self.assertEqual(out.count("<figure>"), 5)  # galería: 5 celdas exactas
 
-    def test_fotos_propias_reemplazan_placeholders(self):
+    def test_instagram_con_parametros(self):
+        d = demo.armar_datos({**FILA, "web": "https://www.instagram.com/ga_eventos1/?hl=es-la"})
+        self.assertIn("@ga_eventos1", demo.render(d))
+
+    def test_fotos_propias_reemplazan_stock(self):
         d = demo.armar_datos(FILA)
         d["fotos"] = ["a.jpg", "b.jpg"]
-        out = demo.render(d)
-        self.assertEqual(out.count('<img src="'), 2)
-        self.assertEqual(out.count('class="ph"'), 3)
+        hero, gal, _ = demo.imagenes(d)
+        self.assertEqual(hero, "a.jpg")
+        self.assertEqual(gal[0], "b.jpg")
+        self.assertEqual(len(gal), 5)
+        self.assertTrue(all(g.startswith("img/") for g in gal[1:]))
+
+    def test_demos_de_una_tanda_no_repiten_tema_y_foto(self):
+        vistos = set()
+        for n in range(1, 4):
+            d = demo.armar_datos({**FILA, "ranking": str(n)})
+            vistos.add((d["tema"]["nombre"], d["hero_stock"]))
+        self.assertEqual(len(vistos), 3)
+
+    def test_stock_existe(self):
+        d = demo.armar_datos(FILA)
+        carpeta = os.path.join(demo.ROOT, "templates", "assets", d["rubro"])
+        for n in {d["hero_stock"], *d["galeria_stock"], *(t["imagen"] for t in d["tipos"])}:
+            self.assertTrue(os.path.exists(os.path.join(carpeta, n)), n)
 
 
 if __name__ == "__main__":

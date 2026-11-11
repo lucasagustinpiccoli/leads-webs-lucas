@@ -4,213 +4,288 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>{{negocio}} · {{rubro_label}} en {{localidad}}</title>
+<title>{{negocio}} | {{rubro_label}} en {{localidad}}</title>
 <meta name="description" content="{{meta_descripcion}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?{{fuentes}}&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="{{hero_img}}">
 <style>
   :root{
-    --primario:{{primario}}; --acento:{{acento}}; --fondo:{{fondo}}; --oscuro:{{oscuro}};
-    --texto:#2a2a2a; --suave:#6b6b6b; --borde:rgba(0,0,0,.08); --radio:18px;
-    --titulo:"Playfair Display", Georgia, serif; --cuerpo:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --fondo:{{fondo}}; --superficie:{{superficie}}; --tinta:{{tinta}}; --suave:{{suave}};
+    --oscuro:{{oscuro}}; --acento:{{acento}}; --acento-tinta:{{acento_tinta}};
+    --display:{{display}}; --cuerpo:{{cuerpo}};
+    --d-peso:{{display_peso}}; --d-caso:{{display_caso}}; --d-track:{{display_tracking}}; --d-ancho:{{display_ancho}};
+    --r:22px; --r-chico:14px; --ease:cubic-bezier(.16,1,.3,1);
+    --linea:color-mix(in srgb,var(--tinta) 12%,transparent);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--cuerpo);color:var(--texto);background:var(--fondo);line-height:1.6;-webkit-font-smoothing:antialiased}
-  img{max-width:100%;display:block}
-  a{color:inherit}
-  .contenedor{width:min(1120px,100% - 32px);margin-inline:auto}
-  .demo-aviso{background:var(--oscuro);color:#fff;font-size:13px;text-align:center;padding:8px 16px;opacity:.92}
-  header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--fondo) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--borde)}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
-  .marca{font-family:var(--titulo);font-size:22px;font-weight:700;color:var(--primario);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .nav ul{display:flex;gap:28px;list-style:none;font-size:15px}
-  .nav ul a{text-decoration:none;color:var(--suave)} .nav ul a:hover{color:var(--primario)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;cursor:pointer;font:600 15px var(--cuerpo);text-decoration:none;border-radius:999px;padding:14px 26px;transition:transform .15s,box-shadow .15s}
-  .btn:hover{transform:translateY(-1px)}
-  .btn-wa{background:#25d366;color:#fff;box-shadow:0 8px 24px rgba(37,211,102,.3)}
-  .btn-claro{background:#fff;color:var(--primario)}
-  .btn-chico{padding:10px 18px;font-size:14px}
-  .btn svg{width:20px;height:20px;flex:none}
-  .hero{position:relative;overflow:hidden;color:#fff;background:
-      radial-gradient(1200px 500px at 85% -10%, color-mix(in srgb,var(--acento) 55%,transparent), transparent 60%),
-      linear-gradient(135deg,var(--primario),var(--oscuro))}
-  .hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.5px);background-size:22px 22px;mask-image:linear-gradient(to bottom,#000,transparent 80%)}
-  .hero .contenedor{position:relative;z-index:1;padding:96px 0 104px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
-  .etiqueta{display:inline-block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--acento);font-weight:600;margin-bottom:18px}
-  .hero h1{font-family:var(--titulo);font-size:clamp(38px,6vw,64px);line-height:1.08;margin-bottom:20px}
-  .hero p{font-size:18px;max-width:540px;opacity:.9;margin-bottom:32px}
-  .hero .acciones{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-  .tarjeta-rating{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:var(--radio);padding:28px;backdrop-filter:blur(6px)}
-  .tarjeta-rating .num{font-family:var(--titulo);font-size:64px;line-height:1}
-  .estrellas{color:var(--acento);font-size:22px;letter-spacing:2px;margin:6px 0 10px}
-  .tarjeta-rating small{opacity:.85;font-size:14px}
-  .tarjeta-rating hr{border:0;border-top:1px solid rgba(255,255,255,.2);margin:20px 0}
-  .dato{display:flex;gap:12px;align-items:flex-start;font-size:15px;opacity:.95;margin-top:10px}
-  .dato svg{width:18px;height:18px;flex:none;margin-top:3px;color:var(--acento)}
-  section{padding:88px 0}
-  .titulo-seccion{font-family:var(--titulo);font-size:clamp(30px,4vw,42px);color:var(--oscuro);margin-bottom:12px;text-align:center}
-  .bajada-seccion{color:var(--suave);text-align:center;max-width:560px;margin:0 auto 48px}
-  .grilla{display:grid;gap:22px}
-  .g4{grid-template-columns:repeat(4,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
-  .card{background:#fff;border:1px solid var(--borde);border-radius:var(--radio);padding:30px 26px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-  .card .ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--primario) 10%,#fff);color:var(--primario);margin-bottom:18px}
-  .card .ico svg{width:26px;height:26px}
-  .card h3{font-size:18px;color:var(--oscuro);margin-bottom:8px}
-  .card p{color:var(--suave);font-size:15px}
-  .alt{background:#fff}
-  .porque .card{text-align:left}
-  .porque .card .grande{font-family:var(--titulo);font-size:40px;color:var(--primario);line-height:1;margin-bottom:10px}
-  .galeria{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:220px;gap:14px}
-  .galeria > *{border-radius:14px;overflow:hidden}
-  .galeria > *:first-child{grid-row:span 2}
+  body{font-family:var(--cuerpo);color:var(--tinta);background:var(--fondo);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .w{width:min(1280px,100% - 32px);margin-inline:auto}
+  .display{font-family:var(--display);font-weight:var(--d-peso);text-transform:var(--d-caso);letter-spacing:var(--d-track);font-stretch:var(--d-ancho);line-height:1.02}
+
+  /* Aviso de demo */
+  .aviso{font-size:12.5px;text-align:center;padding:7px 16px;background:var(--oscuro);color:color-mix(in srgb,#fff 82%,transparent)}
+
+  /* Nav */
+  .nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--fondo) 86%,transparent);backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px)}
+  .nav .w{height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .marca{font-family:var(--display);font-weight:var(--d-peso);text-transform:var(--d-caso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav ul{display:flex;gap:30px;list-style:none;font-size:14.5px;color:var(--suave)}
+  .nav ul a:hover{color:var(--tinta)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;border:0;cursor:pointer;
+       font:600 15px/1 var(--cuerpo);border-radius:999px;padding:15px 24px;transition:transform .3s var(--ease),background .3s var(--ease)}
+  .btn:active{transform:scale(.98)}
+  .btn svg{width:18px;height:18px;flex:none}
+  .btn-oscuro{background:var(--oscuro);color:#fff}
+  .btn-oscuro:hover{background:color-mix(in srgb,var(--oscuro) 85%,#fff)}
+  .btn-acento{background:var(--acento);color:var(--acento-tinta)}
+  .btn-acento:hover{background:color-mix(in srgb,var(--acento) 88%,#fff)}
+  .btn-vidrio{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .btn-vidrio:hover{background:rgba(255,255,255,.24)}
+  .btn-chico{padding:11px 18px;font-size:14px}
+
+  /* Hero */
+  .hero{padding:0 12px}
+  .hero-marco{position:relative;border-radius:var(--r);overflow:hidden;min-height:calc(100dvh - 100px);display:flex;align-items:flex-end;color:#fff;isolation:isolate}
+  .hero-marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.06);animation:acercar 1.8s var(--ease) forwards}
+  .hero-marco::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.08) 30%,rgba(0,0,0,.62) 100%),linear-gradient(90deg,rgba(0,0,0,.35),transparent 60%)}
+  .hero-contenido{width:100%;padding:0 clamp(20px,4vw,56px) clamp(28px,5vw,56px);display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:18px}
+  .hero h1{font-size:clamp(44px,6.6vw,96px);max-width:14ch;margin-bottom:22px}
+  .hero p{font-size:clamp(16px,1.4vw,18px);max-width:46ch;opacity:.9;margin-bottom:30px}
+  .acciones{display:flex;flex-wrap:wrap;gap:12px}
+  .rating{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+          border-radius:var(--r-chico);padding:18px 22px;min-width:180px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+  .rating b{font-family:var(--display);font-weight:var(--d-peso);font-stretch:var(--d-ancho);font-size:44px;line-height:1;display:block}
+  .rating span{font-size:13px;opacity:.85}
+  .entra{opacity:0;transform:translateY(18px);animation:subir .9s var(--ease) forwards}
+  .entra:nth-child(2){animation-delay:.08s}.entra:nth-child(3){animation-delay:.16s}.entra:nth-child(4){animation-delay:.24s}
+  @keyframes subir{to{opacity:1;transform:none}}
+  @keyframes acercar{to{transform:scale(1)}}
+
+  section{padding:clamp(72px,10vw,136px) 0}
+
+  /* Intro: frase grande + datos reales */
+  .intro .frase{font-size:clamp(30px,4.2vw,58px);max-width:24ch;line-height:1.08}
+  .datos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,4vw,64px);margin-top:clamp(48px,6vw,88px);padding-top:28px;border-top:1px solid var(--linea)}
+  .datos b{font-family:var(--display);font-weight:var(--d-peso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:clamp(34px,4vw,56px);line-height:1;display:block;margin-bottom:10px}
+  .datos span{color:var(--suave);font-size:15px}
+
+  /* Tipos de evento: fila de tarjetas verticales con scroll horizontal en mobile */
+  .cabecera{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px}
+  .cabecera h2,.titulo{font-size:clamp(34px,4.4vw,64px)}
+  .tipos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .tipo{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--oscuro)}
+  .tipo img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+  .tipo:hover img{transform:scale(1.05)}
+  .tipo-pie{margin-top:16px}
+  .tipo-pie h3{font-size:19px;font-weight:600;margin-bottom:4px}
+  .tipo-pie p{color:var(--suave);font-size:15px}
+
+  /* Galería asimétrica con un arco */
+  .galeria{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:300px 300px;gap:16px}
+  .galeria figure{border-radius:var(--r);overflow:hidden;background:var(--oscuro)}
+  .galeria figure:nth-child(1){grid-row:span 2;border-radius:999px 999px var(--r) var(--r)}
   .galeria img{width:100%;height:100%;object-fit:cover}
-  .ph{display:grid;place-items:center;text-align:center;color:#fff;font-size:14px;padding:16px;
-      background:linear-gradient(135deg,color-mix(in srgb,var(--primario) 85%,#000),color-mix(in srgb,var(--acento) 70%,var(--primario)))}
-  .ph:nth-child(2n){background:linear-gradient(135deg,color-mix(in srgb,var(--acento) 80%,#fff),var(--primario))}
-  .ph:nth-child(3n){background:linear-gradient(135deg,var(--oscuro),color-mix(in srgb,var(--primario) 70%,#fff))}
-  .ph svg{width:34px;height:34px;opacity:.85;margin:0 auto 8px}
-  .ver-mas{text-align:center;margin-top:28px}
-  .ver-mas a{color:var(--primario);font-weight:600}
-  .ubicacion{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:stretch}
-  .ubicacion .card{display:flex;flex-direction:column;gap:18px;justify-content:center}
-  .mapa{border-radius:var(--radio);overflow:hidden;border:1px solid var(--borde);min-height:340px;background:#e9e9e9}
-  .mapa iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
-  .presupuesto{background:linear-gradient(135deg,var(--primario),var(--oscuro));color:#fff}
-  .presupuesto .titulo-seccion{color:#fff} .presupuesto .bajada-seccion{color:rgba(255,255,255,.8)}
-  form{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500}
-  input,select,textarea{font:16px var(--cuerpo);padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.95);color:var(--texto)}
+
+  /* Banda oscura */
+  .banda{background:var(--oscuro);color:#fff;margin:0 12px;border-radius:var(--r);text-align:left}
+  .banda .w{display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px}
+  .banda p{font-size:clamp(34px,5vw,76px);max-width:16ch;line-height:1.04}
+
+  /* Ubicación */
+  .ubicacion{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,72px);align-items:center}
+  .ubicacion dl{display:grid;gap:22px;margin:32px 0 34px}
+  .ubicacion dt{font-size:13px;color:var(--suave);margin-bottom:4px}
+  .ubicacion dd{font-size:18px}
+  .mapa{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;background:color-mix(in srgb,var(--tinta) 8%,var(--fondo))}
+  .mapa iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.35)}
+  .enlace{font-weight:600;border-bottom:1px solid currentColor;padding-bottom:2px}
+
+  /* Presupuesto */
+  .presupuesto .w{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,80px);align-items:start}
+  .presupuesto .bajada{color:var(--suave);margin-top:18px;max-width:34ch;font-size:17px}
+  form{background:var(--superficie);border-radius:var(--r);padding:clamp(22px,3vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:18px;border:1px solid var(--linea)}
+  label{display:grid;gap:8px;font-size:14px;font-weight:500;color:var(--tinta)}
+  input,select,textarea{font:16px var(--cuerpo);color:var(--tinta);background:var(--fondo);border:1px solid color-mix(in srgb,var(--tinta) 22%,transparent);border-radius:12px;padding:13px 14px;width:100%}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--oscuro);outline-offset:1px}
   .ancho{grid-column:1/-1}
-  form .btn{justify-self:center;grid-column:1/-1;margin-top:8px}
-  footer{background:var(--oscuro);color:rgba(255,255,255,.75);padding:40px 0;font-size:14px}
-  footer .contenedor{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
-  footer strong{color:#fff;font-family:var(--titulo);font-size:18px}
-  .wa-flotante{position:fixed;right:20px;bottom:20px;z-index:30;width:60px;height:60px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-  .wa-flotante svg{width:32px;height:32px;color:#fff}
-  @media (max-width:900px){
+  form .btn{grid-column:1/-1;justify-self:start;margin-top:6px}
+  .error{grid-column:1/-1;color:#a3261b;font-size:14px;display:none}
+
+  /* Footer con nombre grande */
+  footer{background:var(--oscuro);color:#fff;margin:0 12px 12px;border-radius:var(--r);padding:clamp(40px,5vw,64px) 0 0;overflow:hidden}
+  .pie{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:rgba(255,255,255,.75)}
+  .pie strong{color:#fff;display:block;margin-bottom:8px;font-weight:600}
+  .gigante{line-height:1;white-space:nowrap;margin-top:clamp(40px,6vw,80px);padding-bottom:clamp(16px,2vw,28px);color:var(--acento)}
+
+  .wa-flotante{position:fixed;right:18px;bottom:18px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 12px 30px rgba(20,40,25,.28);opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .wa-flotante.si{opacity:1;transform:none;pointer-events:auto}
+  .wa-flotante svg{width:30px;height:30px;color:#fff}
+
+  /* Aparición al hacer scroll */
+  .revela{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .revela.si{opacity:1;transform:none}
+
+  @media (max-width:1024px){
     .nav ul{display:none}
-    .hero .contenedor{grid-template-columns:1fr;padding:64px 0 72px;gap:32px}
-    .g4{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:1fr}
-    .ubicacion{grid-template-columns:1fr}
-    .galeria{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+    .tipos{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(240px,62%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+    .tipos > *{scroll-snap-align:start}
   }
-  @media (max-width:560px){
-    section{padding:64px 0}
-    .g4{grid-template-columns:1fr}
+  @media (max-width:767px){
+    .hero-contenido{grid-template-columns:1fr;padding-top:40px}
+    .rating{display:none}
+    .hero-marco{min-height:calc(100dvh - 120px)}
+    .datos{grid-template-columns:1fr;gap:28px}
+    .galeria{grid-template-columns:1fr 1fr;grid-template-rows:260px 200px 200px}
+    .galeria figure:nth-child(1){grid-column:span 2;grid-row:auto;border-radius:var(--r)}
+    .galeria figure:nth-child(4){grid-column:span 2}
+    .galeria figure:nth-child(5){display:none}
+    .banda .w,.ubicacion,.presupuesto .w{grid-template-columns:1fr}
     form{grid-template-columns:1fr}
-    .nav .btn span{display:none} .nav .btn{padding:10px}
-    .hero p{font-size:16px}
+    .pie{grid-template-columns:1fr}
+    .cabecera{display:block}
+    .nav .btn{padding:10px 15px;font-size:13.5px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .entra,.revela{opacity:1;transform:none}
+    .wa-flotante{transition:none}
+    .hero-marco img{transform:none}
   }
 </style>
 </head>
 <body>
-<div class="demo-aviso">Demo preparada para {{negocio}} · los textos e imágenes son de ejemplo</div>
-<header>
-  <div class="contenedor nav">
+<div class="aviso">Demo preparada para {{negocio}}. Fotos y textos de referencia.</div>
+
+<header class="nav">
+  <div class="w">
     <a class="marca" href="#inicio">{{negocio}}</a>
     <ul>
       <li><a href="#eventos">Eventos</a></li>
       <li><a href="#galeria">Galería</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
-      <li><a href="#presupuesto">Presupuesto</a></li>
     </ul>
-    {{boton_wa_nav}}
+    <a class="btn btn-oscuro btn-chico" href="#presupuesto"><span>{{cta}}</span></a>
   </div>
 </header>
 
 <main id="inicio">
-  <section class="hero" style="padding:0">
-    <div class="contenedor">
-      <div>
-        <span class="etiqueta">{{rubro_label}} · {{localidad}}</span>
-        <h1>{{titular}}</h1>
-        <p>{{bajada}}</p>
-        <div class="acciones">
-          <a class="btn btn-claro" href="#presupuesto">{{cta}}</a>
-          {{boton_wa_hero}}
+  <div class="hero">
+    <div class="hero-marco">
+      <img src="{{hero_img}}" alt="Salón preparado para una fiesta" fetchpriority="high">
+      <div class="hero-contenido">
+        <div>
+          <p class="eyebrow entra">{{eyebrow}}</p>
+          <h1 class="display entra">{{titular}}</h1>
+          <p class="entra">{{bajada}}</p>
+          <div class="acciones entra">
+            <a class="btn btn-acento" href="#presupuesto">{{cta}}</a>
+            {{boton_wa_hero}}
+          </div>
         </div>
-      </div>
-      {{tarjeta_rating}}
-    </div>
-  </section>
-
-  <section id="eventos">
-    <div class="contenedor">
-      <h2 class="titulo-seccion">{{seccion_tipos}}</h2>
-      <p class="bajada-seccion">Cada celebración, armada a tu medida.</p>
-      <div class="grilla g4">{{tipos_html}}</div>
-    </div>
-  </section>
-
-  <section class="alt porque">
-    <div class="contenedor">
-      <h2 class="titulo-seccion">{{seccion_porque}}</h2>
-      <p class="bajada-seccion">Lo que dicen los datos y lo que nos importa.</p>
-      <div class="grilla g3">{{porque_html}}</div>
-    </div>
-  </section>
-
-  <section id="galeria">
-    <div class="contenedor">
-      <h2 class="titulo-seccion">{{seccion_galeria}}</h2>
-      <p class="bajada-seccion">Algunos de los eventos que ya vivimos.</p>
-      <div class="galeria">{{galeria_html}}</div>
-      <div class="ver-mas"><a href="{{link_maps}}" target="_blank" rel="noopener">Ver más fotos y opiniones en Google →</a></div>
-    </div>
-  </section>
-
-  <section class="alt" id="ubicacion">
-    <div class="contenedor">
-      <h2 class="titulo-seccion">{{seccion_ubicacion}}</h2>
-      <p class="bajada-seccion">Vení a conocer el salón.</p>
-      <div class="ubicacion">
-        <div class="card">{{contacto_html}}</div>
-        <div class="mapa"><iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de {{negocio}}" src="{{mapa_src}}"></iframe></div>
+        {{rating_html}}
       </div>
     </div>
+  </div>
+
+  <section class="intro">
+    <div class="w revela">
+      <p class="frase display">{{intro}}</p>
+      <div class="datos">{{datos_html}}</div>
+    </div>
   </section>
 
-  <section class="presupuesto" id="presupuesto">
-    <div class="contenedor">
-      <h2 class="titulo-seccion">{{seccion_presupuesto}}</h2>
-      <p class="bajada-seccion">{{bajada_presupuesto}}</p>
-      <form id="form-presupuesto">
-        <label>Tu nombre<input name="nombre" required autocomplete="name"></label>
+  <section id="eventos" style="padding-top:0">
+    <div class="w">
+      <div class="cabecera revela"><h2 class="display">{{seccion_tipos}}</h2></div>
+      <div class="tipos revela">{{tipos_html}}</div>
+    </div>
+  </section>
+
+  <section id="galeria" style="padding-top:0">
+    <div class="w">
+      <h2 class="titulo display revela" style="margin-bottom:36px">{{seccion_galeria}}</h2>
+      <div class="galeria revela">{{galeria_html}}</div>
+    </div>
+  </section>
+
+  <div class="banda">
+    <section>
+      <div class="w revela">
+        <p class="display">{{banda}}</p>
+        <a class="btn btn-acento" href="#presupuesto">{{cta}}</a>
+      </div>
+    </section>
+  </div>
+
+  <section id="ubicacion">
+    <div class="w ubicacion">
+      <div class="revela">
+        <h2 class="titulo display">{{seccion_ubicacion}}</h2>
+        <dl>{{contacto_html}}</dl>
+        <div class="acciones">{{boton_wa_ubicacion}}{{instagram_html}}</div>
+      </div>
+      <div class="mapa revela"><iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de {{negocio}}" src="{{mapa_src}}"></iframe></div>
+    </div>
+  </section>
+
+  <section class="presupuesto" id="presupuesto" style="padding-top:0">
+    <div class="w">
+      <div class="revela">
+        <h2 class="titulo display">{{seccion_presupuesto}}</h2>
+        <p class="bajada">{{bajada_presupuesto}}</p>
+      </div>
+      <form id="form-presupuesto" class="revela" novalidate>
+        <label>Tu nombre<input name="nombre" autocomplete="name" required></label>
         <label>Tipo de evento<select name="tipo">{{form_opciones}}</select></label>
         <label>Fecha aproximada<input name="fecha" type="date"></label>
         <label>Cantidad de invitados<input name="invitados" type="number" min="1" inputmode="numeric"></label>
         <label class="ancho">Algo más que quieras contarnos<textarea name="extra" rows="3"></textarea></label>
-        <button class="btn btn-wa" type="submit">{{icono_wa}}<span>Enviar por WhatsApp</span></button>
+        <p class="error" id="form-error" role="alert">Poné tu nombre para que sepamos a quién responder.</p>
+        <button class="btn btn-oscuro" type="submit">{{icono_wa}}Enviar por WhatsApp</button>
       </form>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="contenedor">
-    <div><strong>{{negocio}}</strong><br>{{direccion}}</div>
-    <div>{{telefono}}</div>
+  <div class="w">
+    <div class="pie">
+      <div><strong>Dirección</strong>{{direccion}}</div>
+      <div><strong>Teléfono</strong>{{telefono}}</div>
+      <div><strong>Redes</strong>{{instagram_pie}}</div>
+    </div>
+    <div class="gigante display" aria-hidden="true">{{negocio_corto}}</div>
   </div>
 </footer>
 {{boton_wa_flotante}}
+
 <script>
   (function(){
-    var wa = "{{whatsapp}}";
-    var base = {{mensaje_wa_json}};
-    var f = document.getElementById("form-presupuesto");
+    var wa = "{{whatsapp}}", base = {{mensaje_wa_json}};
+    var f = document.getElementById("form-presupuesto"), err = document.getElementById("form-error");
     f.addEventListener("submit", function(e){
       e.preventDefault();
-      var d = new FormData(f), l = [base];
-      if (d.get("nombre")) l.push("Soy " + d.get("nombre") + ".");
-      l.push("Tipo de evento: " + d.get("tipo"));
+      var d = new FormData(f);
+      if (!String(d.get("nombre") || "").trim()) { err.style.display = "block"; f.nombre.focus(); return; }
+      err.style.display = "none";
+      var l = [base, "Soy " + d.get("nombre") + ".", "Tipo de evento: " + d.get("tipo")];
       if (d.get("fecha")) l.push("Fecha: " + d.get("fecha").split("-").reverse().join("/"));
       if (d.get("invitados")) l.push("Invitados: " + d.get("invitados"));
       if (d.get("extra")) l.push(d.get("extra"));
-      var url = wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(l.join("\n")) : "{{link_maps}}";
-      window.open(url, "_blank", "noopener");
+      window.open(wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(l.join("\n")) : "{{link_maps}}", "_blank", "noopener");
     });
+    var els = document.querySelectorAll(".revela");
+    if (!("IntersectionObserver" in window)) { document.querySelectorAll(".revela,.wa-flotante").forEach(function(el){ el.classList.add("si"); }); return; }
+    var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if (x.isIntersecting) { x.target.classList.add("si"); io.unobserve(x.target); } }); }, { threshold: .12 });
+    els.forEach(function(el){ io.observe(el); });
+    var flotante = document.querySelector(".wa-flotante"), hero = document.querySelector(".hero");
+    if (flotante && hero) new IntersectionObserver(function(es){ flotante.classList.toggle("si", !es[0].isIntersecting); }).observe(hero);
   })();
 </script>
 </body>

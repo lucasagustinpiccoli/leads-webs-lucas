@@ -1,0 +1,83 @@
+{
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre, sin atribución obligatoria. Son imágenes de referencia para demos; al vender, reemplazar por fotos reales del cliente.",
+ "fotos": [
+  {
+   "archivo": "mesas-noche-verde.jpg",
+   "pexels": "https://www.pexels.com/photo/35985242/",
+   "ancho": 1600,
+   "alto": 1065
+  },
+  {
+   "archivo": "mesas-redondas-flores-blancas.jpg",
+   "pexels": "https://www.pexels.com/photo/2306281/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "mesa-fiesta-luces.jpg",
+   "pexels": "https://www.pexels.com/photo/16935994/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "mesa-larga-flores.jpg",
+   "pexels": "https://www.pexels.com/photo/17022991/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "mesas-eucalipto.jpg",
+   "pexels": "https://www.pexels.com/photo/28450665/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "mesa-novios.jpg",
+   "pexels": "https://www.pexels.com/photo/34597461/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "salon-aranas.jpg",
+   "pexels": "https://www.pexels.com/photo/19569865/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "salon-arana-mesas.jpg",
+   "pexels": "https://www.pexels.com/photo/37240724/",
+   "ancho": 1200,
+   "alto": 1600
+  },
+  {
+   "archivo": "detalle-velas-eucalipto.jpg",
+   "pexels": "https://www.pexels.com/photo/19986488/",
+   "ancho": 1068,
+   "alto": 1600
+  },
+  {
+   "archivo": "detalle-copas-menu.jpg",
+   "pexels": "https://www.pexels.com/photo/33964860/",
+   "ancho": 1067,
+   "alto": 1600
+  },
+  {
+   "archivo": "salon-sillas-vestidas.jpg",
+   "pexels": "https://www.pexels.com/photo/36028895/",
+   "ancho": 1067,
+   "alto": 1600
+  },
+  {
+   "archivo": "mesa-larga-terraza.jpg",
+   "pexels": "https://www.pexels.com/photo/35985196/",
+   "ancho": 1068,
+   "alto": 1600
+  },
+  {
+   "archivo": "mesa-flores-pastel.jpg",
+   "pexels": "https://www.pexels.com/photo/5038739/",
+   "ancho": 1068,
+   "alto": 1600
+  }
+ ]
+}

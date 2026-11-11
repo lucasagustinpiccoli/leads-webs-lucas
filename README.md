@@ -27,9 +27,10 @@ conviene usarlo en volumen bajo. Si aparece un CAPTCHA, el script se frena.
 python scripts/demo.py --demos --rubro salon_eventos
 ```
 
-Genera una landing por prospecto en `output/demos/{ranking}-{negocio}/index.html`, con sus datos reales de Maps
-(nombre, dirección, teléfono, rating, fotos), botón y formulario de presupuesto por WhatsApp y mapa. Para cambiar
-textos o sumar fotos, editá `datos.json` en esa carpeta y corré `python scripts/demo.py --render <ruta a datos.json>`.
+Genera una landing por prospecto en `output/demos/{ranking}-{negocio}/` (subí esa carpeta entera: tiene `index.html`
+e `img/`), con sus datos reales de Maps (nombre, dirección, teléfono, rating, cantidad de fotos, Instagram), fotos de
+referencia de Pexels, formulario de presupuesto que abre WhatsApp y mapa. Para cambiar textos o poner las fotos
+reales del cliente, editá `datos.json` en esa carpeta y corré `python scripts/demo.py --render <ruta a datos.json>`.
 
 ## Alternativa oficial: API de Places (necesita tarjeta)
 

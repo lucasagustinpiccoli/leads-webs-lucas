@@ -44,14 +44,22 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 
 - `python scripts/demo.py --demos --rubro salon_eventos` → genera las demos marcadas "Sí" de ese rubro en la última tanda.
   `--ranking N` para una sola; `--render output/demos/{carpeta}/datos.json` para regenerar después de editar.
-- Cada demo: `output/demos/{ranking}-{negocio}/datos.json` (editable) + `index.html`. Si `datos.json` ya existe,
-  no se pisa: se regenera desde ahí.
-- Motor único `templates/landing.html`; textos por rubro en `config/landing/{rubro}.json`. Hoy solo `salon_eventos`.
-  Para otro rubro: copiar ese JSON, cambiar textos e íconos.
+- Cada demo: `output/demos/{ranking}-{negocio}/` con `datos.json` (editable), `index.html` e `img/` (fotos de stock
+  copiadas). La carpeta entera es lo que se publica. Si `datos.json` ya existe, no se pisa.
+- Motor único `templates/landing.html`; textos, fotos y temas por rubro en `config/landing/{rubro}.json`.
+  Hoy solo `salon_eventos`.
+- Diseño: referencias de Framer (Elowenra, Aurelisse, Wedoraine, Elara, Alder & Vale). Hero de foto grande en marco
+  redondeado, frase grande con 3 datos reales, tarjetas verticales por tipo de evento, galería asimétrica con un arco,
+  banda oscura con una frase, mapa, formulario a WhatsApp y nombre gigante en el footer.
+  Tres temas (bosque, noche, lago: color + tipografía) que rotan según el puesto en la tanda, igual que la foto del hero.
+  Evitar lo que delata "página de IA": em-dashes, gradientes violetas, tres tarjetas iguales, íconos dibujados a mano,
+  eyebrows en cada sección.
+- Fotos: `templates/assets/{rubro}/` son de Pexels (licencia libre, ver `CREDITOS.json`), sin caras reconocibles.
+  **No usar fotos de Google Maps del negocio**: suelen mostrar clientes (a veces chicos) que no dieron permiso.
+  Cuando el cliente compra, sus fotos reales van en `fotos` dentro de `datos.json` (la primera es el hero).
 - Reglas de contenido: los datos del negocio salen de Maps (nombre, dirección, teléfono, rating, cantidad de fotos,
   Instagram). Todo lo demás es genérico del rubro: **no afirmar servicios, precios ni capacidades que no viste**.
   La franja "Demo preparada para…" y el `noindex` se quedan hasta que el cliente compre.
-- Fotos: lista `fotos` en `datos.json` (URLs o rutas). Si está vacía se ven placeholders con los colores de la paleta.
 - En el sandbox de Claude el mapa embebido sale gris (bloquea maps.gstatic.com); en un navegador normal carga.
 
 ## Otras herramientas
