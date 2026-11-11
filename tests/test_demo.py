@@ -1,5 +1,6 @@
 """Tests offline del generador de demos. Correr con: python -m unittest discover tests"""
 import os
+import re
 import sys
 import unittest
 
@@ -33,6 +34,23 @@ class TestDemo(unittest.TestCase):
         self.assertIn('content="noindex, nofollow"', out)
         self.assertNotIn("\u2014", out)            # sin em-dash
         self.assertEqual(out.count("<figure>"), 5)  # galería: 5 celdas exactas
+        self.assertNotIn("class=\"rating", out)    # sin estrellas en el hero
+        self.assertNotIn("*", re.sub(r"<(style|script)[\s\S]*?</\1>", "", out))  # el *énfasis* nunca queda con asteriscos
+
+    def test_direccion_con_prefijo_basura(self):
+        self.assertEqual(demo.direccion_corta("END Ramos Mejía Buenos Aires AR, Av. Gaona 2009, B1704 Ramos Mejía, Provincia de Buenos Aires, Argentina"),
+                         "Av. Gaona 2009, Ramos Mejía")
+
+    def test_titular_con_enfasis(self):
+        self.assertEqual(demo.titular_html("Tu fiesta, como la *imaginaste*."), "Tu fiesta, como la <em>imaginaste</em>.")
+        self.assertEqual(demo.titular_html("<b>*x*</b>"), "&lt;b&gt;<em>x</em>&lt;/b&gt;")
+
+    def test_modo_turno_usa_opciones_para_tocar(self):
+        html = demo.formulario({"modo": "turno", "tipo_label": "Motivo", "tipos": ["Control", "Urgencia"],
+                                "franjas": ["Mañana", "Tarde"], "extra_label": "Comentario", "boton": "Pedir turno"})
+        self.assertIn('data-dias="1,2,3,4,5,6"', html)
+        self.assertEqual(html.count('class="chip"'), 4)
+        self.assertNotIn('type="date"', html)
 
     def test_instagram_con_parametros(self):
         d = demo.armar_datos({**FILA, "web": "https://www.instagram.com/ga_eventos1/?hl=es-la"})

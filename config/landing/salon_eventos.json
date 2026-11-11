@@ -7,10 +7,10 @@
   "fotos_label": "fotos del salón en Google",
   "meta_descripcion": "{negocio}, salón de eventos en {localidad}. Cumpleaños de 15, casamientos, infantiles y eventos empresariales. Pedí tu presupuesto por WhatsApp.",
   "eyebrow": "Salón de eventos en {localidad}",
-  "titular": "Tu fiesta, como la imaginaste.",
-  "bajada": "Cumpleaños de 15, casamientos, infantiles y eventos de empresa en {localidad}. Contanos la fecha y armamos tu presupuesto.",
+  "titular": "Tu fiesta, como la *imaginaste*.",
+  "bajada": "Cumpleaños de 15, casamientos, infantiles y eventos empresariales en {localidad}. Pedí tu presupuesto en minutos.",
   "cta": "Pedí presupuesto",
-  "intro": "Un salón en {localidad} para celebrar lo importante. Vos traés la fecha y la idea; el resto lo pensamos juntos.",
+  "intro": "Un espacio en {localidad} pensado para celebrar los momentos importantes, de la familia y de la empresa.",
   "seccion_tipos": "Para cada celebración",
   "tipos": [
     {
@@ -25,7 +25,7 @@
     },
     {
       "titulo": "Infantiles",
-      "texto": "Festejos cómodos para grandes y chicos.",
+      "texto": "Un espacio cómodo para chicos y grandes.",
       "imagen": "mesa-flores-pastel.jpg"
     },
     {
@@ -35,11 +35,12 @@
     }
   ],
   "seccion_galeria": "Un lugar para recordar",
-  "banda": "Elegí la fecha. Del resto nos ocupamos juntos.",
-  "seccion_ubicacion": "Vení a conocer el salón",
+  "banda": "Contanos la fecha y el tipo de *evento*.",
+  "seccion_ubicacion": "Coordiná una visita al salón",
   "seccion_presupuesto": "Pedí tu presupuesto",
-  "bajada_presupuesto": "Completá estos datos y te respondemos por WhatsApp.",
+  "bajada_presupuesto": "Te respondemos por WhatsApp con disponibilidad y un presupuesto a medida.",
   "form": {
+    "modo": "presupuesto",
     "tipo_label": "Tipo de evento",
     "tipos": [
       "Cumpleaños de 15",
@@ -51,7 +52,7 @@
     "fecha_label": "Fecha aproximada",
     "cantidad_label": "Cantidad de invitados",
     "extra_label": "Algo más que quieras contarnos",
-    "boton": "Enviar por WhatsApp"
+    "boton": "Pedir presupuesto"
   },
   "mensaje_wa": "¡Hola {negocio}! Quiero pedir presupuesto para un evento.",
   "imagenes": {
@@ -89,8 +90,10 @@
       "display_caso": "none",
       "display_tracking": "-0.01em",
       "cuerpo": "'Hanken Grotesk', system-ui, sans-serif",
-      "fuentes": "family=Cormorant+Garamond:wght@500;600&family=Hanken+Grotesk:wght@400;500;600",
-      "display_ancho": "100%"
+      "fuentes": "family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Hanken+Grotesk:wght@400;500;600",
+      "display_ancho": "100%",
+      "enfasis_estilo": "italic",
+      "enfasis_peso": "500"
     },
     {
       "nombre": "noche",
@@ -106,8 +109,10 @@
       "display_caso": "uppercase",
       "display_tracking": "-0.02em",
       "cuerpo": "'Archivo', system-ui, sans-serif",
-      "fuentes": "family=Archivo:wdth,wght@75..100,400..800",
-      "display_ancho": "78%"
+      "fuentes": "family=Archivo:ital,wdth,wght@0,75..100,400..800;1,75..100,400..800",
+      "display_ancho": "78%",
+      "enfasis_estilo": "italic",
+      "enfasis_peso": "800"
     },
     {
       "nombre": "lago",
@@ -123,8 +128,10 @@
       "display_caso": "none",
       "display_tracking": "-0.035em",
       "cuerpo": "'Manrope', system-ui, sans-serif",
-      "fuentes": "family=Manrope:wght@400;500;600;700",
-      "display_ancho": "100%"
+      "fuentes": "family=Manrope:wght@400;500;600;700;800",
+      "display_ancho": "100%",
+      "enfasis_estilo": "normal",
+      "enfasis_peso": "800"
     }
   ]
 }

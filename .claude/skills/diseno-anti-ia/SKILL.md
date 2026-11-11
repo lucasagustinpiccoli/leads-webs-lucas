@@ -1,136 +1,181 @@
 ---
 name: diseno-anti-ia
-description: Criterio y método para diseñar landings y sitios de negocios reales (comercios, consultorios, salones, estudios, profesionales) que no parezcan "página hecha por IA". Partir de referencias reales (Framer y sitios premiados), elegir fotografía creíble y sin caras, tipografía y paleta con intención, textos honestos y en voseo, y revisar con capturas en escritorio y celular antes de mostrar. Usalo siempre que tengas que crear, rediseñar o revisar el diseño de una landing, demo, web o página para un cliente o negocio, cuando alguien diga que una página "parece de IA", "genérica", "de plantilla" o "fea", o pida que se vea "como Framer", "profesional" o "premium", aunque no mencione diseño explícitamente.
+description: Criterio y método para diseñar landings y sitios de negocios reales (comercios, consultorios, salones, estudios, profesionales) que no parezcan "página hecha por IA" y que funcionen en el celular, que es desde donde llega casi todo el mundo (link en la bio de Instagram o "sitio web" en Google Maps). Partir de referencias reales (Framer, sitios bien hechos), fotografía creíble y sin caras, tipografía y paleta con intención, textos profesionales en voseo, recorridos de reserva simples y revisión con capturas en celular y escritorio antes de mostrar. Usalo siempre que tengas que crear, rediseñar o revisar el diseño o los textos de una landing, demo, web o página para un cliente o negocio, cuando alguien diga que una página "parece de IA", "genérica", "de plantilla", "poco profesional" o "fea", o pida que se vea "como Framer", "profesional" o "premium", aunque no mencione diseño explícitamente.
 ---
 
 # Diseño que no parece hecho por IA
 
-Una página "de IA" se reconoce en dos segundos. Tiene un gradiente violeta y un hero centrado con un título que dice "Elevá tu experiencia". Abajo vienen tres tarjetas iguales con íconos de línea, un em-dash en cada párrafo, y fotos inventadas o directamente ninguna.
+Una página "de IA" se reconoce en dos segundos. Tiene un gradiente violeta y un hero centrado que dice "Elevá tu experiencia". Abajo vienen tres tarjetas iguales con íconos de línea, un em-dash en cada párrafo, estrellitas de Google en el hero y fotos que nadie miró.
 
-El problema no es estético: el dueño del negocio no se reconoce en una página así y no la compra. Este skill es el método para salir de ese default.
+El dueño de un negocio no se reconoce en eso y no lo compra. Este skill es el método para salir de ese default. Si también está disponible el skill `design-taste-frontend`, sus reglas detalladas valen. Este skill es la versión práctica para negocios locales.
 
-Si también está disponible el skill `design-taste-frontend`, sus reglas detalladas valen. Este skill es la versión corta y práctica para negocios locales.
+## 0. Primero el celular
+
+Un negocio local comparte su web de dos formas: el link en la bio de Instagram o el campo "sitio web" de su ficha de Google Maps. En los dos casos la visita llega **desde un celular, dentro del navegador de esa app**, con una mano y poca paciencia. Diseñá para eso primero y después adaptá a escritorio.
+
+- **Primera pantalla del celular:** qué es, dónde queda y el botón de la acción principal, sin bajar. Lo demás puede esperar.
+- **Acción siempre a mano:**
+  - un menú en píldora flotante con el botón principal,
+  - y en el celular, una barra fija abajo con ese botón y WhatsApp, que aparezca después del hero y se esconda donde ya hay un botón (el formulario, el footer).
+- **Áreas de toque de 44 px o más, y formularios que se completan tocando.** Opciones en forma de píldora para motivo, día y franja, en vez de selects y campos de fecha. Lo único que se tipea es el nombre.
+- **Links que abren apps:** el teléfono con `tel:`, la dirección con un link de Google Maps y WhatsApp con `wa.me` y el mensaje armado. En el navegador de Instagram, `window.open` suele bloquearse, así que hay que navegar con `location.href`.
+- **Liviana:**
+  - fotos de 800 px para celular (`srcset`),
+  - la del hero precargada,
+  - el resto con `loading="lazy"`,
+  - pocas tipografías,
+  - nada de librerías pesadas para animar tres cosas.
+- **Corta.** Colo Studio (colo-studio.pages.dev), un sitio real que funciona bien, tiene 4 secciones y mide 2.500 px en el celular. Cada sección tiene que ganarse su lugar.
 
 ## 1. Empezá por referencias, no por el código
 
-El default de un modelo es el promedio de todo lo que vio, y el promedio es justo lo que se reconoce como IA. Para salir de ahí, mirá diseño real antes de escribir una línea:
+El default de un modelo es el promedio de todo lo que vio, y ese promedio es justo lo que se reconoce como IA. Mirá diseño real antes de escribir:
 
-- Buscá entre 3 y 6 referencias del rubro. El marketplace de Framer (`framer.com/marketplace/templates/...`, con WebSearch y `allowed_domains: ["framer.com"]`) es una buena fuente porque cada template tiene una vista previa en vivo. También sirven Awwwards, sitios de negocios reales bien hechos y las referencias que traiga el usuario.
-- Sacá capturas de página entera (Playwright, `fullPage: true`) y miralas. Anotá en concreto:
+- **Buscá entre 3 y 6 referencias del rubro.** El marketplace de Framer, con WebSearch y `allowed_domains: ["framer.com"]`, tiene vistas previas en vivo. También sirven sitios de negocios reales bien hechos y lo que traiga el usuario. Si una vista previa no carga, decilo; no inventes que la viste.
+- **Sacá capturas de página entera, en celular y en escritorio, y miralas.** Anotá:
   - cómo resuelven el hero,
   - qué tipografía usan y en qué tamaño,
   - cuántos colores hay,
-  - cómo cambia el layout de una sección a otra,
-  - qué hacen con las fotos,
-  - qué detalle hace que se sienta caro.
-- Tomá **patrones**, no contenido: nada de copiar textos, logos ni imágenes.
+  - cómo varía el layout entre secciones,
+  - qué hacen con la luz y las fotos,
+  - cómo es el recorrido hasta reservar.
+- **Tomá patrones, no contenido.**
 
-Patrones que se repiten en lo bueno y casi nunca en lo genérico:
-- **Fotografía grande** como protagonista: un hero a pantalla casi completa, a veces dentro de un marco con bordes redondeados y un margen chico alrededor.
-- **Tipografía con carácter y en grande:** un serif editorial, un sans display muy ajustado o un condensado en mayúsculas. Siempre una sola familia de títulos, usada con convicción.
-- **Una frase grande sola** después del hero, en vez de un párrafo de marketing.
-- **Datos concretos en números grandes**, solo si son reales.
-- **Secciones que cambian de forma:** tarjetas verticales con foto, una galería asimétrica (un arco, una celda doble), una banda oscura con una frase, un split con mapa. Que no haya dos secciones con el mismo layout.
-- **El nombre del negocio gigante** en el footer.
-- **Mucho aire y pocos elementos por pantalla.**
+Patrones que se repiten en lo bueno:
+- **fotografía grande** como protagonista,
+- **una familia de títulos usada en grande y con convicción**, con una palabra en cursiva o negrita de la misma familia como énfasis ("en cada *detalle*"),
+- **una luz suave**: un resplandor del color de acento, muy tenue, detrás del hero o de una sección, o una foto que se funde con el fondo,
+- **una frase grande sola después del hero**,
+- **datos reales en números grandes**,
+- **secciones que cambian de forma**,
+- **el nombre gigante en el footer**,
+- **mucho aire**.
 
 ## 2. Fotografía
 
-Sin fotos buenas no hay diseño que salve la página.
-
-- **Fotos reales del negocio**, solo con permiso del dueño. Las de Google Maps o Instagram de terceros no se usan en una demo: suelen mostrar clientes, a veces chicos, que no aceptaron aparecer en una página que va a circular.
-- **Para demos y propuestas, stock con licencia libre.** Pexels sirve y deja bajar por número de foto (`images.pexels.com/photos/{id}/pexels-photo-{id}.jpeg?w=1600`). Unsplash bloquea las descargas automáticas. Aclará en la página que las fotos son de referencia.
-- **Criterios para elegir:**
+- **Fotos reales del negocio, solo con permiso del dueño.** Las de Google Maps o del Instagram del negocio no se usan en una demo: suelen mostrar clientes, a veces chicos, que no aceptaron aparecer.
+- **Para demos, stock con licencia libre.** Pexels deja bajar por número de foto desde `images.pexels.com/photos/{id}/pexels-photo-{id}.jpeg?w=1600`; su web suele estar bloqueada para bots, así que los números se buscan con WebSearch. Unsplash bloquea las descargas automáticas. Aclará en la página que las fotos son de referencia.
+- **Criterios:**
   - sin caras reconocibles,
-  - creíbles para el negocio real (un salón de barrio no es un hotel de cinco estrellas),
-  - todas con una luz y un tono parecidos,
+  - creíbles para el negocio real,
+  - todas con la misma luz y tono,
+  - sin el mismo sujeto repetido,
   - horizontales para el hero y verticales para tarjetas.
-- **Mirá cada foto antes de usarla.** Bajalas, armá una hoja de contacto y leela. Una foto elegida solo por el título que tiene en el banco de imágenes es una lotería.
-- Prohibido rellenar con gradientes "de placeholder", dibujos SVG hechos a mano o capturas falsas armadas con divs. Si no hay fotos, decilo y dejá el lugar marcado.
+- **Mirá cada foto antes de usarla:** bajalas, armá una hoja de contacto y leela.
+- Nada de placeholders con gradiente, SVG dibujados a mano ni capturas falsas hechas con divs.
 
 ## 3. Tipografía y color
 
-- **Una familia para títulos y una para texto, como máximo.** La de títulos se usa grande, con el interlineado y el tracking ajustados (`line-height` cerca de 1, tracking negativo en los sans).
-- Evitá como default Inter para títulos, y Fraunces e Instrument Serif, que son los serif que más usan las IA. El serif se justifica en hotelería, eventos, gastronomía o rubros clásicos. Si no, un sans con personalidad: Manrope, Archivo condensado, Hanken Grotesk, Geist, Satoshi.
-- **Paleta:** un neutro de fondo (nunca blanco puro ni negro puro), un tono oscuro de marca y **un solo acento**, usado igual en toda la página.
-- Familias que funcionan:
-  - verde bosque con hueso y un acento lima,
+- **Una familia para títulos y otra para texto, como máximo.** Los títulos van grandes, con interlineado cerca de 1 y tracking negativo en los sans. Cargá el eje de cursiva si lo vas a usar; la cursiva falsa que genera el navegador se ve barata.
+- **Evitá como default** Inter para títulos, Fraunces e Instrument Serif. Y **no repitas las mismas familias en todos los proyectos**: si la página anterior usó Newsreader y Barlow Condensed, esta usa otras. El serif se justifica en hotelería, eventos, salud con tono clásico o estudios. Si no, un sans con personalidad.
+- **Paleta:**
+  - un neutro de fondo (ni blanco ni negro puros),
+  - un oscuro de marca,
+  - **un solo acento** en toda la página.
+- **Evitá:**
+  - el violeta con brillo,
+  - el beige + dorado + marrón espresso,
+  - **los fondos de papel cálido** (`#efede7`, `#f2eee6`, `#f5f1ea` y parecidos), que son el "premium" por defecto de las IA.
+- **Paletas que funcionan:**
+  - verde bosque con hueso y lima,
   - casi negro con terracota,
   - azul pizarra con naranja,
-  - oliva con ladrillo,
-  - monocromo con un solo color saturado.
-- Evitá el violeta con brillo y también el beige + dorado + marrón espresso, que es el "premium" por defecto de todas las IA.
-- **Contraste:** el texto de cada botón contra su fondo tiene que dar 4,5:1 o más. El texto sobre fotos necesita una capa oscura o un degradé que lo sostenga.
-- **Un solo radio de bordes** en toda la página. Si hay variaciones (botones en píldora, tarjetas de 22 px), que sigan una regla fija.
+  - blanco frío con verde agua y coral,
+  - oliva con ladrillo.
+- **Contraste de 4,5:1 o más** en el texto de cada botón. Ojo: el mismo acento suele usarse sobre fondo claro (botón) y sobre fondo oscuro (texto del footer o de una banda). Si oscurecés el acento para que el texto blanco pase, puede dejar de leerse sobre el oscuro. Muchas veces la solución es mantener el acento vivo y usar **texto oscuro** en el botón.
+- **Un solo radio de bordes**, o una regla fija (botones en píldora, tarjetas de 22 px).
 
 ## 4. Layout
 
 - **Hero:**
-  - entra en la primera pantalla,
-  - título de 2 líneas como máximo (3 en celular),
+  - entra en la primera pantalla del celular,
+  - título de 2 líneas en escritorio y 3 en celular, como máximo,
   - bajada de 20 palabras como máximo,
   - 1 botón principal y como mucho 1 secundario.
-  - Nada más adentro: ni logos de clientes ni listas de beneficios.
-- **Nada de tres tarjetas iguales en fila** como sección de "servicios". Usá tarjetas verticales con foto (que en celular se deslizan de costado), un split, una lista con números grandes o una galería.
-- **Etiquetas chicas en mayúscula arriba de los títulos** (eyebrows): una cada tres secciones, como máximo. El título solo alcanza.
-- **Un solo texto por intención.** Si el botón principal dice "Pedí turno", dice lo mismo en el menú, el hero y el final. "Reservá", "Agendá" y "Contactanos" juntos confunden.
-- **Menú de una línea**, de 64 a 72 px de alto. En celular, un botón chico con texto en vez de un ícono suelto.
-- **En celular todo en una columna**, sin scroll horizontal, y los botones flotantes no pueden tapar contenido. Si hay un botón de WhatsApp flotante, conviene que aparezca recién después del hero.
+  - **Sin estrellas, ratings, insignias ni logos.** El rating de Google, si es bueno, va como dato debajo del hero, no encima de la foto.
+- **Nada de tres tarjetas iguales en fila.** Usá tarjetas verticales con foto que en el celular se deslizan de costado, un split, una galería asimétrica o números grandes.
+- **Etiquetas chicas en mayúscula sobre los títulos** (eyebrows): una cada tres secciones, como máximo.
+- **Un solo texto por intención:** si es "Pedí turno", dice lo mismo en el menú, el hero, la barra y el final.
+- **Menú de una línea**, de 64 px de alto o menos.
 
-## 5. Textos
+## 5. Textos: profesionales y cálidos
 
-- **Voseo rioplatense y frases cortas con verbos concretos:** "Pedí turno", "Vení a conocer el salón", "Contanos la fecha".
-- **Sin em-dash (—) ni en-dash (–).** Es la marca más clara de texto de IA. Usá punto, coma o dos puntos.
-- **Prohibido el vocabulario de folleto:** "elevá", "experiencia única", "soluciones integrales", "tu bienestar es nuestra prioridad", "llevá tu X al siguiente nivel".
-- **Honestidad.** Los datos del negocio (años, servicios, precios, capacidades, obras sociales, premios, testimonios) se ponen solo si los viste en una fuente real. Si no, el texto es genérico del rubro.
-  - Un número falso que suena preciso ("+500 eventos realizados") es peor que no poner nada: el dueño sabe que es mentira.
-  - En salud no se prometen resultados.
-- **Releé cada texto visible en voz alta**: títulos, botones, textos alternativos, footer. Si una frase suena linda pero no dice nada, reemplazala por una que diga algo.
+El tono es el de un buen profesional de la zona hablándole a un vecino: voseo, frases claras y concretas, ni folleto ni charla de WhatsApp. Si un dentista, un abogado o el dueño de un salón no firmaría esa frase en su vidriera, cambiala.
 
-## 6. Movimiento
+| Evitar | Mejor |
+|---|---|
+| "Cuidamos tu boca *sin vueltas*" | "Atención odontológica en {localidad}" |
+| "Nos escribís / Seguimos" como títulos | "Pedí tu turno / Controles periódicos" |
+| "Para el día que algo no anda bien" | "También para consultas que no pueden esperar" |
+| "Elevá tu experiencia", "soluciones integrales", "tu bienestar es nuestra prioridad" | qué se hace, para quién y dónde, en una frase |
+| "¿Buscás un lugar donde...?" | afirmación directa |
+
+Además:
+- **Sin lunfardo ni muletillas:** "posta", "re", "copado", "tranqui", "che", "un lujo", "sin vueltas".
+- **Sin signos de exclamación**, salvo en el saludo de WhatsApp.
+- **Sin em-dash (—) ni en-dash (–).**
+- **Honestidad:** años, servicios, precios, equipamiento, obras sociales, premios y testimonios van solo si los viste en una fuente real. Un número falso que suena preciso ("+500 eventos") es peor que nada. En salud no se prometen resultados.
+- **Releé cada texto visible** (títulos, botones, opciones, textos alternativos, footer) imaginando que lo lee en el celular alguien que llegó desde Instagram.
+
+## 6. Recorrido de reserva (negocios de turnos)
+
+Lo que hace bien un sitio de turnos como Colo Studio:
+1. **Un paso a la vez y con toques:** servicio o motivo, día, franja horaria y datos mínimos.
+2. **Los días se ofrecen ya armados** (los próximos días de atención: "Hoy", "Mañana", "Jue 14"). No hace falta un calendario.
+3. **Errores amables y concretos:** "Ese horario ya no está disponible. Elegí otro." o "Escribí tu nombre para que sepamos a quién responder."
+4. **El cierre es un mensaje listo para mandar:** WhatsApp se abre con motivo, día y franja escritos.
+5. **Promesa simple en el último bloque:** "Reservá en menos de dos minutos, sin llamadas ni esperas." Solo si es cierto para esa página.
+
+Sin un sistema de turnos real, no prometas confirmación automática: el mensaje dice "Pedir turno" y la persona sabe que le van a responder por WhatsApp.
+
+## 7. Movimiento
 
 Solo lo que tiene una razón de ser:
-- el hero entra con un zoom lento de la foto y el texto aparece de abajo,
-- las secciones aparecen al hacer scroll (con `IntersectionObserver`, nunca un listener de scroll),
-- los botones se hunden apenas al tocarlos.
+- **Entrada del hero:** la foto con un zoom lento y el texto subiendo, con una curva de salida fuerte (`cubic-bezier(.23,1,.32,1)`).
+- **Aparición de secciones** al hacer scroll, con `IntersectionObserver`.
+- **Botones** que se hunden un poco al tocarlos (`scale(.97)`, unos 160 ms).
+- **Barra fija** que entra y sale con opacidad y desplazamiento.
 
-Todo se desactiva con `prefers-reduced-motion`. Nada de animaciones en loop, cursores personalizados ni parallax por todos lados.
+Los efectos de hover van dentro de `@media (hover: hover)`. Con `prefers-reduced-motion` se apaga todo el desplazamiento. Nada de loops, cursores personalizados ni parallax.
 
-## 7. Revisá con capturas antes de mostrar
+## 8. Revisá con capturas antes de mostrar
 
-El diseño se evalúa mirándolo, no leyendo el CSS. Antes de mostrarle nada al usuario:
-
-1. Sacá capturas en escritorio (1440×900) y en celular (iPhone 13), de lo primero que se ve y de la página entera.
-2. Chequeos automáticos:
+1. **Capturas en celular (iPhone 13) y en escritorio (1440×900):** la primera pantalla y la página entera. Empezá mirando las de celular.
+2. **Chequeos automáticos:**
    - sin errores de JavaScript,
    - sin scroll horizontal,
-   - sin em-dashes en el texto visible,
-   - las tipografías cargaron (si no, la captura miente),
+   - sin em-dashes,
+   - las tipografías cargaron, con su peso real,
    - ningún botón se parte en dos renglones,
+   - el botón principal se ve sin bajar,
+   - áreas de toque de 44 px o más,
    - las imágenes existen.
-3. **Miralas de verdad**, con ojo de cliente:
-   - ¿Se ve como una referencia de Framer o como una plantilla de 2015?
-   - ¿Las fotos parecen del mismo lugar?
+3. **Miralas con ojo de cliente:**
+   - ¿Desde el celular se entiende en 3 segundos qué es y cómo pedir turno?
+   - ¿Se ve como una referencia de Framer o como una plantilla?
    - ¿Algo tapa algo?
-   - ¿Hay celdas vacías en una grilla?
-   - ¿Un texto se corta?
-   - ¿Algún dato es inventado?
-4. Corregí y volvé a capturar. Cuando el usuario pidió "que no parezca IA", mostrale las capturas, no solo el archivo.
+   - ¿Hay celdas vacías?
+   - ¿Algún texto suena coloquial, de folleto o inventado?
+4. **Corregí, volvé a capturar** y mostrale al usuario las capturas, no solo el archivo.
 
 ## Lista rápida de señales de IA
 
 Si ves alguna, corregila antes de entregar:
-- gradientes violetas o azules con brillo,
-- hero centrado sobre una mancha de color sin foto,
-- tres tarjetas iguales con íconos de línea,
+- gradientes violetas,
+- hero centrado sin foto,
+- estrellas o insignias en el hero,
+- tres tarjetas iguales,
 - em-dash,
 - "Elevá", "Descubrí", "Experiencia",
 - eyebrows en todas las secciones,
-- números falsos y precisos,
-- testimonios inventados con nombres genéricos,
-- íconos SVG dibujados a mano,
-- capturas de producto armadas con divs,
-- fotos que no se miraron,
-- el mismo layout repetido en varias secciones,
+- números falsos,
+- testimonios inventados,
+- íconos dibujados a mano,
+- fotos sin mirar,
+- el mismo layout repetido,
+- fondo de papel cálido por defecto,
+- las mismas tipografías del proyecto anterior,
 - texto gris claro sobre blanco,
-- el botón de WhatsApp tapando algo.
+- formularios que obligan a tipear en el celular,
+- el botón de WhatsApp tapando algo,
+- frases coloquiales que restan seriedad.

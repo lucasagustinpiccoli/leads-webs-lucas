@@ -39,21 +39,44 @@ const { chromium, devices } = require('playwright');
       await p.waitForTimeout(900); await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(300);
       await p.screenshot({ path: path.join(outDir, `${n}-${tag}.png`), fullPage: true });
       const r = await p.evaluate(() => {
-        const h1 = document.querySelector('h1');
-        const lh = parseFloat(getComputedStyle(h1).lineHeight) || parseFloat(getComputedStyle(h1).fontSize) * 1.1;
+        const h1 = document.querySelector('h1'); const cs = getComputedStyle(h1);
+        const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.1;
         const ctas = [...document.querySelectorAll('.btn')].filter(x => x.offsetParent).map(x => x.getBoundingClientRect().height);
+        const heroCta = document.querySelector('.hero .btn');
+        const toques = [...document.querySelectorAll('.btn, .chip span, input, select, textarea')]
+          .filter(x => x.offsetParent && x.getBoundingClientRect().width > 0)
+          .filter(x => x.getBoundingClientRect().height < 44 && !(x.tagName === 'TEXTAREA')).map(x => x.textContent.trim().slice(0, 20) || x.name);
+        const heroImg = document.querySelector('.hero img');
         return {
           overflow: document.documentElement.scrollWidth - innerWidth,
           lineasH1: Math.round(h1.getBoundingClientRect().height / lh),
-          fuente: document.fonts.check('16px ' + getComputedStyle(h1).fontFamily.split(',')[0]),
+          // chequea el peso real del título (antes miraba siempre 400 y daba falla falsa con títulos en negrita)
+          fuente: document.fonts.check(`${cs.fontWeight} 16px ${cs.fontFamily.split(',')[0]}`),
           ctaPartido: ctas.some(x => x > 64),
+          ctaVisible: heroCta ? heroCta.getBoundingClientRect().bottom <= innerHeight : false,
+          ratingEnHero: !!document.querySelector('.hero .rating, .hero [class*=estrella]') || /★/.test(document.querySelector('.hero')?.textContent || ''),
+          toquesChicos: toques,
+          heroSrc: heroImg ? (heroImg.getAttribute('srcset') || '') + ' ' + heroImg.getAttribute('src') : '',
         };
       });
+      let barra = true;
+      if (tag === 'mob') {
+        await p.evaluate(() => window.scrollTo(0, innerHeight * 1.5)); await p.waitForTimeout(700);
+        barra = await p.evaluate(() => { const b = document.querySelector('.barra'); return !b || getComputedStyle(b).opacity === '1'; });
+        await p.evaluate(() => window.scrollTo(0, 0));
+      }
       checks.push([`${tag}: sin errores de JavaScript`, !errs.length]);
       checks.push([`${tag}: sin scroll horizontal (${r.overflow}px)`, r.overflow <= 0]);
       checks.push([`${tag}: título del hero en 3 líneas o menos (${r.lineasH1})`, r.lineasH1 <= 3]);
       checks.push([`${tag}: ningún botón en dos renglones`, !r.ctaPartido]);
+      checks.push([`${tag}: el botón principal del hero se ve sin bajar`, r.ctaVisible]);
+      checks.push([`${tag}: sin estrellas ni rating en el hero`, !r.ratingEnHero]);
       if (tag === 'desk') checks.push(['tipografía del tema cargada (si falla, ¿están habilitados los hosts de Google Fonts?)', r.fuente]);
+      if (tag === 'mob') {
+        checks.push([`mob: áreas de toque de 44 px o más${r.toquesChicos.length ? ' (chicas: ' + r.toquesChicos.slice(0, 4).join(', ') + ')' : ''}`, !r.toquesChicos.length]);
+        checks.push(['mob: el hero tiene versión liviana para celular (srcset con -800)', /-800\./.test(r.heroSrc) || !/(^| )img\//.test(r.heroSrc)]);
+        checks.push(['mob: la barra fija aparece al bajar', barra]);
+      }
       await ctx.close();
     }
     try {

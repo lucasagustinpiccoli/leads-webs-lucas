@@ -62,10 +62,15 @@ def fmt_rating(r):
 
 
 def direccion_corta(d):
-    """'Av. Mitre 4371, B1678AVG Caseros, Provincia de Buenos Aires, Argentina' -> 'Av. Mitre 4371, Caseros'."""
+    """'Av. Mitre 4371, B1678AVG Caseros, Provincia de Buenos Aires, Argentina' -> 'Av. Mitre 4371, Caseros'.
+    También saca prefijos basura que a veces trae Maps: 'END Ramos Mejía Buenos Aires AR, Av. Gaona 2009' -> 'Av. Gaona 2009'."""
     d = re.sub(r",?\s*Argentina$", "", d or "")
     d = re.sub(r",?\s*Provincia de Buenos Aires", "", d)
-    return re.sub(r"\b[A-Z]\d{4}[A-Z]{0,3}\s*", "", d).strip(" ,")
+    d = re.sub(r"\b[A-Z]\d{4}[A-Z]{0,3}\s*", "", d).strip(" ,")
+    partes = [x.strip() for x in d.split(",") if x.strip()]
+    while len(partes) > 1 and not re.search(r"\d", partes[0]) and re.search(r"(\bAR$|Buenos Aires|^[A-Z]{2,4}\s)", partes[0]):
+        partes.pop(0)
+    return ", ".join(partes)
 
 
 def _hash(s):
@@ -117,11 +122,35 @@ def imagenes(d):
 
 
 def copiar_stock(d, carpeta):
+    """Copia las fotos de stock y arma una versión de 800 px de cada una (en el celular carga mucho más rápido)."""
+    from PIL import Image
     src = os.path.join(ROOT, "templates", "assets", d["rubro"])
     dst = os.path.join(carpeta, "img")
     os.makedirs(dst, exist_ok=True)
     for n in {d["hero_stock"], *d["galeria_stock"], *(t["imagen"] for t in d["tipos"])}:
         shutil.copyfile(os.path.join(src, n), os.path.join(dst, n))
+        chica = os.path.join(dst, chica_nombre(n))
+        if not os.path.exists(chica):
+            im = Image.open(os.path.join(src, n)).convert("RGB")
+            im.thumbnail((800, 800))
+            im.save(chica, quality=74, optimize=True, progressive=True)
+
+
+def chica_nombre(n):
+    base, ext = os.path.splitext(n)
+    return f"{base}-800{ext}"
+
+
+def srcset(u, sizes):
+    """Atributos srcset/sizes para las fotos de stock locales (img/...). Las fotos del cliente van tal cual."""
+    if not u.startswith("img/"):
+        return ""
+    return f'srcset="{e("img/" + chica_nombre(u[4:]))} 800w, {e(u)} 1600w" sizes="{sizes}"'
+
+
+def titular_html(t):
+    """'Tu fiesta, como la *imaginaste*.' -> la palabra entre asteriscos va en cursiva (misma familia tipográfica)."""
+    return re.sub(r"\*([^*]+)\*", r"<em>\1</em>", e(t))
 
 
 def render(d):
@@ -133,8 +162,7 @@ def render(d):
                 f'{ICONOS["wa"]}<span>WhatsApp</span></a>')
 
     hero, gal, img_tipo = imagenes(d)
-    r = fmt_rating(d["rating"])
-    rating = (f'<div class="rating entra"><b>{r}</b><span>Calificación en Google</span></div>' if r else "")
+    r = fmt_rating(d["rating"])  # el rating va en los datos de abajo, nunca en el hero
 
     datos = []
     if r:
@@ -145,17 +173,23 @@ def render(d):
     datos_html = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in datos[:3])
 
     tipos = "".join(
-        f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" alt="" loading="lazy"></div>'
+        f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 767px) 70vw, 25vw")} '
+        f'alt="" loading="lazy"></div>'
         f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
-    galeria = "".join(f'<figure><img src="{e(u)}" alt="{e(d["alt_galeria"])}" loading="lazy"></figure>' for u in gal)
+    galeria = "".join(f'<figure><img src="{e(u)}" {srcset(u, "(max-width: 767px) 50vw, 33vw")} alt="{e(d["alt_galeria"])}" '
+                      f'loading="lazy"></figure>' for u in gal)
 
-    contacto = "".join(f"<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>" for k, v in
-                       [("Dirección", d["direccion"]), ("Teléfono", d["telefono"]), ("Horarios", d["horarios"])] if v)
+    # Teléfono y dirección como links: en el celular abren el discador y la app de mapas.
+    tel_digits = re.sub(r"[^\d+]", "", d["telefono"] or "")
+    tel_html = f'<a href="tel:{e(tel_digits)}">{e(d["telefono"])}</a>' if tel_digits else ""
+    maps_dir = "https://www.google.com/maps/search/?api=1&query=" + quote(f'{d["negocio"]}, {d["direccion"]}')
+    contacto = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in
+                       [("Dirección", f'<a href="{e(maps_dir)}" target="_blank" rel="noopener">{e(d["direccion"])}</a>'),
+                        ("Teléfono", tel_html), ("Horarios", e(d["horarios"]))] if v)
     ig = d.get("instagram", "")
     partes = [x for x in urlparse(ig).path.split("/") if x] if ig else []
     ig_user = "@" + partes[0] if partes and partes[0] not in ("p", "reel", "explore") else ("Instagram" if ig else "")
-    instagram_html = (f'<a class="btn btn-chico" style="background:transparent;border:1px solid var(--linea)" href="{e(ig)}" '
-                      f'target="_blank" rel="noopener">{e(ig_user)}</a>') if ig else ""
+    instagram_html = (f'<a class="btn btn-borde" href="{e(ig)}" target="_blank" rel="noopener">{e(ig_user)}</a>') if ig else ""
     instagram_pie = (f'<a href="{e(ig)}" target="_blank" rel="noopener">{e(ig_user)}</a>' if ig
                      else f'<a href="{e(wa_link)}" target="_blank" rel="noopener">WhatsApp</a>')
 
@@ -163,14 +197,23 @@ def render(d):
     gigante = f'<span style="font-size:clamp(48px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
     mapa = "https://www.google.com/maps?q=" + quote(f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
 
+    tema = {"enfasis_estilo": "italic", "enfasis_peso": "inherit", **d["tema"]}
+    hero_set = srcset(hero, "100vw")
     valores = {
         **{k: e(str(v)) for k, v in d.items() if isinstance(v, (str, int, float))},
-        **{k: str(v) for k, v in d["tema"].items()},  # valores CSS del tema (fuentes, colores)
-        "hero_img": e(hero), "rating_html": rating, "datos_html": datos_html, "tipos_html": tipos,
+        **{k: str(v) for k, v in tema.items()},  # valores CSS del tema (fuentes, colores, énfasis)
+        "hero_img": e(hero), "hero_srcset": hero_set,
+        "hero_preload_srcset": hero_set.replace("srcset=", "imagesrcset=").replace("sizes=", "imagesizes="),
+        "titular_html": titular_html(d["titular"]), "titular": e(d["titular"].replace("*", "")),
+        # los textos grandes también aceptan *énfasis* en cursiva
+        **{k: titular_html(d[k]) for k in ("intro", "banda", "seccion_tipos", "seccion_galeria", "seccion_ubicacion") if k in d},
+        "meta_descripcion": e(d["meta_descripcion"].replace("*", "")),
+        "datos_html": datos_html, "tipos_html": tipos,
         "galeria_html": galeria, "contacto_html": contacto, "instagram_html": instagram_html,
-        "instagram_pie": instagram_pie, "negocio_corto": gigante, "mapa_src": e(mapa),
+        "instagram_pie": instagram_pie, "negocio_corto": gigante, "mapa_src": e(mapa), "telefono_html": tel_html or "WhatsApp",
         "boton_wa_hero": boton_wa("btn-vidrio"), "boton_wa_ubicacion": boton_wa("btn-oscuro"),
         "boton_wa_flotante": f'<a class="wa-flotante" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="WhatsApp">{ICONOS["wa"]}</a>',
+        "boton_wa_barra": f'<a class="btn btn-wa" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">{ICONOS["wa"]}</a>',
         "form_html": formulario(d["form"]), "form_boton": e(d["form"]["boton"]),
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
@@ -184,20 +227,43 @@ def render(d):
     return out
 
 
+def chips(label, name, opciones, extra_attr=""):
+    """Grupo de opciones grandes para tocar con el pulgar (radio buttons con forma de píldora)."""
+    ops = "".join(f'<label class="chip"><input type="radio" name="{name}" value="{e(o)}"><span>{e(o)}</span></label>' for o in opciones)
+    return f'<fieldset data-etiqueta="{e(label)}"><legend>{e(label)}</legend><div class="chips"{extra_attr}>{ops}</div></fieldset>'
+
+
 def formulario(fm):
-    """Campos del formulario según el rubro. Cada campo con data-etiqueta se suma al mensaje de WhatsApp."""
-    c = ['<label>Tu nombre<input name="nombre" autocomplete="name" required aria-describedby="form-error">'
-         '<span class="error" id="form-error" role="alert">Poné tu nombre para que sepamos a quién responder.</span></label>']
+    """Campos del formulario según el rubro. Cada campo con data-etiqueta se suma al mensaje de WhatsApp.
+
+    modo "turno" (consultorios, veterinarias, estética...): motivo, extras, próximos días y franja, todo con opciones
+    para tocar, como el recorrido de reserva de Colo Studio. modo "presupuesto" (salones...): tipo, fecha y cantidad."""
+    c = []
+    modo = fm.get("modo", "presupuesto")
     if fm.get("tipos"):
-        ops = "".join(f"<option>{e(o)}</option>" for o in fm["tipos"])
-        c.append(f'<label>{e(fm["tipo_label"])}<select name="tipo" data-etiqueta="{e(fm["tipo_label"])}">{ops}</select></label>')
-    if fm.get("fecha_label"):
-        c.append(f'<label>{e(fm["fecha_label"])}<input name="fecha" type="date" data-etiqueta="{e(fm["fecha_label"])}"></label>')
-    if fm.get("cantidad_label"):
-        c.append(f'<label>{e(fm["cantidad_label"])}<input name="cantidad" type="number" min="1" inputmode="numeric" '
-                 f'data-etiqueta="{e(fm["cantidad_label"])}"></label>')
-    c.append(f'<label class="ancho">{e(fm["extra_label"])}<textarea name="extra" rows="3" data-etiqueta=""></textarea></label>')
-    return "\n        ".join(c)
+        c.append(chips(fm["tipo_label"], "tipo", fm["tipos"]))
+    for i, x in enumerate(fm.get("extras", [])):
+        c.append(chips(x["label"], f"extra{i}", x["opciones"]))
+    if modo == "turno":
+        dias = ",".join(str(n) for n in fm.get("dias", [1, 2, 3, 4, 5, 6]))
+        c.append(f'<fieldset data-etiqueta="{e(fm.get("dia_label", "Día preferido"))}"><legend>{e(fm.get("dia_label", "Día preferido"))}</legend>'
+                 f'<div class="chips" data-dias="{dias}"></div></fieldset>')
+        if fm.get("franjas"):
+            c.append(chips(fm.get("franja_label", "Horario"), "franja", fm["franjas"]))
+    else:
+        fila = []
+        if fm.get("fecha_label"):
+            fila.append(f'<label>{e(fm["fecha_label"])}<input name="fecha" type="date" data-etiqueta="{e(fm["fecha_label"])}"></label>')
+        if fm.get("cantidad_label"):
+            fila.append(f'<label>{e(fm["cantidad_label"])}<input name="cantidad" type="number" min="1" inputmode="numeric" '
+                        f'data-etiqueta="{e(fm["cantidad_label"])}"></label>')
+        if fila:
+            c.append('<div class="fila">' + "".join(fila) + "</div>")
+    c.append('<label>Tu nombre<input name="nombre" autocomplete="name" required aria-describedby="form-error">'
+             '<span class="error" id="form-error" role="alert">Escribí tu nombre para que sepamos a quién responder.</span></label>')
+    c.append(f'<label>{e(fm["extra_label"])} <span class="opcional">(opcional)</span>'
+             f'<textarea name="extra" rows="3" data-etiqueta=""></textarea></label>')
+    return "\n          ".join(c)
 
 
 def escribir(d, carpeta):

@@ -45,21 +45,25 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - `python scripts/demo.py --demos --rubro salon_eventos` → genera las demos marcadas "Sí" de ese rubro en la última tanda.
   `--ranking N` para una sola; `--render output/demos/{carpeta}/datos.json` para regenerar después de editar.
 - Cada demo: `output/demos/{ranking}-{negocio}/` con `datos.json` (editable), `index.html` e `img/` (fotos de stock
-  copiadas). La carpeta entera es lo que se publica. Si `datos.json` ya existe, no se pisa.
-- Motor único `templates/landing.html`; textos, fotos y temas por rubro en `config/landing/{rubro}.json`.
-  Hoy solo `salon_eventos`.
-- Diseño: referencias de Framer (Elowenra, Aurelisse, Wedoraine, Elara, Alder & Vale). Hero de foto grande en marco
-  redondeado, frase grande con 3 datos reales, tarjetas verticales por tipo de evento, galería asimétrica con un arco,
-  banda oscura con una frase, mapa, formulario a WhatsApp y nombre gigante en el footer.
-  Tres temas (bosque, noche, lago: color + tipografía) que rotan según el puesto en la tanda, igual que la foto del hero.
-  Evitar lo que delata "página de IA": em-dashes, gradientes violetas, tres tarjetas iguales, íconos dibujados a mano,
-  eyebrows en cada sección.
+  y su versión de 800 px). La carpeta entera es lo que se publica. Si `datos.json` ya existe, no se pisa.
+- Motor único `templates/landing.html`; textos, formulario, fotos y temas por rubro en `config/landing/{rubro}.json`.
+  Rubros con plantilla: `salon_eventos`. Para sumar uno, usá el skill `landing-rubro-nuevo`; el criterio de diseño está
+  en el skill `diseno-anti-ia`.
+- **Pensada para celular**: la visita llega desde el link de la bio de Instagram o desde "sitio web" en Google Maps.
+  Menú en píldora con el botón principal siempre visible, barra fija abajo en el celular (botón + WhatsApp),
+  opciones para tocar en el formulario, teléfono y dirección como links, fotos livianas.
+- **Sin estrellas ni rating en el hero**: el rating de Google va en los datos debajo del hero.
+- Formulario: `form.modo` = `turno` (motivo, extras, próximos días de atención y franja, todo con toques; inspirado
+  en el recorrido de colo-studio.pages.dev) o `presupuesto` (tipo, fecha, cantidad). Se envía abriendo WhatsApp
+  con el mensaje armado (`location.href`, porque el navegador de Instagram bloquea `window.open`).
+- Una palabra entre asteriscos en los títulos (`*imaginaste*`) sale con el énfasis del tema (cursiva o peso).
+- Tres temas por rubro (color + tipografía) que rotan según el puesto en la tanda, igual que la foto del hero.
+- **Tono de los textos: profesional y cálido**, en voseo, sin frases coloquiales ("sin vueltas", "nos escribís") ni de
+  folleto. Nada que no se haya visto en Maps: ni años, ni servicios puntuales, ni promesas.
 - Fotos: `templates/assets/{rubro}/` son de Pexels (licencia libre, ver `CREDITOS.json`), sin caras reconocibles.
   **No usar fotos de Google Maps del negocio**: suelen mostrar clientes (a veces chicos) que no dieron permiso.
   Cuando el cliente compra, sus fotos reales van en `fotos` dentro de `datos.json` (la primera es el hero).
-- Reglas de contenido: los datos del negocio salen de Maps (nombre, dirección, teléfono, rating, cantidad de fotos,
-  Instagram). Todo lo demás es genérico del rubro: **no afirmar servicios, precios ni capacidades que no viste**.
-  La franja "Demo preparada para…" y el `noindex` se quedan hasta que el cliente compre.
+- La franja "Demo preparada para…" y el `noindex` se quedan hasta que el cliente compre.
 - En el sandbox de Claude el mapa embebido sale gris (bloquea maps.gstatic.com); en un navegador normal carga.
 
 ## Otras herramientas

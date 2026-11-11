@@ -2,160 +2,181 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="{{fondo}}">
 <title>{{negocio}} | {{rubro_label}} en {{localidad}}</title>
 <meta name="description" content="{{meta_descripcion}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?{{fuentes}}&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="{{hero_img}}">
+<link rel="preload" as="image" href="{{hero_img}}" {{hero_preload_srcset}}>
 <style>
+  /* Pensada primero para celular: la mayoría llega desde el link del Instagram o desde Google Maps. */
   :root{
     --fondo:{{fondo}}; --superficie:{{superficie}}; --tinta:{{tinta}}; --suave:{{suave}};
     --oscuro:{{oscuro}}; --acento:{{acento}}; --acento-tinta:{{acento_tinta}};
     --display:{{display}}; --cuerpo:{{cuerpo}};
     --d-peso:{{display_peso}}; --d-caso:{{display_caso}}; --d-track:{{display_tracking}}; --d-ancho:{{display_ancho}};
-    --r:22px; --r-chico:14px; --ease:cubic-bezier(.16,1,.3,1);
+    --e-estilo:{{enfasis_estilo}}; --e-peso:{{enfasis_peso}};
+    --r:22px; --r-chico:14px;
+    --ease:cubic-bezier(.23,1,.32,1);
     --linea:color-mix(in srgb,var(--tinta) 12%,transparent);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
   body{font-family:var(--cuerpo);color:var(--tinta);background:var(--fondo);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   img{display:block;max-width:100%}
   a{color:inherit;text-decoration:none}
-  .w{width:min(1280px,100% - 32px);margin-inline:auto}
-  .display{font-family:var(--display);font-weight:var(--d-peso);text-transform:var(--d-caso);letter-spacing:var(--d-track);font-stretch:var(--d-ancho);line-height:1.02}
+  .w{width:min(1240px,100% - 32px);margin-inline:auto}
+  .display{font-family:var(--display);font-weight:var(--d-peso);text-transform:var(--d-caso);letter-spacing:var(--d-track);font-stretch:var(--d-ancho);line-height:1.04}
+  .display em{font-style:var(--e-estilo);font-weight:var(--e-peso)}
 
-  /* Aviso de demo */
-  .aviso{font-size:12.5px;text-align:center;padding:7px 16px;background:var(--oscuro);color:color-mix(in srgb,#fff 82%,transparent)}
+  .aviso{font-size:12px;text-align:center;padding:7px 16px;background:var(--oscuro);color:color-mix(in srgb,#fff 82%,transparent)}
 
-  /* Nav */
-  .nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--fondo) 86%,transparent);backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px)}
-  .nav .w{height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-  .marca{font-family:var(--display);font-weight:var(--d-peso);text-transform:var(--d-caso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .nav ul{display:flex;gap:30px;list-style:none;font-size:14.5px;color:var(--suave)}
-  .nav ul a:hover{color:var(--tinta)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;border:0;cursor:pointer;
-       font:600 15px/1 var(--cuerpo);border-radius:999px;padding:15px 24px;transition:transform .3s var(--ease),background .3s var(--ease)}
-  .btn:active{transform:scale(.98)}
+  /* Menú en píldora flotante: el botón principal siempre a la vista */
+  .nav{position:sticky;top:10px;z-index:20;padding:0 12px;margin-top:10px}
+  .nav-pildora{max-width:1240px;margin-inline:auto;height:60px;padding:0 8px 0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+       border-radius:999px;background:color-mix(in srgb,var(--superficie) 78%,transparent);border:1px solid color-mix(in srgb,#fff 50%,transparent);
+       backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 8px 30px color-mix(in srgb,var(--oscuro) 10%,transparent)}
+  .marca{font-family:var(--display);font-weight:var(--d-peso);text-transform:var(--d-caso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .nav ul{display:flex;gap:28px;list-style:none;font-size:14.5px;color:var(--suave)}
+  .nav ul a{padding:8px 0}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;border:0;cursor:pointer;min-height:48px;
+       font:600 15px/1 var(--cuerpo);border-radius:999px;padding:0 24px;transition:transform 160ms var(--ease),background-color 200ms ease}
+  .btn:active{transform:scale(.97)}
   .btn svg{width:18px;height:18px;flex:none}
   .btn-oscuro{background:var(--oscuro);color:#fff}
-  .btn-oscuro:hover{background:color-mix(in srgb,var(--oscuro) 85%,#fff)}
   .btn-acento{background:var(--acento);color:var(--acento-tinta)}
-  .btn-acento:hover{background:color-mix(in srgb,var(--acento) 88%,#fff)}
-  .btn-vidrio{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-  .btn-vidrio:hover{background:rgba(255,255,255,.24)}
-  .btn-chico{padding:11px 18px;font-size:14px}
+  .btn-vidrio{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .btn-borde{background:transparent;border:1px solid var(--linea);color:var(--tinta)}
+  .btn-chico{min-height:44px;padding:0 18px;font-size:14px}
+  @media (hover:hover) and (pointer:fine){
+    .btn-oscuro:hover{background:color-mix(in srgb,var(--oscuro) 86%,#fff)}
+    .btn-acento:hover{background:color-mix(in srgb,var(--acento) 90%,#fff)}
+    .btn-vidrio:hover{background:rgba(255,255,255,.26)}
+    .nav ul a:hover{color:var(--tinta)}
+  }
 
-  /* Hero */
-  .hero{padding:0 12px}
-  .hero-marco{position:relative;border-radius:var(--r);overflow:hidden;min-height:calc(100dvh - 100px);display:flex;align-items:flex-end;color:#fff;isolation:isolate}
-  .hero-marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.06);animation:acercar 1.8s var(--ease) forwards}
-  .hero-marco::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.08) 30%,rgba(0,0,0,.62) 100%),linear-gradient(90deg,rgba(0,0,0,.35),transparent 60%)}
-  .hero-contenido{width:100%;padding:0 clamp(20px,4vw,56px) clamp(28px,5vw,56px);display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px}
-  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:18px}
-  .hero h1{font-size:clamp(44px,6.6vw,96px);max-width:14ch;margin-bottom:22px}
-  .hero p{font-size:clamp(16px,1.4vw,18px);max-width:46ch;opacity:.9;margin-bottom:30px}
-  .acciones{display:flex;flex-wrap:wrap;gap:12px}
-  .rating{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-          border-radius:var(--r-chico);padding:18px 22px;min-width:180px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
-  .rating b{font-family:var(--display);font-weight:var(--d-peso);font-stretch:var(--d-ancho);font-size:44px;line-height:1;display:block}
-  .rating span{font-size:13px;opacity:.85}
-  .entra{opacity:0;transform:translateY(18px);animation:subir .9s var(--ease) forwards}
-  .entra:nth-child(2){animation-delay:.08s}.entra:nth-child(3){animation-delay:.16s}.entra:nth-child(4){animation-delay:.24s}
+  /* Hero: foto grande en marco redondeado, texto abajo a la izquierda */
+  .hero{padding:12px 12px 0}
+  .hero-marco{position:relative;border-radius:var(--r);overflow:hidden;min-height:calc(100svh - 120px);display:flex;align-items:flex-end;color:#fff;isolation:isolate}
+  .hero-marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.05);animation:acercar 1.6s var(--ease) forwards}
+  .hero-marco::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.05) 25%,rgba(0,0,0,.66) 100%),linear-gradient(90deg,rgba(0,0,0,.3),transparent 65%)}
+  .hero-contenido{width:100%;padding:0 clamp(20px,4vw,56px) clamp(24px,5vw,56px)}
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.88;margin-bottom:16px}
+  .hero h1{font-size:clamp(40px,6.4vw,92px);max-width:13ch;margin-bottom:18px;padding-bottom:.04em}
+  .hero p{font-size:clamp(16px,1.35vw,18px);max-width:44ch;opacity:.92;margin-bottom:26px}
+  .acciones{display:flex;flex-wrap:wrap;gap:10px}
+  .entra{opacity:0;transform:translateY(14px);animation:subir .8s var(--ease) forwards}
+  .entra:nth-child(2){animation-delay:.06s}.entra:nth-child(3){animation-delay:.12s}.entra:nth-child(4){animation-delay:.18s}
   @keyframes subir{to{opacity:1;transform:none}}
   @keyframes acercar{to{transform:scale(1)}}
 
-  section{padding:clamp(72px,10vw,136px) 0}
+  section{padding:clamp(64px,9vw,128px) 0}
 
-  /* Intro: frase grande + datos reales */
-  .intro .frase{font-size:clamp(30px,4.2vw,58px);max-width:24ch;line-height:1.08}
-  .datos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,4vw,64px);margin-top:clamp(48px,6vw,88px);padding-top:28px;border-top:1px solid var(--linea)}
-  .datos b{font-family:var(--display);font-weight:var(--d-peso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:clamp(34px,4vw,56px);line-height:1;display:block;margin-bottom:10px}
+  /* Intro con una luz suave de fondo */
+  .intro{background:radial-gradient(70% 90% at 0% 0%,color-mix(in srgb,var(--acento) 16%,transparent),transparent 70%)}
+  .intro .frase{font-size:clamp(28px,4vw,54px);max-width:24ch;line-height:1.1}
+  .datos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,4vw,64px);margin-top:clamp(40px,6vw,80px);padding-top:26px;border-top:1px solid var(--linea)}
+  .datos b{font-family:var(--display);font-weight:var(--d-peso);font-stretch:var(--d-ancho);letter-spacing:var(--d-track);font-size:clamp(30px,3.6vw,52px);line-height:1;display:block;margin-bottom:8px}
   .datos span{color:var(--suave);font-size:15px}
 
-  /* Tipos (de evento, de servicio...): fila de tarjetas verticales con scroll horizontal en mobile */
-  .cabecera{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px}
-  .cabecera h2,.titulo{font-size:clamp(34px,4.4vw,64px)}
+  .titulo{font-size:clamp(32px,4.2vw,60px);margin-bottom:32px}
   .tipos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-  .tipo{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--oscuro)}
+  .tipo{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:var(--oscuro)}
   .tipo img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
-  .tipo:hover img{transform:scale(1.05)}
-  .tipo-pie{margin-top:16px}
-  .tipo-pie h3{font-size:19px;font-weight:600;margin-bottom:4px}
+  @media (hover:hover) and (pointer:fine){ article:hover .tipo img{transform:scale(1.04)} }
+  .tipo-pie{margin-top:14px}
+  .tipo-pie h3{font-size:18px;font-weight:600;margin-bottom:4px}
   .tipo-pie p{color:var(--suave);font-size:15px}
 
-  /* Galería asimétrica con un arco */
-  .galeria{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:300px 300px;gap:16px}
+  .galeria{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:290px 290px;gap:14px}
   .galeria figure{border-radius:var(--r);overflow:hidden;background:var(--oscuro)}
   .galeria figure:nth-child(1){grid-row:span 2;border-radius:999px 999px var(--r) var(--r)}
   .galeria img{width:100%;height:100%;object-fit:cover}
 
-  /* Banda oscura */
-  .banda{background:var(--oscuro);color:#fff;margin:0 12px;border-radius:var(--r);text-align:left}
-  .banda .w{display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px}
-  .banda p{font-size:clamp(34px,5vw,76px);max-width:16ch;line-height:1.04}
+  /* Sección oscura: una frase y el formulario, todo junto */
+  .accion{background:var(--oscuro);color:#fff;margin:0 12px;border-radius:var(--r);overflow:hidden;
+          background-image:radial-gradient(60% 70% at 100% 0%,color-mix(in srgb,var(--acento) 22%,transparent),transparent 70%)}
+  .accion .w{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(28px,5vw,80px);align-items:start}
+  .accion .frase{font-size:clamp(32px,4.4vw,64px);max-width:14ch;line-height:1.05}
+  .accion .bajada{color:rgba(255,255,255,.78);margin-top:18px;max-width:34ch;font-size:17px}
+  form{background:var(--superficie);color:var(--tinta);border-radius:var(--r);padding:clamp(20px,3vw,36px);display:grid;gap:20px}
+  label,fieldset{display:grid;gap:8px;font-size:14px;font-weight:600;color:var(--tinta);border:0;min-width:0}
+  legend{font-size:14px;font-weight:600;margin-bottom:8px;padding:0}
+  input,select,textarea{font:16px var(--cuerpo);color:var(--tinta);background:var(--fondo);border:1px solid color-mix(in srgb,var(--tinta) 22%,transparent);border-radius:12px;padding:0 14px;min-height:48px;width:100%}
+  textarea{padding:12px 14px;min-height:88px;resize:vertical}
+  input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--oscuro);outline-offset:1px}
+  .fila{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .opcional{font-weight:400;color:var(--suave)}
+  /* Opciones grandes para tocar con el pulgar */
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{position:relative}
+  .chip input{position:absolute;opacity:0;width:1px;height:1px}
+  .chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid color-mix(in srgb,var(--tinta) 20%,transparent);
+             background:var(--fondo);font-weight:500;font-size:15px;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}
+  .chip input:checked + span{background:var(--oscuro);color:#fff;border-color:var(--oscuro)}
+  .chip input:focus-visible + span{outline:2px solid var(--oscuro);outline-offset:2px}
+  form .btn{justify-self:start;margin-top:4px}
+  .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
+  .nota{font-size:13px;color:var(--suave);font-weight:400}
 
-  /* Ubicación */
   .ubicacion{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,72px);align-items:center}
-  .ubicacion dl{display:grid;gap:22px;margin:32px 0 34px}
+  .ubicacion dl{display:grid;gap:20px;margin:28px 0 30px}
   .ubicacion dt{font-size:13px;color:var(--suave);margin-bottom:4px}
   .ubicacion dd{font-size:18px}
+  .ubicacion dd a{border-bottom:1px solid var(--linea)}
   .mapa{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;background:color-mix(in srgb,var(--tinta) 8%,var(--fondo))}
-  .mapa iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.35)}
-  .enlace{font-weight:600;border-bottom:1px solid currentColor;padding-bottom:2px}
+  .mapa iframe{width:100%;height:100%;border:0;display:block;filter:grayscale(.3)}
 
-  /* Presupuesto */
-  .presupuesto .w{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,80px);align-items:start}
-  .presupuesto .bajada{color:var(--suave);margin-top:18px;max-width:34ch;font-size:17px}
-  form{background:var(--superficie);border-radius:var(--r);padding:clamp(22px,3vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:18px;border:1px solid var(--linea)}
-  label{display:grid;gap:8px;font-size:14px;font-weight:500;color:var(--tinta)}
-  input,select,textarea{font:16px var(--cuerpo);color:var(--tinta);background:var(--fondo);border:1px solid color-mix(in srgb,var(--tinta) 22%,transparent);border-radius:12px;padding:13px 14px;width:100%}
-  input:focus,select:focus,textarea:focus{outline:2px solid var(--oscuro);outline-offset:1px}
-  .ancho{grid-column:1/-1}
-  form .btn{grid-column:1/-1;justify-self:start;margin-top:6px}
-  .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
-
-  /* Footer con nombre grande */
   footer{background:var(--oscuro);color:#fff;margin:0 12px 12px;border-radius:var(--r);padding:clamp(40px,5vw,64px) 0 0;overflow:hidden}
   .pie{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:rgba(255,255,255,.75)}
-  .pie strong{color:#fff;display:block;margin-bottom:8px;font-weight:600}
-  .gigante{line-height:1;white-space:nowrap;margin-top:clamp(40px,6vw,80px);padding-bottom:clamp(16px,2vw,28px);color:var(--acento)}
+  .pie strong{color:#fff;display:block;margin-bottom:6px;font-weight:600}
+  .gigante{line-height:1;white-space:nowrap;margin-top:clamp(36px,6vw,80px);padding-bottom:clamp(16px,2vw,28px);color:var(--acento)}
 
-  .wa-flotante{position:fixed;right:18px;bottom:18px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 12px 30px rgba(20,40,25,.28);opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
-  .wa-flotante.si{opacity:1;transform:none;pointer-events:auto}
+  /* Escritorio: burbuja de WhatsApp. Celular: barra fija abajo. Aparecen después del hero. */
+  .wa-flotante{position:fixed;right:18px;bottom:18px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;
+               box-shadow:0 12px 30px rgba(20,40,25,.28);opacity:0;transform:translateY(12px) scale(.95);pointer-events:none;transition:opacity 240ms var(--ease),transform 240ms var(--ease)}
   .wa-flotante svg{width:30px;height:30px;color:#fff}
+  .barra{display:none}
+  .si-ver{opacity:1!important;transform:none!important;pointer-events:auto!important}
 
-  /* Aparición al hacer scroll */
-  .revela{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .revela{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
   .revela.si{opacity:1;transform:none}
 
   @media (max-width:1024px){
     .nav ul{display:none}
-    .tipos{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(240px,62%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+    .tipos{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(230px,68%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;margin-right:-16px;padding-right:16px}
     .tipos > *{scroll-snap-align:start}
   }
   @media (max-width:767px){
-    .hero-contenido{grid-template-columns:1fr;padding-top:40px}
-    .rating{display:none}
-    .hero-marco{min-height:calc(100dvh - 120px)}
-    .datos{grid-template-columns:1fr;gap:28px}
-    .galeria{grid-template-columns:1fr 1fr;grid-template-rows:260px 200px 200px}
+    .nav-pildora{height:56px;padding-left:16px}
+    .marca{font-size:18px}
+    .hero-marco{min-height:calc(100svh - 112px)}
+    .hero-contenido{padding-top:32px}
+    .datos{grid-template-columns:1fr;gap:24px}
+    .galeria{grid-template-columns:1fr 1fr;grid-template-rows:240px 180px 180px}
     .galeria figure:nth-child(1){grid-column:span 2;grid-row:auto;border-radius:var(--r)}
     .galeria figure:nth-child(4){grid-column:span 2}
     .galeria figure:nth-child(5){display:none}
-    .banda .w,.ubicacion,.presupuesto .w{grid-template-columns:1fr}
-    form{grid-template-columns:1fr}
+    .accion .w,.ubicacion{grid-template-columns:1fr}
+    .fila{grid-template-columns:1fr}
     .pie{grid-template-columns:1fr}
-    .cabecera{display:block}
-    .nav .btn{padding:10px 15px;font-size:13.5px}
+    form .btn{justify-self:stretch}
+    .wa-flotante{display:none}
+    .barra{display:flex;gap:8px;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;
+           padding:8px;border-radius:999px;background:color-mix(in srgb,var(--superficie) 82%,transparent);border:1px solid color-mix(in srgb,#fff 50%,transparent);
+           backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 10px 30px color-mix(in srgb,var(--oscuro) 18%,transparent);
+           opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 240ms var(--ease),transform 240ms var(--ease)}
+    .barra .btn{flex:1}
+    .barra .btn-wa{flex:0 0 52px;padding:0;background:#25d366;color:#fff}
+    footer{margin-bottom:84px}
   }
   @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation:none!important;transition:none!important}
-    .entra,.revela{opacity:1;transform:none}
-    .wa-flotante{transition:none}
-    .hero-marco img{transform:none}
+    .entra,.revela{animation:none;transition:none;opacity:1;transform:none}
+    .hero-marco img{animation:none;transform:none}
+    .wa-flotante,.barra{transition:opacity 200ms ease;transform:none}
   }
 </style>
 </head>
@@ -163,32 +184,29 @@
 <div class="aviso">Demo preparada para {{negocio}}. Fotos y textos de referencia.</div>
 
 <header class="nav">
-  <div class="w">
+  <div class="nav-pildora">
     <a class="marca" href="#inicio">{{negocio}}</a>
     <ul>
       <li><a href="#tipos">{{nav_tipos}}</a></li>
       <li><a href="#galeria">Galería</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
     </ul>
-    <a class="btn btn-oscuro btn-chico" href="#presupuesto"><span>{{cta}}</span></a>
+    <a class="btn btn-oscuro btn-chico" href="#accion">{{cta}}</a>
   </div>
 </header>
 
 <main id="inicio">
   <div class="hero">
     <div class="hero-marco">
-      <img src="{{hero_img}}" alt="{{alt_hero}}" fetchpriority="high">
+      <img src="{{hero_img}}" {{hero_srcset}} alt="{{alt_hero}}" fetchpriority="high">
       <div class="hero-contenido">
-        <div>
-          <p class="eyebrow entra">{{eyebrow}}</p>
-          <h1 class="display entra">{{titular}}</h1>
-          <p class="entra">{{bajada}}</p>
-          <div class="acciones entra">
-            <a class="btn btn-acento" href="#presupuesto">{{cta}}</a>
-            {{boton_wa_hero}}
-          </div>
+        <p class="eyebrow entra">{{eyebrow}}</p>
+        <h1 class="display entra">{{titular_html}}</h1>
+        <p class="entra">{{bajada}}</p>
+        <div class="acciones entra">
+          <a class="btn btn-acento" href="#accion">{{cta}}</a>
+          {{boton_wa_hero}}
         </div>
-        {{rating_html}}
       </div>
     </div>
   </div>
@@ -202,23 +220,30 @@
 
   <section id="tipos" style="padding-top:0">
     <div class="w">
-      <div class="cabecera revela"><h2 class="display">{{seccion_tipos}}</h2></div>
+      <h2 class="titulo display revela">{{seccion_tipos}}</h2>
       <div class="tipos revela">{{tipos_html}}</div>
     </div>
   </section>
 
   <section id="galeria" style="padding-top:0">
     <div class="w">
-      <h2 class="titulo display revela" style="margin-bottom:36px">{{seccion_galeria}}</h2>
+      <h2 class="titulo display revela">{{seccion_galeria}}</h2>
       <div class="galeria revela">{{galeria_html}}</div>
     </div>
   </section>
 
-  <div class="banda">
+  <div class="accion" id="accion">
     <section>
-      <div class="w revela">
-        <p class="display">{{banda}}</p>
-        <a class="btn btn-acento" href="#presupuesto">{{cta}}</a>
+      <div class="w">
+        <div class="revela">
+          <p class="frase display">{{banda}}</p>
+          <p class="bajada">{{bajada_presupuesto}}</p>
+        </div>
+        <form id="form-accion" class="revela" novalidate>
+          {{form_html}}
+          <button class="btn btn-oscuro" type="submit">{{icono_wa}}{{form_boton}}</button>
+          <p class="nota">Se abre WhatsApp con tu mensaje listo para enviar.</p>
+        </form>
       </div>
     </section>
   </div>
@@ -226,24 +251,11 @@
   <section id="ubicacion">
     <div class="w ubicacion">
       <div class="revela">
-        <h2 class="titulo display">{{seccion_ubicacion}}</h2>
+        <h2 class="titulo display" style="margin-bottom:0">{{seccion_ubicacion}}</h2>
         <dl>{{contacto_html}}</dl>
         <div class="acciones">{{boton_wa_ubicacion}}{{instagram_html}}</div>
       </div>
       <div class="mapa revela"><iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de {{negocio}}" src="{{mapa_src}}"></iframe></div>
-    </div>
-  </section>
-
-  <section class="presupuesto" id="presupuesto" style="padding-top:0">
-    <div class="w">
-      <div class="revela">
-        <h2 class="titulo display">{{seccion_presupuesto}}</h2>
-        <p class="bajada">{{bajada_presupuesto}}</p>
-      </div>
-      <form id="form-presupuesto" class="revela" novalidate>
-        {{form_html}}
-        <button class="btn btn-oscuro" type="submit">{{icono_wa}}{{form_boton}}</button>
-      </form>
     </div>
   </section>
 </main>
@@ -252,37 +264,63 @@
   <div class="w">
     <div class="pie">
       <div><strong>Dirección</strong>{{direccion}}</div>
-      <div><strong>Teléfono</strong>{{telefono}}</div>
+      <div><strong>Teléfono</strong>{{telefono_html}}</div>
       <div><strong>Redes</strong>{{instagram_pie}}</div>
     </div>
     <div class="gigante display" aria-hidden="true">{{negocio_corto}}</div>
   </div>
 </footer>
 {{boton_wa_flotante}}
+<div class="barra" aria-label="Acciones rápidas">
+  <a class="btn btn-oscuro" href="#accion">{{cta}}</a>
+  {{boton_wa_barra}}
+</div>
 
 <script>
   (function(){
     var wa = "{{whatsapp}}", base = {{mensaje_wa_json}};
-    var f = document.getElementById("form-presupuesto"), err = document.getElementById("form-error");
+    // Días: los próximos días de atención, para elegir con un toque.
+    document.querySelectorAll("[data-dias]").forEach(function(cont){
+      var nombres = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"], abiertos = cont.dataset.dias.split(",").map(Number);
+      var hoy = new Date(), n = 0, html = "";
+      for (var i = 0; n < 6 && i < 14; i++) {
+        var d = new Date(hoy); d.setDate(hoy.getDate() + i);
+        if (abiertos.indexOf(d.getDay()) < 0) continue;
+        var t = i === 0 ? "Hoy" : i === 1 ? "Mañana" : nombres[d.getDay()].slice(0, 3) + " " + d.getDate();
+        var v = i <= 1 ? t + " (" + nombres[d.getDay()].toLowerCase() + " " + d.getDate() + ")" : nombres[d.getDay()] + " " + d.getDate();
+        html += '<label class="chip"><input type="radio" name="dia" value="' + v + '"><span>' + t + "</span></label>"; n++;
+      }
+      cont.insertAdjacentHTML("afterbegin", html);
+    });
+    var f = document.getElementById("form-accion"), err = document.getElementById("form-error");
     f.addEventListener("submit", function(e){
       e.preventDefault();
-      var d = new FormData(f);
-      if (!String(d.get("nombre") || "").trim()) { err.style.display = "block"; f.nombre.setAttribute("aria-invalid", "true"); f.nombre.focus(); return; }
+      var nombre = String(f.nombre.value || "").trim();
+      if (!nombre) { err.style.display = "block"; f.nombre.setAttribute("aria-invalid", "true"); f.nombre.focus(); return; }
       err.style.display = "none"; f.nombre.removeAttribute("aria-invalid");
-      var l = [base, "Soy " + d.get("nombre") + "."];
+      var l = [base, "Soy " + nombre + "."];
       f.querySelectorAll("[data-etiqueta]").forEach(function(c){
-        var v = String(c.value || "").trim(); if (!v) return;
-        if (c.type === "date") v = v.split("-").reverse().join("/");
-        l.push(c.dataset.etiqueta ? c.dataset.etiqueta + ": " + v : v);
+        var v = "";
+        if (c.tagName === "FIELDSET") { var x = c.querySelector("input:checked"); v = x ? x.value : ""; }
+        else { v = String(c.value || "").trim(); if (c.type === "date" && v) v = v.split("-").reverse().join("/"); }
+        if (v) l.push(c.dataset.etiqueta ? c.dataset.etiqueta + ": " + v : v);
       });
-      window.open(wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(l.join("\n")) : "{{link_maps}}", "_blank", "noopener");
+      var url = wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(l.join("\n")) : "{{link_maps}}";
+      // En el navegador de Instagram o de Google Maps, window.open suele bloquearse: se navega directo.
+      window.location.href = url;
     });
     var els = document.querySelectorAll(".revela");
-    if (!("IntersectionObserver" in window)) { document.querySelectorAll(".revela,.wa-flotante").forEach(function(el){ el.classList.add("si"); }); return; }
+    var flot = [document.querySelector(".wa-flotante"), document.querySelector(".barra")];
+    if (!("IntersectionObserver" in window)) { els.forEach(function(el){ el.classList.add("si"); }); flot.forEach(function(x){ x && x.classList.add("si-ver"); }); return; }
     var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if (x.isIntersecting) { x.target.classList.add("si"); io.unobserve(x.target); } }); }, { threshold: .12 });
     els.forEach(function(el){ io.observe(el); });
-    var flotante = document.querySelector(".wa-flotante"), hero = document.querySelector(".hero");
-    if (flotante && hero) new IntersectionObserver(function(es){ flotante.classList.toggle("si", !es[0].isIntersecting); }).observe(hero);
+    // Los botones fijos aparecen después del hero y se esconden donde ya hay un botón (formulario y pie).
+    var visibles = new Set();
+    var vio = new IntersectionObserver(function(es){
+      es.forEach(function(x){ x.isIntersecting ? visibles.add(x.target) : visibles.delete(x.target); });
+      flot.forEach(function(x){ x && x.classList.toggle("si-ver", visibles.size === 0); });
+    }, { threshold: .05 });
+    [".hero", "#accion", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) vio.observe(el); });
   })();
 </script>
 </body>
