@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: estudio-juridico-landing
+expected_outcome: |
+  Una landing en un index.html con imágenes reales de stock sin caras, sin em-dashes ni textos de folleto, sin datos inventados (años, casos ganados, testimonios), con botón de WhatsApp al número dado, revisada en escritorio y celular.

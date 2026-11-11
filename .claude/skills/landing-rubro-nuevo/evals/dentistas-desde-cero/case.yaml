@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: dentistas-desde-cero
+expected_outcome: |
+  Existe config/landing/dentista.json con textos de turnos sin promesas médicas, fotos de stock sin caras en templates/assets/dentista, tres temas distintos, y demos de dentistas generadas y revisadas con capturas.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: veterinarias-como-salones
+expected_outcome: |
+  Existe config/landing/veterinaria.json y templates/assets/veterinaria con fotos de stock sin caras; las demos de veterinarias de la tanda se generan, pasan la revisión automática y se ven distintas entre sí.
