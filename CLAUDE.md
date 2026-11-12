@@ -47,7 +47,7 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - Cada demo: `output/demos/{ranking}-{negocio}/` con `datos.json` (editable), `index.html` e `img/` (fotos de stock
   y su versión de 800 px). La carpeta entera es lo que se publica. Si `datos.json` ya existe, no se pisa.
 - Motor único `templates/landing.html`; textos, formulario, fotos y temas por rubro en `config/landing/{rubro}.json`.
-  Rubros con plantilla: `salon_eventos`. Para sumar uno, usá el skill `landing-rubro-nuevo`; el criterio de diseño está
+  Rubros con plantilla: `salon_eventos`, `dentista`, `veterinaria`. Para sumar uno, usá el skill `landing-rubro-nuevo`; el criterio de diseño está
   en el skill `diseno-anti-ia`.
 - **Pensada para celular**: la visita llega desde el link de la bio de Instagram o desde "sitio web" en Google Maps.
   Menú en píldora con el botón principal siempre visible, barra fija abajo en el celular (botón + WhatsApp),

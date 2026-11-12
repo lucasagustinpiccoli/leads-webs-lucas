@@ -1,0 +1,83 @@
+{
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre, sin atribución obligatoria. Son imágenes de referencia para demos; al vender, reemplazar por fotos reales del cliente.",
+ "fotos": [
+  {
+   "archivo": "consultorio-amplio.jpg",
+   "pexels": "https://www.pexels.com/photo/6812453/",
+   "ancho": 1600,
+   "alto": 1068
+  },
+  {
+   "archivo": "sillon-gris.jpg",
+   "pexels": "https://www.pexels.com/photo/6812479/",
+   "ancho": 1600,
+   "alto": 1068
+  },
+  {
+   "archivo": "sala-espera.jpg",
+   "pexels": "https://www.pexels.com/photo/8459996/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "instrumental-equipo.jpg",
+   "pexels": "https://www.pexels.com/photo/6627668/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "cajon-instrumental.jpg",
+   "pexels": "https://www.pexels.com/photo/6629414/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "panoramica-monitor.jpg",
+   "pexels": "https://www.pexels.com/photo/6502039/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "radiografia-pantalla.jpg",
+   "pexels": "https://www.pexels.com/photo/4687290/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "cepillo-bambu.jpg",
+   "pexels": "https://www.pexels.com/photo/3654597/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "instrumental-mesa.jpg",
+   "pexels": "https://www.pexels.com/photo/7787977/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "sillon-azul.jpg",
+   "pexels": "https://www.pexels.com/photo/6809634/",
+   "ancho": 1068,
+   "alto": 1600
+  },
+  {
+   "archivo": "consultorio-blanco.jpg",
+   "pexels": "https://www.pexels.com/photo/30902075/",
+   "ancho": 1067,
+   "alto": 1600
+  },
+  {
+   "archivo": "sillon-ventana.jpg",
+   "pexels": "https://www.pexels.com/photo/4269276/",
+   "ancho": 1067,
+   "alto": 1600
+  },
+  {
+   "archivo": "modelo-dental.jpg",
+   "pexels": "https://www.pexels.com/photo/6627346/",
+   "ancho": 1067,
+   "alto": 1600
+  }
+ ]
+}

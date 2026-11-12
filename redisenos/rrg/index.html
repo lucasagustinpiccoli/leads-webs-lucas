@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#eef1ef">
+<title>R&amp;RG Estudio Jurídico | Abogados en Resistencia, Chaco</title>
+<meta name="description" content="Requena &amp; Ramírez Gasko, estudio jurídico en Resistencia, Chaco. Derecho civil, comercial y laboral. Consultá tu caso por WhatsApp.">
+<link rel="icon" href="https://estudiojuridicorrg.com.ar/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/equipo-parados.jpg">
+<style>
+  /* Pensada primero para celular: la visita llega desde Instagram o desde Google Maps. */
+  :root{
+    --fondo:#eef1ef; --superficie:#f8faf9; --tinta:#14201a; --suave:#55635b;
+    --oscuro:#173526; --acento:#b5dcae; --acento-tinta:#173526;
+    --display:"Literata", Georgia, serif; --cuerpo:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --r:22px; --ease:cubic-bezier(.23,1,.32,1);
+    --linea:color-mix(in srgb,var(--tinta) 13%,transparent);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:92px;-webkit-text-size-adjust:100%}
+  body{font-family:var(--cuerpo);color:var(--tinta);background:var(--fondo);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .w{width:min(1200px,100% - 32px);margin-inline:auto}
+  .display{font-family:var(--display);font-weight:500;letter-spacing:-.015em;line-height:1.08}
+  .display em{font-style:italic;font-weight:500}
+
+  .aviso{font-size:12px;text-align:center;padding:7px 16px;background:var(--oscuro);color:rgba(255,255,255,.82)}
+
+  .nav{position:sticky;top:10px;z-index:20;padding:0 12px;margin-top:10px}
+  .nav-pildora{max-width:1200px;margin-inline:auto;height:58px;padding:0 7px 0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:999px;
+       background:color-mix(in srgb,var(--superficie) 80%,transparent);border:1px solid rgba(255,255,255,.6);
+       backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 8px 30px rgba(23,53,38,.1)}
+  .marca{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;min-height:44px}
+  .nav ul{display:flex;gap:30px;list-style:none;font-size:15px;color:var(--suave)}
+  .nav ul a{display:inline-flex;align-items:center;min-height:44px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;border:0;cursor:pointer;min-height:48px;
+       font:600 15px/1 var(--cuerpo);border-radius:999px;padding:0 24px;transition:transform 160ms var(--ease),background-color 200ms ease}
+  .btn:active{transform:scale(.97)}
+  .btn svg{width:18px;height:18px;flex:none}
+  .btn-oscuro{background:var(--oscuro);color:#fff}
+  .btn-acento{background:var(--acento);color:var(--acento-tinta)}
+  .btn-borde{background:transparent;border:1px solid color-mix(in srgb,var(--tinta) 24%,transparent);color:var(--tinta)}
+  .btn-chico{min-height:44px;padding:0 18px;font-size:14px}
+  @media (hover:hover) and (pointer:fine){
+    .btn-oscuro:hover{background:#21492f}
+    .btn-acento:hover{background:#c6e6c0}
+    .btn-borde:hover{background:rgba(20,32,26,.05)}
+    .nav ul a:hover{color:var(--tinta)}
+  }
+
+  /* Hero: texto y foto del equipo, con una luz suave detrás */
+  .hero{position:relative;padding:clamp(28px,5vw,64px) 0 clamp(40px,6vw,88px);
+        background:radial-gradient(60% 70% at 85% 0%,rgba(181,220,174,.5),transparent 70%)}
+  .hero .w{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,80px);align-items:center}
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--suave);margin-bottom:18px}
+  .hero h1{font-size:clamp(38px,5.6vw,78px);max-width:12ch;margin-bottom:20px}
+  .hero p{font-size:clamp(16px,1.35vw,18px);max-width:42ch;color:var(--suave);margin-bottom:28px}
+  .acciones{display:flex;flex-wrap:wrap;gap:10px}
+  .hero-foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;max-height:calc(100svh - 150px);justify-self:end;width:100%;background:#d9dedb}
+  .hero-foto img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;transform:scale(1.04);animation:acercar 1.6s var(--ease) forwards}
+  .entra{opacity:0;transform:translateY(14px);animation:subir .8s var(--ease) forwards}
+  .entra:nth-child(2){animation-delay:.06s}.entra:nth-child(3){animation-delay:.12s}.entra:nth-child(4){animation-delay:.18s}
+  @keyframes subir{to{opacity:1;transform:none}}
+  @keyframes acercar{to{transform:scale(1)}}
+
+  section{padding:clamp(60px,8vw,120px) 0}
+  .titulo{font-size:clamp(30px,4vw,56px)}
+
+  /* El estudio */
+  .estudio .arriba{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
+  .estudio .frase{font-size:clamp(28px,3.6vw,50px);max-width:17ch}
+  .estudio .texto{color:var(--suave);font-size:17px;max-width:46ch;margin-top:22px}
+  .estudio .ancha{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#d9dedb}
+  .estudio .ancha img,.persona img{width:100%;height:100%;object-fit:cover}
+  .equipo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2vw,24px);margin-top:clamp(36px,5vw,72px);max-width:620px;margin-left:auto}
+  .persona .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:#d9dedb}
+  .persona h3{font-family:var(--display);font-weight:500;font-size:clamp(18px,2vw,24px);line-height:1.2;margin-top:14px}
+  .persona p{color:var(--suave);font-size:14.5px;margin-top:2px}
+
+  /* Áreas: bloque oscuro con pestañas para tocar */
+  .areas{background:var(--oscuro);color:#fff;margin:0 12px;border-radius:var(--r);
+         background-image:radial-gradient(55% 60% at 100% 0%,rgba(181,220,174,.2),transparent 70%)}
+  .areas .w{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,80px);align-items:start}
+  .areas .bajada{color:rgba(255,255,255,.75);margin-top:16px;max-width:30ch;font-size:17px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+  .tab{min-height:46px;padding:0 20px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font:600 15px var(--cuerpo);cursor:pointer;
+       transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,transform 160ms var(--ease)}
+  .tab:active{transform:scale(.97)}
+  .tab[aria-selected="true"]{background:var(--acento);color:var(--acento-tinta);border-color:var(--acento)}
+  .tab:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+  .temas{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+  .temas li{padding:9px 15px;border-radius:999px;background:rgba(255,255,255,.09);font-size:15px;line-height:1.3}
+  .panel .otras{color:rgba(255,255,255,.7);font-size:15px;margin:18px 0 24px}
+  .panel[hidden]{display:none}
+  .panel{animation:panel 320ms var(--ease)}
+  @keyframes panel{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* Contacto */
+  .contacto .w{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:start}
+  .contacto .bajada{color:var(--suave);margin:16px 0 28px;max-width:38ch;font-size:17px}
+  form{background:var(--superficie);border:1px solid var(--linea);border-radius:var(--r);padding:clamp(20px,3vw,34px);display:grid;gap:20px}
+  label,fieldset{display:grid;gap:8px;font-size:14px;font-weight:600;border:0;min-width:0}
+  legend{font-size:14px;font-weight:600;margin-bottom:8px;padding:0}
+  input,textarea{font:16px var(--cuerpo);color:var(--tinta);background:var(--fondo);border:1px solid color-mix(in srgb,var(--tinta) 22%,transparent);border-radius:12px;padding:0 14px;min-height:48px;width:100%}
+  textarea{padding:12px 14px;min-height:92px;resize:vertical}
+  input:focus-visible,textarea:focus-visible{outline:2px solid var(--oscuro);outline-offset:1px}
+  .opcional{font-weight:400;color:var(--suave)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{position:relative}
+  .chip input{position:absolute;opacity:0;width:1px;height:1px;min-height:0;padding:0}
+  .chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid color-mix(in srgb,var(--tinta) 20%,transparent);background:var(--fondo);
+             font-weight:500;font-size:15px;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}
+  .chip input:checked + span{background:var(--oscuro);color:#fff;border-color:var(--oscuro)}
+  .chip input:focus-visible + span{outline:2px solid var(--oscuro);outline-offset:2px}
+  form .btn{justify-self:start}
+  .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
+  .nota{font-size:13px;color:var(--suave);font-weight:400}
+  .oficina .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#d9dedb}
+  .oficina .foto img{width:100%;height:100%;object-fit:cover}
+  .oficina dl{display:grid;gap:18px;margin:26px 0 24px}
+  .oficina dt{font-size:13px;color:var(--suave);margin-bottom:3px}
+  .oficina dd{font-size:18px}
+  .oficina dd a{border-bottom:1px solid var(--linea)}
+
+  footer{background:var(--oscuro);color:#fff;margin:0 12px 12px;border-radius:var(--r);padding:clamp(36px,5vw,60px) 0 0;overflow:hidden}
+  .pie{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:rgba(255,255,255,.75)}
+  .pie strong{color:#fff;display:block;margin-bottom:6px;font-weight:600}
+  .gigante{font-size:clamp(88px,24.5vw,335px);line-height:.9;letter-spacing:-.04em;color:var(--acento);margin-top:clamp(28px,5vw,64px);padding-bottom:clamp(8px,1.5vw,20px);white-space:nowrap}
+
+  .barra{display:none}
+  .revela{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .revela.si{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .nav ul{display:none}
+    .hero .w,.estudio .arriba,.areas .w,.contacto .w{grid-template-columns:1fr}
+    .hero-foto{max-height:none;aspect-ratio:4/4.4}
+    .pie{grid-template-columns:1fr}
+    .equipo{max-width:none;margin-left:0}
+    form .btn{justify-self:stretch}
+    .barra{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;padding:7px;border-radius:999px;
+           background:color-mix(in srgb,var(--superficie) 82%,transparent);border:1px solid rgba(255,255,255,.6);
+           backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 10px 30px rgba(23,53,38,.2);
+           opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 240ms var(--ease),transform 240ms var(--ease)}
+    .barra .btn{flex:1}
+    .barra.ver{opacity:1;transform:none;pointer-events:auto}
+    footer{margin-bottom:82px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .entra,.revela,.panel{animation:none;transition:none;opacity:1;transform:none}
+    .hero-foto img{animation:none;transform:none}
+    .barra{transition:opacity 200ms ease;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="aviso">Propuesta de rediseño para R&amp;RG Estudio Jurídico</div>
+
+<header class="nav">
+  <div class="nav-pildora">
+    <a class="marca" href="#inicio" aria-label="R&amp;RG, inicio">R&amp;RG</a>
+    <ul>
+      <li><a href="#estudio">El estudio</a></li>
+      <li><a href="#areas">Áreas</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a class="btn btn-oscuro btn-chico" href="#contacto">Consultá tu caso</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+    <div class="w">
+      <div>
+        <p class="eyebrow entra">Abogados en Resistencia, Chaco</p>
+        <h1 class="display entra">Asesoría legal <em>cercana</em> y profesional.</h1>
+        <p class="entra">Requena &amp; Ramírez Gasko. Derecho civil, comercial y laboral. Contanos tu situación y te respondemos con los próximos pasos.</p>
+        <div class="acciones entra">
+          <a class="btn btn-oscuro" href="#contacto">Consultá tu caso</a>
+          <a class="btn btn-borde" href="#areas">Ver áreas</a>
+        </div>
+      </div>
+      <div class="hero-foto"><img src="img/equipo-parados.jpg" alt="Matías Nicolás Requena y Valentín Ramírez Gasko" width="800" height="1000" fetchpriority="high"></div>
+    </div>
+  </div>
+
+  <section class="estudio" id="estudio" style="padding-top:clamp(40px,6vw,88px)">
+    <div class="w">
+      <div class="arriba">
+        <div class="revela">
+          <h2 class="frase display">Dos abogados, un mismo criterio: lo legal no tiene que ser <em>complicado</em>.</h2>
+          <p class="texto">R&amp;RG es un espacio pensado para brindar acompañamiento legal cercano, responsable y comprometido. Fundado por Matías y Valentín, atendemos cada caso como si fuera el único, porque para quien consulta lo es.</p>
+        </div>
+        <div class="ancha revela"><img src="img/equipo-escritorio.jpg" srcset="img/equipo-escritorio-800.jpg 800w, img/equipo-escritorio.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" alt="Matías Requena y Valentín Ramírez Gasko en el estudio" width="1200" height="799" loading="lazy"></div>
+      </div>
+      <div class="equipo revela">
+        <article class="persona">
+          <div class="foto"><img src="img/requena.jpg" alt="Matías Nicolás Requena" width="640" height="800" loading="lazy"></div>
+          <h3>Matías Nicolás Requena</h3>
+          <p>Abogado y cofundador</p>
+        </article>
+        <article class="persona">
+          <div class="foto"><img src="img/ramirez.jpg" alt="Valentín Ramírez Gasko" width="640" height="800" loading="lazy"></div>
+          <h3>Valentín Ramírez Gasko</h3>
+          <p>Abogado y cofundador</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="areas" id="areas">
+    <section>
+      <div class="w">
+        <div class="revela">
+          <h2 class="titulo display">Áreas de práctica</h2>
+          <p class="bajada">Elegí un área para ver en qué temas trabajamos.</p>
+        </div>
+        <div class="revela">
+          <div class="tabs" role="tablist" aria-label="Áreas de práctica">
+            <button class="tab" role="tab" id="tab-civil" aria-controls="panel-civil" aria-selected="true">Civil</button>
+            <button class="tab" role="tab" id="tab-comercial" aria-controls="panel-comercial" aria-selected="false" tabindex="-1">Comercial</button>
+            <button class="tab" role="tab" id="tab-laboral" aria-controls="panel-laboral" aria-selected="false" tabindex="-1">Laboral</button>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-civil" aria-labelledby="tab-civil">
+            <ul class="temas">
+              <li>Accidentes de tránsito</li><li>Juicios ejecutivos (pagarés, cheques, alquileres)</li><li>Desalojos</li>
+              <li>Incumplimientos contractuales</li><li>Prescripciones adquisitivas</li><li>Sucesiones</li>
+            </ul>
+            <p class="otras">Y otras consultas civiles.</p>
+            <a class="btn btn-acento" data-area="civil" href="#contacto">Consultar por un tema civil</a>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-comercial" aria-labelledby="tab-comercial" hidden>
+            <ul class="temas">
+              <li>Sociedades (PyMEs, SRL, SA, SAS)</li><li>Contratos comerciales (leasing, franquicia, fideicomiso, bancarios)</li>
+              <li>Defensa del consumidor</li><li>Propiedad intelectual</li>
+            </ul>
+            <p class="otras">Y otras consultas comerciales.</p>
+            <a class="btn btn-acento" data-area="comercial" href="#contacto">Consultar por un tema comercial</a>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-laboral" aria-labelledby="tab-laboral" hidden>
+            <ul class="temas">
+              <li>Despidos</li><li>Accidentes de trabajo (con o sin ART)</li><li>Trabajo no registrado</li><li>Telegramas y cartas documento</li>
+              <li>Jornadas y vacaciones</li><li>Sindicatos</li><li>Contratos especiales</li>
+            </ul>
+            <p class="otras">Y otras consultas laborales.</p>
+            <a class="btn btn-acento" data-area="laboral" href="#contacto">Consultar por un tema laboral</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="contacto" id="contacto">
+    <div class="w">
+      <div class="revela">
+        <h2 class="titulo display">Empecemos por <em>WhatsApp</em>.</h2>
+        <p class="bajada">Contanos tu situación y te respondemos con los próximos pasos.</p>
+        <form id="form-consulta" novalidate>
+          <fieldset data-etiqueta="Área">
+            <legend>¿Sobre qué es tu consulta?</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="area" value="Civil"><span>Civil</span></label>
+              <label class="chip"><input type="radio" name="area" value="Comercial"><span>Comercial</span></label>
+              <label class="chip"><input type="radio" name="area" value="Laboral"><span>Laboral</span></label>
+              <label class="chip"><input type="radio" name="area" value="No estoy seguro"><span>No estoy seguro</span></label>
+            </div>
+          </fieldset>
+          <label>Tu nombre
+            <input name="nombre" autocomplete="name" required aria-describedby="form-error">
+            <span class="error" id="form-error" role="alert">Escribí tu nombre para que sepamos a quién responder.</span>
+          </label>
+          <label><span>Tu situación <span class="opcional">(opcional)</span></span>
+            <textarea name="detalle" rows="3"></textarea>
+          </label>
+          <button class="btn btn-oscuro" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Enviar por WhatsApp</button>
+          <p class="nota">Se abre WhatsApp con tu mensaje listo para enviar.</p>
+        </form>
+      </div>
+      <div class="oficina revela">
+        <div class="foto"><img src="img/equipo-logo.jpg" srcset="img/equipo-logo-800.jpg 800w, img/equipo-logo.jpg 1600w" sizes="(max-width: 900px) 100vw, 50vw" alt="Valentín Ramírez Gasko y Matías Nicolás Requena junto al logo de R&amp;RG Estudio Jurídico" width="1600" height="1066" loading="lazy"></div>
+        <dl>
+          <div><dt>Oficina</dt><dd><a href="https://www.google.com/maps?cid=4170395206403576635" target="_blank" rel="noopener">Hipólito Yrigoyen 421, Piso 2, Of. 9</a><br>Resistencia, Chaco</dd></div>
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/5493624166281" target="_blank" rel="noopener">+54 9 3624 16-6281</a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/estudiojuridicorrg/" target="_blank" rel="noopener">@estudiojuridicorrg</a></dd></div>
+        </dl>
+        <a class="btn btn-borde" href="https://www.google.com/maps?cid=4170395206403576635" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="w">
+    <div class="pie">
+      <div><strong>R&amp;RG Estudio Jurídico</strong>Requena &amp; Ramírez Gasko</div>
+      <div><strong>Oficina</strong>Hipólito Yrigoyen 421, Piso 2, Of. 9<br>Resistencia, Chaco</div>
+      <div><strong>Contacto</strong><a href="https://wa.me/5493624166281" target="_blank" rel="noopener">+54 9 3624 16-6281</a><br><a href="https://www.instagram.com/estudiojuridicorrg/" target="_blank" rel="noopener">@estudiojuridicorrg</a></div>
+    </div>
+    <div class="gigante display" aria-hidden="true">R&amp;RG</div>
+  </div>
+</footer>
+<div class="barra"><a class="btn btn-oscuro" href="#contacto"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultá tu caso</a></div>
+
+<script>
+  (function(){
+    var WA = "5493624166281";
+    // Pestañas de áreas
+    var tabs = [].slice.call(document.querySelectorAll(".tab"));
+    function activar(t){
+      tabs.forEach(function(x){
+        var on = x === t; x.setAttribute("aria-selected", on ? "true" : "false"); x.tabIndex = on ? 0 : -1;
+        document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+      });
+    }
+    tabs.forEach(function(t, i){
+      t.addEventListener("click", function(){ activar(t); });
+      t.addEventListener("keydown", function(e){
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        var n = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length]; activar(n); n.focus();
+      });
+    });
+    // "Consultar por un tema X" deja el área elegida en el formulario
+    document.querySelectorAll("[data-area]").forEach(function(a){
+      a.addEventListener("click", function(){
+        var r = document.querySelector('input[name="area"][value="' + a.dataset.area.charAt(0).toUpperCase() + a.dataset.area.slice(1) + '"]');
+        if (r) r.checked = true;
+      });
+    });
+    // Formulario: arma el mensaje y abre WhatsApp
+    var f = document.getElementById("form-consulta"), err = document.getElementById("form-error");
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      var nombre = f.nombre.value.trim();
+      if (!nombre) { err.style.display = "block"; f.nombre.setAttribute("aria-invalid", "true"); f.nombre.focus(); return; }
+      err.style.display = "none"; f.nombre.removeAttribute("aria-invalid");
+      var l = ["Hola R&RG, quiero hacer una consulta.", "Soy " + nombre + "."];
+      var area = f.querySelector('input[name="area"]:checked');
+      if (area) l.push("Área: " + area.value);
+      var det = f.detalle.value.trim(); if (det) l.push(det);
+      // En el navegador de Instagram o de Google Maps, window.open suele bloquearse: se navega directo.
+      window.location.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(l.join("\n"));
+    });
+    // Aparición al hacer scroll y barra fija del celular
+    var els = document.querySelectorAll(".revela"), barra = document.querySelector(".barra");
+    if (!("IntersectionObserver" in window)) { els.forEach(function(el){ el.classList.add("si"); }); barra.classList.add("ver"); return; }
+    var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if (x.isIntersecting) { x.target.classList.add("si"); io.unobserve(x.target); } }); }, { threshold: .1 });
+    els.forEach(function(el){ io.observe(el); });
+    var vistos = new Set();
+    var vio = new IntersectionObserver(function(es){
+      es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
+      barra.classList.toggle("ver", vistos.size === 0);
+    }, { threshold: .05 });
+    [".hero .acciones", "#form-consulta", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) vio.observe(el); });
+  })();
+</script>
+</body>
+</html>

@@ -193,8 +193,11 @@ def render(d):
     instagram_pie = (f'<a href="{e(ig)}" target="_blank" rel="noopener">{e(ig_user)}</a>' if ig
                      else f'<a href="{e(wa_link)}" target="_blank" rel="noopener">WhatsApp</a>')
 
-    corto = re.split(r"\s[-|]\s", d["negocio"])[0].strip()
-    gigante = f'<span style="font-size:clamp(48px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
+    # "nombre_corto" (opcional en datos.json) reemplaza al nombre de Maps en el footer, para nombres largos o tipo keyword.
+    corto = (d.get("nombre_corto") or re.split(r"\s[-|]\s", d["negocio"])[0]).strip()
+    # Con nombres largos el mínimo baja, así el nombre gigante entra en el celular y no queda cortado.
+    minimo = min(48, round(650 / max(len(corto), 1)))
+    gigante = f'<span style="font-size:clamp({minimo}px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
     mapa = "https://www.google.com/maps?q=" + quote(f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
 
     tema = {"enfasis_estilo": "italic", "enfasis_peso": "inherit", **d["tema"]}

@@ -1,0 +1,71 @@
+{
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre, sin atribución obligatoria. Son imágenes de referencia para demos; al vender, reemplazar por fotos reales del cliente.",
+ "fotos": [
+  {
+   "archivo": "gato-control-oreja.jpg",
+   "pexels": "https://www.pexels.com/photo/6816836/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "perro-control-guantes.jpg",
+   "pexels": "https://www.pexels.com/photo/1350591/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "perro-sillon-sol.jpg",
+   "pexels": "https://www.pexels.com/photo/1242314/",
+   "ancho": 1600,
+   "alto": 1063
+  },
+  {
+   "archivo": "cachorro-blanco-manos.jpg",
+   "pexels": "https://www.pexels.com/photo/16718488/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "beagle-luz-piso.jpg",
+   "pexels": "https://www.pexels.com/photo/20101995/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "gato-transportadora.jpg",
+   "pexels": "https://www.pexels.com/photo/21767483/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "perro-estirandose.jpg",
+   "pexels": "https://www.pexels.com/photo/31559199/",
+   "ancho": 1200,
+   "alto": 1600
+  },
+  {
+   "archivo": "gato-mesa-guantes.jpg",
+   "pexels": "https://www.pexels.com/photo/6816857/",
+   "ancho": 1067,
+   "alto": 1600
+  },
+  {
+   "archivo": "perro-mayor-pata.jpg",
+   "pexels": "https://www.pexels.com/photo/6235018/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "pata-en-mano.jpg",
+   "pexels": "https://www.pexels.com/photo/7516819/",
+   "ancho": 1600,
+   "alto": 1067
+  },
+  {
+   "archivo": "cachorro-negro-manos.jpg",
+   "pexels": "https://www.pexels.com/photo/15660531/",
+   "ancho": 1067,
+   "alto": 1600
+  }
+ ]
+}

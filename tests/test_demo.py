@@ -72,6 +72,21 @@ class TestDemo(unittest.TestCase):
             vistos.add((d["tema"]["nombre"], d["hero_stock"]))
         self.assertEqual(len(vistos), 3)
 
+    def test_nombre_gigante_largo_y_nombre_corto(self):
+        d = demo.armar_datos({**FILA, "negocio": "Radiografia panoramica en Caseros"})
+        self.assertIn("clamp(20px,", demo.render(d))     # nombre largo: mínimo más chico para que entre en el celular
+        self.assertIn("clamp(48px,", demo.render(demo.armar_datos({**FILA, "negocio": "Moka Eventos"})))  # nombres cortos, igual que antes
+        d["nombre_corto"] = "Panorámica"
+        self.assertIn(">Panorámica</span>", demo.render(d))
+
+    def test_rubro_dentista_turno(self):
+        d = demo.armar_datos({**FILA, "rubro": "Dentista", "negocio": "Consultorio X"})
+        self.assertEqual(d["form"]["modo"], "turno")
+        self.assertIn("Pedí turno", demo.render(d))
+        carpeta = os.path.join(demo.ROOT, "templates", "assets", "dentista")
+        for n in {d["hero_stock"], *d["galeria_stock"], *(t["imagen"] for t in d["tipos"])}:
+            self.assertTrue(os.path.exists(os.path.join(carpeta, n)), n)
+
     def test_stock_existe(self):
         d = demo.armar_datos(FILA)
         carpeta = os.path.join(demo.ROOT, "templates", "assets", d["rubro"])

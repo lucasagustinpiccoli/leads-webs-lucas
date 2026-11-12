@@ -1,0 +1,145 @@
+{
+  "_nota": "Textos base del rubro dentista. {negocio} y {localidad} se reemplazan. Nada afirma tratamientos, obras sociales, años ni equipamiento del negocio: son textos genéricos de consultorio para la demo. Rubro de salud: sin promesas de resultados.",
+  "rubro_label": "Consultorio odontológico",
+  "nav_tipos": "Consultas",
+  "alt_hero": "Consultorio odontológico",
+  "alt_galeria": "Consultorio odontológico",
+  "fotos_label": "fotos del consultorio en Google",
+  "meta_descripcion": "{negocio}, consultorio odontológico en {localidad}. Pedí tu turno por WhatsApp eligiendo motivo, día y horario.",
+  "eyebrow": "Consultorio odontológico",
+  "titular": "Odontología en *{localidad}*.",
+  "bajada": "Consultas y controles cerca de tu casa. Elegí motivo, día y horario, y pedí tu turno por WhatsApp.",
+  "cta": "Pedí turno",
+  "intro": "Un consultorio de barrio en {localidad}, con turnos programados y el diagnóstico *explicado* antes de cada paso.",
+  "seccion_tipos": "Motivos de consulta",
+  "tipos": [
+    {
+      "titulo": "Primera consulta",
+      "texto": "Una revisión completa y los pasos a seguir, explicados.",
+      "imagen": "modelo-dental.jpg"
+    },
+    {
+      "titulo": "Controles periódicos",
+      "texto": "Para detectar a tiempo y cuidar lo que está bien.",
+      "imagen": "sillon-azul.jpg"
+    },
+    {
+      "titulo": "Limpieza y prevención",
+      "texto": "El cuidado de todos los días, con seguimiento profesional.",
+      "imagen": "cepillo-bambu.jpg"
+    },
+    {
+      "titulo": "Dolor o molestias",
+      "texto": "También para consultas que no pueden esperar.",
+      "imagen": "sillon-ventana.jpg"
+    }
+  ],
+  "seccion_galeria": "El consultorio",
+  "banda": "Elegí el día y el horario que te queden *cómodos*.",
+  "seccion_ubicacion": "Cómo llegar al consultorio",
+  "seccion_presupuesto": "Pedí tu turno",
+  "bajada_presupuesto": "Reservá en menos de dos minutos, sin llamadas. Te respondemos por WhatsApp para confirmar el turno.",
+  "form": {
+    "modo": "turno",
+    "tipo_label": "Motivo de la consulta",
+    "tipos": [
+      "Primera consulta",
+      "Control",
+      "Limpieza",
+      "Dolor o molestia",
+      "Otro"
+    ],
+    "dias": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "franjas": [
+      "Mañana",
+      "Tarde"
+    ],
+    "extra_label": "Algo más que quieras contarnos",
+    "boton": "Pedir turno"
+  },
+  "mensaje_wa": "¡Hola {negocio}! Quiero pedir un turno.",
+  "imagenes": {
+    "hero": [
+      "consultorio-amplio.jpg",
+      "sala-espera.jpg",
+      "cajon-instrumental.jpg",
+      "sillon-gris.jpg",
+      "instrumental-equipo.jpg"
+    ],
+    "galeria": [
+      "consultorio-blanco.jpg",
+      "cajon-instrumental.jpg",
+      "consultorio-amplio.jpg",
+      "instrumental-mesa.jpg",
+      "sillon-gris.jpg",
+      "sala-espera.jpg",
+      "instrumental-equipo.jpg",
+      "panoramica-monitor.jpg"
+    ]
+  },
+  "temas": [
+    {
+      "nombre": "agua",
+      "fondo": "#f2f6f5",
+      "superficie": "#fbfdfc",
+      "tinta": "#13262a",
+      "suave": "#4f6467",
+      "oscuro": "#123236",
+      "acento": "#ef8f6f",
+      "acento_tinta": "#123236",
+      "display": "'Petrona', Georgia, serif",
+      "display_peso": "500",
+      "display_caso": "none",
+      "display_tracking": "-0.015em",
+      "display_ancho": "100%",
+      "cuerpo": "'Albert Sans', system-ui, sans-serif",
+      "fuentes": "family=Petrona:ital,wght@0,500;1,500&family=Albert+Sans:wght@400;500;600",
+      "enfasis_estilo": "italic",
+      "enfasis_peso": "500"
+    },
+    {
+      "nombre": "pizarra",
+      "fondo": "#eef1f4",
+      "superficie": "#f9fafb",
+      "tinta": "#18222e",
+      "suave": "#556170",
+      "oscuro": "#1c2a3a",
+      "acento": "#f39a4a",
+      "acento_tinta": "#1c2a3a",
+      "display": "'Schibsted Grotesk', system-ui, sans-serif",
+      "display_peso": "600",
+      "display_caso": "none",
+      "display_tracking": "-0.035em",
+      "display_ancho": "100%",
+      "cuerpo": "'Schibsted Grotesk', system-ui, sans-serif",
+      "fuentes": "family=Schibsted+Grotesk:ital,wght@0,400..800;1,400..800",
+      "enfasis_estilo": "italic",
+      "enfasis_peso": "600"
+    },
+    {
+      "nombre": "menta",
+      "fondo": "#f1f2f2",
+      "superficie": "#fafbfb",
+      "tinta": "#1b1f27",
+      "suave": "#575d68",
+      "oscuro": "#1f2430",
+      "acento": "#8fd5c0",
+      "acento_tinta": "#1f2430",
+      "display": "'Epilogue', system-ui, sans-serif",
+      "display_peso": "500",
+      "display_caso": "none",
+      "display_tracking": "-0.04em",
+      "display_ancho": "100%",
+      "cuerpo": "'Epilogue', system-ui, sans-serif",
+      "fuentes": "family=Epilogue:ital,wght@0,400..800;1,400..800",
+      "enfasis_estilo": "normal",
+      "enfasis_peso": "800"
+    }
+  ]
+}

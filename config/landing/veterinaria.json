@@ -1,0 +1,148 @@
+{
+  "_nota": "Textos base del rubro. {negocio} y {localidad} se reemplazan. Nada afirma servicios puntuales del negocio (ni guardia, ni cirugías, ni especialidades): son textos genéricos de cualquier consultorio veterinario. Pet shops o centros de diagnóstico se ajustan en su datos.json.",
+  "rubro_label": "Veterinaria",
+  "nav_tipos": "Pacientes",
+  "alt_hero": "Mascota en una consulta veterinaria",
+  "alt_galeria": "Mascota en la veterinaria",
+  "fotos_label": "fotos de la veterinaria en Google",
+  "meta_descripcion": "{negocio}, veterinaria en {localidad}. Consultas y controles para perros y gatos. Pedí turno por WhatsApp.",
+  "eyebrow": "Consultorio veterinario",
+  "titular": "Atención veterinaria en *{localidad}*.",
+  "bajada": "Consultas y controles para perros y gatos. Pedí tu turno por WhatsApp.",
+  "cta": "Pedí turno",
+  "intro": "Un consultorio en {localidad} para acompañar a tu mascota en cada etapa, de cachorro a adulto mayor.",
+  "seccion_tipos": "En cada etapa de su vida",
+  "tipos": [
+    {
+      "titulo": "Cachorros",
+      "texto": "Primeros controles y seguimiento del crecimiento.",
+      "imagen": "cachorro-negro-manos.jpg"
+    },
+    {
+      "titulo": "Perros",
+      "texto": "Controles periódicos y consultas por síntomas.",
+      "imagen": "perro-estirandose.jpg"
+    },
+    {
+      "titulo": "Gatos",
+      "texto": "Controles y consultas a cualquier edad.",
+      "imagen": "gato-mesa-guantes.jpg"
+    },
+    {
+      "titulo": "Mascotas mayores",
+      "texto": "Seguimiento más cercano en la etapa adulta.",
+      "imagen": "perro-mayor-pata.jpg"
+    }
+  ],
+  "seccion_galeria": "Pacientes de todos los tamaños",
+  "banda": "Contanos qué necesita tu *mascota* y elegí el día.",
+  "seccion_ubicacion": "Cómo llegar al consultorio",
+  "seccion_presupuesto": "Pedí tu turno",
+  "bajada_presupuesto": "Elegí el motivo, el día y la franja. Te respondemos por WhatsApp para confirmar el horario.",
+  "form": {
+    "modo": "turno",
+    "tipo_label": "Motivo",
+    "tipos": [
+      "Control general",
+      "Vacunas",
+      "Consulta por un síntoma",
+      "Otro"
+    ],
+    "extras": [
+      {
+        "label": "Mascota",
+        "opciones": [
+          "Perro",
+          "Gato",
+          "Otra"
+        ]
+      }
+    ],
+    "dias": [1, 2, 3, 4, 5, 6],
+    "franjas": [
+      "Mañana",
+      "Tarde"
+    ],
+    "extra_label": "Edad, raza o algo más que quieras contarnos",
+    "boton": "Pedir turno"
+  },
+  "mensaje_wa": "¡Hola {negocio}! Quiero pedir un turno.",
+  "imagenes": {
+    "hero": [
+      "gato-control-oreja.jpg",
+      "perro-control-guantes.jpg",
+      "perro-sillon-sol.jpg",
+      "cachorro-blanco-manos.jpg",
+      "beagle-luz-piso.jpg",
+      "gato-transportadora.jpg"
+    ],
+    "galeria": [
+      "gato-control-oreja.jpg",
+      "perro-control-guantes.jpg",
+      "perro-sillon-sol.jpg",
+      "cachorro-blanco-manos.jpg",
+      "beagle-luz-piso.jpg",
+      "gato-transportadora.jpg",
+      "pata-en-mano.jpg"
+    ]
+  },
+  "temas": [
+    {
+      "nombre": "menta",
+      "fondo": "#edf3f2",
+      "superficie": "#f8fbfa",
+      "tinta": "#13282a",
+      "suave": "#4c6163",
+      "oscuro": "#12393b",
+      "acento": "#ff8a6b",
+      "acento_tinta": "#12393b",
+      "display": "'Bricolage Grotesque', system-ui, sans-serif",
+      "display_peso": "600",
+      "display_caso": "none",
+      "display_tracking": "-0.03em",
+      "display_ancho": "100%",
+      "cuerpo": "'Figtree', system-ui, sans-serif",
+      "fuentes": "family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600",
+      "enfasis_estilo": "normal",
+      "enfasis_peso": "800"
+    },
+    {
+      "nombre": "pizarra",
+      "fondo": "#edf0f4",
+      "superficie": "#f7f9fb",
+      "tinta": "#192332",
+      "suave": "#525e6e",
+      "oscuro": "#1d2a3b",
+      "acento": "#f2994a",
+      "acento_tinta": "#1d2a3b",
+      "display": "'Literata', Georgia, serif",
+      "display_peso": "500",
+      "display_caso": "none",
+      "display_tracking": "-0.02em",
+      "display_ancho": "100%",
+      "cuerpo": "'Figtree', system-ui, sans-serif",
+      "fuentes": "family=Literata:ital,opsz,wght@0,7..72,500;1,7..72,500&family=Figtree:wght@400;500;600",
+      "enfasis_estilo": "italic",
+      "enfasis_peso": "500"
+    },
+    {
+      "nombre": "oliva",
+      "fondo": "#e8ebe4",
+      "superficie": "#f5f6f2",
+      "tinta": "#20251b",
+      "suave": "#575e4f",
+      "oscuro": "#2c3424",
+      "acento": "#e3b04b",
+      "acento_tinta": "#2c3424",
+      "display": "'Schibsted Grotesk', system-ui, sans-serif",
+      "display_peso": "700",
+      "display_caso": "none",
+      "display_tracking": "-0.035em",
+      "display_ancho": "100%",
+      "cuerpo": "'Schibsted Grotesk', system-ui, sans-serif",
+      "fuentes": "family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,700",
+      "enfasis_estilo": "italic",
+      "enfasis_peso": "700"
+    }
+  ]
+}
