@@ -130,6 +130,8 @@
   .oficina dt{font-size:13px;color:var(--suave);margin-bottom:3px}
   .oficina dd{font-size:18px}
   .oficina dd a{border-bottom:1px solid var(--linea)}
+  .mapa{margin-top:clamp(28px,4vw,56px);border-radius:var(--r);overflow:hidden;aspect-ratio:21/9;min-height:300px;background:#e8dfc9;border:1px solid var(--linea)}
+  .mapa iframe{width:100%;height:100%;border:0;display:block}
 
   footer{background:var(--oscuro);color:var(--crema);margin:0 12px 12px;border-radius:var(--r);padding:clamp(36px,5vw,60px) 0 0;overflow:hidden}
   .pie{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:rgba(255,255,255,.75)}
@@ -145,6 +147,7 @@
     .hero .w,.estudio .arriba,.areas .w,.contacto .w{grid-template-columns:1fr}
     .hero-foto{max-height:none;aspect-ratio:4/4.4}
     .pie{grid-template-columns:1fr}
+    .mapa{aspect-ratio:4/3;min-height:0}
     .equipo{max-width:none;margin-left:0}
     form .btn{justify-self:stretch}
     .barra{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;padding:7px;border-radius:999px;
@@ -294,6 +297,9 @@
         </dl>
         <a class="btn btn-borde" href="https://www.google.com/maps?cid=4170395206403576635" target="_blank" rel="noopener">Cómo llegar</a>
       </div>
+    </div>
+    <div class="w" style="display:block">
+      <div class="mapa revela"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d767.5847836601463!2d-58.982441573561125!3d-27.45361301199104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94450d8e828f6507%3A0x39e0385832ad533b!2sEstudio%20Jur%C3%ADdico%20R%26RG!5e0!3m2!1ses!2sar!4v1790790502713!5m2!1ses!2sar" title="Ubicación de R&amp;RG Estudio Jurídico: Hipólito Yrigoyen 421, Resistencia, Chaco" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
     </div>
   </section>
 </main>
