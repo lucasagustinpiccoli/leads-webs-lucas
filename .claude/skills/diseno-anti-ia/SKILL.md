@@ -27,6 +27,27 @@ Un negocio local comparte su web de dos formas: el link en la bio de Instagram o
   - nada de librerías pesadas para animar tres cosas.
 - **Corta.** Colo Studio (colo-studio.pages.dev), un sitio real que funciona bien, tiene 4 secciones y mide 2.500 px en el celular. Cada sección tiene que ganarse su lugar.
 
+## Si es un rediseño, la marca se respeta
+
+Cuando el negocio ya tiene una página, un logo o colores propios, eso es su identidad y no se cambia sin que lo pidan. Antes de diseñar, sacá de la página actual:
+- **los colores exactos** (buscá las variables en su CSS),
+- la tipografía,
+- el logo,
+- las fotos propias,
+- los textos que ya usan.
+
+Las reglas de "evitar" de este skill (crema con dorado, fondos de papel cálido, ciertas tipografías) valen para diseños nuevos sin marca. Si el estudio es verde y dorado, la nueva versión es verde y dorada.
+
+Lo que sí se mejora en un rediseño:
+- la jerarquía,
+- el uso en celular,
+- el recorrido hasta el contacto,
+- los textos (sin guiones largos ni frases de folleto),
+- el orden de las secciones,
+- la tipografía, si la actual es una de las que delatan IA. Avisá que la cambiaste.
+
+Contale al usuario qué conservaste y qué cambiaste, y por qué.
+
 ## 1. Empezá por referencias, no por el código
 
 El default de un modelo es el promedio de todo lo que vio, y ese promedio es justo lo que se reconoce como IA. Mirá diseño real antes de escribir:

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#eef1ef">
+<meta name="theme-color" content="#17281c">
 <title>R&amp;RG Estudio Jurídico | Abogados en Resistencia, Chaco</title>
 <meta name="description" content="Requena &amp; Ramírez Gasko, estudio jurídico en Resistencia, Chaco. Derecho civil, comercial y laboral. Consultá tu caso por WhatsApp.">
 <link rel="icon" href="https://estudiojuridicorrg.com.ar/assets/favicon.svg" type="image/svg+xml">
@@ -15,8 +15,8 @@
 <style>
   /* Pensada primero para celular: la visita llega desde Instagram o desde Google Maps. */
   :root{
-    --fondo:#eef1ef; --superficie:#f8faf9; --tinta:#14201a; --suave:#55635b;
-    --oscuro:#173526; --acento:#b5dcae; --acento-tinta:#173526;
+    --fondo:#f2ead9; --superficie:#f6f0e3; --tinta:#1c1912; --suave:#5f5842;
+    --oscuro:#17281c; --acento:#c79a5e; --acento-tinta:#17281c; --crema:#f2ead9;
     --display:"Literata", Georgia, serif; --cuerpo:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --r:22px; --ease:cubic-bezier(.23,1,.32,1);
     --linea:color-mix(in srgb,var(--tinta) 13%,transparent);
@@ -35,7 +35,7 @@
   .nav{position:sticky;top:10px;z-index:20;padding:0 12px;margin-top:10px}
   .nav-pildora{max-width:1200px;margin-inline:auto;height:58px;padding:0 7px 0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:999px;
        background:color-mix(in srgb,var(--superficie) 80%,transparent);border:1px solid rgba(255,255,255,.6);
-       backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 8px 30px rgba(23,53,38,.1)}
+       backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 8px 30px rgba(23,40,28,.1)}
   .marca{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;min-height:44px}
   .nav ul{display:flex;gap:30px;list-style:none;font-size:15px;color:var(--suave)}
   .nav ul a{display:inline-flex;align-items:center;min-height:44px}
@@ -48,21 +48,24 @@
   .btn-borde{background:transparent;border:1px solid color-mix(in srgb,var(--tinta) 24%,transparent);color:var(--tinta)}
   .btn-chico{min-height:44px;padding:0 18px;font-size:14px}
   @media (hover:hover) and (pointer:fine){
-    .btn-oscuro:hover{background:#21492f}
-    .btn-acento:hover{background:#c6e6c0}
+    .btn-oscuro:hover{background:#24392a}
+    .btn-acento:hover{background:#d3aa72}
     .btn-borde:hover{background:rgba(20,32,26,.05)}
     .nav ul a:hover{color:var(--tinta)}
   }
 
   /* Hero: texto y foto del equipo, con una luz suave detrás */
-  .hero{position:relative;padding:clamp(28px,5vw,64px) 0 clamp(40px,6vw,88px);
-        background:radial-gradient(60% 70% at 85% 0%,rgba(181,220,174,.5),transparent 70%)}
+  .hero{position:relative;margin:12px 12px 0;border-radius:var(--r);padding:clamp(28px,5vw,64px) 0 clamp(32px,5vw,64px);color:var(--crema);
+        background:var(--oscuro) radial-gradient(60% 70% at 90% 0%,rgba(199,154,94,.28),transparent 70%)}
+  .hero .btn-borde{border-color:rgba(242,234,217,.45);color:var(--crema)}
+  @media (hover:hover) and (pointer:fine){ .hero .btn-borde:hover{background:rgba(242,234,217,.1)} }
+  .hero em,.areas em{color:var(--acento)}
   .hero .w{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,80px);align-items:center}
-  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--suave);margin-bottom:18px}
+  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);margin-bottom:18px}
   .hero h1{font-size:clamp(38px,5.6vw,78px);max-width:12ch;margin-bottom:20px}
-  .hero p{font-size:clamp(16px,1.35vw,18px);max-width:42ch;color:var(--suave);margin-bottom:28px}
+  .hero p{font-size:clamp(16px,1.35vw,18px);max-width:42ch;color:rgba(242,234,217,.8);margin-bottom:28px}
   .acciones{display:flex;flex-wrap:wrap;gap:10px}
-  .hero-foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;max-height:calc(100svh - 150px);justify-self:end;width:100%;background:#d9dedb}
+  .hero-foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;max-height:calc(100svh - 150px);justify-self:end;width:100%;background:#e8dfc9}
   .hero-foto img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;transform:scale(1.04);animation:acercar 1.6s var(--ease) forwards}
   .entra{opacity:0;transform:translateY(14px);animation:subir .8s var(--ease) forwards}
   .entra:nth-child(2){animation-delay:.06s}.entra:nth-child(3){animation-delay:.12s}.entra:nth-child(4){animation-delay:.18s}
@@ -76,16 +79,16 @@
   .estudio .arriba{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
   .estudio .frase{font-size:clamp(28px,3.6vw,50px);max-width:17ch}
   .estudio .texto{color:var(--suave);font-size:17px;max-width:46ch;margin-top:22px}
-  .estudio .ancha{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#d9dedb}
+  .estudio .ancha{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#e8dfc9}
   .estudio .ancha img,.persona img{width:100%;height:100%;object-fit:cover}
   .equipo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2vw,24px);margin-top:clamp(36px,5vw,72px);max-width:620px;margin-left:auto}
-  .persona .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:#d9dedb}
+  .persona .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:#e8dfc9}
   .persona h3{font-family:var(--display);font-weight:500;font-size:clamp(18px,2vw,24px);line-height:1.2;margin-top:14px}
   .persona p{color:var(--suave);font-size:14.5px;margin-top:2px}
 
   /* Áreas: bloque oscuro con pestañas para tocar */
-  .areas{background:var(--oscuro);color:#fff;margin:0 12px;border-radius:var(--r);
-         background-image:radial-gradient(55% 60% at 100% 0%,rgba(181,220,174,.2),transparent 70%)}
+  .areas{background:var(--oscuro);color:var(--crema);margin:0 12px;border-radius:var(--r);
+         background-image:radial-gradient(55% 60% at 100% 0%,rgba(199,154,94,.2),transparent 70%)}
   .areas .w{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,80px);align-items:start}
   .areas .bajada{color:rgba(255,255,255,.75);margin-top:16px;max-width:30ch;font-size:17px}
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
@@ -121,14 +124,14 @@
   form .btn{justify-self:start}
   .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
   .nota{font-size:13px;color:var(--suave);font-weight:400}
-  .oficina .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#d9dedb}
+  .oficina .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#e8dfc9}
   .oficina .foto img{width:100%;height:100%;object-fit:cover}
   .oficina dl{display:grid;gap:18px;margin:26px 0 24px}
   .oficina dt{font-size:13px;color:var(--suave);margin-bottom:3px}
   .oficina dd{font-size:18px}
   .oficina dd a{border-bottom:1px solid var(--linea)}
 
-  footer{background:var(--oscuro);color:#fff;margin:0 12px 12px;border-radius:var(--r);padding:clamp(36px,5vw,60px) 0 0;overflow:hidden}
+  footer{background:var(--oscuro);color:var(--crema);margin:0 12px 12px;border-radius:var(--r);padding:clamp(36px,5vw,60px) 0 0;overflow:hidden}
   .pie{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:rgba(255,255,255,.75)}
   .pie strong{color:#fff;display:block;margin-bottom:6px;font-weight:600}
   .gigante{font-size:clamp(88px,24.5vw,335px);line-height:.9;letter-spacing:-.04em;color:var(--acento);margin-top:clamp(28px,5vw,64px);padding-bottom:clamp(8px,1.5vw,20px);white-space:nowrap}
@@ -146,7 +149,7 @@
     form .btn{justify-self:stretch}
     .barra{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;padding:7px;border-radius:999px;
            background:color-mix(in srgb,var(--superficie) 82%,transparent);border:1px solid rgba(255,255,255,.6);
-           backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 10px 30px rgba(23,53,38,.2);
+           backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 10px 30px rgba(23,40,28,.2);
            opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 240ms var(--ease),transform 240ms var(--ease)}
     .barra .btn{flex:1}
     .barra.ver{opacity:1;transform:none;pointer-events:auto}
@@ -182,7 +185,7 @@
         <h1 class="display entra">Asesoría legal <em>cercana</em> y profesional.</h1>
         <p class="entra">Requena &amp; Ramírez Gasko. Derecho civil, comercial y laboral. Contanos tu situación y te respondemos con los próximos pasos.</p>
         <div class="acciones entra">
-          <a class="btn btn-oscuro" href="#contacto">Consultá tu caso</a>
+          <a class="btn btn-acento" href="#contacto">Consultá tu caso</a>
           <a class="btn btn-borde" href="#areas">Ver áreas</a>
         </div>
       </div>
