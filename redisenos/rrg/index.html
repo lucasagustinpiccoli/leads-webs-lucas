@@ -6,177 +6,123 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#17281c">
 <title>R&amp;RG Estudio Jurídico | Abogados en Resistencia, Chaco</title>
-<meta name="description" content="Requena &amp; Ramírez Gasko, estudio jurídico en Resistencia, Chaco. Derecho civil, comercial y laboral. Consultá tu caso por WhatsApp.">
+<meta name="description" content="Requena &amp; Ramírez Gasko, estudio jurídico en Resistencia, Chaco. Derecho civil, comercial y laboral.">
 <link rel="icon" href="https://estudiojuridicorrg.com.ar/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400..600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/equipo-parados.jpg">
 <style>
-  /* Pensada primero para celular: la visita llega desde Instagram o desde Google Maps. */
   :root{
-    --fondo:#f2ead9; --superficie:#f6f0e3; --tinta:#1c1912; --suave:#5f5842;
-    --oscuro:#17281c; --acento:#c79a5e; --acento-tinta:#17281c; --crema:#f2ead9;
-    --display:"Literata", Georgia, serif; --cuerpo:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --r:22px; --ease:cubic-bezier(.23,1,.32,1);
-    --linea:color-mix(in srgb,var(--tinta) 13%,transparent);
+    --verde:#17281c; --verde-hondo:#0d1712; --crema:#f2ead9; --crema-clara:#f6f0e3; --dorado:#c79a5e; --dorado-oscuro:#7d5a2c;
+    --tinta:#1c1912; --suave:#5f5842; --linea:rgba(28,25,18,.16); --linea-clara:rgba(242,234,217,.2);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:92px;-webkit-text-size-adjust:100%}
-  body{font-family:var(--cuerpo);color:var(--tinta);background:var(--fondo);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+  body{font-family:"Albert Sans",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tinta);background:var(--crema);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
   img{display:block;max-width:100%}
   a{color:inherit;text-decoration:none}
-  .w{width:min(1200px,100% - 32px);margin-inline:auto}
-  .display{font-family:var(--display);font-weight:500;letter-spacing:-.015em;line-height:1.08}
-  .display em{font-style:italic;font-weight:500}
+  .w{width:min(1120px,100% - 40px);margin-inline:auto}
+  h1,h2,h3{font-weight:600;line-height:1.15;letter-spacing:-.01em}
+  h1{font-size:clamp(32px,4.2vw,52px)}
+  h2{font-size:clamp(26px,3vw,36px)}
+  h3{font-size:19px}
 
-  .aviso{font-size:12px;text-align:center;padding:7px 16px;background:var(--oscuro);color:rgba(255,255,255,.82)}
+  .aviso{font-size:12px;text-align:center;padding:6px 16px;background:var(--verde-hondo);color:rgba(242,234,217,.75)}
 
-  .nav{position:sticky;top:10px;z-index:20;padding:0 12px;margin-top:10px}
-  .nav-pildora{max-width:1200px;margin-inline:auto;height:58px;padding:0 7px 0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:999px;
-       background:color-mix(in srgb,var(--superficie) 80%,transparent);border:1px solid rgba(255,255,255,.6);
-       backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 8px 30px rgba(23,40,28,.1)}
-  .marca{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;min-height:44px}
-  .nav ul{display:flex;gap:30px;list-style:none;font-size:15px;color:var(--suave)}
-  .nav ul a{display:inline-flex;align-items:center;min-height:44px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;border:0;cursor:pointer;min-height:48px;
-       font:600 15px/1 var(--cuerpo);border-radius:999px;padding:0 24px;transition:transform 160ms var(--ease),background-color 200ms ease}
-  .btn:active{transform:scale(.97)}
+  header{position:sticky;top:0;z-index:20;background:var(--verde);color:var(--crema);border-bottom:1px solid var(--linea-clara)}
+  header .w{height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .logo{display:flex;align-items:center;gap:14px;min-height:44px}
+  .logo svg{height:36px;width:auto;color:var(--crema)}
+  .logo span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,234,217,.8)}
+  nav{display:flex;align-items:center;gap:30px;font-size:15px}
+  nav a{display:inline-flex;align-items:center;min-height:44px;color:rgba(242,234,217,.85)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:3px;font-family:inherit;font-weight:600;font-size:15px;line-height:1;white-space:nowrap;border:1px solid transparent;transition:background-color .15s ease}
   .btn svg{width:18px;height:18px;flex:none}
-  .btn-oscuro{background:var(--oscuro);color:#fff}
-  .btn-acento{background:var(--acento);color:var(--acento-tinta)}
-  .btn-borde{background:transparent;border:1px solid color-mix(in srgb,var(--tinta) 24%,transparent);color:var(--tinta)}
-  .btn-chico{min-height:44px;padding:0 18px;font-size:14px}
+  .btn-dorado{background:var(--dorado);color:var(--verde)}
+  .btn-verde{background:var(--verde);color:var(--crema)}
+  .btn-linea{border-color:rgba(242,234,217,.5);color:var(--crema)}
+  header .btn{min-height:44px;padding:0 18px;color:var(--verde)}
   @media (hover:hover) and (pointer:fine){
-    .btn-oscuro:hover{background:#24392a}
-    .btn-acento:hover{background:#d3aa72}
-    .btn-borde:hover{background:rgba(20,32,26,.05)}
-    .nav ul a:hover{color:var(--tinta)}
+    nav a:not(.btn):hover{color:var(--crema)}
+    .btn-dorado:hover{background:#d3aa72}
+    .btn-verde:hover{background:#24392a}
+    .btn-linea:hover{background:rgba(242,234,217,.08)}
+    .datos a:hover,.pie a:hover{text-decoration:underline}
   }
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--dorado);outline-offset:2px}
 
-  /* Hero: texto y foto del equipo, con una luz suave detrás */
-  .hero{position:relative;margin:12px 12px 0;border-radius:var(--r);padding:clamp(28px,5vw,64px) 0 clamp(32px,5vw,64px);color:var(--crema);
-        background:var(--oscuro) radial-gradient(60% 70% at 90% 0%,rgba(199,154,94,.28),transparent 70%)}
-  .hero .btn-borde{border-color:rgba(242,234,217,.45);color:var(--crema)}
-  @media (hover:hover) and (pointer:fine){ .hero .btn-borde:hover{background:rgba(242,234,217,.1)} }
-  .hero em,.areas em{color:var(--acento)}
-  .hero .w{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,80px);align-items:center}
-  .eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);margin-bottom:18px}
-  .hero h1{font-size:clamp(38px,5.6vw,78px);max-width:12ch;margin-bottom:20px}
-  .hero p{font-size:clamp(16px,1.35vw,18px);max-width:42ch;color:rgba(242,234,217,.8);margin-bottom:28px}
-  .acciones{display:flex;flex-wrap:wrap;gap:10px}
-  .hero-foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;max-height:calc(100svh - 150px);justify-self:end;width:100%;background:#e8dfc9}
-  .hero-foto img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;transform:scale(1.04);animation:acercar 1.6s var(--ease) forwards}
-  .entra{opacity:0;transform:translateY(14px);animation:subir .8s var(--ease) forwards}
-  .entra:nth-child(2){animation-delay:.06s}.entra:nth-child(3){animation-delay:.12s}.entra:nth-child(4){animation-delay:.18s}
-  @keyframes subir{to{opacity:1;transform:none}}
-  @keyframes acercar{to{transform:scale(1)}}
+  .hero{background:var(--verde);color:var(--crema)}
+  .hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,88px);align-items:center;padding-block:clamp(40px,6vw,80px)}
+  .hero .lugar{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--dorado);margin-bottom:18px}
+  .hero p.bajada{font-size:clamp(17px,1.5vw,19px);color:rgba(242,234,217,.82);max-width:44ch;margin:20px 0 32px}
+  .acciones{display:flex;flex-wrap:wrap;gap:12px}
+  .hero img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;max-height:calc(100svh - 190px)}
 
-  section{padding:clamp(60px,8vw,120px) 0}
-  .titulo{font-size:clamp(30px,4vw,56px)}
+  section{padding-block:clamp(56px,8vw,104px)}
+  .dos{display:grid;grid-template-columns:4fr 8fr;gap:clamp(24px,5vw,72px)}
+  .destacado{font-size:clamp(20px,2vw,24px);font-weight:500;line-height:1.4;max-width:34ch}
+  .estudio p.texto{color:var(--suave);max-width:60ch;margin-top:18px}
+  .abogados{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,3vw,40px);margin-top:clamp(36px,5vw,56px);padding-top:clamp(28px,4vw,40px);border-top:1px solid var(--linea)}
+  .abogados img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+  .abogados h3{margin-top:16px}
+  .abogados p{color:var(--suave);font-size:15px}
 
-  /* El estudio */
-  .estudio .arriba{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
-  .estudio .frase{font-size:clamp(28px,3.6vw,50px);max-width:17ch}
-  .estudio .texto{color:var(--suave);font-size:17px;max-width:46ch;margin-top:22px}
-  .estudio .ancha{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#e8dfc9}
-  .estudio .ancha img,.persona img{width:100%;height:100%;object-fit:cover}
-  .equipo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2vw,24px);margin-top:clamp(36px,5vw,72px);max-width:620px;margin-left:auto}
-  .persona .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:#e8dfc9}
-  .persona h3{font-family:var(--display);font-weight:500;font-size:clamp(18px,2vw,24px);line-height:1.2;margin-top:14px}
-  .persona p{color:var(--suave);font-size:14.5px;margin-top:2px}
+  .areas{background:var(--verde);color:var(--crema)}
+  .areas .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px);margin-top:clamp(28px,4vw,48px)}
+  .areas h3{color:var(--dorado);padding-bottom:14px;border-bottom:1px solid var(--dorado);letter-spacing:.02em}
+  .areas ul{list-style:none}
+  .areas li{padding:12px 0;border-bottom:1px solid var(--linea-clara);font-size:16px;line-height:1.4}
+  .areas .otras{color:rgba(242,234,217,.65);font-size:15px;margin-top:14px}
+  .areas .cierre{margin-top:clamp(32px,5vw,56px)}
 
-  /* Áreas: bloque oscuro con pestañas para tocar */
-  .areas{background:var(--oscuro);color:var(--crema);margin:0 12px;border-radius:var(--r);
-         background-image:radial-gradient(55% 60% at 100% 0%,rgba(199,154,94,.2),transparent 70%)}
-  .areas .w{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,80px);align-items:start}
-  .areas .bajada{color:rgba(255,255,255,.75);margin-top:16px;max-width:30ch;font-size:17px}
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
-  .tab{min-height:46px;padding:0 20px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font:600 15px var(--cuerpo);cursor:pointer;
-       transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,transform 160ms var(--ease)}
-  .tab:active{transform:scale(.97)}
-  .tab[aria-selected="true"]{background:var(--acento);color:var(--acento-tinta);border-color:var(--acento)}
-  .tab:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
-  .temas{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
-  .temas li{padding:9px 15px;border-radius:999px;background:rgba(255,255,255,.09);font-size:15px;line-height:1.3}
-  .panel .otras{color:rgba(255,255,255,.7);font-size:15px;margin:18px 0 24px}
-  .panel[hidden]{display:none}
-  .panel{animation:panel 320ms var(--ease)}
-  @keyframes panel{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-  /* Contacto */
-  .contacto .w{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:start}
-  .contacto .bajada{color:var(--suave);margin:16px 0 28px;max-width:38ch;font-size:17px}
-  form{background:var(--superficie);border:1px solid var(--linea);border-radius:var(--r);padding:clamp(20px,3vw,34px);display:grid;gap:20px}
-  label,fieldset{display:grid;gap:8px;font-size:14px;font-weight:600;border:0;min-width:0}
-  legend{font-size:14px;font-weight:600;margin-bottom:8px;padding:0}
-  input,textarea{font:16px var(--cuerpo);color:var(--tinta);background:var(--fondo);border:1px solid color-mix(in srgb,var(--tinta) 22%,transparent);border-radius:12px;padding:0 14px;min-height:48px;width:100%}
-  textarea{padding:12px 14px;min-height:92px;resize:vertical}
-  input:focus-visible,textarea:focus-visible{outline:2px solid var(--oscuro);outline-offset:1px}
-  .opcional{font-weight:400;color:var(--suave)}
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{position:relative}
-  .chip input{position:absolute;opacity:0;width:1px;height:1px;min-height:0;padding:0}
-  .chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid color-mix(in srgb,var(--tinta) 20%,transparent);background:var(--fondo);
-             font-weight:500;font-size:15px;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}
-  .chip input:checked + span{background:var(--oscuro);color:#fff;border-color:var(--oscuro)}
-  .chip input:focus-visible + span{outline:2px solid var(--oscuro);outline-offset:2px}
-  form .btn{justify-self:start}
-  .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
-  .nota{font-size:13px;color:var(--suave);font-weight:400}
-  .oficina .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:3/2;background:#e8dfc9}
-  .oficina .foto img{width:100%;height:100%;object-fit:cover}
-  .oficina dl{display:grid;gap:18px;margin:26px 0 24px}
-  .oficina dt{font-size:13px;color:var(--suave);margin-bottom:3px}
-  .oficina dd{font-size:18px}
-  .oficina dd a{border-bottom:1px solid var(--linea)}
-  .mapa{margin-top:clamp(28px,4vw,56px);border-radius:var(--r);overflow:hidden;aspect-ratio:21/9;min-height:300px;background:#e8dfc9;border:1px solid var(--linea)}
+  .contacto .w{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,5vw,72px);align-items:start}
+  .contacto p.texto{color:var(--suave);max-width:38ch;margin:16px 0 26px}
+  .datos{margin-top:34px;border-top:1px solid var(--linea)}
+  .datos div{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;padding:4px 0;border-bottom:1px solid var(--linea)}
+  .datos dt{color:var(--suave);font-size:15px}
+  .datos dd a{display:flex;align-items:center;min-height:48px;padding:6px 0}
+  .mapa{border:1px solid var(--linea);aspect-ratio:4/3;background:#e8dfc9}
   .mapa iframe{width:100%;height:100%;border:0;display:block}
 
-  footer{background:var(--oscuro);color:var(--crema);margin:0 12px 12px;border-radius:var(--r);padding:clamp(36px,5vw,60px) 0 0;overflow:hidden}
-  .pie{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;font-size:15px;color:rgba(255,255,255,.75)}
-  .pie strong{color:#fff;display:block;margin-bottom:6px;font-weight:600}
-  .gigante{font-size:clamp(88px,24.5vw,335px);line-height:.9;letter-spacing:-.04em;color:var(--acento);margin-top:clamp(28px,5vw,64px);padding-bottom:clamp(8px,1.5vw,20px);white-space:nowrap}
+  footer{background:var(--verde-hondo);color:rgba(242,234,217,.72);font-size:14.5px;padding-block:36px}
+  footer .w{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
+  footer svg.marca{height:30px;width:auto;color:var(--crema)}
+  .pie{display:flex;flex-wrap:wrap;gap:8px 28px}
 
   .barra{display:none}
-  .revela{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-  .revela.si{opacity:1;transform:none}
 
-  @media (max-width:900px){
-    .nav ul{display:none}
-    .hero .w,.estudio .arriba,.areas .w,.contacto .w{grid-template-columns:1fr}
-    .hero-foto{max-height:none;aspect-ratio:4/4.4}
-    .pie{grid-template-columns:1fr}
-    .mapa{aspect-ratio:4/3;min-height:0}
-    .equipo{max-width:none;margin-left:0}
-    form .btn{justify-self:stretch}
-    .barra{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;padding:7px;border-radius:999px;
-           background:color-mix(in srgb,var(--superficie) 82%,transparent);border:1px solid rgba(255,255,255,.6);
-           backdrop-filter:saturate(150%) blur(16px);-webkit-backdrop-filter:saturate(150%) blur(16px);box-shadow:0 10px 30px rgba(23,40,28,.2);
-           opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 240ms var(--ease),transform 240ms var(--ease)}
-    .barra .btn{flex:1}
-    .barra.ver{opacity:1;transform:none;pointer-events:auto}
-    footer{margin-bottom:82px}
+  @media (max-width:860px){
+    nav a:not(.btn){display:none}
+    .logo span{display:none}
+    .hero .w,.dos,.contacto .w{grid-template-columns:1fr}
+    .hero img{max-height:none;aspect-ratio:4/4.4}
+    .areas .cols{grid-template-columns:1fr;gap:36px}
+    .datos div{grid-template-columns:96px 1fr}
+    .acciones .btn{flex:1 1 auto}
+    footer .w{flex-direction:column;align-items:flex-start}
+    footer{padding-bottom:96px}
+    .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--verde);border-top:1px solid var(--linea-clara);
+           transform:translateY(100%);transition:transform .2s ease}
+    .barra.ver{transform:none}
+    .barra .btn{width:100%}
   }
-  @media (prefers-reduced-motion:reduce){
-    .entra,.revela,.panel{animation:none;transition:none;opacity:1;transform:none}
-    .hero-foto img{animation:none;transform:none}
-    .barra{transition:opacity 200ms ease;transform:none}
-  }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .barra{transition:none} }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-rrg" viewBox="0 0 532 344"><path fill="currentColor" d="M326.018982,154.216827 C328.720306,145.818619 330.456604,137.374420 334.283539,130.017776 C342.326782,114.555870 355.500214,105.154907 372.780243,102.099854 C388.172546,99.378548 403.260712,100.470078 417.187988,108.136429 C429.171570,114.732864 435.773254,125.712265 440.479523,138.573608 C434.933838,139.780594 429.897400,140.876724 426.044800,141.715210 C420.959686,135.463425 416.482361,129.594452 411.612152,124.071884 C406.547424,118.328728 399.212402,116.803642 392.234955,116.112686 C371.832428,114.092285 353.125488,121.629890 345.755005,145.310333 C339.843689,164.302734 340.205261,182.747330 348.364594,200.697800 C354.688049,214.609421 366.458801,221.735748 381.506866,222.959183 C391.722961,223.789734 401.821442,222.932602 410.718292,216.874664 C420.387543,210.290833 424.883514,200.620346 426.980469,189.545410 C427.487915,186.865356 427.771606,184.142914 428.238098,180.881195 C420.421753,180.881195 413.111847,180.626053 405.830841,180.974792 C401.304169,181.191620 399.234344,179.985306 399.941650,175.177261 C400.252716,173.062668 399.994049,170.864243 399.994049,168.400192 C401.196747,168.259384 402.293701,168.021393 403.391113,168.019241 C415.723785,167.995071 428.057068,168.067886 440.388916,167.965622 C443.370300,167.940887 445.015076,168.485107 445.015991,172.022797 C445.020081,188.359283 442.320190,203.793503 432.266296,217.369598 C424.561584,227.773483 414.273895,233.502792 401.934296,236.489746 C383.674347,240.909775 366.674622,238.084274 351.063477,227.886276 C337.267548,218.874130 330.682495,205.005112 327.080444,189.527954 C324.401703,178.017838 324.358673,166.347397 326.018982,154.216827 Z"></path> <path fill="currentColor" d="M109.250793,185.871521 C116.999413,201.856293 124.502655,217.559662 132.302063,233.882843 C127.723564,233.882843 123.711479,233.584045 119.765526,233.966888 C115.819321,234.349762 113.708237,232.710114 112.092369,229.340652 C105.493538,215.580444 98.663605,201.930435 92.146324,188.132355 C90.972610,185.647446 89.718452,184.863220 87.045219,184.922531 C78.573936,185.110428 70.095856,184.991974 61.308090,184.991974 C61.308090,180.047028 61.308090,175.313080 61.308090,169.996277 C69.987556,169.996277 78.756966,170.194702 87.509956,169.901978 C91.188614,169.778976 94.948997,168.983551 98.471642,167.863113 C112.045341,163.545868 117.324585,144.411972 111.497139,131.733170 C106.743362,121.390404 100.648163,116.963760 89.373543,116.937782 C76.747276,116.908684 64.120880,116.931107 50.996040,116.931107 C50.996040,119.023285 50.996078,120.799171 50.996037,122.575058 C50.995232,157.722672 50.915722,192.870682 51.091316,228.017410 C51.113747,232.506973 50.150013,234.156219 45.330940,233.994064 C35.040684,233.647766 35.024117,233.918076 35.022827,223.519333 C35.018074,185.206772 35.018711,146.894196 35.017338,108.581635 C35.017265,106.591972 35.017330,104.602310 35.017330,102.005348 C37.887310,102.005348 40.531960,102.005005 43.176609,102.005402 C58.834785,102.007774 74.494499,102.144539 90.150604,101.966019 C100.731819,101.845367 110.701157,104.442245 117.839966,112.011887 C122.771347,117.240898 126.674324,124.351448 128.613846,131.297745 C132.473251,145.119949 129.789169,158.535950 121.131226,170.228607 C118.788399,173.392624 115.252663,175.693939 112.174728,178.284607 C110.568863,179.636261 108.767838,180.756073 107.080521,181.962326 C107.835213,183.384659 108.420311,184.487381 109.250793,185.871521 Z"></path> <path fill="currentColor" d="M223.058029,109.148911 C223.134384,107.216293 223.214752,105.767776 223.309860,104.053665 C244.089386,104.053665 264.669067,102.730103 284.993103,104.442101 C303.691925,106.017197 312.008606,115.914185 316.790558,133.479477 C320.738861,147.982620 317.302948,161.726364 308.423187,173.777054 C306.178436,176.823395 302.584869,179.122452 299.190125,181.006241 C295.714294,182.935013 295.595093,184.738434 297.284760,187.989227 C301.238495,195.595963 304.810516,203.400436 308.577454,211.105133 C312.347290,218.815750 316.166168,226.502426 320.350372,234.983643 C314.409973,234.983643 309.016815,235.210373 303.669617,234.815308 C302.420441,234.723022 300.940643,232.711990 300.224548,231.259567 C295.408691,221.491974 290.754150,211.644531 286.081604,201.806702 C284.004303,197.433136 282.280914,192.858963 279.822662,188.716599 C278.971375,187.282059 276.407227,186.176819 274.588348,186.120605 C265.958038,185.853912 257.314972,186.001419 248.387573,186.001419 C248.387573,181.279770 248.387573,176.886047 248.387573,171.996155 C257.301666,171.996155 266.114532,172.433548 274.855804,171.831390 C280.062073,171.472733 285.574158,170.330353 290.213409,168.046539 C299.989197,163.234116 305.327362,145.894470 299.667328,132.885712 C294.692444,121.451675 285.430969,118.451561 274.531647,118.069054 C264.543945,117.718529 254.532684,118.098778 244.535065,117.944435 C240.393478,117.880493 238.875839,119.206779 238.898651,123.640045 C239.079742,158.805756 239.002151,193.972794 239.003952,229.139420 C239.004059,230.937378 239.003967,232.735352 239.003967,234.750748 C233.614838,234.750748 228.557159,234.750748 223.062042,234.750748 C223.062042,192.877533 223.062042,151.255264 223.058029,109.148911 Z"></path> <path fill="currentColor" d="M330.000000,286.068237 C379.474213,286.068237 428.448395,286.068237 477.755127,286.068237 C477.852661,284.357666 478.006012,282.920959 478.006287,281.484253 C478.020477,205.818420 477.985382,130.152527 478.116211,54.486904 C478.123901,50.036694 476.790710,48.890240 472.441833,48.893681 C336.943359,49.000851 201.444824,49.010647 65.946434,48.875633 C60.972618,48.870678 59.786865,50.413132 59.914719,55.108944 C60.227604,66.600273 60.090679,78.107040 59.917061,89.604309 C59.895771,91.014191 58.546482,92.404022 57.812614,93.803146 C57.223019,92.425270 56.134254,91.052086 56.121220,89.668777 C55.994030,76.170219 56.105366,62.669514 56.001976,49.170544 C55.979248,46.203674 56.895767,44.790611 60.006935,45.049873 C61.827473,45.201588 63.671234,45.073204 65.504547,45.073223 C202.169724,45.074570 338.834900,45.076077 475.500061,45.077991 C481.935272,45.078079 481.934998,45.079845 481.935089,51.684719 C481.936096,129.183838 481.937134,206.682953 481.938202,284.182068 C481.938232,285.971832 481.938202,287.761597 481.938202,289.785645 C339.905609,289.785645 198.305649,289.785645 56.045361,289.785645 C56.045361,286.388977 56.045395,282.960663 56.045353,279.532349 C56.045231,268.532471 55.963097,257.531219 56.147881,246.534439 C56.171185,245.147476 57.597500,243.784103 58.373779,242.409790 C58.919678,243.760147 59.927238,245.106247 59.939758,246.461533 C60.059666,259.440094 60.011463,272.420258 60.011463,286.068237 C149.984848,286.068237 239.742432,286.068237 330.000000,286.068237 Z"></path> <path fill="currentColor" fill-rule="evenodd" d="M138.974274,218.851883 C135.070923,206.771194 137.899292,197.539337 147.305801,189.860962 C148.150238,189.171677 148.337479,186.032547 147.582214,185.274872 C136.190903,173.847000 142.746872,150.933289 161.448944,148.812744 C169.196259,147.934296 176.107224,148.577545 182.310516,152.955902 C185.568909,155.255722 188.011841,158.710922 191.095169,161.928375 C185.685318,165.236694 182.139801,166.215302 178.004166,161.590805 C171.963821,154.836472 157.556946,156.953369 153.072891,164.677505 C150.652344,168.847061 151.658554,176.283920 155.631882,180.128479 C165.707260,189.877243 175.956268,199.446564 186.135742,209.087738 C186.648041,208.973770 187.160355,208.859818 187.672653,208.745850 C187.800095,204.826019 188.229187,200.886261 187.971786,196.991867 C187.703796,192.936829 189.198029,191.684937 193.121979,191.948639 C195.823608,192.130219 197.146271,192.859543 196.981186,195.722931 C196.611588,202.133759 196.190125,208.549316 196.140930,214.965652 C196.127975,216.653320 197.019608,218.682938 198.156342,219.973907 C200.441132,222.568665 203.180618,224.763031 205.978668,227.350281 C204.093765,229.671143 202.307312,231.870789 200.618301,233.950439 C199.921982,233.770477 199.537537,233.783371 199.323654,233.598724 C196.779587,231.402206 194.501678,227.895340 191.659851,227.361221 C189.365723,226.930069 186.524933,230.365784 183.709396,231.583801 C171.839935,236.718628 159.702637,237.025482 148.399231,230.728561 C144.387283,228.493576 142.095566,223.170654 138.974274,218.851883 Z M160.435425,197.858490 C158.590851,195.364410 156.497498,195.731705 153.960495,196.910370 C145.620560,200.784988 146.381897,217.323578 152.324158,221.853851 C159.432281,227.272980 174.299637,227.754074 180.715378,222.083939 C183.255524,219.839005 183.640472,218.740524 181.138367,216.524811 C174.369537,210.530746 167.703217,204.420898 160.435425,197.858490 Z"></path></symbol></svg>
 <div class="aviso">Propuesta de rediseño para R&amp;RG Estudio Jurídico</div>
 
-<header class="nav">
-  <div class="nav-pildora">
-    <a class="marca" href="#inicio" aria-label="R&amp;RG, inicio">R&amp;RG</a>
-    <ul>
-      <li><a href="#estudio">El estudio</a></li>
-      <li><a href="#areas">Áreas</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-    <a class="btn btn-oscuro btn-chico" href="#contacto">Consultá tu caso</a>
+<header>
+  <div class="w">
+    <a class="logo" href="#inicio" aria-label="R&amp;RG Estudio Jurídico, inicio"><svg viewBox="0 0 532 344" aria-hidden="true"><use href="#logo-rrg"></use></svg><span>Estudio Jurídico</span></a>
+    <nav>
+      <a href="#estudio">El estudio</a>
+      <a href="#areas">Áreas de práctica</a>
+      <a href="#contacto">Contacto</a>
+      <a class="btn btn-dorado" href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener">Consultá tu caso</a>
+    </nav>
   </div>
 </header>
 
@@ -184,188 +130,115 @@
   <div class="hero">
     <div class="w">
       <div>
-        <p class="eyebrow entra">Abogados en Resistencia, Chaco</p>
-        <h1 class="display entra">Asesoría legal <em>cercana</em> y profesional.</h1>
-        <p class="entra">Requena &amp; Ramírez Gasko. Derecho civil, comercial y laboral. Contanos tu situación y te respondemos con los próximos pasos.</p>
-        <div class="acciones entra">
-          <a class="btn btn-acento" href="#contacto">Consultá tu caso</a>
-          <a class="btn btn-borde" href="#areas">Ver áreas</a>
+        <p class="lugar">Resistencia, Chaco</p>
+        <h1>Requena &amp; Ramírez Gasko, abogados.</h1>
+        <p class="bajada">En R&amp;RG acompañamos a cada cliente con una asesoría legal moderna, cercana y profesional. Derecho civil, comercial y laboral.</p>
+        <div class="acciones">
+          <a class="btn btn-dorado" href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultá tu caso</a>
+          <a class="btn btn-linea" href="#areas">Áreas de práctica</a>
         </div>
       </div>
-      <div class="hero-foto"><img src="img/equipo-parados.jpg" alt="Matías Nicolás Requena y Valentín Ramírez Gasko" width="800" height="1000" fetchpriority="high"></div>
+      <img src="img/equipo-parados.jpg" alt="Matías Nicolás Requena y Valentín Ramírez Gasko" width="800" height="1000" fetchpriority="high">
     </div>
   </div>
 
-  <section class="estudio" id="estudio" style="padding-top:clamp(40px,6vw,88px)">
+  <section class="estudio" id="estudio">
     <div class="w">
-      <div class="arriba">
-        <div class="revela">
-          <h2 class="frase display">Dos abogados, un mismo criterio: lo legal no tiene que ser <em>complicado</em>.</h2>
+      <div class="dos">
+        <h2>El estudio</h2>
+        <div>
+          <p class="destacado">Dos abogados, un mismo criterio: lo legal no tiene que ser complicado.</p>
           <p class="texto">R&amp;RG es un espacio pensado para brindar acompañamiento legal cercano, responsable y comprometido. Fundado por Matías y Valentín, atendemos cada caso como si fuera el único, porque para quien consulta lo es.</p>
+          <div class="abogados">
+            <article>
+              <img src="img/requena.jpg" alt="Matías Nicolás Requena" width="640" height="800" loading="lazy">
+              <h3>Matías Nicolás Requena</h3>
+              <p>Abogado, cofundador</p>
+            </article>
+            <article>
+              <img src="img/ramirez.jpg" alt="Valentín Ramírez Gasko" width="640" height="800" loading="lazy">
+              <h3>Valentín Ramírez Gasko</h3>
+              <p>Abogado, cofundador</p>
+            </article>
+          </div>
         </div>
-        <div class="ancha revela"><img src="img/equipo-escritorio.jpg" srcset="img/equipo-escritorio-800.jpg 800w, img/equipo-escritorio.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" alt="Matías Requena y Valentín Ramírez Gasko en el estudio" width="1200" height="799" loading="lazy"></div>
-      </div>
-      <div class="equipo revela">
-        <article class="persona">
-          <div class="foto"><img src="img/requena.jpg" alt="Matías Nicolás Requena" width="640" height="800" loading="lazy"></div>
-          <h3>Matías Nicolás Requena</h3>
-          <p>Abogado y cofundador</p>
-        </article>
-        <article class="persona">
-          <div class="foto"><img src="img/ramirez.jpg" alt="Valentín Ramírez Gasko" width="640" height="800" loading="lazy"></div>
-          <h3>Valentín Ramírez Gasko</h3>
-          <p>Abogado y cofundador</p>
-        </article>
       </div>
     </div>
   </section>
 
-  <div class="areas" id="areas">
-    <section>
-      <div class="w">
-        <div class="revela">
-          <h2 class="titulo display">Áreas de práctica</h2>
-          <p class="bajada">Elegí un área para ver en qué temas trabajamos.</p>
+  <section class="areas" id="areas">
+    <div class="w">
+      <h2>Áreas de práctica</h2>
+      <div class="cols">
+        <div>
+          <h3>Civil</h3>
+          <ul>
+            <li>Accidentes de tránsito</li><li>Juicios ejecutivos (pagarés, cheques, alquileres)</li><li>Desalojos</li>
+            <li>Incumplimientos contractuales</li><li>Prescripciones adquisitivas</li><li>Sucesiones</li>
+          </ul>
+          <p class="otras">Y otras consultas civiles.</p>
         </div>
-        <div class="revela">
-          <div class="tabs" role="tablist" aria-label="Áreas de práctica">
-            <button class="tab" role="tab" id="tab-civil" aria-controls="panel-civil" aria-selected="true">Civil</button>
-            <button class="tab" role="tab" id="tab-comercial" aria-controls="panel-comercial" aria-selected="false" tabindex="-1">Comercial</button>
-            <button class="tab" role="tab" id="tab-laboral" aria-controls="panel-laboral" aria-selected="false" tabindex="-1">Laboral</button>
-          </div>
-          <div class="panel" role="tabpanel" id="panel-civil" aria-labelledby="tab-civil">
-            <ul class="temas">
-              <li>Accidentes de tránsito</li><li>Juicios ejecutivos (pagarés, cheques, alquileres)</li><li>Desalojos</li>
-              <li>Incumplimientos contractuales</li><li>Prescripciones adquisitivas</li><li>Sucesiones</li>
-            </ul>
-            <p class="otras">Y otras consultas civiles.</p>
-            <a class="btn btn-acento" data-area="civil" href="#contacto">Consultar por un tema civil</a>
-          </div>
-          <div class="panel" role="tabpanel" id="panel-comercial" aria-labelledby="tab-comercial" hidden>
-            <ul class="temas">
-              <li>Sociedades (PyMEs, SRL, SA, SAS)</li><li>Contratos comerciales (leasing, franquicia, fideicomiso, bancarios)</li>
-              <li>Defensa del consumidor</li><li>Propiedad intelectual</li>
-            </ul>
-            <p class="otras">Y otras consultas comerciales.</p>
-            <a class="btn btn-acento" data-area="comercial" href="#contacto">Consultar por un tema comercial</a>
-          </div>
-          <div class="panel" role="tabpanel" id="panel-laboral" aria-labelledby="tab-laboral" hidden>
-            <ul class="temas">
-              <li>Despidos</li><li>Accidentes de trabajo (con o sin ART)</li><li>Trabajo no registrado</li><li>Telegramas y cartas documento</li>
-              <li>Jornadas y vacaciones</li><li>Sindicatos</li><li>Contratos especiales</li>
-            </ul>
-            <p class="otras">Y otras consultas laborales.</p>
-            <a class="btn btn-acento" data-area="laboral" href="#contacto">Consultar por un tema laboral</a>
-          </div>
+        <div>
+          <h3>Comercial</h3>
+          <ul>
+            <li>Sociedades (PyMEs, SRL, SA, SAS)</li><li>Contratos comerciales (leasing, franquicia, fideicomiso, bancarios)</li>
+            <li>Defensa del consumidor</li><li>Propiedad intelectual</li>
+          </ul>
+          <p class="otras">Y otras consultas comerciales.</p>
+        </div>
+        <div>
+          <h3>Laboral</h3>
+          <ul>
+            <li>Despidos</li><li>Accidentes de trabajo (con o sin ART)</li><li>Trabajo no registrado</li><li>Telegramas y cartas documento</li>
+            <li>Jornadas y vacaciones</li><li>Sindicatos</li><li>Contratos especiales</li>
+          </ul>
+          <p class="otras">Y otras consultas laborales.</p>
         </div>
       </div>
-    </section>
-  </div>
+      <div class="cierre"><a class="btn btn-linea" href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultá tu caso</a></div>
+    </div>
+  </section>
 
   <section class="contacto" id="contacto">
     <div class="w">
-      <div class="revela">
-        <h2 class="titulo display">Empecemos por <em>WhatsApp</em>.</h2>
-        <p class="bajada">Contanos tu situación y te respondemos con los próximos pasos.</p>
-        <form id="form-consulta" novalidate>
-          <fieldset data-etiqueta="Área">
-            <legend>¿Sobre qué es tu consulta?</legend>
-            <div class="chips">
-              <label class="chip"><input type="radio" name="area" value="Civil"><span>Civil</span></label>
-              <label class="chip"><input type="radio" name="area" value="Comercial"><span>Comercial</span></label>
-              <label class="chip"><input type="radio" name="area" value="Laboral"><span>Laboral</span></label>
-              <label class="chip"><input type="radio" name="area" value="No estoy seguro"><span>No estoy seguro</span></label>
-            </div>
-          </fieldset>
-          <label>Tu nombre
-            <input name="nombre" autocomplete="name" required aria-describedby="form-error">
-            <span class="error" id="form-error" role="alert">Escribí tu nombre para que sepamos a quién responder.</span>
-          </label>
-          <label><span>Tu situación <span class="opcional">(opcional)</span></span>
-            <textarea name="detalle" rows="3"></textarea>
-          </label>
-          <button class="btn btn-oscuro" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Enviar por WhatsApp</button>
-          <p class="nota">Se abre WhatsApp con tu mensaje listo para enviar.</p>
-        </form>
-      </div>
-      <div class="oficina revela">
-        <div class="foto"><img src="img/equipo-logo.jpg" srcset="img/equipo-logo-800.jpg 800w, img/equipo-logo.jpg 1600w" sizes="(max-width: 900px) 100vw, 50vw" alt="Valentín Ramírez Gasko y Matías Nicolás Requena junto al logo de R&amp;RG Estudio Jurídico" width="1600" height="1066" loading="lazy"></div>
-        <dl>
-          <div><dt>Oficina</dt><dd><a href="https://www.google.com/maps?cid=4170395206403576635" target="_blank" rel="noopener">Hipólito Yrigoyen 421, Piso 2, Of. 9</a><br>Resistencia, Chaco</dd></div>
-          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/5493624166281" target="_blank" rel="noopener">+54 9 3624 16-6281</a></dd></div>
+      <div>
+        <h2>Contacto</h2>
+        <p class="texto">Contanos tu situación por WhatsApp y te respondemos con los próximos pasos.</p>
+        <a class="btn btn-verde" id="cta-contacto" href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultá tu caso</a>
+        <dl class="datos">
+          <div><dt>Oficina</dt><dd><a href="https://www.google.com/maps?cid=4170395206403576635" target="_blank" rel="noopener">Hipólito Yrigoyen 421, Piso 2, Of. 9<br>Resistencia, Chaco</a></dd></div>
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener">+54 9 3624 16-6281</a></dd></div>
           <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/estudiojuridicorrg/" target="_blank" rel="noopener">@estudiojuridicorrg</a></dd></div>
         </dl>
-        <a class="btn btn-borde" href="https://www.google.com/maps?cid=4170395206403576635" target="_blank" rel="noopener">Cómo llegar</a>
       </div>
-    </div>
-    <div class="w" style="display:block">
-      <div class="mapa revela"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d767.5847836601463!2d-58.982441573561125!3d-27.45361301199104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94450d8e828f6507%3A0x39e0385832ad533b!2sEstudio%20Jur%C3%ADdico%20R%26RG!5e0!3m2!1ses!2sar!4v1790790502713!5m2!1ses!2sar" title="Ubicación de R&amp;RG Estudio Jurídico: Hipólito Yrigoyen 421, Resistencia, Chaco" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      <div class="mapa"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d767.5847836601463!2d-58.982441573561125!3d-27.45361301199104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94450d8e828f6507%3A0x39e0385832ad533b!2sEstudio%20Jur%C3%ADdico%20R%26RG!5e0!3m2!1ses!2sar!4v1790790502713!5m2!1ses!2sar" title="Ubicación de R&amp;RG Estudio Jurídico: Hipólito Yrigoyen 421, Resistencia, Chaco" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="w">
+    <svg class="marca" viewBox="0 0 532 344" role="img" aria-label="R&amp;RG"><use href="#logo-rrg"></use></svg>
     <div class="pie">
-      <div><strong>R&amp;RG Estudio Jurídico</strong>Requena &amp; Ramírez Gasko</div>
-      <div><strong>Oficina</strong>Hipólito Yrigoyen 421, Piso 2, Of. 9<br>Resistencia, Chaco</div>
-      <div><strong>Contacto</strong><a href="https://wa.me/5493624166281" target="_blank" rel="noopener">+54 9 3624 16-6281</a><br><a href="https://www.instagram.com/estudiojuridicorrg/" target="_blank" rel="noopener">@estudiojuridicorrg</a></div>
+      <span>© 2026 R&amp;RG Estudio Jurídico</span>
+      <span>Hipólito Yrigoyen 421, Piso 2, Of. 9, Resistencia, Chaco</span>
+      <a href="https://www.instagram.com/estudiojuridicorrg/" target="_blank" rel="noopener">Instagram</a>
     </div>
-    <div class="gigante display" aria-hidden="true">R&amp;RG</div>
   </div>
 </footer>
-<div class="barra"><a class="btn btn-oscuro" href="#contacto"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultá tu caso</a></div>
+<div class="barra"><a class="btn btn-dorado" href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Consultá tu caso</a></div>
 
 <script>
+  // En el celular, la barra con el botón aparece al pasar la presentación y se esconde donde ya hay un botón a la vista.
   (function(){
-    var WA = "5493624166281";
-    // Pestañas de áreas
-    var tabs = [].slice.call(document.querySelectorAll(".tab"));
-    function activar(t){
-      tabs.forEach(function(x){
-        var on = x === t; x.setAttribute("aria-selected", on ? "true" : "false"); x.tabIndex = on ? 0 : -1;
-        document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
-      });
-    }
-    tabs.forEach(function(t, i){
-      t.addEventListener("click", function(){ activar(t); });
-      t.addEventListener("keydown", function(e){
-        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-        var n = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length]; activar(n); n.focus();
-      });
-    });
-    // "Consultar por un tema X" deja el área elegida en el formulario
-    document.querySelectorAll("[data-area]").forEach(function(a){
-      a.addEventListener("click", function(){
-        var r = document.querySelector('input[name="area"][value="' + a.dataset.area.charAt(0).toUpperCase() + a.dataset.area.slice(1) + '"]');
-        if (r) r.checked = true;
-      });
-    });
-    // Formulario: arma el mensaje y abre WhatsApp
-    var f = document.getElementById("form-consulta"), err = document.getElementById("form-error");
-    f.addEventListener("submit", function(e){
-      e.preventDefault();
-      var nombre = f.nombre.value.trim();
-      if (!nombre) { err.style.display = "block"; f.nombre.setAttribute("aria-invalid", "true"); f.nombre.focus(); return; }
-      err.style.display = "none"; f.nombre.removeAttribute("aria-invalid");
-      var l = ["Hola R&RG, quiero hacer una consulta.", "Soy " + nombre + "."];
-      var area = f.querySelector('input[name="area"]:checked');
-      if (area) l.push("Área: " + area.value);
-      var det = f.detalle.value.trim(); if (det) l.push(det);
-      // En el navegador de Instagram o de Google Maps, window.open suele bloquearse: se navega directo.
-      window.location.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(l.join("\n"));
-    });
-    // Aparición al hacer scroll y barra fija del celular
-    var els = document.querySelectorAll(".revela"), barra = document.querySelector(".barra");
-    if (!("IntersectionObserver" in window)) { els.forEach(function(el){ el.classList.add("si"); }); barra.classList.add("ver"); return; }
-    var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if (x.isIntersecting) { x.target.classList.add("si"); io.unobserve(x.target); } }); }, { threshold: .1 });
-    els.forEach(function(el){ io.observe(el); });
+    var barra = document.querySelector(".barra");
+    if (!("IntersectionObserver" in window)) { barra.classList.add("ver"); return; }
     var vistos = new Set();
-    var vio = new IntersectionObserver(function(es){
+    var io = new IntersectionObserver(function(es){
       es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
       barra.classList.toggle("ver", vistos.size === 0);
-    }, { threshold: .05 });
-    [".hero .acciones", "#form-consulta", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) vio.observe(el); });
+    });
+    [".hero .acciones", ".areas .cierre", "#cta-contacto"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
   })();
 </script>
 </body>

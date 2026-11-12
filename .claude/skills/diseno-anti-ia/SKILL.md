@@ -27,6 +27,35 @@ Un negocio local comparte su web de dos formas: el link en la bio de Instagram o
   - nada de librerías pesadas para animar tres cosas.
 - **Corta.** Colo Studio (colo-studio.pages.dev), un sitio real que funciona bien, tiene 4 secciones y mide 2.500 px en el celular. Cada sección tiene que ganarse su lugar.
 
+## El rubro define el registro
+
+Antes de elegir tipografía o estructura, preguntate cómo se ve una página seria de ese rubro. La "receta Framer" que describe este skill más abajo sirve para rubros de experiencia: salones de eventos, hotelería, gastronomía, estética. Esa receta es:
+- serif grande,
+- una palabra en cursiva o en otro color,
+- menú en píldora,
+- bordes muy redondeados,
+- brillos de fondo,
+- nombre gigante en el pie.
+
+Usada en un estudio de abogados, un contador o un consultorio, esa misma receta es justo lo que se reconoce como "hecho por IA".
+
+Para **servicios profesionales** (abogados, contadores, escribanos, médicos, consultoras) el registro es sobrio e institucional:
+- **Una sola familia tipográfica**, sans y pareja con el logo del negocio. Títulos de tamaño moderado (hasta unos 52 px), en peso seminegrita. Sin cursivas ni palabras destacadas en otro color.
+- **Formas rectas:** botones y fotos con esquinas de 0 a 4 px, líneas finas para separar. Sin píldoras, brillos, sombras ni animaciones de entrada.
+- **Estructura clásica:**
+  - barra superior simple con el logo real y el botón,
+  - presentación con el nombre del estudio y qué hace,
+  - el estudio y sus profesionales con foto, nombre y cargo,
+  - áreas de práctica en columnas con listas,
+  - contacto con datos y mapa,
+  - pie chico.
+
+  Tres columnas con listas son correctas cuando el contenido son tres listas paralelas.
+- **El título dice quiénes son**, no un eslogan: "Requena & Ramírez Gasko, abogados."
+- **Usá el logo real** si existe (buscalo en su página o en sus fotos) en vez de escribir el nombre con una tipografía cualquiera.
+
+Si dudás entre dos registros, elegí el más sobrio.
+
 ## Si es un rediseño, la marca se respeta
 
 Cuando el negocio ya tiene una página, un logo o colores propios, eso es su identidad y no se cambia sin que lo pidan. Antes de diseñar, sacá de la página actual:
