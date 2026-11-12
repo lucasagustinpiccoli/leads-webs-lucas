@@ -44,6 +44,7 @@ const { chromium, devices } = require('playwright');
         const ctas = [...document.querySelectorAll('.btn')].filter(x => x.offsetParent).map(x => x.getBoundingClientRect().height);
         const heroCta = document.querySelector('.hero .btn');
         const toques = [...document.querySelectorAll('.btn, .chip span, input, select, textarea')]
+          .filter(x => !['radio', 'checkbox', 'hidden'].includes(x.type))  // los radios de las opciones están ocultos: se toca la píldora
           .filter(x => x.offsetParent && x.getBoundingClientRect().width > 0)
           .filter(x => x.getBoundingClientRect().height < 44 && !(x.tagName === 'TEXTAREA')).map(x => x.textContent.trim().slice(0, 20) || x.name);
         const heroImg = document.querySelector('.hero img');
