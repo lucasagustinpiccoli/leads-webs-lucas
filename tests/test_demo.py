@@ -52,6 +52,16 @@ class TestDemo(unittest.TestCase):
         self.assertEqual(html.count('class="chip"'), 4)
         self.assertNotIn('type="date"', html)
 
+    def test_estilo_sobrio(self):
+        d = demo.armar_datos({**FILA, "rubro": "Dentista", "ranking": "7"})
+        self.assertEqual(d["estilo"], "sobrio")
+        out = demo.render(d)
+        self.assertNotIn("{{", out)
+        self.assertNotIn("<em", out)                 # sin palabras destacadas
+        self.assertNotIn("*", re.sub(r"<(style|script)[\s\S]*?</\1>", "", out))
+        self.assertNotIn("border-radius:999px", out)  # formas rectas, sin píldoras
+        self.assertEqual(out.count("<figure"), 0)
+
     def test_instagram_con_parametros(self):
         d = demo.armar_datos({**FILA, "web": "https://www.instagram.com/ga_eventos1/?hl=es-la"})
         self.assertIn("@ga_eventos1", demo.render(d))

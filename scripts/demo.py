@@ -31,6 +31,7 @@ from buscar import cargar, slug  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output")
 TEMPLATE = os.path.join(ROOT, "templates", "landing.html")
+TEMPLATE_SOBRIO = os.path.join(ROOT, "templates", "landing_sobrio.html")  # rubros con "estilo": "sobrio" (salud, profesionales)
 
 ICONOS = {
     # Logo oficial de WhatsApp, del paquete simple-icons 13.21.0 (licencia CC0).
@@ -157,6 +158,8 @@ def render(d):
     wa = d["whatsapp"]
     wa_link = f"https://wa.me/{wa}?text={quote(d['mensaje_wa'])}" if wa else d["link_maps"]
 
+    sobrio = d.get("estilo") == "sobrio"
+
     def boton_wa(clase):
         return (f'<a class="btn {clase}" href="{e(wa_link)}" target="_blank" rel="noopener">'
                 f'{ICONOS["wa"]}<span>WhatsApp</span></a>')
@@ -172,10 +175,15 @@ def render(d):
     datos.append((d["localidad"], d["direccion"]))
     datos_html = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in datos[:3])
 
-    tipos = "".join(
-        f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 767px) 70vw, 25vw")} '
-        f'alt="" loading="lazy"></div>'
-        f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
+    if sobrio:
+        tipos = "".join(
+            f'<article><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 900px) 96px, 25vw")} alt="" loading="lazy" width="400" height="300">'
+            f'<h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></article>' for t in d["tipos"])
+    else:
+        tipos = "".join(
+            f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 767px) 70vw, 25vw")} '
+            f'alt="" loading="lazy"></div>'
+            f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
     galeria = "".join(f'<figure><img src="{e(u)}" {srcset(u, "(max-width: 767px) 50vw, 33vw")} alt="{e(d["alt_galeria"])}" '
                       f'loading="lazy"></figure>' for u in gal)
 
@@ -201,6 +209,9 @@ def render(d):
     mapa = "https://www.google.com/maps?q=" + quote(f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
 
     tema = {"enfasis_estilo": "italic", "enfasis_peso": "inherit", **d["tema"]}
+    plano = lambda t: e(t.replace("*", ""))  # el estilo sobrio no usa palabras destacadas
+    foto_nosotros = (f'<img src="{e(gal[0])}" {srcset(gal[0], "(max-width: 900px) 100vw, 50vw")} alt="{e(d["alt_galeria"])}" '
+                     f'loading="lazy" width="1200" height="800">')
     hero_set = srcset(hero, "100vw")
     valores = {
         **{k: e(str(v)) for k, v in d.items() if isinstance(v, (str, int, float))},
@@ -218,9 +229,14 @@ def render(d):
         "boton_wa_flotante": f'<a class="wa-flotante" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="WhatsApp">{ICONOS["wa"]}</a>',
         "boton_wa_barra": f'<a class="btn btn-wa" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">{ICONOS["wa"]}</a>',
         "form_html": formulario(d["form"]), "form_boton": e(d["form"]["boton"]),
+        "seccion_nosotros": plano(d.get("seccion_nosotros", "Quiénes somos")), "foto_nosotros": foto_nosotros,
+        "negocio_pie": e(corto),
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
-    with open(TEMPLATE, encoding="utf-8") as f:
+    if sobrio:  # textos sin énfasis, botones de la plantilla sobria
+        valores.update({k: plano(d[k]) for k in ("intro", "banda", "seccion_tipos", "seccion_galeria", "seccion_ubicacion") if k in d})
+        valores.update({"boton_wa_hero": boton_wa("linea"), "boton_wa_ubicacion": boton_wa("oscuro")})
+    with open(TEMPLATE_SOBRIO if sobrio else TEMPLATE, encoding="utf-8") as f:
         out = f.read()
     for k, v in valores.items():
         out = out.replace("{{" + k + "}}", str(v))

@@ -117,6 +117,7 @@ Copiá `salon_eventos.json` y reemplazá todo. Así se usa cada clave:
 | Clave | Qué es |
 |---|---|
 | `rubro_label`, `nav_tipos`, `alt_hero`, `alt_galeria`, `fotos_label`, `meta_descripcion` | Etiquetas. `fotos_label` acompaña la cantidad real de fotos en Google ("fotos del consultorio en Google") |
+| `estilo` | `"sobrio"` para salud y servicios profesionales (dentistas, veterinarias, consultorios, estudios, contadores): una sola tipografía sans, formas rectas, sin cursivas ni palabras destacadas. Sin esta clave sale el estilo editorial de salones (serif, énfasis, pantalla completa), que **no** se usa en salud. En el estilo sobrio los 3 temas llevan la misma familia en `display` y `cuerpo`, y `eyebrow` es `{negocio}` |
 | `eyebrow`, `titular`, `bajada` | Hero. `titular` de 2 líneas como máximo, `bajada` de 20 palabras como máximo |
 | `cta` | Etiqueta única del botón principal ("Pedí turno"), igual en todos lados |
 | `intro`, `seccion_tipos`, `tipos` (4, con `titulo`, `texto` e `imagen`), `seccion_galeria`, `banda`, `bajada_presupuesto`, `seccion_ubicacion` | Textos de cada sección. `banda` es la frase grande sobre el formulario |

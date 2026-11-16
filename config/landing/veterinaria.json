@@ -6,11 +6,11 @@
   "alt_galeria": "Mascota en la veterinaria",
   "fotos_label": "fotos de la veterinaria en Google",
   "meta_descripcion": "{negocio}, veterinaria en {localidad}. Consultas y controles para perros y gatos. Pedí turno por WhatsApp.",
-  "eyebrow": "Consultorio veterinario",
-  "titular": "Atención veterinaria en *{localidad}*.",
+  "eyebrow": "{negocio}",
+  "titular": "Atención veterinaria en {localidad}.",
   "bajada": "Consultas y controles para perros y gatos. Pedí tu turno por WhatsApp.",
   "cta": "Pedí turno",
-  "intro": "Un consultorio en {localidad} para acompañar a tu mascota en cada etapa, de cachorro a adulto mayor.",
+  "intro": "Un consultorio veterinario en {localidad} para acompañar a tu mascota en cada etapa, de cachorro a adulto mayor.",
   "seccion_tipos": "En cada etapa de su vida",
   "tipos": [
     {
@@ -35,10 +35,10 @@
     }
   ],
   "seccion_galeria": "Pacientes de todos los tamaños",
-  "banda": "Contanos qué necesita tu *mascota* y elegí el día.",
+  "banda": "Pedí turno para tu mascota.",
   "seccion_ubicacion": "Cómo llegar al consultorio",
   "seccion_presupuesto": "Pedí tu turno",
-  "bajada_presupuesto": "Elegí el motivo, el día y la franja. Te respondemos por WhatsApp para confirmar el horario.",
+  "bajada_presupuesto": "Contanos quién es tu mascota y el motivo. Te respondemos por WhatsApp para confirmar el día.",
   "form": {
     "modo": "turno",
     "tipo_label": "Motivo",
@@ -58,7 +58,14 @@
         ]
       }
     ],
-    "dias": [1, 2, 3, 4, 5, 6],
+    "dias": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "franjas": [
       "Mañana",
       "Tarde"
@@ -88,61 +95,45 @@
   },
   "temas": [
     {
-      "nombre": "menta",
-      "fondo": "#edf3f2",
-      "superficie": "#f8fbfa",
-      "tinta": "#13282a",
-      "suave": "#4c6163",
-      "oscuro": "#12393b",
-      "acento": "#ff8a6b",
-      "acento_tinta": "#12393b",
-      "display": "'Bricolage Grotesque', system-ui, sans-serif",
-      "display_peso": "600",
-      "display_caso": "none",
-      "display_tracking": "-0.03em",
-      "display_ancho": "100%",
-      "cuerpo": "'Figtree', system-ui, sans-serif",
-      "fuentes": "family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600",
-      "enfasis_estilo": "normal",
-      "enfasis_peso": "800"
+      "nombre": "bosque",
+      "fondo": "#eef2ec",
+      "superficie": "#f8faf6",
+      "tinta": "#16201a",
+      "suave": "#51604f",
+      "oscuro": "#1f3a2e",
+      "acento": "#f2b84b",
+      "acento_tinta": "#1f3a2e",
+      "cuerpo": "'Hanken Grotesk', system-ui, sans-serif",
+      "display": "'Hanken Grotesk', system-ui, sans-serif",
+      "fuentes": "family=Hanken+Grotesk:wght@400;500;600"
     },
     {
-      "nombre": "pizarra",
-      "fondo": "#edf0f4",
+      "nombre": "marino",
+      "fondo": "#edf1f5",
       "superficie": "#f7f9fb",
-      "tinta": "#192332",
-      "suave": "#525e6e",
-      "oscuro": "#1d2a3b",
-      "acento": "#f2994a",
-      "acento_tinta": "#1d2a3b",
-      "display": "'Literata', Georgia, serif",
-      "display_peso": "500",
-      "display_caso": "none",
-      "display_tracking": "-0.02em",
-      "display_ancho": "100%",
-      "cuerpo": "'Figtree', system-ui, sans-serif",
-      "fuentes": "family=Literata:ital,opsz,wght@0,7..72,500;1,7..72,500&family=Figtree:wght@400;500;600",
-      "enfasis_estilo": "italic",
-      "enfasis_peso": "500"
+      "tinta": "#141c26",
+      "suave": "#515e70",
+      "oscuro": "#14304d",
+      "acento": "#f28c52",
+      "acento_tinta": "#14304d",
+      "cuerpo": "'DM Sans', system-ui, sans-serif",
+      "display": "'DM Sans', system-ui, sans-serif",
+      "fuentes": "family=DM+Sans:wght@400;500;600"
     },
     {
-      "nombre": "oliva",
-      "fondo": "#e8ebe4",
-      "superficie": "#f5f6f2",
-      "tinta": "#20251b",
-      "suave": "#575e4f",
-      "oscuro": "#2c3424",
-      "acento": "#e3b04b",
-      "acento_tinta": "#2c3424",
-      "display": "'Schibsted Grotesk', system-ui, sans-serif",
-      "display_peso": "700",
-      "display_caso": "none",
-      "display_tracking": "-0.035em",
-      "display_ancho": "100%",
-      "cuerpo": "'Schibsted Grotesk', system-ui, sans-serif",
-      "fuentes": "family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,700",
-      "enfasis_estilo": "italic",
-      "enfasis_peso": "700"
+      "nombre": "grafito",
+      "fondo": "#eff1f1",
+      "superficie": "#f8f9f9",
+      "tinta": "#1a2024",
+      "suave": "#566066",
+      "oscuro": "#232a2f",
+      "acento": "#7fc8b8",
+      "acento_tinta": "#232a2f",
+      "cuerpo": "'Albert Sans', system-ui, sans-serif",
+      "display": "'Albert Sans', system-ui, sans-serif",
+      "fuentes": "family=Albert+Sans:wght@400;500;600"
     }
-  ]
+  ],
+  "estilo": "sobrio",
+  "seccion_nosotros": "El consultorio"
 }

@@ -49,6 +49,11 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - Motor único `templates/landing.html`; textos, formulario, fotos y temas por rubro en `config/landing/{rubro}.json`.
   Rubros con plantilla: `salon_eventos`, `dentista`, `veterinaria`. Para sumar uno, usá el skill `landing-rubro-nuevo`; el criterio de diseño está
   en el skill `diseno-anti-ia`.
+- **Dos estilos de plantilla**, elegidos con `"estilo"` en `config/landing/{rubro}.json`:
+  el editorial por defecto (`templates/landing.html`: foto a pantalla completa, serif y énfasis, para salones y rubros de
+  experiencia) y `"estilo": "sobrio"` (`templates/landing_sobrio.html`: una sola tipografía sans, formas rectas, sin
+  cursivas ni píldoras, para servicios de salud y profesionales: `dentista` y `veterinaria`). El estilo sobrio sigue
+  la misma estructura de la propuesta para R&RG (`redisenos/rrg/`).
 - **Pensada para celular**: la visita llega desde el link de la bio de Instagram o desde "sitio web" en Google Maps.
   Menú en píldora con el botón principal siempre visible, barra fija abajo en el celular (botón + WhatsApp),
   opciones para tocar en el formulario, teléfono y dirección como links, fotos livianas.
