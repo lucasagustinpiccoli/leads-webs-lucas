@@ -105,7 +105,6 @@
   @media (max-width:860px){
     header nav a:not(.btn){display:none}
     header .marca span{display:none}
-    header:not(.solido) .marca span{display:inline}
     header .w{height:88px}
     header .marca svg{height:52px}
     .hero .foto{min-height:50svh}
@@ -131,9 +130,9 @@
 
 <header>
   <div class="w">
-    <a class="marca" href="#inicio" aria-label="R&amp;RG Estudio Jurídico, inicio"><svg viewBox="0 0 532 344" aria-hidden="true"><use href="#logo-rrg"></use></svg><span>Estudio Jurídico</span></a>
+    <a class="marca" href="#inicio" aria-label="R&amp;RG Estudio Jurídico, inicio"><svg viewBox="0 0 532 344" aria-hidden="true"><use href="#logo-rrg"></use></svg></a>
     <nav>
-      <a href="#estudio">El estudio</a>
+      <a href="#estudio">Quiénes somos</a>
       <a href="#areas">Áreas de práctica</a>
       <a href="#contacto">Contacto</a>
       <a class="btn dorado" href="https://wa.me/5493624166281?text=Hola%2C%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener">Consultá tu caso</a>
@@ -142,6 +141,7 @@
 </header>
 
 <main id="inicio">
+  <div id="tope" style="position:absolute;top:0;height:24px;width:1px" aria-hidden="true"></div>
   <div class="hero">
     <h1>R&amp;RG Estudio Jurídico</h1>
     <div class="foto">
@@ -154,7 +154,7 @@
       <div class="w">
         <div>
           <p class="nombre">Requena &amp; Ramírez Gasko</p>
-          <p class="lugar">Abogados en Resistencia, Chaco</p>
+          <p class="lugar">Estudio Jurídico · Resistencia, Chaco</p>
         </div>
         <div>
           <p class="texto">Asesoría legal moderna, cercana y profesional. Derecho civil, comercial y laboral.</p>
@@ -170,7 +170,7 @@
   <section class="estudio" id="estudio">
     <div class="w">
       <div>
-        <h2>El estudio</h2>
+        <h2>Quiénes somos</h2>
         <p class="destacado">Dos abogados, un mismo criterio: lo legal no tiene que ser complicado.</p>
         <p class="texto">R&amp;RG es un espacio pensado para brindar acompañamiento legal cercano, responsable y comprometido. Fundado por Matías y Valentín, atendemos cada caso como si fuera el único, porque para quien consulta lo es.</p>
       </div>
@@ -254,8 +254,8 @@
   (function(){
     var header = document.querySelector("header"), barra = document.querySelector(".barra");
     if (!("IntersectionObserver" in window)) { header.classList.add("solido"); barra.classList.add("ver"); return; }
-    // Al salir de la foto, la barra superior se vuelve verde y muestra el logo y el botón.
-    new IntersectionObserver(function(es){ header.classList.toggle("solido", !es[0].isIntersecting); }, { rootMargin: "-70px 0px 0px 0px" }).observe(document.querySelector(".hero"));
+    // Apenas se empieza a bajar, la barra superior se vuelve verde, con el logo chico y el botón.
+    new IntersectionObserver(function(es){ header.classList.toggle("solido", !es[0].isIntersecting); }).observe(document.getElementById("tope"));
     // En el celular, el botón fijo de abajo aparece cuando no hay otro botón de consulta a la vista.
     var vistos = new Set();
     var io = new IntersectionObserver(function(es){
