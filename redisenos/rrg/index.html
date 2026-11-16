@@ -81,9 +81,11 @@
 
   .areas{background:var(--clara);border-block:1px solid var(--linea)}
   .areas .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px);margin-top:clamp(28px,4vw,44px)}
-  .areas h3{color:var(--verde);padding-bottom:12px;border-bottom:2px solid var(--dorado)}
+  .areas .art{font-size:14px;letter-spacing:.06em;color:var(--dorado-oscuro);margin-bottom:6px}
+  .areas h3{color:var(--verde);text-transform:uppercase;letter-spacing:.12em;font-size:18px;padding-bottom:12px;border-bottom:2px solid var(--dorado)}
   .areas ul{list-style:none}
-  .areas li{padding:12px 0;border-bottom:1px solid var(--linea);font-size:16px;line-height:1.4}
+  .areas li{display:grid;grid-template-columns:18px 1fr;gap:8px;padding:12px 0;border-bottom:1px solid var(--linea);font-size:16px;line-height:1.4}
+  .areas li::before{content:"§";color:var(--dorado-oscuro);font-weight:500}
   .areas .otras{color:var(--suave);font-size:15px;margin-top:12px}
 
   .contacto{background:var(--verde);color:var(--crema)}
@@ -195,6 +197,7 @@
       <h2>Áreas de práctica</h2>
       <div class="cols">
         <div>
+          <p class="art">Art. 01</p>
           <h3>Civil</h3>
           <ul>
             <li>Accidentes de tránsito</li><li>Juicios ejecutivos (pagarés, cheques, alquileres)</li><li>Desalojos</li>
@@ -203,6 +206,7 @@
           <p class="otras">Y otras consultas civiles.</p>
         </div>
         <div>
+          <p class="art">Art. 02</p>
           <h3>Comercial</h3>
           <ul>
             <li>Sociedades (PyMEs, SRL, SA, SAS)</li><li>Contratos comerciales (leasing, franquicia, fideicomiso, bancarios)</li>
@@ -211,6 +215,7 @@
           <p class="otras">Y otras consultas comerciales.</p>
         </div>
         <div>
+          <p class="art">Art. 03</p>
           <h3>Laboral</h3>
           <ul>
             <li>Despidos</li><li>Accidentes de trabajo (con o sin ART)</li><li>Trabajo no registrado</li><li>Telegramas y cartas documento</li>
