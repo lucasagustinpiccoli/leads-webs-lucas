@@ -71,6 +71,15 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - La franja "Demo preparada para…" y el `noindex` se quedan hasta que el cliente compre.
 - En el sandbox de Claude el mapa embebido sale gris (bloquea maps.gstatic.com); en un navegador normal carga.
 
+## Página madre y publicación
+
+- `sitio/lp-design/`: la página de LP Design (portfolio de Lucas). Una sola página en español, estilo sobrio, con
+  solo lo que se puede respaldar: sin testimonios ni logos inventados. Ver `sitio/lp-design/LEEME.md` (qué completar
+  antes de publicar: número de WhatsApp y permisos de los casos).
+- `python scripts/armar_sitio.py` junta la página madre y las demos de `output/demos/` en `output/publicar/` (y en
+  `output/publicar.zip`), con `robots.txt` y `_headers` para que `/demos/` no se indexe. Se sube completo a Cloudflare
+  Pages; cada demo queda en su propia dirección (`/demos/{carpeta}/`).
+
 ## Otras herramientas
 
 - `python scripts/buscar.py --rubro {clave} --zona {localidad | "zona oeste" | "caba"} [--max 60]`

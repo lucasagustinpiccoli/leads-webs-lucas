@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14213d">
+<title>LP Design | Diseño web para negocios locales</title>
+<meta name="description" content="LP Design diseña páginas web claras, rápidas y pensadas para el celular, para negocios y profesionales de Buenos Aires. Antes de contratar, te muestro cómo quedaría la tuya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/rrg-mob.jpg">
+<style>
+  /* Pensada primero para celular: la mayoría llega desde Instagram o desde un mensaje. */
+  :root{
+    --fondo:#eef0f3; --superficie:#f8f9fb; --tinta:#12161c; --suave:#4f5865;
+    --oscuro:#14213d; --acento:#f2b134; --acento-tinta:#14213d;
+    --linea:rgba(18,22,28,.16); --lc:rgba(255,255,255,.2);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+  body{font-family:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tinta);background:var(--fondo);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit;text-decoration:none}
+  .w{width:min(1120px,100% - 40px);margin-inline:auto}
+  h1,h2,h3{font-weight:600;line-height:1.12;letter-spacing:-.015em}
+  h1{font-size:clamp(34px,5.2vw,62px)}
+  h2{font-size:clamp(27px,3.2vw,40px)}
+  h3{font-size:20px;line-height:1.25}
+  .suave{color:var(--suave)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:4px;font-family:inherit;font-weight:600;font-size:15px;line-height:1;white-space:nowrap;border:1px solid transparent;cursor:pointer;transition:filter .15s ease,background-color .15s ease}
+  .btn svg{width:18px;height:18px;flex:none}
+  .acento{background:var(--acento);color:var(--acento-tinta)}
+  .oscuro{background:var(--oscuro);color:#fff}
+  .linea{border-color:rgba(255,255,255,.5);color:#fff}
+  .borde{border-color:var(--linea);color:var(--tinta)}
+  @media (hover:hover) and (pointer:fine){
+    .acento:hover{filter:brightness(1.07)}
+    .oscuro:hover{filter:brightness(1.25)}
+    .linea:hover{background:rgba(255,255,255,.1)}
+    .borde:hover{background:rgba(0,0,0,.04)}
+    header nav a:not(.btn):hover{color:#fff}
+    .enlace:hover{border-bottom-color:currentColor}
+  }
+  a:focus-visible,summary:focus-visible,.btn:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+  .enlace{display:inline-flex;align-items:center;min-height:44px;font-weight:600;border-bottom:1px solid transparent}
+
+  header{position:sticky;top:0;z-index:20;background:var(--oscuro);color:#fff;border-bottom:1px solid var(--lc)}
+  header .w{height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .marca{font-size:20px;font-weight:700;letter-spacing:-.02em;min-height:44px;display:flex;align-items:center;gap:10px}
+  .marca i{display:block;width:10px;height:10px;background:var(--acento)}
+  header nav{display:flex;align-items:center;gap:26px;font-size:15px}
+  header nav a{display:inline-flex;align-items:center;min-height:44px;color:rgba(255,255,255,.85)}
+  header nav .btn{min-height:44px;padding:0 18px;color:var(--acento-tinta)}
+
+  /* Presentación */
+  .hero{background:var(--oscuro);color:#fff;overflow:hidden}
+  .hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);align-items:center;padding-block:clamp(40px,6vw,88px)}
+  .hero .lugar{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);margin-bottom:16px}
+  .hero p.texto{font-size:clamp(17px,1.5vw,20px);color:rgba(255,255,255,.84);max-width:42ch;margin:20px 0 30px}
+  .acciones{display:flex;flex-wrap:wrap;gap:12px}
+  .hero .pantallas{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .hero .pantallas img{border:1px solid var(--lc);width:100%}
+  .hero .pantallas img:last-child{margin-top:44px}
+
+  section{padding-block:clamp(56px,8vw,104px)}
+  .titulo{max-width:24ch}
+  .intro{color:var(--suave);max-width:54ch;margin-top:14px}
+
+  /* Trabajos */
+  .caso{display:grid;grid-template-columns:7fr 5fr;gap:clamp(24px,5vw,72px);align-items:center;margin-top:clamp(40px,6vw,72px)}
+  .caso img{border:1px solid var(--linea);background:var(--superficie);width:100%}
+  .caso .etiqueta{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--suave)}
+  .caso h3{font-size:clamp(24px,2.6vw,30px);margin:8px 0 12px}
+  .caso p{color:var(--suave);max-width:44ch}
+  .caso ul{list-style:none;margin:16px 0 8px;border-top:1px solid var(--linea)}
+  .caso li{padding:10px 0;border-bottom:1px solid var(--linea);font-size:16px}
+  .caso.inverso{grid-template-columns:5fr 7fr}
+  .caso.inverso .foto{order:2}
+  .caso .doble{display:grid;grid-template-columns:3fr 1fr;gap:14px;align-items:end}
+  .rubros{margin-top:clamp(40px,6vw,72px);padding-top:clamp(28px,4vw,40px);border-top:1px solid var(--linea)}
+  .rubros .fila{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,3vw,36px);margin-top:28px}
+  .rubros figure img{border:1px solid var(--linea)}
+  .rubros figcaption{margin-top:10px;font-size:15px;color:var(--suave)}
+
+  /* Cómo trabajo */
+  .proceso{background:var(--superficie);border-block:1px solid var(--linea)}
+  .pasos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:clamp(28px,4vw,48px)}
+  .pasos article{border-top:3px solid var(--acento);padding-top:16px}
+  .pasos p{color:var(--suave);font-size:16px;margin-top:8px;line-height:1.5}
+
+  /* Precios */
+  .precios .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:clamp(28px,4vw,48px)}
+  .precios article{border:1px solid var(--linea);background:var(--superficie);padding:clamp(20px,2.4vw,32px);display:flex;flex-direction:column}
+  .precios .principal{background:var(--oscuro);color:#fff;border-color:var(--oscuro)}
+  .precios .pre{display:block;font-size:14px;font-weight:500;opacity:.72;margin-top:10px}
+  .precios .monto{font-size:clamp(30px,3.4vw,40px);font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+  .precios ul{list-style:none;margin-top:16px;border-top:1px solid var(--linea)}
+  .precios .principal ul{border-color:var(--lc)}
+  .precios li{padding:10px 0;border-bottom:1px solid var(--linea);font-size:16px;line-height:1.4}
+  .precios .principal li{border-color:var(--lc)}
+  .precios .nota{margin-top:22px;color:var(--suave);font-size:15px}
+
+  /* Preguntas */
+  .preguntas{background:var(--superficie);border-block:1px solid var(--linea)}
+  .preguntas .w{display:grid;grid-template-columns:4fr 8fr;gap:clamp(24px,5vw,72px)}
+  details{border-bottom:1px solid var(--linea)}
+  details:first-of-type{border-top:1px solid var(--linea)}
+  summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:600;font-size:18px;padding-block:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:24px;font-weight:400;line-height:1;flex:none}
+  details[open] summary::after{content:"\2212"}
+  details p{color:var(--suave);padding:0 0 20px;max-width:60ch}
+
+  /* Contacto */
+  .contacto{background:var(--oscuro);color:#fff}
+  .contacto .w{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(24px,5vw,72px);align-items:center}
+  .contacto p{color:rgba(255,255,255,.84);max-width:44ch;margin:16px 0 0}
+  .contacto .acciones{flex-direction:column;align-items:stretch}
+
+  footer{background:#0d1629;color:rgba(255,255,255,.7);font-size:14.5px;padding-block:28px}
+  footer .w{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 28px}
+  footer strong{color:#fff;font-weight:700}
+
+  .barra{display:none}
+  @media (max-width:900px){
+    header nav a:not(.btn){display:none}
+    .hero .w,.caso,.caso.inverso,.preguntas .w,.contacto .w{grid-template-columns:1fr}
+    .hero .pantallas img:last-child{margin-top:28px}
+    .caso.inverso .foto{order:0}
+    .rubros .fila{grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .rubros figcaption{font-size:13px}
+    .pasos,.precios .cols{grid-template-columns:1fr}
+    .pasos{gap:24px}
+    .acciones .btn{flex:1 1 100%}
+    footer{padding-bottom:92px}
+    .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--oscuro);border-top:1px solid var(--lc);transform:translateY(100%);transition:transform .2s ease}
+    .barra.ver{transform:none}
+    .barra .btn{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .barra{transition:none} }
+</style>
+</head>
+<body>
+<header>
+  <div class="w">
+    <a class="marca" href="#inicio" aria-label="LP Design, inicio"><i aria-hidden="true"></i>LP Design</a>
+    <nav>
+      <a href="#trabajos">Trabajos</a>
+      <a href="#proceso">Cómo trabajo</a>
+      <a href="#precios">Precios</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn acento" data-wa href="#contacto">Escribime</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+    <div class="w">
+      <div>
+        <p class="lugar">Buenos Aires, Argentina</p>
+        <h1>Diseño web para negocios locales.</h1>
+        <p class="texto">Páginas claras, rápidas y pensadas para el celular. Antes de contratar, te muestro cómo quedaría la tuya.</p>
+        <div class="acciones" id="acciones-hero">
+          <a class="btn acento" data-wa href="#contacto">Escribime por WhatsApp</a>
+          <a class="btn linea" href="#trabajos">Ver trabajos</a>
+        </div>
+      </div>
+      <div class="pantallas" aria-label="Capturas de trabajos en el celular">
+        <img src="img/rrg-mob.jpg" alt="Propuesta de rediseño para un estudio jurídico, vista en celular" width="560" height="953">
+        <img src="img/colo-mob.jpg" alt="Colo Studio, vista en celular" width="560" height="953">
+      </div>
+    </div>
+  </div>
+
+  <section id="trabajos">
+    <div class="w">
+      <h2 class="titulo">Trabajos</h2>
+      <p class="intro">Una selección de páginas hechas para negocios y profesionales. Todas funcionan bien en el celular, que es desde donde llega la mayoría de los clientes.</p>
+
+      <article class="caso">
+        <img class="foto" src="img/colo-desk.jpg" alt="Colo Studio, página con reserva de turnos" width="1400" height="875" loading="lazy">
+        <div>
+          <p class="etiqueta">Sitio con reserva de turnos</p>
+          <h3>Colo Studio</h3>
+          <p>Manicuría y pedicuría en Florida, Vicente López. El cliente elige el servicio, el día y el horario, y reserva sin llamadas.</p>
+          <ul>
+            <li>Reserva de turnos online</li>
+            <li>Panel para administrar turnos, clientas y servicios</li>
+          </ul>
+          <a class="enlace" href="https://colo-studio.pages.dev/" target="_blank" rel="noopener">Ver el sitio</a>
+        </div>
+      </article>
+
+      <article class="caso inverso">
+        <div>
+          <p class="etiqueta">Propuesta de rediseño</p>
+          <h3>R&amp;RG Estudio Jurídico</h3>
+          <p>Rediseño de la página de un estudio de abogados de Resistencia, Chaco, con sus colores y su logo. Mejora la lectura en celular y el camino hasta el contacto por WhatsApp.</p>
+          <ul>
+            <li>Pensada para el celular primero</li>
+            <li>Botón de WhatsApp siempre a mano</li>
+          </ul>
+        </div>
+        <img class="foto" src="img/rrg-desk.jpg" alt="Propuesta de rediseño para R&amp;RG Estudio Jurídico" width="1400" height="875" loading="lazy">
+      </article>
+
+      <div class="rubros">
+        <h3>Demos por rubro</h3>
+        <p class="suave" style="margin-top:8px;max-width:56ch">Antes de proponerte nada, preparo una demo con los datos de tu negocio. Estas son algunas, hechas como ejemplo.</p>
+        <div class="fila">
+          <figure><img src="img/oasis-mob.jpg" alt="Demo para un salón de eventos" width="560" height="953" loading="lazy"><figcaption>Salón de eventos</figcaption></figure>
+          <figure><img src="img/dental-mob.jpg" alt="Demo para un consultorio odontológico" width="560" height="953" loading="lazy"><figcaption>Consultorio odontológico</figcaption></figure>
+          <figure><img src="img/vet-mob.jpg" alt="Demo para una veterinaria" width="560" height="953" loading="lazy"><figcaption>Veterinaria</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proceso" id="proceso">
+    <div class="w">
+      <h2 class="titulo">Cómo trabajo</h2>
+      <div class="pasos">
+        <article><h3>Demo</h3><p>Te muestro cómo quedaría tu página con los datos reales de tu negocio. Sin costo y sin compromiso.</p></article>
+        <article><h3>Acuerdo</h3><p>Definimos qué incluye y cuánto cuesta, por escrito. Se paga el 50% por adelantado.</p></article>
+        <article><h3>Diseño y ajustes</h3><p>Armo la página y la revisamos juntos. Una ronda de correcciones está incluida.</p></article>
+        <article><h3>Entrega</h3><p>Queda publicada y funcionando. Se paga el 50% restante al entregarla.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="precios" id="precios">
+    <div class="w">
+      <h2 class="titulo">Precios</h2>
+      <p class="intro">Un precio de entrada claro, y extras solo si los necesitás. Los valores están en dólares.</p>
+      <div class="cols">
+        <article class="principal">
+          <h3>Página base</h3>
+          <span class="pre">Desde</span><p class="monto">USD 150</p>
+          <ul>
+            <li>Página con las secciones estándar</li>
+            <li>Botón de WhatsApp y mapa</li>
+            <li>Pensada para el celular</li>
+            <li>Una ronda de correcciones</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Extras</h3>
+          <span class="pre">Cada extra</span><p class="monto">USD 40 a 60</p>
+          <ul>
+            <li>Reserva de turnos</li>
+            <li>Galería de fotos</li>
+            <li>Formulario de contacto</li>
+            <li>Carta o catálogo</li>
+            <li>Una ronda de correcciones adicional</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Mantenimiento <span class="suave" style="font-weight:400">(opcional)</span></h3>
+          <span class="pre">Por mes</span><p class="monto">USD 15 a 20</p>
+          <ul>
+            <li>Hosting</li>
+            <li>Cambios menores</li>
+            <li>Soporte</li>
+          </ul>
+        </article>
+      </div>
+      <p class="nota">El precio final depende de lo que necesite tu negocio. Antes de empezar lo tenés por escrito.</p>
+    </div>
+  </section>
+
+  <section class="preguntas" id="preguntas">
+    <div class="w">
+      <h2>Preguntas frecuentes</h2>
+      <div>
+        <details><summary>¿Cuánto cuesta una página?</summary><p>La página base parte de USD 150. Si necesitás algo más, como reserva de turnos o una galería, cada extra suma entre USD 40 y 60.</p></details>
+        <details><summary>¿Cómo se paga?</summary><p>Se paga el 50% por adelantado, cuando acordamos el alcance, y el 50% restante cuando te entrego la página funcionando.</p></details>
+        <details><summary>¿Cuánto tarda?</summary><p>Una vez aprobada la demo y acreditado el adelanto, la entrega es cuestión de pocos días. Te lo confirmo por escrito antes de empezar.</p></details>
+        <details><summary>¿Y si ya tengo Instagram?</summary><p>Instagram no aparece en Google ni transmite la misma confianza a quien no te conoce, y no permite armar bien reservas, mapa ni un botón de WhatsApp. La página complementa tus redes: podés dejar el link en tu perfil.</p></details>
+        <details><summary>¿Puedo pedir cambios?</summary><p>Sí. Una ronda de correcciones está incluida en la página base, y si necesitás más, se suma como extra.</p></details>
+        <details><summary>¿Qué es la demo previa?</summary><p>Es una versión de tu página armada con los datos públicos de tu negocio, para que veas cómo quedaría antes de decidir. No tiene costo ni te compromete a nada.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="w">
+      <div>
+        <h2>Contame de tu negocio.</h2>
+        <p>Te muestro cómo quedaría tu página, sin costo y sin compromiso. Escribime por WhatsApp y coordinamos.</p>
+      </div>
+      <div class="acciones">
+        <a class="btn acento" id="cta-contacto" data-wa href="#contacto">Escribime por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="w">
+    <span><strong>LP Design</strong> · Diseño web para negocios locales</span>
+    <span>Buenos Aires, Argentina · © 2026</span>
+  </div>
+</footer>
+<div class="barra"><a class="btn acento" data-wa href="#contacto">Escribime por WhatsApp</a></div>
+
+<script>
+  (function(){
+    // COMPLETAR: número de WhatsApp con código de país, sin + ni espacios. Ejemplo: 5491155551234
+    var WA = "549XXXXXXXXXX";
+    var listo = WA.indexOf("X") < 0;
+    var texto = encodeURIComponent("Hola, vi tu página y quiero contarte sobre mi negocio.");
+    document.querySelectorAll("[data-wa]").forEach(function(a){
+      if (listo) { a.href = "https://wa.me/" + WA + "?text=" + texto; a.target = "_blank"; a.rel = "noopener"; }
+    });
+    var barra = document.querySelector(".barra");
+    if (!("IntersectionObserver" in window)) { barra.classList.add("ver"); return; }
+    // En el celular, el botón fijo aparece al pasar la presentación y se esconde donde ya hay un botón de contacto a la vista.
+    var vistos = new Set();
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
+      barra.classList.toggle("ver", vistos.size === 0);
+    });
+    ["#acciones-hero", "#cta-contacto", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
+  })();
+</script>
+</body>
+</html>
