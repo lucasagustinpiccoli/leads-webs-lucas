@@ -10,7 +10,7 @@
   --text-hero: clamp(3.25rem, 7.2vw, 7rem);
   --text-wordmark: clamp(4rem, 15.5vw, 16rem);
   --color-night: oklch(17% 0.035 250); --color-night-2: oklch(25% 0.045 250); --color-night-line: oklch(32% 0.03 250);
-  --color-on-night: oklch(96% 0.01 230); --color-on-night-muted: oklch(80% 0.02 240); --color-ice: oklch(86% 0.06 235);
+  --color-on-night: oklch(96% 0.01 230); --color-on-night-muted: oklch(80% 0.02 240); --color-ice: oklch(88% 0.09 78);
 }
 
 /* controles impresos */
