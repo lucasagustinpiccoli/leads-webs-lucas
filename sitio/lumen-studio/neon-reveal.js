@@ -46,11 +46,16 @@
     // tramo encendido: crece desde el centro y arrastra su halo y su luz
     var lit = div("nr-lit", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;");
     // la luz es un cuenco (media elipse) tan ancho como el tramo prendido; baja de tono claro a oscuro y se apaga en el borde
-    var derrame = div("nr-derrame", "left:calc(" + izq + " - " + (largo * 17) + "%);width:" + (largo * 134) + "%;top:" + (o.inset + grosor / 2) + "px;height:" + (88 * o.reach) + "dvh;" +
-      "background:radial-gradient(ellipse 50% 100% at 50% 0%," +
-      rgba(tubo, 0.95 * o.spill * o.intensity) + " 0%," + rgba(tubo, 0.7 * o.spill * o.intensity) + " 9%," + rgba(luz, 0.62 * o.spill * o.intensity) + " 22%," +
-      rgba(luz, 0.4 * o.spill * o.intensity) + " 36%," + rgba(hondo, 0.27 * o.spill * o.intensity) + " 50%," + rgba(hondo, 0.15 * o.spill * o.intensity) + " 64%," +
-      rgba(hondo, 0.06 * o.spill * o.intensity) + " 80%,transparent 100%);filter:blur(" + (14 * o.glow) + "px);");
+    // la luz se abre como un abanico: un óvalo ancho y bajo, más un velo parejo que cae a lo largo de todo el tubo
+    var sp = o.spill * o.intensity;
+    var derrame = div("nr-derrame", "left:calc(" + izq + " - " + (largo * 20) + "%);width:" + (largo * 140) + "%;top:" + (o.inset + grosor / 2) + "px;height:" + (78 * o.reach) + "dvh;" +
+      "background:" +
+      "linear-gradient(to bottom," + rgba(tubo, 0.5 * sp) + " 0%," + rgba(luz, 0.42 * sp) + " 10%," + rgba(hondo, 0.2 * sp) + " 28%," + rgba(hondo, 0.07 * sp) + " 46%,transparent 62%)," +
+      "radial-gradient(ellipse 50% 100% at 50% 0%," +
+      rgba(tubo, 0.9 * sp) + " 0%," + rgba(tubo, 0.62 * sp) + " 9%," + rgba(luz, 0.55 * sp) + " 22%," +
+      rgba(luz, 0.34 * sp) + " 36%," + rgba(hondo, 0.22 * sp) + " 50%," + rgba(hondo, 0.12 * sp) + " 64%," +
+      rgba(hondo, 0.05 * sp) + " 80%,transparent 100%);" +
+      "-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 17%,#000 83%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 17%,#000 83%,transparent 100%);filter:blur(" + (14 * o.glow) + "px);");
     var halo = div("nr-halo", "left:-3%;right:-3%;top:" + (-26 * o.glow) + "px;height:" + (grosor + 52 * o.glow) + "px;" +
       "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);");
     var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 2px rgba(255,255,255,.95),0 0 " + (5 * o.glow) + "px " + tubo + ",0 0 " + (12 * o.glow) + "px " + rgba(tubo, 0.5) + ";");
