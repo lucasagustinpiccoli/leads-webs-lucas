@@ -3,304 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b1322">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#f3f6f8">
 <title>LP Design | Diseño web para negocios locales</title>
 <meta name="description" content="LP Design diseña páginas web claras, rápidas y pensadas para el celular, para negocios y profesionales de Buenos Aires. Antes de contratar, te muestro cómo quedaría la tuya.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/oasis-mob.jpg">
-<script>document.documentElement.className="js"</script>
-<style>
-  :root{
-    --bg:#0b1322; --bg2:#0f192c; --sup:#131f36; --sup2:#182642;
-    --linea:rgba(255,255,255,.11); --linea2:rgba(255,255,255,.2);
-    --texto:#eaeef5; --suave:#a5b1c6;
-    --acento:#f2b134; --sobre:#101a30;
-    --r:4px; --curva:cubic-bezier(.23,1,.32,1);
-    --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-    --cuerpo:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
-    --w:1240px; --gut:clamp(20px,4vw,48px);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%;color-scheme:dark}
-  body{background:var(--bg);color:var(--texto);font-family:var(--cuerpo);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  img{display:block;max-width:100%;height:auto}
-  a{color:inherit}
-  ul{list-style:none}
-  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-  .w{width:100%;max-width:var(--w);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
-  :focus-visible{outline:2px solid var(--acento);outline-offset:3px}
-  .d{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.005em;line-height:.92}
-  .suave{color:var(--suave)}
-
-  /* botones */
-  .btn{display:inline-flex;align-items:center;gap:14px;min-height:50px;padding:0 22px;border-radius:var(--r);font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent;white-space:nowrap;transition:transform 160ms var(--curva),background-color 200ms,border-color 200ms,color 200ms}
-  .btn .fl{display:inline-block;transition:transform 220ms var(--curva)}
-  .btn:active{transform:scale(.97)}
-  .btn.acento{background:var(--acento);color:var(--sobre)}
-  .btn.linea{border-color:var(--linea2);color:var(--texto)}
-  @media (hover:hover) and (pointer:fine){
-    .btn.acento:hover{background:#ffc352}
-    .btn.linea:hover{border-color:var(--texto)}
-    .btn:hover .fl{transform:translate(3px,-3px)}
-  }
-
-  /* encabezado */
-  .top{position:fixed;inset:0 0 auto 0;z-index:30;height:64px;transition:background-color 250ms,border-color 250ms;border-bottom:1px solid transparent}
-  .top.solido{background:rgba(11,19,34,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:var(--linea)}
-  .top .w{height:100%;display:flex;align-items:center;gap:32px}
-  .logo{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.02em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:9px;line-height:1}
-  .logo i{width:11px;height:11px;background:var(--acento);display:block}
-  .top nav{display:flex;gap:30px;margin-left:auto;font-size:15px}
-  .top nav a{text-decoration:none;color:var(--suave);transition:color 160ms}
-  .top .btn{min-height:42px;padding:0 18px;font-size:15px}
-  @media (hover:hover){.top nav a:hover{color:var(--texto)}}
-
-  /* presentación */
-  .hero{position:relative;min-height:100dvh;padding-top:104px;padding-bottom:0;overflow:hidden;display:flex;flex-direction:column;
-    background:radial-gradient(60% 55% at 85% 78%,rgba(242,177,52,.14),transparent 70%),radial-gradient(50% 40% at 8% 0%,rgba(80,110,190,.16),transparent 70%),var(--bg)}
-  .hero h1{font-size:clamp(54px,9.6vw,148px)}
-  .hero h1 .l{display:block;overflow:hidden;padding:.16em 0 .06em;margin-top:-.16em}
-  .hero h1 .l span{display:block}
-  .hero-copy{max-width:520px;margin-top:clamp(22px,3vw,36px);position:relative;z-index:2}
-  .hero-copy p{color:var(--suave);font-size:19px;line-height:1.55}
-  .acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-  .tel{position:absolute;right:max(var(--gut),calc((100vw - var(--w))/2 + var(--gut)));bottom:-96px;display:flex;gap:16px;align-items:flex-start;z-index:1}
-  .tel img{width:clamp(176px,15.5vw,228px);border-radius:26px;border:1px solid var(--linea2);box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
-  .tel img:nth-child(1){margin-top:30px}
-  .tel img:nth-child(2){margin-top:-40px}
-  .tel img:nth-child(3){margin-top:60px}
-  @media (prefers-reduced-motion:no-preference){
-    .js .hero h1 .l span{transform:translateY(105%);animation:sube 900ms var(--curva) forwards}
-    .js .hero h1 .l:nth-child(2) span{animation-delay:90ms}
-    .js .hero-copy{opacity:0;transform:translateY(14px);animation:entra 800ms 350ms var(--curva) forwards}
-    .js .tel img{opacity:0;transform:translateY(40px);animation:entra 1000ms var(--curva) forwards}
-    .js .tel img:nth-child(1){animation-delay:420ms}.js .tel img:nth-child(2){animation-delay:520ms}.js .tel img:nth-child(3){animation-delay:620ms}
-  }
-  @keyframes sube{to{transform:none}}
-  @keyframes entra{to{opacity:1;transform:none}}
-
-  /* secciones */
-  section{padding:clamp(72px,10vw,140px) 0;position:relative}
-  .hero{padding-bottom:0}
-  .gran{font-size:clamp(46px,7.6vw,104px)}
-  .intro{color:var(--suave);max-width:56ch;margin-top:18px}
-
-  /* trabajos */
-  .trab{background:var(--bg2);border-top:1px solid var(--linea)}
-  .trab-g{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(28px,5vw,72px);margin-top:clamp(36px,5vw,64px);align-items:start}
-  .lista{display:flex;flex-direction:column;border-top:1px solid var(--linea)}
-  .lista button{text-align:left;padding:20px 0 20px 22px;border-bottom:1px solid var(--linea);position:relative;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(30px,3.4vw,46px);line-height:1;color:#7d8ba4;transition:color 200ms}
-  .lista button small{display:block;font-family:var(--cuerpo);font-weight:400;text-transform:none;font-size:14px;color:var(--suave);margin-top:8px;letter-spacing:0}
-  .lista button::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acento);transform:scaleY(0);transform-origin:top;transition:transform 300ms var(--curva)}
-  .lista button[aria-selected="true"]{color:var(--texto)}
-  .lista button[aria-selected="true"]::before{transform:scaleY(1)}
-  @media (hover:hover){.lista button:hover{color:var(--texto)}}
-  .panel{display:none}
-  .panel.act{display:block}
-  html:not(.js) .panel{display:block;margin-bottom:56px}
-  .panel .vis{border:1px solid var(--linea2);border-radius:var(--r);overflow:hidden;background:var(--sup)}
-  .panel .vis img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
-  .panel .info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);margin-top:28px}
-  .panel h3{font-size:clamp(30px,3.2vw,44px)}
-  .panel .tipo{color:var(--acento);font-size:14px;font-weight:600;margin-bottom:10px}
-  .panel p{color:var(--suave)}
-  .panel ul{border-top:1px solid var(--linea)}
-  .panel li{padding:12px 0;border-bottom:1px solid var(--linea);font-size:16px}
-  .panel .btn{margin-top:22px}
-  @media (prefers-reduced-motion:no-preference){.panel.act{animation:cambia 450ms var(--curva)}}
-  @keyframes cambia{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
-  /* demos */
-  .demos-h{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
-  .flechas{display:flex;gap:10px}
-  .flechas button{width:52px;height:52px;border:1px solid var(--linea2);border-radius:var(--r);font-size:22px;line-height:1;transition:background-color 200ms,border-color 200ms,transform 160ms var(--curva)}
-  .flechas button:active{transform:scale(.95)}
-  @media (hover:hover){.flechas button:hover{background:var(--sup2);border-color:var(--texto)}}
-  .pista{display:flex;gap:clamp(16px,2vw,28px);overflow-x:auto;scroll-snap-type:x mandatory;margin-top:clamp(32px,4vw,52px);padding:0 var(--gut) 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .pista::-webkit-scrollbar{display:none}
-  .pista::before{content:"";flex:0 0 max(0px,calc((100vw - var(--w))/2))}
-  .pista figure{flex:0 0 clamp(210px,22vw,272px);scroll-snap-align:start}
-  .pista img{width:100%;border-radius:28px;border:1px solid var(--linea2);background:var(--sup)}
-  .pista figure:nth-child(even){margin-top:34px}
-  .pista figcaption{margin-top:16px;font-weight:500}
-
-  /* proceso */
-  .proc{background:var(--bg2);border-top:1px solid var(--linea)}
-  .proc-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px)}
-  .proc-g .izq{position:sticky;top:110px;align-self:start}
-  .paso{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;padding:28px 0;border-top:1px solid var(--linea2)}
-  .paso:last-child{border-bottom:1px solid var(--linea2)}
-  .paso h3{font-size:clamp(34px,3.8vw,52px)}
-  .paso p{color:var(--suave);padding-top:6px}
-
-  /* precios */
-  .bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;margin-top:clamp(36px,5vw,60px)}
-  .cel{border:1px solid var(--linea);background:var(--sup);border-radius:var(--r);padding:clamp(24px,3vw,40px);display:flex;flex-direction:column}
-  .cel h3{font-size:clamp(28px,2.8vw,38px)}
-  .cel h3 small{font-family:var(--cuerpo);font-weight:400;font-size:15px;text-transform:none;color:var(--suave);letter-spacing:0}
-  .cel .pre{color:var(--suave);font-size:15px;margin-top:20px}
-  .cel .monto{font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:1;font-size:clamp(46px,5vw,72px);margin-top:4px;white-space:nowrap}
-  .cel ul{margin-top:24px;border-top:1px solid var(--linea)}
-  .cel li{padding:11px 0;border-bottom:1px solid var(--linea);font-size:16px}
-  .cel.base{grid-column:span 7;grid-row:span 2;background:radial-gradient(70% 60% at 100% 0%,rgba(242,177,52,.22),transparent 70%),var(--sup2);border-color:rgba(242,177,52,.35)}
-  .cel.base .monto{font-size:clamp(72px,9vw,132px);color:var(--acento)}
-  .cel.base .nota-b{margin-top:auto;padding-top:28px;color:var(--suave);font-size:15px;max-width:42ch}
-  .cel.base{position:relative;overflow:hidden}
-  .cel.base>:not(.tel-b){max-width:56%}
-  .cel.base .tel-b{position:absolute;right:clamp(20px,3vw,40px);bottom:-70px;width:min(34%,250px);border-radius:26px;border:1px solid var(--linea2);box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
-  .cel.ext{grid-column:span 5}
-
-  /* preguntas */
-  .preg{border-top:1px solid var(--linea)}
-  .preg-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px)}
-  details{border-top:1px solid var(--linea2)}
-  details:last-child{border-bottom:1px solid var(--linea2)}
-  summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:19px;font-weight:500}
-  summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";font-size:26px;line-height:1;color:var(--acento);transition:transform 260ms var(--curva)}
-  details[open] summary::after{transform:rotate(45deg)}
-  details p{color:var(--suave);padding:0 44px 24px 0;max-width:60ch}
-  @media (hover:hover){summary:hover{color:#fff}}
-
-  /* contacto y pie */
-  .cta{background:var(--acento);color:var(--sobre);padding:clamp(72px,10vw,130px) 0}
-  .cta .w{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:32px;align-items:end}
-  .cta h2{font-size:clamp(48px,8vw,116px)}
-  .cta p{margin-top:20px;max-width:46ch;font-size:19px}
-  .cta .btn{background:var(--sobre);color:#fff;justify-self:end}
-  @media (hover:hover){.cta .btn:hover{background:#000}}
-  footer{background:var(--bg);overflow:hidden;padding-top:40px}
-  footer .fila{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:15px;color:var(--suave)}
-  footer .gigante{font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.8;font-size:clamp(90px,21.4vw,320px);text-align:center;color:rgba(255,255,255,.07);white-space:nowrap;margin-top:40px;margin-bottom:-.06em;user-select:none}
-
-  /* barra fija en celular */
-  .barra{display:none}
-  @media (max-width:899px){
-    .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(11,19,34,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--linea);transform:translateY(110%);transition:transform 300ms var(--curva)}
-    .barra.ver{transform:none}
-    .barra .btn{width:100%;justify-content:center}
-  }
-
-  /* revelado al desplazar */
-  @media (prefers-reduced-motion:no-preference){
-    .js .rv{opacity:0;transform:translateY(22px);transition:opacity 700ms var(--curva),transform 700ms var(--curva)}
-    .js .rv.in{opacity:1;transform:none}
-  }
-
-  /* celular */
-  @media (max-width:899px){
-    .top nav a:nth-child(n+3){display:none}
-    .top nav{gap:20px;font-size:14px}
-    .top .btn{display:none}
-    .hero{padding-top:88px}
-    .hero h1{font-size:11.4vw}
-    .hero-copy p{font-size:17px}
-    .acciones .btn{flex:1 1 auto;justify-content:space-between}
-    .tel{position:relative;right:auto;bottom:auto;margin:36px auto -70px;padding:0 var(--gut);gap:12px;justify-content:center}
-    .tel img{width:calc((100vw - 2*var(--gut) - 24px)/3);border-radius:18px}
-    .tel img:nth-child(1){margin-top:24px}.tel img:nth-child(2){margin-top:0}.tel img:nth-child(3){margin-top:40px}
-    .trab-g,.proc-g,.preg-g,.cta .w,.panel .info{grid-template-columns:1fr}
-    .lista{flex-direction:row;overflow-x:auto;border-top:0;gap:22px;scrollbar-width:none}
-    .lista::-webkit-scrollbar{display:none}
-    .lista button{flex:0 0 auto;padding:6px 0 14px;border-bottom:2px solid var(--linea);font-size:30px}
-    .lista button small{display:none}
-    .lista button::before{inset:auto 0 -2px 0;width:auto;height:2px;transform:scaleX(0);transform-origin:left}
-    .lista button[aria-selected="true"]::before{transform:scaleX(1)}
-    .proc-g .izq{position:static}
-    .paso{grid-template-columns:1fr;gap:8px}
-    .bento{grid-template-columns:1fr}
-    .cel.base,.cel.ext{grid-column:auto;grid-row:auto}
-    .cel.base>:not(.tel-b){max-width:none}
-    .cel.base .tel-b{display:none}
-    .pista figure:nth-child(even){margin-top:0}
-    .pista::before{flex-basis:0}
-    .cta .btn{justify-self:start}
-    footer{padding-bottom:76px}
-    .flechas{display:none}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="top" id="top">
-  <div class="w">
-    <a class="logo" href="#inicio" aria-label="LP Design, inicio"><i></i>LP Design</a>
-    <nav aria-label="Principal">
-      <a href="#trabajos">Trabajos</a>
-      <a href="#precios">Precios</a>
-      <a href="#proceso">Cómo trabajo</a>
-      <a href="#preguntas">Preguntas</a>
-    </nav>
-    <a class="btn acento" data-wa href="#contacto">Escribime por WhatsApp <span class="fl" aria-hidden="true">↗</span></a>
+<header class="nav" id="top">
+  <div class="container">
+    <a class="wordmark" href="#inicio" aria-label="LP Design, inicio">LP Design</a>
+    <ul>
+      <li><a href="#trabajos">Trabajos</a></li>
+      <li><a href="#precios">Precios</a></li>
+      <li><a href="#proceso">Cómo trabajo</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
+    </ul>
+    <a class="btn btn--small" data-wa href="#contacto">Escribime por WhatsApp</a>
   </div>
 </header>
 
 <main>
-  <section class="hero" id="inicio">
-    <div class="w">
-      <h1 class="d"><span class="l"><span>Diseño web para</span></span><span class="l"><span>negocios locales</span></span></h1>
-      <div class="hero-copy">
-        <p>Páginas claras y rápidas, pensadas para el celular. Antes de contratar, te muestro cómo quedaría la tuya.</p>
-        <div class="acciones" id="acciones-hero">
-          <a class="btn acento" data-wa href="#contacto">Escribime por WhatsApp <span class="fl" aria-hidden="true">↗</span></a>
-          <a class="btn linea" href="#trabajos">Ver trabajos</a>
+  <section class="hero proof" id="inicio">
+    <div class="container">
+      <div class="hero-col">
+        <h1>Diseño web para negocios locales</h1>
+        <p class="lead">Te muestro cómo quedaría tu página antes de que contrates.</p>
+        <div class="actions" id="acciones-hero">
+          <a class="btn btn--primary crop" data-wa href="#contacto">Escribime por WhatsApp</a>
+          <a class="btn" href="#trabajos">Ver trabajos</a>
         </div>
       </div>
     </div>
-    <div class="tel" aria-label="Capturas de páginas en el celular">
-      <img src="img/dental-mob.jpg" alt="Demo de un consultorio odontológico en el celular" width="560" height="953">
-      <img src="img/oasis-mob.jpg" alt="Demo de un salón de eventos en el celular" width="560" height="953" fetchpriority="high">
-      <img src="img/vet-mob.jpg" alt="Demo de una veterinaria en el celular" width="560" height="953">
+  </section>
+
+  <section class="section" id="hago">
+    <div class="container">
+      <div class="section-head"><h2>¿Qué hago?</h2></div>
+      <ul class="set">
+        <li><h3>Páginas para negocios</h3><p>Con botón de WhatsApp y mapa, pensadas para el celular.</p></li>
+        <li><h3>Reserva de turnos</h3><p>El cliente elige servicio, día y horario sin llamar.</p></li>
+        <li><h3>Sistemas de gestión</h3><p>Socios, cuotas y caja en un solo lugar.</p></li>
+        <li><h3>Rediseños</h3><p>Tu página actual, con tus colores y tu logo.</p></li>
+      </ul>
     </div>
   </section>
 
-  <section class="trab" id="trabajos">
-    <div class="w">
-      <h2 class="d gran rv">Trabajos</h2>
-      <p class="intro rv">Páginas y sistemas hechos para negocios y profesionales. Todo funciona bien en el celular, que es desde donde llega la mayoría de los clientes.</p>
-      <div class="trab-g">
-        <div class="lista rv" role="tablist" aria-label="Trabajos">
-          <button role="tab" aria-selected="true" aria-controls="p-colo" id="t-colo">Colo Studio<small>Sitio con reserva de turnos</small></button>
-          <button role="tab" aria-selected="false" aria-controls="p-bestia" id="t-bestia">Bestia<small>Gestor de membresías</small></button>
-          <button role="tab" aria-selected="false" aria-controls="p-rrg" id="t-rrg">R&amp;RG<small>Propuesta de rediseño</small></button>
+  <section class="section section--band" id="trabajos">
+    <div class="container">
+      <div class="section-head"><h2>¿Qué trabajos hice?</h2></div>
+      <div class="work">
+        <div class="index" role="tablist" aria-label="Trabajos">
+          <button role="tab" aria-selected="true" aria-controls="p-colo" id="t-colo"><span class="name">Colo Studio</span><span class="kind">Sitio con reserva de turnos</span></button>
+          <button role="tab" aria-selected="false" aria-controls="p-bestia" id="t-bestia"><span class="name">Bestia</span><span class="kind">Gestor de membresías</span></button>
+          <button role="tab" aria-selected="false" aria-controls="p-rrg" id="t-rrg"><span class="name">R&amp;RG</span><span class="kind">Propuesta de rediseño</span></button>
         </div>
-        <div class="rv">
+        <div>
           <article class="panel act" id="p-colo" role="tabpanel" aria-labelledby="t-colo">
-            <div class="vis"><img src="img/colo-desk.jpg" alt="Colo Studio, página con reserva de turnos" width="1400" height="875" loading="lazy"></div>
-            <div class="info">
+            <figure class="sheet crop"><img src="img/colo-desk.jpg" alt="Colo Studio, página con reserva de turnos" width="1400" height="875" loading="lazy"></figure>
+            <div class="case">
               <div>
-                <p class="tipo">Sitio con reserva de turnos</p>
-                <h3 class="d">Colo Studio</h3>
-                <p style="margin-top:12px">Manicuría y pedicuría en Florida, Vicente López. El cliente elige el servicio, el día y el horario, y reserva sin llamadas.</p>
-                <a class="btn linea" href="https://colo-studio.pages.dev/" target="_blank" rel="noopener">Ver el sitio <span class="fl" aria-hidden="true">↗</span></a>
+                <h3>Colo Studio</h3>
+                <p>Manicuría y pedicuría en Florida, Vicente López. El cliente reserva servicio, día y horario sin llamar, y un panel ordena turnos, clientas y servicios.</p>
               </div>
-              <ul><li>Reserva de turnos online</li><li>Panel para administrar turnos, clientas y servicios</li></ul>
+              <a class="btn" href="https://colo-studio.pages.dev/" target="_blank" rel="noopener">Ver el sitio</a>
             </div>
           </article>
           <article class="panel" id="p-bestia" role="tabpanel" aria-labelledby="t-bestia">
-            <div class="vis"><img src="img/bestia-socios.jpg" alt="Bestia, listado de socios con plan, estado, vencimiento y deuda" width="1400" height="634" loading="lazy"></div>
-            <div class="info">
+            <figure class="sheet crop"><img src="img/bestia-socios.jpg" alt="Bestia, listado de socios con plan, estado, vencimiento y deuda" width="1400" height="634" loading="lazy"></figure>
+            <div class="case">
               <div>
-                <p class="tipo">Sistema de gestión</p>
-                <h3 class="d">Bestia</h3>
-                <p style="margin-top:12px">Gestor de membresías para gimnasios: ordena los socios y sus cuotas en un solo lugar, en vez de llevarlos en planillas o cuadernos.</p>
-                <a class="btn linea" href="https://bestia.lap-dev.workers.dev/" target="_blank" rel="noopener">Ver el sitio <span class="fl" aria-hidden="true">↗</span></a>
+                <h3>Bestia</h3>
+                <p>Gestor de membresías para gimnasios: socios, cuotas, caja, calendario y rutinas en un solo lugar.</p>
               </div>
-              <ul><li>Socios con plan, estado, vencimiento y deuda</li><li>Caja, calendario y rutinas</li></ul>
+              <a class="btn" href="https://bestia.lap-dev.workers.dev/" target="_blank" rel="noopener">Ver el sitio</a>
             </div>
           </article>
           <article class="panel" id="p-rrg" role="tabpanel" aria-labelledby="t-rrg">
-            <div class="vis"><img src="img/rrg-desk.jpg" alt="Propuesta de rediseño para R&amp;RG Estudio Jurídico" width="1400" height="875" loading="lazy"></div>
-            <div class="info">
+            <figure class="sheet crop"><img src="img/rrg-desk.jpg" alt="Propuesta de rediseño para R&amp;RG Estudio Jurídico" width="1400" height="875" loading="lazy"></figure>
+            <div class="case">
               <div>
-                <p class="tipo">Propuesta de rediseño</p>
-                <h3 class="d">R&amp;RG Estudio Jurídico</h3>
-                <p style="margin-top:12px">Rediseño de la página de un estudio de abogados de Resistencia, Chaco, con sus colores y su logo. Mejora la lectura en celular y el camino hasta el contacto por WhatsApp.</p>
+                <h3>R&amp;RG Estudio Jurídico</h3>
+                <p>Rediseño de la página de un estudio de abogados de Resistencia, Chaco, con sus colores y su logo. Se lee mejor en el celular, con WhatsApp siempre a mano.</p>
               </div>
-              <ul><li>Pensada para el celular primero</li><li>Botón de WhatsApp siempre a mano</li></ul>
             </div>
           </article>
         </div>
@@ -308,61 +96,54 @@
     </div>
   </section>
 
-  <section class="demos" id="demos">
-    <div class="w demos-h">
-      <div>
-        <h2 class="d gran rv">Demos por rubro</h2>
-        <p class="intro rv">Antes de proponerte nada, preparo una demo con los datos de tu negocio. Estas son algunas, hechas como ejemplo.</p>
+  <section class="section" id="demos">
+    <div class="container rail-head">
+      <div class="section-head" style="margin-bottom:0">
+        <h2>¿Cómo se ve en mi rubro?</h2>
+        <p>Preparo una demo con los datos de tu negocio. Estas son de ejemplo.</p>
       </div>
-      <div class="flechas rv">
-        <button type="button" id="ant" aria-label="Demos anteriores">←</button>
-        <button type="button" id="sig" aria-label="Demos siguientes">→</button>
+      <div class="rail-controls">
+        <button type="button" class="btn btn--small" id="ant" aria-label="Demos anteriores">Anterior</button>
+        <button type="button" class="btn btn--small" id="sig" aria-label="Demos siguientes">Siguiente</button>
       </div>
     </div>
-    <div class="pista rv" id="pista" tabindex="0" aria-label="Demos por rubro, deslizá para ver más">
-      <figure><img src="img/oasis-mob.jpg" alt="Demo para un salón de eventos" width="560" height="953" loading="lazy"><figcaption>Salón de eventos</figcaption></figure>
-      <figure><img src="img/dental-mob.jpg" alt="Demo para un consultorio odontológico" width="560" height="953" loading="lazy"><figcaption>Consultorio odontológico</figcaption></figure>
-      <figure><img src="img/vet-mob.jpg" alt="Demo para una veterinaria" width="560" height="953" loading="lazy"><figcaption>Veterinaria</figcaption></figure>
-      <figure><img src="img/salon2-mob.jpg" alt="Demo para un salón de eventos, versión clara" width="560" height="953" loading="lazy"><figcaption>Salón de eventos, versión clara</figcaption></figure>
-      <figure><img src="img/dental2-mob.jpg" alt="Demo para un centro odontológico" width="560" height="953" loading="lazy"><figcaption>Centro odontológico</figcaption></figure>
-    </div>
-  </section>
-
-  <section class="proc" id="proceso">
-    <div class="w proc-g">
-      <div class="izq">
-        <h2 class="d gran rv">Cómo trabajo</h2>
-        <p class="intro rv">Todo por escrito y en pocos pasos. Sin costo hasta que la demo te convence.</p>
-      </div>
-      <div class="rv">
-        <article class="paso"><h3 class="d">Demo</h3><p>Te muestro cómo quedaría tu página con los datos reales de tu negocio. Sin costo y sin compromiso.</p></article>
-        <article class="paso"><h3 class="d">Acuerdo</h3><p>Definimos qué incluye y cuánto cuesta, por escrito. Se paga el 50% por adelantado.</p></article>
-        <article class="paso"><h3 class="d">Diseño y ajustes</h3><p>Armo la página y la revisamos juntos. Una ronda de correcciones está incluida.</p></article>
-        <article class="paso"><h3 class="d">Entrega</h3><p>Queda publicada en Cloudflare y funcionando. Se paga el 50% restante al entregarla.</p></article>
-      </div>
+    <div class="rail" id="pista" tabindex="0" aria-label="Demos por rubro, deslizá para ver más">
+      <figure><div class="sheet crop"><img src="img/oasis-mob.jpg" alt="Demo para un salón de eventos" width="560" height="953" loading="lazy"></div><figcaption>Salón de eventos</figcaption></figure>
+      <figure><div class="sheet crop"><img src="img/dental-mob.jpg" alt="Demo para un consultorio odontológico" width="560" height="953" loading="lazy"></div><figcaption>Consultorio odontológico</figcaption></figure>
+      <figure><div class="sheet crop"><img src="img/vet-mob.jpg" alt="Demo para una veterinaria" width="560" height="953" loading="lazy"></div><figcaption>Veterinaria</figcaption></figure>
+      <figure><div class="sheet crop"><img src="img/salon2-mob.jpg" alt="Demo para un salón de eventos, versión clara" width="560" height="953" loading="lazy"></div><figcaption>Salón de eventos, versión clara</figcaption></figure>
+      <figure><div class="sheet crop"><img src="img/dental2-mob.jpg" alt="Demo para un centro odontológico" width="560" height="953" loading="lazy"></div><figcaption>Centro odontológico</figcaption></figure>
     </div>
   </section>
 
-  <section class="precios" id="precios">
-    <div class="w">
-      <h2 class="d gran rv">Precios</h2>
-      <p class="intro rv">Un precio de entrada claro, y extras solo si los necesitás. Los valores están en dólares.</p>
-      <div class="bento rv">
-        <article class="cel base">
-          <h3 class="d">Página base</h3>
-          <span class="pre">Desde</span><p class="monto">USD 180</p>
+  <section class="section section--band" id="proceso">
+    <div class="container">
+      <div class="section-head"><h2>¿Cómo trabajamos?</h2></div>
+      <ol class="steps">
+        <li><h3>Demo</h3><p>Te muestro tu página con los datos reales de tu negocio. Sin costo ni compromiso.</p></li>
+        <li><h3>Acuerdo</h3><p>Definimos qué incluye y cuánto cuesta, por escrito. Se paga el 50% por adelantado.</p></li>
+        <li><h3>Diseño y ajustes</h3><p>La armo y la revisamos juntos. Una ronda de correcciones está incluida.</p></li>
+        <li><h3>Entrega</h3><p>Queda publicada en Cloudflare. Se paga el 50% restante al entregarla.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="precios">
+    <div class="container">
+      <div class="section-head"><h2>¿Cuánto cuesta?</h2></div>
+      <div class="prices">
+        <div>
+          <h3>Página base</h3>
           <ul>
-            <li>Página con las secciones estándar</li>
+            <li>Secciones estándar</li>
             <li>Botón de WhatsApp y mapa</li>
             <li>Pensada para el celular</li>
             <li>Una ronda de correcciones</li>
           </ul>
-          <img class="tel-b" src="img/dental-mob.jpg" alt="" width="560" height="953" loading="lazy">
-          <p class="nota-b">El precio final depende de lo que necesite tu negocio. Antes de empezar lo tenés por escrito.</p>
-        </article>
-        <article class="cel ext">
-          <h3 class="d">Extras</h3>
-          <span class="pre">Cada extra</span><p class="monto">USD 40 a 60</p>
+          <p class="amount"><small>Desde</small>USD 180</p>
+        </div>
+        <div>
+          <h3>Extras</h3>
           <ul>
             <li>Reserva de turnos</li>
             <li>Galería de fotos</li>
@@ -370,56 +151,55 @@
             <li>Carta o catálogo</li>
             <li>Una ronda de correcciones adicional</li>
           </ul>
-        </article>
-        <article class="cel ext">
-          <h3 class="d">Mantenimiento <small>(opcional)</small></h3>
-          <span class="pre">Por mes</span><p class="monto">USD 15 a 20</p>
+          <p class="amount"><small>Cada extra</small>USD 40 a 60</p>
+        </div>
+        <div>
+          <h3>Mantenimiento <span class="from">(opcional)</span></h3>
           <ul>
             <li>Hosting</li>
             <li>Cambios menores</li>
             <li>Soporte</li>
           </ul>
-        </article>
+          <p class="amount"><small>Por mes</small>USD 15 a 20</p>
+        </div>
+      </div>
+      <p class="price-note">Valores en dólares, por escrito antes de empezar.</p>
+    </div>
+  </section>
+
+  <section class="section section--band" id="preguntas">
+    <div class="container">
+      <div class="section-head"><h2>Preguntas frecuentes</h2></div>
+      <div class="faq">
+        <details><summary>¿Cuánto tarda?</summary><p>Pocos días desde que aprobás la demo y acreditás el adelanto. Te lo confirmo por escrito.</p></details>
+        <details><summary>¿Y si ya tengo Instagram?</summary><p>Instagram no aparece en Google ni arma bien reservas, mapa o un botón de WhatsApp. La página complementa tus redes: dejás el link en tu perfil.</p></details>
+        <details><summary>¿Qué es la demo previa?</summary><p>Una versión de tu página armada con los datos públicos de tu negocio. No tiene costo ni te compromete.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="preg" id="preguntas">
-    <div class="w preg-g">
-      <h2 class="d gran rv">Preguntas frecuentes</h2>
-      <div class="rv">
-        <details><summary>¿Cuánto cuesta una página?</summary><p>La página base parte de USD 180. Si necesitás algo más, como reserva de turnos o una galería, cada extra suma entre USD 40 y 60.</p></details>
-        <details><summary>¿Cómo se paga?</summary><p>Se paga el 50% por adelantado, cuando acordamos el alcance, y el 50% restante cuando te entrego la página funcionando.</p></details>
-        <details><summary>¿Cuánto tarda?</summary><p>Una vez aprobada la demo y acreditado el adelanto, la entrega es cuestión de pocos días. Te lo confirmo por escrito antes de empezar.</p></details>
-        <details><summary>¿Y si ya tengo Instagram?</summary><p>Instagram no aparece en Google ni transmite la misma confianza a quien no te conoce, y no permite armar bien reservas, mapa ni un botón de WhatsApp. La página complementa tus redes: podés dejar el link en tu perfil.</p></details>
-        <details><summary>¿Puedo pedir cambios?</summary><p>Sí. Una ronda de correcciones está incluida en la página base, y si necesitás más, se suma como extra.</p></details>
-        <details><summary>¿Qué es la demo previa?</summary><p>Es una versión de tu página armada con los datos públicos de tu negocio, para que veas cómo quedaría antes de decidir. No tiene costo ni te compromete a nada.</p></details>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta" id="contacto">
-    <div class="w">
-      <div>
-        <h2 class="d">Contame de tu negocio</h2>
+  <section class="section close" id="contacto">
+    <div class="container">
+      <h2>Contame de tu negocio</h2>
+      <div class="side">
         <p>Te muestro cómo quedaría tu página, sin costo y sin compromiso.</p>
+        <a class="btn btn--primary crop" id="cta-contacto" data-wa href="#contacto">Escribime por WhatsApp</a>
       </div>
-      <a class="btn" id="cta-contacto" data-wa href="#contacto">Escribime por WhatsApp <span class="fl" aria-hidden="true">↗</span></a>
     </div>
   </section>
 </main>
 
-<footer>
-  <div class="w">
-    <div class="fila">
-      <span>LP Design · Diseño web para negocios locales</span>
-      <span>Buenos Aires, Argentina · © 2026</span>
+<footer class="foot proof">
+  <div class="container">
+    <div class="row">
+      <span>Diseño web para negocios locales</span>
+      <span>Buenos Aires, Argentina. © 2026</span>
     </div>
+    <div class="big" aria-hidden="true">LP Design</div>
   </div>
-  <div class="gigante" aria-hidden="true">LP Design</div>
 </footer>
 
-<div class="barra"><a class="btn acento" data-wa href="#contacto">Escribime por WhatsApp <span class="fl" aria-hidden="true">↗</span></a></div>
+<div class="barra"><a class="btn btn--primary" data-wa href="#contacto">Escribime por WhatsApp</a></div>
 
 <script>
   (function(){
@@ -437,10 +217,12 @@
       tabs.forEach(function(b){
         var on = b === t;
         b.setAttribute("aria-selected", on ? "true" : "false");
+        b.setAttribute("tabindex", on ? "0" : "-1");
         document.getElementById(b.getAttribute("aria-controls")).classList.toggle("act", on);
       });
     }
     tabs.forEach(function(b, i){
+      b.setAttribute("tabindex", i === 0 ? "0" : "-1");
       b.addEventListener("click", function(){ ir(b); });
       b.addEventListener("keydown", function(e){
         var n = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
@@ -451,31 +233,15 @@
       });
     });
 
-    // Demos: flechas
+    // Demos: botones anterior y siguiente
     var pista = document.getElementById("pista");
     function mover(d){ pista.scrollBy({left: d * Math.max(260, pista.clientWidth * .6), behavior: "smooth"}); }
     document.getElementById("ant").addEventListener("click", function(){ mover(-1); });
     document.getElementById("sig").addEventListener("click", function(){ mover(1); });
 
-    if (!("IntersectionObserver" in window)) {
-      document.querySelector(".barra").classList.add("ver");
-      document.querySelectorAll(".rv").forEach(function(e){ e.classList.add("in"); });
-      return;
-    }
-
-    // Encabezado sólido al bajar
-    var top = document.getElementById("top");
-    var hero = document.getElementById("inicio");
-    new IntersectionObserver(function(es){ top.classList.toggle("solido", !es[0].isIntersecting); }, {rootMargin: "-80px 0px 0px 0px"}).observe(hero);
-
-    // Aparición al desplazar
-    var rv = new IntersectionObserver(function(es){
-      es.forEach(function(x){ if (x.isIntersecting) { x.target.classList.add("in"); rv.unobserve(x.target); } });
-    }, {threshold: .12, rootMargin: "0px 0px -6% 0px"});
-    document.querySelectorAll(".rv").forEach(function(e){ rv.observe(e); });
-
     // Barra fija en el celular: aparece al pasar la presentación y se esconde donde ya hay un botón de contacto
     var barra = document.querySelector(".barra");
+    if (!("IntersectionObserver" in window)) { barra.classList.add("ver"); return; }
     var vistos = new Set();
     var io = new IntersectionObserver(function(es){
       es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });

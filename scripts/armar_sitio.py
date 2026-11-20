@@ -21,7 +21,7 @@ ap.add_argument("--sin-demos", action="store_true", help="solo la página madre"
 a = ap.parse_args()
 
 shutil.rmtree(OUT, ignore_errors=True)
-shutil.copytree(os.path.join(ROOT, "sitio", "lp-design"), OUT)
+shutil.copytree(os.path.join(ROOT, "sitio", "lp-design"), OUT, ignore=shutil.ignore_patterns(".hallmark", "LEEME.md"))
 n = 0
 if not a.sin_demos:
     demos = os.path.join(ROOT, "output", "demos")

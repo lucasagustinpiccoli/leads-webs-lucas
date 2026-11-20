@@ -2,3 +2,6 @@ output/
 .env
 __pycache__/
 *.pyc
+
+# Hallmark (capturas y registros de auditoría)
+.hallmark/

@@ -73,7 +73,9 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 
 ## Página madre y publicación
 
-- `sitio/lp-design/`: la página de LP Design (portfolio de Lucas). Una sola página en español, estilo sobrio, con
+- `sitio/lp-design/`: la página de LP Design (portfolio de Lucas), rediseñada con la skill Hallmark (tema Studio: papel
+  frío, serif Hedvig, un acento naranja, marcas de corte). Estilos en `styles.css`, `tokens.css` y `base.css`. Para volver
+  a auditarla: `/hallmark audit sitio/lp-design/index.html`. Una sola página en español, estilo sobrio, con
   solo lo que se puede respaldar: sin testimonios ni logos inventados. Ver `sitio/lp-design/LEEME.md` (qué completar
   antes de publicar: número de WhatsApp y permisos de los casos).
 - `python scripts/armar_sitio.py` junta la página madre y las demos de `output/demos/` en `output/publicar/` (y en
