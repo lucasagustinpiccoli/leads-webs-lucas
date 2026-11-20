@@ -48,8 +48,9 @@
     // la luz es un cuenco (media elipse) tan ancho como el tramo prendido; baja de tono claro a oscuro y se apaga en el borde
     var derrame = div("nr-derrame", "left:calc(" + izq + " - " + (largo * 5) + "%);width:" + (largo * 110) + "%;top:" + (o.inset + grosor / 2) + "px;height:" + (72 * o.reach) + "dvh;" +
       "background:radial-gradient(ellipse 50% 100% at 50% 0%," +
-      rgba(tubo, 1 * o.spill * o.intensity) + " 0%," + rgba(tubo, 0.85 * o.spill * o.intensity) + " 12%," + rgba(luz, 0.92 * o.spill * o.intensity) + " 34%," +
-      rgba(hondo, 0.78 * o.spill * o.intensity) + " 62%," + rgba(hondo, 0.18 * o.spill * o.intensity) + " 86%,transparent 100%);filter:blur(" + (6 * o.glow) + "px);");
+      rgba(tubo, 0.95 * o.spill * o.intensity) + " 0%," + rgba(tubo, 0.7 * o.spill * o.intensity) + " 9%," + rgba(luz, 0.62 * o.spill * o.intensity) + " 22%," +
+      rgba(luz, 0.4 * o.spill * o.intensity) + " 36%," + rgba(hondo, 0.27 * o.spill * o.intensity) + " 50%," + rgba(hondo, 0.15 * o.spill * o.intensity) + " 64%," +
+      rgba(hondo, 0.06 * o.spill * o.intensity) + " 80%,transparent 100%);filter:blur(" + (14 * o.glow) + "px);");
     var halo = div("nr-halo", "left:-3%;right:-3%;top:" + (-26 * o.glow) + "px;height:" + (grosor + 52 * o.glow) + "px;" +
       "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);");
     var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 3px rgba(255,255,255,.9),0 0 " + (8 * o.glow) + "px " + tubo + ",0 0 " + (20 * o.glow) + "px " + rgba(tubo, 0.55) + ",0 0 " + (44 * o.glow) + "px " + rgba(luz, 0.45) + ";");
@@ -80,10 +81,10 @@
 
       // dos titileos suaves del tramo central y después queda prendido
       var cuadros = parpadeo
-        ? [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.07 }, { opacity: 0.12, offset: 0.15 }, { opacity: 1, offset: 0.23 }, { opacity: 0.2, offset: 0.31 }, { opacity: 1, offset: 0.4 }, { opacity: 1, offset: 1 }]
+        ? [{ opacity: 0, offset: 0 }, { opacity: 0.9, offset: 0.08 }, { opacity: 0.35, offset: 0.17 }, { opacity: 1, offset: 0.26 }, { opacity: 0.5, offset: 0.34 }, { opacity: 1, offset: 0.44 }, { opacity: 1, offset: 1 }]
         : [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.4 }, { opacity: 1, offset: 1 }];
       a(nucleo, cuadros, { duration: T, delay: delay, easing: SUAVE });
-      a(halo, cuadros, { duration: T, delay: delay, easing: SUAVE });
+      a(halo, cuadros.map(function (c) { return Object.assign({}, c, { opacity: c.opacity * 0.7 }); }), { duration: T, delay: delay, easing: SUAVE });
 
       // el tramo se expande hacia los lados, con arranque y llegada suaves
       a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: 0.34, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
@@ -92,7 +93,7 @@
       // el cuenco de luz nace proporcional al tramo, titila con él y crece con la misma curva
       var chico = "scale(0.12, 0.12)";
       var fl = parpadeo
-        ? [[0, 0], [0.07, 0.95], [0.15, 0.25], [0.23, 0.95], [0.31, 0.3], [0.4, 0.9]]
+        ? [[0, 0], [0.08, 0.55], [0.16, 0.3], [0.24, 0.62], [0.32, 0.4], [0.42, 0.75]]
         : [[0, 0], [0.4, 0.9]];
       var kd = fl.map(function (f, i) { var k = { opacity: f[1], transform: chico, offset: f[0] }; if (i === fl.length - 1) k.easing = EXPANDE; return k; });
       kd.push({ opacity: 1, transform: "scale(1, 1)", offset: 1 });
