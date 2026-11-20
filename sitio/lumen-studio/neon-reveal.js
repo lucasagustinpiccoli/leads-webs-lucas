@@ -105,11 +105,11 @@
       var ultima = null;
       hijos.forEach(function (h, i) {
         // entrada larga y pareja: sube unos píxeles y se enfoca, con una curva que no arranca de golpe
+        // arranca con la luz (que nace en el 46% de la línea de tiempo) y usa su misma curva
         ultima = a(h, [
-          { opacity: 0, transform: "translateY(18px)", filter: "blur(8px)", offset: 0 },
-          { opacity: 0.55, transform: "translateY(7px)", filter: "blur(3px)", offset: 0.55 },
+          { opacity: 0, transform: "translateY(10px)", filter: "blur(6px)", offset: 0 },
           { opacity: 1, transform: "translateY(0)", filter: "blur(0px)", offset: 1 }
-        ], { duration: 1700 * k, delay: delay + (1300 + i * 380) * k, easing: "cubic-bezier(0.33, 0, 0.2, 1)" });
+        ], { duration: 1500 * k, delay: delay + (T * 0.46 + i * 220 * k), easing: EXPANDE });
       });
 
       var fin = animaciones.slice();
@@ -129,7 +129,7 @@
       });
     }
     reproducir();
-    return { replay: reproducir, subtituloMs: (o.revealDelay + (1300 + 1 * 380) * (o.revealDuration / 2500)) };
+    return { replay: reproducir, subtituloMs: (o.revealDelay + (2900 * 0.46 + 220) * (o.revealDuration / 2500)) };
   }
   window.NeonReveal = NeonReveal;
 })();
