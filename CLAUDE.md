@@ -117,5 +117,5 @@ fotos, horarios, link_maps, web, estado_negocio, busqueda`
 3. ✅ Filtro de negocios con web propia (rankear.py).
 4. ✅ Puntaje de prospecto y selección de demos (rankear.py). Tanda 01: Caseros, Ramos Mejía, Morón, Castelar (10 rubros, sin talleres).
 5. ✅ Plantilla de landing alimentada por JSON (demo.py). Rubro listo: salones de eventos (5 demos de la tanda 01).
-6. ⏳ Mensajes de contacto.
+6. ✅ Mensajes de contacto: `python scripts/mensajes.py --base https://tu-dominio` arma `output/mensajes-{tanda}.csv` (día 0, 3 y 7, Instagram y link de WhatsApp) y `output/mensajes-plantillas.md` trae la guía (red cercana, respuestas, cierre).
 7. ⏳ Planilla de seguimiento.
