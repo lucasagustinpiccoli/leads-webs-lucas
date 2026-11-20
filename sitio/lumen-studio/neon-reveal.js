@@ -103,8 +103,12 @@
       var hijos = Array.prototype.slice.call(contenido.children);
       var ultima = null;
       hijos.forEach(function (h, i) {
-        ultima = a(h, [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "translateY(0)" }],
-          { duration: 900 * k, delay: delay + (1600 + i * 300) * k, easing: ENTRADA });
+        // entrada larga y pareja: sube unos píxeles y se enfoca, con una curva que no arranca de golpe
+        ultima = a(h, [
+          { opacity: 0, transform: "translateY(18px)", filter: "blur(8px)", offset: 0 },
+          { opacity: 0.55, transform: "translateY(7px)", filter: "blur(3px)", offset: 0.55 },
+          { opacity: 1, transform: "translateY(0)", filter: "blur(0px)", offset: 1 }
+        ], { duration: 1700 * k, delay: delay + (900 + i * 380) * k, easing: "cubic-bezier(0.33, 0, 0.2, 1)" });
       });
 
       var fin = animaciones.slice();
@@ -124,7 +128,7 @@
       });
     }
     reproducir();
-    return { replay: reproducir, subtituloMs: (o.revealDelay + (1600 + 1 * 300) * (o.revealDuration / 2500)) };
+    return { replay: reproducir, subtituloMs: (o.revealDelay + (900 + 1 * 380) * (o.revealDuration / 2500)) };
   }
   window.NeonReveal = NeonReveal;
 })();
