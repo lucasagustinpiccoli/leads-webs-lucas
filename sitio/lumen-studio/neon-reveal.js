@@ -53,7 +53,7 @@
       rgba(hondo, 0.06 * o.spill * o.intensity) + " 80%,transparent 100%);filter:blur(" + (14 * o.glow) + "px);");
     var halo = div("nr-halo", "left:-3%;right:-3%;top:" + (-26 * o.glow) + "px;height:" + (grosor + 52 * o.glow) + "px;" +
       "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);");
-    var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 3px rgba(255,255,255,.9),0 0 " + (8 * o.glow) + "px " + tubo + ",0 0 " + (20 * o.glow) + "px " + rgba(tubo, 0.55) + ",0 0 " + (44 * o.glow) + "px " + rgba(luz, 0.45) + ";");
+    var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 2px rgba(255,255,255,.95),0 0 " + (5 * o.glow) + "px " + tubo + ",0 0 " + (12 * o.glow) + "px " + rgba(tubo, 0.5) + ";");
     lit.appendChild(halo); lit.appendChild(nucleo);
     capa.appendChild(derrame); capa.appendChild(base); capa.appendChild(lit);
     raiz.insertBefore(capa, raiz.firstChild);
@@ -84,19 +84,20 @@
         ? [{ opacity: 0, offset: 0 }, { opacity: 0.9, offset: 0.08 }, { opacity: 0.35, offset: 0.17 }, { opacity: 1, offset: 0.26 }, { opacity: 0.5, offset: 0.34 }, { opacity: 1, offset: 0.44 }, { opacity: 1, offset: 1 }]
         : [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.4 }, { opacity: 1, offset: 1 }];
       a(nucleo, cuadros, { duration: T, delay: delay, easing: SUAVE });
-      a(halo, cuadros.map(function (c) { return Object.assign({}, c, { opacity: c.opacity * 0.7 }); }), { duration: T, delay: delay, easing: SUAVE });
+      a(halo, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.46, easing: SUAVE }, { opacity: 0.7, offset: 1 }], { duration: T, delay: delay, easing: "linear" });
 
       // el tramo se expande hacia los lados, con arranque y llegada suaves
-      a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: 0.34, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
+      a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: 0.44, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
         { duration: T, delay: delay, easing: "linear" });
 
       // el cuenco de luz nace proporcional al tramo, titila con él y crece con la misma curva
       var chico = "scale(0.12, 0.12)";
-      var fl = parpadeo
-        ? [[0, 0], [0.08, 0.55], [0.16, 0.3], [0.24, 0.62], [0.32, 0.4], [0.42, 0.75]]
-        : [[0, 0], [0.4, 0.9]];
-      var kd = fl.map(function (f, i) { var k = { opacity: f[1], transform: chico, offset: f[0] }; if (i === fl.length - 1) k.easing = EXPANDE; return k; });
-      kd.push({ opacity: 1, transform: "scale(1, 1)", offset: 1 });
+      // la luz no existe durante el parpadeo: aparece y se abre recién cuando el tubo queda prendido
+      var kd = [
+        { opacity: 0, transform: chico, offset: 0 },
+        { opacity: 0, transform: chico, offset: 0.46, easing: EXPANDE },
+        { opacity: 1, transform: "scale(1, 1)", offset: 1 }
+      ];
       a(derrame, kd, { duration: T, delay: delay, easing: "linear" });
 
       // el contenido aparece de arriba hacia abajo, siguiendo a la luz
@@ -108,7 +109,7 @@
           { opacity: 0, transform: "translateY(18px)", filter: "blur(8px)", offset: 0 },
           { opacity: 0.55, transform: "translateY(7px)", filter: "blur(3px)", offset: 0.55 },
           { opacity: 1, transform: "translateY(0)", filter: "blur(0px)", offset: 1 }
-        ], { duration: 1700 * k, delay: delay + (900 + i * 380) * k, easing: "cubic-bezier(0.33, 0, 0.2, 1)" });
+        ], { duration: 1700 * k, delay: delay + (1300 + i * 380) * k, easing: "cubic-bezier(0.33, 0, 0.2, 1)" });
       });
 
       var fin = animaciones.slice();
@@ -128,7 +129,7 @@
       });
     }
     reproducir();
-    return { replay: reproducir, subtituloMs: (o.revealDelay + (900 + 1 * 380) * (o.revealDuration / 2500)) };
+    return { replay: reproducir, subtituloMs: (o.revealDelay + (1300 + 1 * 380) * (o.revealDuration / 2500)) };
   }
   window.NeonReveal = NeonReveal;
 })();
