@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f3f6f8">
-<title>LP Design | Diseño web para negocios locales</title>
-<meta name="description" content="LP Design diseña páginas web claras, rápidas y pensadas para el celular, para negocios y profesionales de Buenos Aires. Antes de contratar, te muestro cómo quedaría la tuya.">
+<title>Lumen Studio | Diseño web para negocios locales</title>
+<meta name="description" content="Lumen Studio diseña páginas web claras, rápidas y pensadas para el celular, para negocios y profesionales de Buenos Aires. Antes de contratar, te muestro cómo quedaría la tuya.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&family=Geist+Mono:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="nav" id="top">
   <div class="container">
-    <a class="wordmark" href="#inicio" aria-label="LP Design, inicio">LP Design</a>
+    <a class="wordmark" href="#inicio" aria-label="Lumen Studio, inicio">Lumen Studio</a>
     <ul>
       <li><a href="#trabajos">Trabajos</a></li>
       <li><a href="#precios">Precios</a></li>
@@ -28,10 +28,9 @@
 
 <main>
   <section class="hero" id="inicio">
-    <div class="hero-fx" id="hero-fx" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-col">
-        <h1><span class="visually-hidden">LP Design, diseño web para negocios locales</span><span class="gigante" aria-hidden="true">LP Design</span></h1>
+        <h1><span class="visually-hidden">Lumen Studio, diseño web para negocios locales</span><span class="gigante" aria-hidden="true">Lumen Studio</span></h1>
         <p class="subtitulo" aria-hidden="true">Diseño web para <span class="rotador" id="rotador">negocios locales</span></p>
         <p class="lead">Te muestro cómo quedaría tu página antes de que contrates.</p>
         <div class="actions" id="acciones-hero">
@@ -46,10 +45,10 @@
     <div class="container lupa-g">
       <div class="section-head">
         <h2>Contale a Lupa qué necesitás</h2>
-        <p>Lupa es el asistente de LP Design. Te hace unas preguntas, te muestra un rango de precio y le pasa el resumen a Lucas por WhatsApp.</p>
+        <p>Lupa es el asistente de Lumen Studio. Te hace unas preguntas, te muestra un rango de precio y le pasa el resumen a Lucas por WhatsApp.</p>
       </div>
       <div class="chat crop" role="region" aria-label="Chat con Lupa">
-        <div class="chat-cab"><span class="avatar" aria-hidden="true">L</span><div><strong>Lupa</strong><span>Asistente de LP Design</span></div></div>
+        <div class="chat-cab"><span class="avatar" aria-hidden="true">L</span><div><strong>Lupa</strong><span>Asistente de Lumen Studio</span></div></div>
         <div class="chat-log" id="chat-log" role="log" aria-live="polite"></div>
         <div class="chat-input" id="chat-input"></div>
       </div>
@@ -225,7 +224,7 @@
       <span>Diseño web para negocios locales</span>
       <span>Buenos Aires, Argentina. © 2026</span>
     </div>
-    <div class="big" aria-hidden="true">LP Design</div>
+    <div class="big" aria-hidden="true">Lumen Studio</div>
   </div>
 </footer>
 
@@ -277,21 +276,12 @@
 </script>
 <script src="lupa.js"></script>
 <script src="typewriter.js"></script>
-<script src="gradient-ascii.js"></script>
+<script src="neon-reveal.js"></script>
 <script>
   (function(){
-    // Apertura: GradientASCII de React Bits. Si el navegador no tiene WebGL2, queda un degradé quieto.
-    var el = document.getElementById("hero-fx");
-    var chico = window.matchMedia("(max-width: 60rem)").matches;
-    if (el && window.GradientASCII) {
-      var fx = GradientASCII(el, {
-        colors: ["#2b4663", "#6f93b5", "#a9c6dc", "#e9f1f6"],
-        shape: "pinch", lightMode: false, characters: " .:=+xX0S8#@",
-        cellSize: chico ? 13 : 18, density: chico ? 0.45 : 0.65, glyphOpacity: chico ? 0.28 : 0.5, gradientOpacity: 0.3, scale: 1.0,
-        glow: 0.15, flicker: 0.2, softness: 0.9, speed: 0.7, grain: 0.05, dpr: 1.5
-      });
-      if (fx) el.parentNode.classList.add("fx-on");
-    }
+    // Apertura: tubo de neón que se enciende y revela el contenido (versión propia del Neon Reveal de React Bits Pro).
+    var hero = document.getElementById("inicio");
+    if (hero && window.NeonReveal) NeonReveal(hero, { contenido: hero.querySelector(".hero-col") });
     // Palabras que se escriben solas, como el rotador de Framer en modo máquina de escribir.
     if (window.Typewriter) Typewriter(document.getElementById("rotador"), {
       words: ["negocios locales", "consultorios", "salones de eventos", "veterinarias", "gimnasios", "estudios jurídicos"],

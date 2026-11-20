@@ -3,7 +3,7 @@
 Uso:  python scripts/armar_sitio.py [--sin-demos]
 
 Resultado en output/publicar/ y output/publicar.zip:
-  /                  la página madre (sitio/lp-design)
+  /                  la página madre (sitio/lumen-studio)
   /demos/{carpeta}/  cada demo de output/demos, en su propia dirección
   robots.txt, _headers   para que los buscadores NO indexen /demos/ (son demos para clientes, no páginas públicas)
 
@@ -21,7 +21,7 @@ ap.add_argument("--sin-demos", action="store_true", help="solo la página madre"
 a = ap.parse_args()
 
 shutil.rmtree(OUT, ignore_errors=True)
-shutil.copytree(os.path.join(ROOT, "sitio", "lp-design"), OUT, ignore=shutil.ignore_patterns(".hallmark", "LEEME.md"))
+shutil.copytree(os.path.join(ROOT, "sitio", "lumen-studio"), OUT, ignore=shutil.ignore_patterns(".hallmark", "LEEME.md"))
 n = 0
 if not a.sin_demos:
     demos = os.path.join(ROOT, "output", "demos")

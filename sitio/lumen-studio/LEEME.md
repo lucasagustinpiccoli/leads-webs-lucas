@@ -1,4 +1,4 @@
-# Página madre de LP Design
+# Página madre de Lumen Studio
 
 Una sola página (`index.html` + `img/`). Se publica junto con las demos con `python scripts/armar_sitio.py`.
 

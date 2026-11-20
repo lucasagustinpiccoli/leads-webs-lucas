@@ -8,7 +8,7 @@ Si el prospecto tiene demo, el primer mensaje lleva su link; si no, lleva un eje
 No envía nada: Lucas copia y manda cada mensaje a mano.
 
 Uso:
-  python scripts/mensajes.py --base https://lp-design.pages.dev            # última tanda, solo los marcados para demo
+  python scripts/mensajes.py --base https://lumen-studio.pages.dev            # última tanda, solo los marcados para demo
   python scripts/mensajes.py --tanda output/tanda-01-2026-11-10.csv --todos
 Guarda output/mensajes-{tanda}.csv (UTF-8 con BOM, abre bien en Excel y Google Sheets).
 """

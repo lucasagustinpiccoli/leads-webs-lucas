@@ -1,4 +1,4 @@
-/* Lupa: asistente guiado de LP Design. Hace unas preguntas, calcula un rango de precio con la tabla de la página
+/* Lupa: asistente guiado de Lumen Studio. Hace unas preguntas, calcula un rango de precio con la tabla de la página
    y arma el mensaje para Lucas por WhatsApp. No usa IA ni guarda nada: los datos solo viajan en ese mensaje. */
 (function () {
   "use strict";
@@ -195,7 +195,7 @@
 
   function correr() {
     datos = {};
-    return decir("Hola, soy Lupa, el asistente de LP Design. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
+    return decir("Hola, soy Lupa, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
       .then(function () { return decir("¿Qué tipo de negocio tenés?"); })
       .then(function () { return elegirUno(RUBROS); })
       .then(function (r) { datos.rubro = r; return decir("¿Qué querés que haga tu página? Podés elegir varias. Incluye siempre botón de WhatsApp y mapa."); })
