@@ -31,6 +31,7 @@ from buscar import cargar, slug  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output")
 TEMPLATE = os.path.join(ROOT, "templates", "landing.html")
+TEMPLATE_CERCANO = os.path.join(ROOT, "templates", "landing_cercano.html")  # "estilo": "cercano" (veterinarias y servicios de trato diario)
 TEMPLATE_SOBRIO = os.path.join(ROOT, "templates", "landing_sobrio.html")  # rubros con "estilo": "sobrio" (salud, profesionales)
 
 ICONOS = {
@@ -158,7 +159,8 @@ def render(d):
     wa = d["whatsapp"]
     wa_link = f"https://wa.me/{wa}?text={quote(d['mensaje_wa'])}" if wa else d["link_maps"]
 
-    sobrio = d.get("estilo") == "sobrio"
+    estilo = d.get("estilo")
+    sobrio = estilo in ("sobrio", "cercano")  # sin palabras en cursiva ni énfasis; ambos comparten el armado de textos
 
     def boton_wa(clase):
         return (f'<a class="btn {clase}" href="{e(wa_link)}" target="_blank" rel="noopener">'
@@ -175,7 +177,11 @@ def render(d):
     datos.append((d["localidad"], d["direccion"]))
     datos_html = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in datos[:3])
 
-    if sobrio:
+    if estilo == "cercano":
+        tipos = "".join(
+            f'<article><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 900px) 74vw, 40vw")} alt="" loading="lazy" width="800" height="600">'
+            f'<div><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
+    elif sobrio:
         tipos = "".join(
             f'<article><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 900px) 96px, 25vw")} alt="" loading="lazy" width="400" height="300">'
             f'<h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></article>' for t in d["tipos"])
@@ -235,8 +241,9 @@ def render(d):
     }
     if sobrio:  # textos sin énfasis, botones de la plantilla sobria
         valores.update({k: plano(d[k]) for k in ("intro", "banda", "seccion_tipos", "seccion_galeria", "seccion_ubicacion") if k in d})
-        valores.update({"boton_wa_hero": boton_wa("linea"), "boton_wa_ubicacion": boton_wa("oscuro")})
-    with open(TEMPLATE_SOBRIO if sobrio else TEMPLATE, encoding="utf-8") as f:
+        valores.update({"boton_wa_hero": boton_wa("borde" if estilo == "cercano" else "linea"), "boton_wa_ubicacion": boton_wa("oscuro")})
+    plantilla = TEMPLATE_CERCANO if estilo == "cercano" else TEMPLATE_SOBRIO if sobrio else TEMPLATE
+    with open(plantilla, encoding="utf-8") as f:
         out = f.read()
     for k, v in valores.items():
         out = out.replace("{{" + k + "}}", str(v))

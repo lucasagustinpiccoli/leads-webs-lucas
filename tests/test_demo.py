@@ -62,6 +62,16 @@ class TestDemo(unittest.TestCase):
         self.assertNotIn("border-radius:999px", out)  # formas rectas, sin píldoras
         self.assertEqual(out.count("<figure"), 0)
 
+    def test_estilo_cercano_veterinaria(self):
+        d = demo.armar_datos({**FILA, "rubro": "Veterinaria", "ranking": "7"})
+        self.assertEqual(d["estilo"], "cercano")
+        out = demo.render(d)
+        self.assertNotIn("{{", out)
+        self.assertNotIn("<em", out)
+        self.assertIn('class="cifras"', out)          # datos reales debajo del hero
+        self.assertNotIn("\u2605", out)               # sin estrellas en el hero
+        self.assertNotRegex(re.sub(r"<(style|script)[\s\S]*?</\1>", "", out), "[\u2014\u2013]")
+
     def test_instagram_con_parametros(self):
         d = demo.armar_datos({**FILA, "web": "https://www.instagram.com/ga_eventos1/?hl=es-la"})
         self.assertIn("@ga_eventos1", demo.render(d))
