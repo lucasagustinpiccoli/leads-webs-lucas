@@ -49,14 +49,14 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - Motor único `templates/landing.html`; textos, formulario, fotos y temas por rubro en `config/landing/{rubro}.json`.
   Rubros con plantilla: `salon_eventos`, `dentista`, `veterinaria`. Para sumar uno, usá el skill `landing-rubro-nuevo`; el criterio de diseño está
   en el skill `diseno-anti-ia`.
-- **Tres estilos de plantilla**, elegidos con `"estilo"` en `config/landing/{rubro}.json`. Además de los dos de abajo,
-  `"estilo": "cercano"` (`templates/landing_cercano.html`: claro, con color, fotos redondeadas con un bloque de color
-  detrás, datos de Google bajo el hero, etapas y galería que se deslizan en el celular, botones en píldora) es el de
-  `veterinaria`, para que no se parezca a la de `dentista`. Los dos primeros:
-  el editorial por defecto (`templates/landing.html`: foto a pantalla completa, serif y énfasis, para salones y rubros de
-  experiencia) y `"estilo": "sobrio"` (`templates/landing_sobrio.html`: una sola tipografía sans, formas rectas, sin
-  cursivas ni píldoras, para servicios de salud y profesionales: `dentista`). El estilo sobrio sigue
-  la misma estructura de la propuesta para R&RG (`redisenos/rrg/`).
+- **Cinco estilos de plantilla**, elegidos con `"estilo"` en `config/landing/{rubro}.json`:
+  `"evento"` (`templates/landing_evento.html`, salones: foto a pantalla completa, oscuro de punta a punta, títulos con serif,
+  tarjetas altas y escalonadas, tira de fotos que se desliza), `"clinico"` (`templates/landing_clinico.html`, dentistas: el
+  formulario de turno va en la primera pantalla junto al título, lista ordenada de motivos con foto chica), `"cercano"`
+  (`templates/landing_cercano.html`, veterinarias: claro, con color, fotos redondeadas con un bloque de color detrás,
+  etapas y galería que se deslizan), `"sobrio"` (`templates/landing_sobrio.html`: una sola tipografía sans, formas rectas,
+  la estructura de la propuesta de R&RG; hoy sin rubro asignado) y el editorial original (`templates/landing.html`, sin
+  `estilo`). Ningún rubro comparte estilo con otro, así las demos no se parecen entre sí. Los textos van sin palabras en cursiva.
 - **Pensada para celular**: la visita llega desde el link de la bio de Instagram o desde "sitio web" en Google Maps.
   Menú en píldora con el botón principal siempre visible, barra fija abajo en el celular (botón + WhatsApp),
   opciones para tocar en el formulario, teléfono y dirección como links, fotos livianas.

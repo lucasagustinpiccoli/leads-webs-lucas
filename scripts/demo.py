@@ -31,6 +31,8 @@ from buscar import cargar, slug  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output")
 TEMPLATE = os.path.join(ROOT, "templates", "landing.html")
+TEMPLATE_CLINICO = os.path.join(ROOT, "templates", "landing_clinico.html")  # "estilo": "clinico" (consultorios con turnos: el pedido va en la primera pantalla)
+TEMPLATE_EVENTO = os.path.join(ROOT, "templates", "landing_evento.html")  # "estilo": "evento" (salones: foto a pantalla completa, oscuro, con serif)
 TEMPLATE_CERCANO = os.path.join(ROOT, "templates", "landing_cercano.html")  # "estilo": "cercano" (veterinarias y servicios de trato diario)
 TEMPLATE_SOBRIO = os.path.join(ROOT, "templates", "landing_sobrio.html")  # rubros con "estilo": "sobrio" (salud, profesionales)
 
@@ -98,6 +100,10 @@ def armar_datos(fila):
     pool = [x for x in imgs["galeria"] if x != hero]
     k = (n * 2 + h) % len(pool)
     galeria = (pool[k:] + pool[:k])[:5]
+    if base.get("galeria_primera"):  # la primera foto de la galería es la que va junto al texto del negocio
+        g0 = next((x for x in base["galeria_primera"] if x != hero), None)
+        if g0:
+            galeria = [g0] + [x for x in galeria if x != g0][:4]
     return {
         "_nota": "Editá lo que quieras y corré: python scripts/demo.py --render <este archivo>. "
                  "En 'fotos' poné las fotos reales del cliente (URLs o rutas): la primera va al hero y las siguientes a la galería.",
@@ -160,7 +166,7 @@ def render(d):
     wa_link = f"https://wa.me/{wa}?text={quote(d['mensaje_wa'])}" if wa else d["link_maps"]
 
     estilo = d.get("estilo")
-    sobrio = estilo in ("sobrio", "cercano")  # sin palabras en cursiva ni énfasis; ambos comparten el armado de textos
+    sobrio = estilo in ("sobrio", "cercano", "clinico", "evento")  # sin palabras en cursiva ni énfasis; comparten el armado de textos
 
     def boton_wa(clase):
         return (f'<a class="btn {clase}" href="{e(wa_link)}" target="_blank" rel="noopener">'
@@ -177,9 +183,10 @@ def render(d):
     datos.append((d["localidad"], d["direccion"]))
     datos_html = "".join(f"<div><b>{e(a)}</b><span>{e(b)}</span></div>" for a, b in datos[:3])
 
-    if estilo == "cercano":
+    if estilo in ("cercano", "clinico", "evento"):
+        tam = {"cercano": "(max-width: 900px) 74vw, 40vw", "clinico": "(max-width: 900px) 84px, 132px", "evento": "(max-width: 900px) 72vw, 25vw"}[estilo]
         tipos = "".join(
-            f'<article><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 900px) 74vw, 40vw")} alt="" loading="lazy" width="800" height="600">'
+            f'<article><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], tam)} alt="" loading="lazy" width="800" height="600">'
             f'<div><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
     elif sobrio:
         tipos = "".join(
@@ -190,8 +197,9 @@ def render(d):
             f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 767px) 70vw, 25vw")} '
             f'alt="" loading="lazy"></div>'
             f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
+    gal_visibles = gal[1:] if estilo == "clinico" else gal  # en el estilo clínico la primera foto va junto al texto del consultorio
     galeria = "".join(f'<figure><img src="{e(u)}" {srcset(u, "(max-width: 767px) 50vw, 33vw")} alt="{e(d["alt_galeria"])}" '
-                      f'loading="lazy"></figure>' for u in gal)
+                      f'loading="lazy"></figure>' for u in gal_visibles)
 
     # Teléfono y dirección como links: en el celular abren el discador y la app de mapas.
     tel_digits = re.sub(r"[^\d+]", "", d["telefono"] or "")
@@ -214,7 +222,7 @@ def render(d):
     gigante = f'<span style="font-size:clamp({minimo}px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
     mapa = "https://www.google.com/maps?q=" + quote(f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
 
-    tema = {"enfasis_estilo": "italic", "enfasis_peso": "inherit", **d["tema"]}
+    tema = {"enfasis_estilo": "italic", "enfasis_peso": "inherit", "peso_display": "400", **d["tema"]}
     plano = lambda t: e(t.replace("*", ""))  # el estilo sobrio no usa palabras destacadas
     foto_nosotros = (f'<img src="{e(gal[0])}" {srcset(gal[0], "(max-width: 900px) 100vw, 50vw")} alt="{e(d["alt_galeria"])}" '
                      f'loading="lazy" width="1200" height="800">')
@@ -236,13 +244,14 @@ def render(d):
         "boton_wa_barra": f'<a class="btn btn-wa" href="{e(wa_link)}" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">{ICONOS["wa"]}</a>',
         "form_html": formulario(d["form"]), "form_boton": e(d["form"]["boton"]),
         "seccion_nosotros": plano(d.get("seccion_nosotros", "Quiénes somos")), "foto_nosotros": foto_nosotros,
-        "negocio_pie": e(corto),
+        "negocio_pie": e(corto), "foto_fondo": e(gal[-1]),
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
     if sobrio:  # textos sin énfasis, botones de la plantilla sobria
         valores.update({k: plano(d[k]) for k in ("intro", "banda", "seccion_tipos", "seccion_galeria", "seccion_ubicacion") if k in d})
-        valores.update({"boton_wa_hero": boton_wa("borde" if estilo == "cercano" else "linea"), "boton_wa_ubicacion": boton_wa("oscuro")})
-    plantilla = TEMPLATE_CERCANO if estilo == "cercano" else TEMPLATE_SOBRIO if sobrio else TEMPLATE
+        valores.update({"boton_wa_hero": boton_wa("borde" if estilo in ("cercano", "clinico") else "vidrio" if estilo == "evento" else "linea"),
+                        "boton_wa_ubicacion": boton_wa("claro" if estilo == "evento" else "oscuro")})
+    plantilla = {"cercano": TEMPLATE_CERCANO, "clinico": TEMPLATE_CLINICO, "evento": TEMPLATE_EVENTO}.get(estilo, TEMPLATE_SOBRIO if sobrio else TEMPLATE)
     with open(plantilla, encoding="utf-8") as f:
         out = f.read()
     for k, v in valores.items():

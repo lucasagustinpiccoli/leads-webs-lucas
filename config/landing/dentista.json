@@ -34,7 +34,7 @@
       "imagen": "sillon-ventana.jpg"
     }
   ],
-  "seccion_galeria": "El consultorio",
+  "seccion_galeria": "Fotos del consultorio",
   "banda": "Pedí tu turno.",
   "seccion_ubicacion": "Cómo llegar al consultorio",
   "seccion_presupuesto": "Pedí tu turno",
@@ -68,62 +68,65 @@
     "hero": [
       "consultorio-amplio.jpg",
       "sala-espera.jpg",
-      "cajon-instrumental.jpg",
-      "sillon-gris.jpg",
-      "instrumental-equipo.jpg"
+      "sillon-gris.jpg"
     ],
     "galeria": [
-      "consultorio-blanco.jpg",
-      "cajon-instrumental.jpg",
-      "consultorio-amplio.jpg",
-      "instrumental-mesa.jpg",
       "sillon-gris.jpg",
       "sala-espera.jpg",
-      "instrumental-equipo.jpg",
-      "panoramica-monitor.jpg"
+      "consultorio-amplio.jpg",
+      "sillon-azul.jpg",
+      "sillon-ventana.jpg",
+      "panoramica-monitor.jpg",
+      "consultorio-blanco.jpg",
+      "radiografia-pantalla.jpg"
     ]
   },
   "temas": [
     {
-      "nombre": "petroleo",
-      "fondo": "#edf3f3",
-      "superficie": "#f8fbfb",
-      "tinta": "#12201f",
-      "suave": "#4a5c5b",
-      "oscuro": "#12343a",
-      "acento": "#f0a65f",
-      "acento_tinta": "#12343a",
-      "cuerpo": "'Figtree', system-ui, sans-serif",
-      "display": "'Figtree', system-ui, sans-serif",
-      "fuentes": "family=Figtree:wght@400;500;600"
+      "nombre": "aqua",
+      "fondo": "#f4f7f8",
+      "superficie": "#fbfdfd",
+      "tinta": "#0f2a3a",
+      "suave": "#4a6270",
+      "oscuro": "#0f2a3a",
+      "acento": "#2cc3b0",
+      "acento_tinta": "#0f2a3a",
+      "display": "'Sora', system-ui, sans-serif",
+      "cuerpo": "'Karla', system-ui, sans-serif",
+      "fuentes": "family=Sora:wght@500;600&family=Karla:wght@400;500;600"
     },
     {
-      "nombre": "pizarra",
-      "fondo": "#eef0f4",
-      "superficie": "#f8f9fb",
-      "tinta": "#151b24",
-      "suave": "#535e6e",
-      "oscuro": "#1c2a3a",
-      "acento": "#e8794a",
-      "acento_tinta": "#1c2a3a",
-      "cuerpo": "'Public Sans', system-ui, sans-serif",
-      "display": "'Public Sans', system-ui, sans-serif",
-      "fuentes": "family=Public+Sans:wght@400;500;600"
+      "nombre": "coral",
+      "fondo": "#f6f7f7",
+      "superficie": "#fbfcfc",
+      "tinta": "#1d2b2b",
+      "suave": "#566464",
+      "oscuro": "#1f3d3a",
+      "acento": "#ef6f52",
+      "acento_tinta": "#1d2b2b",
+      "display": "'Red Hat Display', system-ui, sans-serif",
+      "cuerpo": "'Red Hat Text', system-ui, sans-serif",
+      "fuentes": "family=Red+Hat+Display:wght@500;600&family=Red+Hat+Text:wght@400;500;600"
     },
     {
-      "nombre": "salvia",
-      "fondo": "#edf2ee",
-      "superficie": "#f7faf8",
-      "tinta": "#14201a",
-      "suave": "#4f6157",
-      "oscuro": "#1c3b30",
-      "acento": "#9bd3b2",
-      "acento_tinta": "#1c3b30",
-      "cuerpo": "'Plus Jakarta Sans', system-ui, sans-serif",
-      "display": "'Plus Jakarta Sans', system-ui, sans-serif",
-      "fuentes": "family=Plus+Jakarta+Sans:wght@400;500;600"
+      "nombre": "sol",
+      "fondo": "#f5f7fa",
+      "superficie": "#fbfcfd",
+      "tinta": "#14213a",
+      "suave": "#4f5c74",
+      "oscuro": "#14213a",
+      "acento": "#f2c14e",
+      "acento_tinta": "#14213a",
+      "display": "'Manrope', system-ui, sans-serif",
+      "cuerpo": "'Source Sans 3', system-ui, sans-serif",
+      "fuentes": "family=Manrope:wght@500;600&family=Source+Sans+3:wght@400;500;600"
     }
   ],
-  "estilo": "sobrio",
-  "seccion_nosotros": "El consultorio"
+  "estilo": "clinico",
+  "seccion_nosotros": "El consultorio",
+  "galeria_primera": [
+    "sillon-gris.jpg",
+    "sala-espera.jpg",
+    "consultorio-amplio.jpg"
+  ]
 }

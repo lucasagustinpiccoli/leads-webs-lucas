@@ -52,9 +52,25 @@ class TestDemo(unittest.TestCase):
         self.assertEqual(html.count('class="chip"'), 4)
         self.assertNotIn('type="date"', html)
 
+    def test_estilo_clinico_dentista(self):
+        d = demo.armar_datos({**FILA, "rubro": "Dentista", "ranking": "7"})
+        self.assertEqual(d["estilo"], "clinico")
+        out = demo.render(d)
+        self.assertNotIn("{{", out)
+        self.assertIn('id="form-accion"', out)         # el pedido de turno va en la primera pantalla
+        self.assertNotIn("<em", out)
+
+    def test_estilo_evento_salon(self):
+        d = demo.armar_datos({**FILA, "rubro": "Salón de eventos", "ranking": "7"})
+        self.assertEqual(d["estilo"], "evento")
+        out = demo.render(d)
+        self.assertNotIn("{{", out)
+        self.assertNotIn("<em", out)
+        self.assertNotIn("*", re.sub(r"<(style|script)[\s\S]*?</\1>", "", out))
+
     def test_estilo_sobrio(self):
         d = demo.armar_datos({**FILA, "rubro": "Dentista", "ranking": "7"})
-        self.assertEqual(d["estilo"], "sobrio")
+        d["estilo"] = "sobrio"                          # sigue disponible aunque hoy ningún rubro lo use
         out = demo.render(d)
         self.assertNotIn("{{", out)
         self.assertNotIn("<em", out)                 # sin palabras destacadas
