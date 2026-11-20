@@ -66,12 +66,15 @@
 .nr-lit { transform-origin: 50% 50%; will-change: transform; }
 .nr-derrame { transform-origin: 50% 0; will-change: transform, opacity; }
 .nr-halo, .nr-nucleo { will-change: opacity; }
+/* el menú de arriba aparece después de que se enciende la página */
+.nr .nav .container { opacity: 0; transition: opacity 1000ms var(--ease-out); }
+.nr.nr-nav .nav .container { opacity: 1; }
 /* mientras la apertura no empezó, el contenido espera oculto; si algo falla, el script lo vuelve a mostrar */
 .nr .hero-col > * { opacity: 0; }
 .nr .hero.nr-listo .hero-col > * { opacity: 1; }
 .hero.nr-listo .nr-nucleo, .hero.nr-listo .nr-halo { animation: nr-hum 4.6s ease-in-out infinite; }
 @keyframes nr-hum { 0%, 100% { opacity: 1; } 50% { opacity: 0.88; } }
-@media (prefers-reduced-motion: reduce) { .nr .hero-col > * { opacity: 1; } .hero.nr-listo .nr-nucleo, .hero.nr-listo .nr-halo { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .nr .nav .container { opacity: 1; transition: none; } .nr .hero-col > * { opacity: 1; } .hero.nr-listo .nr-nucleo, .hero.nr-listo .nr-halo { animation: none; } }
 .hero-col { position: relative; max-width: 1240px; margin-inline: auto; text-align: center; display: grid; justify-items: center; gap: var(--space-lg); transform: translateY(-4vh); }
 .hero h1 { margin: clamp(2rem, 7vh, 4.5rem) 0 0; max-width: none; font-weight: 400; }
 .hero .gigante { display: block; font-family: var(--font-marca); font-weight: 400; font-size: clamp(3.25rem, 11vw, 10.5rem); line-height: 0.92; letter-spacing: 0.01em; color: var(--color-on-night); white-space: nowrap; }
