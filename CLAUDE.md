@@ -81,6 +81,11 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   a auditarla: `/hallmark audit sitio/lp-design/index.html`. Una sola página en español, estilo sobrio, con
   solo lo que se puede respaldar: sin testimonios ni logos inventados. Ver `sitio/lp-design/LEEME.md` (qué completar
   antes de publicar: número de WhatsApp y permisos de los casos).
+- La página madre lleva tres piezas interactivas, todas en JavaScript puro y sin servidor: la apertura con GradientASCII de
+  React Bits (`gradient-ascii.js`, WebGL2, con degradé de respaldo), un rotador de palabras con efecto de máquina de escribir
+  inspirado en el componente AnimatedTextRotator de Framer (`typewriter.js`) y **Lupa** (`lupa.js`), el asistente guiado que
+  pregunta rubro, necesidades, material y plazo, calcula el rango de precio (base USD 180 + extras de USD 40 a 60) y arma el
+  mensaje para Lucas por WhatsApp. Si cambian los precios, hay que tocar `PRECIO_BASE`, `EXTRA_MIN` y `EXTRA_MAX` en `lupa.js`.
 - `python scripts/armar_sitio.py` junta la página madre y las demos de `output/demos/` en `output/publicar/` (y en
   `output/publicar.zip`), con `robots.txt` y `_headers` para que `/demos/` no se indexe. Se sube completo a Cloudflare
   Pages; cada demo queda en su propia dirección (`/demos/{carpeta}/`).
