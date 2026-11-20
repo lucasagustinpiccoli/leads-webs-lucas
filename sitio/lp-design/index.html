@@ -97,22 +97,15 @@
   </section>
 
   <section class="section" id="demos">
-    <div class="container rail-head">
+    <div class="container demos-g">
       <div class="section-head" style="margin-bottom:0">
         <h2>¿Cómo se ve en mi rubro?</h2>
         <p>Preparo una demo con los datos de tu negocio. Estas son de ejemplo.</p>
       </div>
-      <div class="rail-controls">
-        <button type="button" class="btn btn--small" id="ant" aria-label="Demos anteriores">Anterior</button>
-        <button type="button" class="btn btn--small" id="sig" aria-label="Demos siguientes">Siguiente</button>
+      <div class="pair">
+        <figure><div class="sheet crop"><img src="img/oasis-mob.jpg" alt="Demo para un salón de eventos" width="560" height="953" loading="lazy"></div><figcaption>Salón de eventos</figcaption></figure>
+        <figure><div class="sheet crop"><img src="img/dental-mob.jpg" alt="Demo para un consultorio odontológico" width="560" height="953" loading="lazy"></div><figcaption>Consultorio odontológico</figcaption></figure>
       </div>
-    </div>
-    <div class="rail" id="pista" tabindex="0" aria-label="Demos por rubro, deslizá para ver más">
-      <figure><div class="sheet crop"><img src="img/oasis-mob.jpg" alt="Demo para un salón de eventos" width="560" height="953" loading="lazy"></div><figcaption>Salón de eventos</figcaption></figure>
-      <figure><div class="sheet crop"><img src="img/dental-mob.jpg" alt="Demo para un consultorio odontológico" width="560" height="953" loading="lazy"></div><figcaption>Consultorio odontológico</figcaption></figure>
-      <figure><div class="sheet crop"><img src="img/vet-mob.jpg" alt="Demo para una veterinaria" width="560" height="953" loading="lazy"></div><figcaption>Veterinaria</figcaption></figure>
-      <figure><div class="sheet crop"><img src="img/salon2-mob.jpg" alt="Demo para un salón de eventos, versión clara" width="560" height="953" loading="lazy"></div><figcaption>Salón de eventos, versión clara</figcaption></figure>
-      <figure><div class="sheet crop"><img src="img/dental2-mob.jpg" alt="Demo para un centro odontológico" width="560" height="953" loading="lazy"></div><figcaption>Centro odontológico</figcaption></figure>
     </div>
   </section>
 
@@ -232,12 +225,6 @@
         t.focus(); ir(t);
       });
     });
-
-    // Demos: botones anterior y siguiente
-    var pista = document.getElementById("pista");
-    function mover(d){ pista.scrollBy({left: d * Math.max(260, pista.clientWidth * .6), behavior: "smooth"}); }
-    document.getElementById("ant").addEventListener("click", function(){ mover(-1); });
-    document.getElementById("sig").addEventListener("click", function(){ mover(1); });
 
     // Barra fija en el celular: aparece al pasar la presentación y se esconde donde ya hay un botón de contacto
     var barra = document.querySelector(".barra");
