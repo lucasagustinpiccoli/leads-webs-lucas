@@ -8,7 +8,7 @@
 <meta name="description" content="LP Design diseña páginas web claras, rápidas y pensadas para el celular, para negocios y profesionales de Buenos Aires. Antes de contratar, te muestro cómo quedaría la tuya.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&family=Geist+Mono:wght@300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,6 +28,7 @@
 
 <main>
   <section class="hero proof" id="inicio">
+    <div class="hero-fx" id="hero-fx" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-col">
         <h1>Diseño web para negocios locales</h1>
@@ -239,6 +240,22 @@
       barra.classList.toggle("ver", vistos.size === 0);
     });
     ["#acciones-hero", "#cta-contacto", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
+  })();
+</script>
+<script src="gradient-ascii.js"></script>
+<script>
+  (function(){
+    // Apertura: GradientASCII de React Bits. Si el navegador no tiene WebGL2, queda la trama de puntos de siempre.
+    var el = document.getElementById("hero-fx");
+    if (!el || !window.GradientASCII) return;
+    var chico = window.matchMedia("(max-width: 60rem)").matches;
+    var fx = GradientASCII(el, {
+      colors: ["#1b2f4b", "#e8672f", "#f19a5f", "#f7c9a3"],
+      shape: "rise", lightMode: true, characters: " .:=+xX0S8#@",
+      cellSize: chico ? 13 : 18, density: 0.75, glyphOpacity: 0.5, gradientOpacity: 0.6, scale: chico ? 1.1 : 0.8,
+      glow: 0.1, flicker: 0.2, softness: chico ? 0.8 : 0.05, speed: 0.8, grain: 0.04, dpr: 1.5
+    });
+    if (fx) el.parentNode.classList.add("fx-on");
   })();
 </script>
 </body>

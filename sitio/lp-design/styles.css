@@ -58,6 +58,15 @@
 .hero .lead { max-width: 30ch; color: var(--color-ink-2); }
 .actions { display: flex; flex-wrap: wrap; gap: var(--space-md); justify-content: center; margin-top: var(--space-sm); }
 
+/* apertura animada (GradientASCII) */
+.hero { overflow: hidden; }
+.hero .hero-fx { position: absolute; inset: 0; z-index: -1; }
+.hero.fx-on::before { display: none; }
+.gradient-ascii-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.gradient-ascii-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.hero-col { position: relative; }
+.hero .btn:not(.btn--primary) { background: var(--color-paper-hi); }
+
 /* secciones */
 .section { padding-block: var(--section-gap); }
 .section--band { background: var(--color-paper-2); }
