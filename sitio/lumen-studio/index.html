@@ -8,7 +8,7 @@
 <meta name="description" content="Lumen Studio diseña páginas web claras, rápidas y pensadas para el celular, para negocios y profesionales de Buenos Aires. Antes de contratar, te muestro cómo quedaría la tuya.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&family=Staatliches&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script>document.documentElement.classList.add("nr");setTimeout(function(){if(!document.querySelector(".hero.nr-iniciado"))document.documentElement.classList.remove("nr");},2500);</script>
 </head>
@@ -29,6 +29,7 @@
 
 <main>
   <section class="hero" id="inicio">
+    <div class="hero-fondo" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-col">
         <h1><span class="visually-hidden">Lumen Studio, diseño web para negocios locales</span><span class="gigante" aria-hidden="true">Lumen Studio</span></h1>
@@ -269,12 +270,16 @@
 </script>
 <script src="lupa.js"></script>
 <script src="typewriter.js"></script>
+<script src="dots-grid.js"></script>
 <script src="neon-reveal.js"></script>
 <script>
   (function(){
     // Apertura: tubo de neón que se enciende y revela el contenido (versión propia del Neon Reveal de React Bits Pro).
     var hero = document.getElementById("inicio");
-    var fx = hero && window.NeonReveal ? NeonReveal(hero, { contenido: hero.querySelector(".hero-col"), colors: ["#F5F2E9", "#E8A33D"] }) : null;
+    var chico = window.matchMedia("(max-width: 60rem)").matches;
+    // Fondo: grilla de puntos y líneas que se ilumina cerca del cursor (reimplementa el componente Dots de Framer).
+    if (hero && window.DotsGrid) DotsGrid(hero.querySelector(".hero-fondo"), { spacing: chico ? 44 : 60, dotColor: "#F5F2E9", dotSize: chico ? 2.5 : 3 });
+    var fx = hero && window.NeonReveal ? NeonReveal(hero, { contenido: hero.querySelector(".hero-col"), colors: ["#F5F2E9", "#E8A33D"], spill: 0.55, glow: 0.8 }) : null;
     // Palabras que se escriben solas, como el rotador de Framer en modo máquina de escribir.
     // Arrancan cuando la luz llega a esa línea, para que no se escriban antes de verse.
     function escribir() {

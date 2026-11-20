@@ -46,7 +46,7 @@
     // tramo encendido: crece desde el centro y arrastra su halo y su luz
     var lit = div("nr-lit", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;");
     // la luz es un cuenco (media elipse) tan ancho como el tramo prendido; baja de tono claro a oscuro y se apaga en el borde
-    var derrame = div("nr-derrame", "left:calc(" + izq + " - " + (largo * 5) + "%);width:" + (largo * 110) + "%;top:" + (o.inset + grosor / 2) + "px;height:" + (72 * o.reach) + "dvh;" +
+    var derrame = div("nr-derrame", "left:calc(" + izq + " - " + (largo * 17) + "%);width:" + (largo * 134) + "%;top:" + (o.inset + grosor / 2) + "px;height:" + (88 * o.reach) + "dvh;" +
       "background:radial-gradient(ellipse 50% 100% at 50% 0%," +
       rgba(tubo, 0.95 * o.spill * o.intensity) + " 0%," + rgba(tubo, 0.7 * o.spill * o.intensity) + " 9%," + rgba(luz, 0.62 * o.spill * o.intensity) + " 22%," +
       rgba(luz, 0.4 * o.spill * o.intensity) + " 36%," + rgba(hondo, 0.27 * o.spill * o.intensity) + " 50%," + rgba(hondo, 0.15 * o.spill * o.intensity) + " 64%," +
