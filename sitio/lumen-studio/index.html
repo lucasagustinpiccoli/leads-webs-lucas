@@ -279,7 +279,7 @@
     var chico = window.matchMedia("(max-width: 60rem)").matches;
     // Fondo: grilla de puntos y líneas que se ilumina cerca del cursor (reimplementa el componente Dots de Framer).
     if (hero && window.DotsGrid) DotsGrid(hero.querySelector(".hero-fondo"), { spacing: chico ? 44 : 60, dotColor: "#F5F2E9", dotSize: chico ? 2.5 : 3 });
-    var fx = hero && window.NeonReveal ? NeonReveal(hero, { contenido: hero.querySelector(".hero-col"), colors: ["#F5F2E9", "#E8A33D"], spill: 0.55, glow: 0.8 }) : null;
+    var fx = hero && window.NeonReveal ? NeonReveal(hero, { contenido: hero.querySelector(".hero-col"), colors: ["#F5F2E9", "#E8A33D"], spill: 0.36, glow: 0.7 }) : null;
     // Palabras que se escriben solas, como el rotador de Framer en modo máquina de escribir.
     // Arrancan cuando la luz llega a esa línea, para que no se escriban antes de verse.
     function escribir() {
