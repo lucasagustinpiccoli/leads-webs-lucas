@@ -1,103 +1,115 @@
-/* Apertura "Neon Reveal": un tubo de neón se enciende en el borde de arriba, parpadea al prenderse y su luz baja
-   revelando el contenido. Inspirada en la descripción pública del componente Neon Reveal de React Bits Pro
+/* Apertura "Neon Reveal": un tubo de neón apagado, finito, cruza el borde de arriba. Un tramo del centro titila dos veces,
+   queda prendido y se expande hacia los lados mientras su luz baja y el contenido aparece detrás.
+   Inspirada en la descripción pública del componente Neon Reveal de React Bits Pro
    (https://pro.reactbits.dev/docs/components/neon-reveal); es una versión propia en JavaScript puro, no el componente
    licenciado. Los nombres y valores por defecto de las opciones siguen los de esa documentación.
-   Uso: NeonReveal(contenedor, { contenido: elemento_a_revelar }). Devuelve { replay() }. */
+   Solo anima opacidad y transformaciones (corren en la GPU), así que se mantiene fluida.
+   Uso: NeonReveal(contenedor, { contenido: elemento_cuyos_hijos_aparecen }). Devuelve { replay() }. */
 (function () {
   "use strict";
   var DEFAULTS = {
     colors: ["#FF9FFC", "#B163E9"], revealDelay: 300, revealDuration: 2500, thickness: 3, glow: 1, spill: 1, reach: 1,
-    intensity: 1, feather: 0.15, inset: 24, length: 0.9, hum: 1, flicker: 1, interactive: true, intro: true
+    intensity: 1, inset: 24, length: 0.9, hum: 1, flicker: 1, interactive: true, intro: true
   };
-  function salida(t) { return 1 - Math.pow(1 - t, 3); }
   function rgba(hex, a) {
     var n = parseInt(hex.replace("#", ""), 16);
     return "rgba(" + (n >> 16 & 255) + "," + (n >> 8 & 255) + "," + (n & 255) + "," + a + ")";
   }
+  function oscuro(hex, k) {
+    var n = parseInt(hex.replace("#", ""), 16);
+    return "rgb(" + Math.round((n >> 16 & 255) * k) + "," + Math.round((n >> 8 & 255) * k) + "," + Math.round((n & 255) * k) + ")";
+  }
+  var SUAVE = "cubic-bezier(0.4, 0, 0.2, 1)";
+  var ENTRADA = "cubic-bezier(0.16, 1, 0.3, 1)";
+  var EXPANDE = "cubic-bezier(0.65, 0, 0.35, 1)";
 
   function NeonReveal(raiz, opciones) {
     var o = Object.assign({}, DEFAULTS, opciones || {});
     var contenido = o.contenido;
-    if (!raiz || !contenido) return null;
+    if (!raiz || !contenido || !raiz.animate) return null;
     var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var tubo = o.colors[0], luz = o.colors[1];
+    var tubo = o.colors[0], luz = o.colors[1], hondo = oscuro(luz, 0.42);
+    var largo = Math.min(1, Math.max(0.1, o.length));
+    var izq = ((1 - largo) / 2 * 100) + "%", ancho = (largo * 100) + "%";
+    var grosor = o.thickness;
+    var CHICO = 0.06;
 
-    var capa = document.createElement("div");
-    capa.className = "nr-capa";
+    function div(clase, css) {
+      var d = document.createElement("div");
+      d.className = clase; d.style.cssText = css || "";
+      return d;
+    }
+    var capa = div("nr-capa");
     capa.setAttribute("aria-hidden", "true");
-    var derrame = document.createElement("div");
-    derrame.className = "nr-derrame";
-    var barra = document.createElement("div");
-    barra.className = "nr-tubo";
-    var halo = document.createElement("div");
-    halo.className = "nr-halo";
-    capa.appendChild(derrame); capa.appendChild(halo); capa.appendChild(barra);
+    // tubo apagado, de punta a punta
+    var base = div("nr-base", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;border-radius:" + grosor + "px;background:" + rgba(tubo, 0.26) + ";");
+    // tramo encendido: crece desde el centro y arrastra su halo y su luz
+    var lit = div("nr-lit", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;");
+    var derrame = div("nr-derrame", "left:-3%;right:-3%;top:" + (o.inset + grosor / 2) + "px;height:" + (78 * o.reach) + "dvh;" +
+      "background:linear-gradient(to bottom," + rgba(tubo, 0.5 * o.spill * o.intensity) + "," + rgba(tubo, 0) + " 20%)," +
+      "radial-gradient(ellipse 78% 100% at 50% 0%," + rgba(tubo, 0.9 * o.spill * o.intensity) + " 0%," + rgba(luz, 0.82 * o.spill * o.intensity) + " 26%," + rgba(hondo, 0.7 * o.spill * o.intensity) + " 58%,transparent 100%);");
+    var halo = div("nr-halo", "left:-3%;right:-3%;top:" + (-26 * o.glow) + "px;height:" + (grosor + 52 * o.glow) + "px;" +
+      "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);");
+    var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 3px rgba(255,255,255,.9),0 0 " + (8 * o.glow) + "px " + tubo + ",0 0 " + (20 * o.glow) + "px " + rgba(tubo, 0.55) + ",0 0 " + (44 * o.glow) + "px " + rgba(luz, 0.45) + ";");
+    lit.appendChild(halo); lit.appendChild(nucleo);
+    capa.appendChild(derrame); capa.appendChild(base); capa.appendChild(lit);
     raiz.insertBefore(capa, raiz.firstChild);
 
-    var largo = Math.min(1, Math.max(0.1, o.length));
-    // Geometría y colores: el tubo tiene un núcleo casi blanco con extremos redondeados y una luz que baja del tono claro al oscuro
-    function oscuro(hex, k) {
-      var n = parseInt(hex.replace("#", ""), 16);
-      return "rgb(" + Math.round((n >> 16 & 255) * k) + "," + Math.round((n >> 8 & 255) * k) + "," + Math.round((n & 255) * k) + ")";
-    }
-    var hondo = oscuro(luz, 0.42);
-    var izq = ((1 - largo) / 2 * 100) + "%";
-    barra.style.cssText = "top:" + o.inset + "px;left:" + izq + ";width:" + (largo * 100) + "%;height:" + o.thickness + "px;" +
-      "background:#fff;border-radius:" + o.thickness + "px;";
-    halo.style.cssText = "top:" + (o.inset - 26 * o.glow) + "px;left:calc(" + izq + " - 2%);width:" + (largo * 100 + 4) + "%;height:" + (o.thickness + 52 * o.glow) + "px;" +
-      "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);";
-    derrame.style.cssText = "top:" + o.inset + "px;height:" + (78 * o.reach) + "%;" +
-      "background:" +
-      "linear-gradient(to bottom," + rgba(tubo, 0.55 * o.spill * o.intensity) + "," + rgba(tubo, 0) + " 22%)," +
-      "radial-gradient(ellipse 78% 100% at 50% 0%," + rgba(tubo, 0.9 * o.spill * o.intensity) + " 0%," + rgba(luz, 0.82 * o.spill * o.intensity) + " 26%," + rgba(hondo, 0.7 * o.spill * o.intensity) + " 58%,transparent 100%);";
+    var animaciones = [];
+    function cancelar() { animaciones.forEach(function (a) { a.cancel(); }); animaciones = []; }
+    function a(el, cuadros, op) { var x = el.animate(cuadros, Object.assign({ fill: "both" }, op)); animaciones.push(x); return x; }
 
-    function aplicar(p, enc, frac) {
-      // p: avance de la luz sobre el contenido (0 a 1), enc: encendido del tubo (0 a 1), frac: largo encendido (0 a 1)
-      var borde = (p * (100 + o.feather * 100)).toFixed(2);
-      var mask = "linear-gradient(to bottom,#000 calc(" + borde + "% - " + (o.feather * 100) + "%),transparent " + borde + "%)";
-      contenido.style.webkitMaskImage = mask; contenido.style.maskImage = mask;
-      barra.style.opacity = Math.min(1, enc * o.intensity);
-      barra.style.transform = "scaleX(" + frac.toFixed(4) + ")";
-      barra.style.boxShadow = enc > 0.02 ? "0 0 2px 1px #fff,0 0 " + (8 * o.glow) + "px 2px " + tubo + ",0 0 " + (22 * o.glow) + "px 6px " + rgba(tubo, 0.8) + ",0 0 " + (60 * o.glow) + "px 14px " + rgba(luz, 0.7) : "none";
-      halo.style.opacity = enc;
-      halo.style.transform = "scaleX(" + frac.toFixed(4) + ")";
-      derrame.style.opacity = Math.min(1, enc * (0.22 + 0.78 * Math.max(p, frac * 0.7)));
-      derrame.style.transform = "scale(" + frac.toFixed(4) + "," + (0.25 + 0.75 * p).toFixed(4) + ")";
+    function quieto() { // estado final: tubo prendido y contenido a la vista
+      cancelar();
+      raiz.classList.add("nr-iniciado", "nr-listo");
     }
 
-    var raf = 0, ejecucion = 0;
-    function parar() { cancelAnimationFrame(raf); raf = 0; ejecucion++; }
-
-    function quieto() { // estado final: contenido revelado y tubo prendido
-      aplicar(1, 1, 1);
-      contenido.style.webkitMaskImage = ""; contenido.style.maskImage = "";
-      raiz.classList.add("nr-listo");
-    }
-
-    /* Línea de tiempo: una porción chica del centro titila dos veces, queda prendida, se expande hacia los lados
-       y la luz baja revelando el contenido. */
-    var CHICO = 0.06, PARPADEO_FIN = 580, EXPANDE = 1100, LUZ_DESDE = 700;
     function reproducir() {
-      parar();
+      cancelar();
       raiz.classList.remove("nr-listo");
+      raiz.classList.add("nr-iniciado");
       if (reducido || !o.intro) { quieto(); return; }
-      var mia = ejecucion, t0 = performance.now() + o.revealDelay;
-      aplicar(0, 0, CHICO);
-      (function paso(ahora) {
-        if (mia !== ejecucion) return;
-        var ms = ahora - t0;
-        if (ms >= o.revealDuration) { quieto(); return; }
-        if (ms < 0) { raf = requestAnimationFrame(paso); return; }
-        var enc = 1, frac = CHICO;
-        if (ms < PARPADEO_FIN) {
-          enc = o.flicker > 0 ? ((ms < 150) || (ms >= 290 && ms < 440) ? 1 : 0) : Math.min(1, ms / PARPADEO_FIN);
-        } else {
-          frac = CHICO + (1 - CHICO) * salida(Math.min(1, (ms - PARPADEO_FIN) / EXPANDE));
-        }
-        var p = salida(Math.max(0, Math.min(1, (ms - LUZ_DESDE) / (o.revealDuration - LUZ_DESDE))));
-        aplicar(p, enc, frac);
-        raf = requestAnimationFrame(paso);
-      })(performance.now());
+      var k = o.revealDuration / 2500;          // escala de todos los tiempos
+      var T = 2900 * k, delay = o.revealDelay;  // el tramo de luz dura 2,9 s con la duración por defecto
+      var parpadeo = o.flicker > 0;
+
+      // el tubo apagado aparece de a poco
+      a(base, [{ opacity: 0 }, { opacity: 1 }], { duration: 600 * k, delay: delay, easing: SUAVE });
+
+      // dos titileos suaves del tramo central y después queda prendido
+      var cuadros = parpadeo
+        ? [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.07 }, { opacity: 0.12, offset: 0.15 }, { opacity: 1, offset: 0.23 }, { opacity: 0.2, offset: 0.31 }, { opacity: 1, offset: 0.4 }, { opacity: 1, offset: 1 }]
+        : [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.4 }, { opacity: 1, offset: 1 }];
+      a(nucleo, cuadros, { duration: T, delay: delay, easing: SUAVE });
+      a(halo, cuadros, { duration: T, delay: delay, easing: SUAVE });
+
+      // el tramo se expande hacia los lados, con arranque y llegada suaves
+      a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: 0.34, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
+        { duration: T, delay: delay, easing: "linear" });
+
+      // la luz nace como un resplandor chico bajo el tramo prendido y se abre al expandirse, bajando de a poco
+      a(derrame, [
+        { opacity: 0, transform: "scale(0.14, 0.09)", offset: 0 },
+        { opacity: 0.55, transform: "scale(0.14, 0.09)", offset: 0.34, easing: EXPANDE },
+        { opacity: 1, transform: "scale(1, 1)", offset: 1 }
+      ], { duration: T, delay: delay, easing: "linear" });
+
+      // el contenido aparece de arriba hacia abajo, siguiendo a la luz
+      var hijos = Array.prototype.slice.call(contenido.children);
+      var ultima = null;
+      hijos.forEach(function (h, i) {
+        ultima = a(h, [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "translateY(0)" }],
+          { duration: 900 * k, delay: delay + (1250 + i * 260) * k, easing: ENTRADA });
+      });
+
+      var fin = animaciones.slice();
+      Promise.all(fin.map(function (x) { return x.finished; })).then(function () {
+        if (!animaciones.length) return;
+        fin.forEach(function (x) { try { x.commitStyles(); } catch (e) {} x.cancel(); });
+        animaciones = [];
+        raiz.classList.add("nr-listo");
+      }, function () {});
+      return ultima;
     }
 
     if (o.interactive) {
@@ -107,7 +119,7 @@
       });
     }
     reproducir();
-    return { replay: reproducir };
+    return { replay: reproducir, subtituloMs: (o.revealDelay + (1250 + 1 * 260) * (o.revealDuration / 2500)) };
   }
   window.NeonReveal = NeonReveal;
 })();

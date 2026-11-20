@@ -58,11 +58,16 @@
   color: var(--color-on-night);
   background: radial-gradient(60% 50% at 50% 38%, var(--color-night-2), var(--color-night) 72%), var(--color-night); }
 .nr-capa { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-.nr-tubo, .nr-halo { position: absolute; transform-origin: 50% 50%; opacity: 0; will-change: opacity, transform; }
-.nr-derrame { position: absolute; left: 0; right: 0; transform-origin: 50% 0; opacity: 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); }
-.hero.nr-listo .nr-tubo, .hero.nr-listo .nr-halo { animation: nr-hum 4.2s ease-in-out infinite; }
-@keyframes nr-hum { 0%, 100% { opacity: 1; } 50% { opacity: 0.86; } }
-@media (prefers-reduced-motion: reduce) { .hero.nr-listo .nr-tubo, .hero.nr-listo .nr-halo { animation: none; } }
+.nr-base, .nr-lit, .nr-derrame, .nr-halo, .nr-nucleo { position: absolute; }
+.nr-lit { transform-origin: 50% 50%; will-change: transform; }
+.nr-derrame { transform-origin: 50% 0; will-change: transform, opacity; -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); }
+.nr-halo, .nr-nucleo { will-change: opacity; }
+/* mientras la apertura no empezó, el contenido espera oculto; si algo falla, el script lo vuelve a mostrar */
+.nr .hero-col > * { opacity: 0; }
+.nr .hero.nr-listo .hero-col > * { opacity: 1; }
+.hero.nr-listo .nr-nucleo, .hero.nr-listo .nr-halo { animation: nr-hum 4.6s ease-in-out infinite; }
+@keyframes nr-hum { 0%, 100% { opacity: 1; } 50% { opacity: 0.88; } }
+@media (prefers-reduced-motion: reduce) { .nr .hero-col > * { opacity: 1; } .hero.nr-listo .nr-nucleo, .hero.nr-listo .nr-halo { animation: none; } }
 .hero-col { position: relative; max-width: 1240px; margin-inline: auto; text-align: center; display: grid; justify-items: center; gap: var(--space-lg); transform: translateY(-4vh); }
 .hero h1 { margin: 0; max-width: none; font-weight: 400; }
 .hero .gigante { display: block; font-family: var(--font-display); font-size: clamp(3.25rem, 13vw, 13rem); line-height: 0.92; letter-spacing: -0.03em; color: var(--color-on-night); white-space: nowrap; }
