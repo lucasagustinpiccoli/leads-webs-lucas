@@ -288,7 +288,7 @@
         stagger: 0.07, hold: 1.8
       });
     }
-    setTimeout(function(){ document.documentElement.classList.add("nr-nav"); }, fx ? fx.subtituloMs + 300 : 0);
+    setTimeout(function(){ document.documentElement.classList.add("nr-nav"); }, fx ? fx.subtituloMs - 150 : 0);
     setTimeout(escribir, fx && !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? fx.subtituloMs + 500 : 0);
   })();
 </script>
