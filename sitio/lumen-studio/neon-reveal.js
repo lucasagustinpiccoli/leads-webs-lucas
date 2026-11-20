@@ -42,12 +42,14 @@
     var capa = div("nr-capa");
     capa.setAttribute("aria-hidden", "true");
     // tubo apagado, de punta a punta
-    var base = div("nr-base", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;border-radius:" + grosor + "px;background:" + rgba(tubo, 0.26) + ";");
+    var base = div("nr-base", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;border-radius:" + grosor + "px;background:rgba(255,255,255,0.2);");
     // tramo encendido: crece desde el centro y arrastra su halo y su luz
     var lit = div("nr-lit", "top:" + o.inset + "px;left:" + izq + ";width:" + ancho + ";height:" + grosor + "px;");
-    var derrame = div("nr-derrame", "left:-3%;right:-3%;top:" + (o.inset + grosor / 2) + "px;height:" + (78 * o.reach) + "dvh;" +
-      "background:linear-gradient(to bottom," + rgba(tubo, 0.5 * o.spill * o.intensity) + "," + rgba(tubo, 0) + " 20%)," +
-      "radial-gradient(ellipse 78% 100% at 50% 0%," + rgba(tubo, 0.9 * o.spill * o.intensity) + " 0%," + rgba(luz, 0.82 * o.spill * o.intensity) + " 26%," + rgba(hondo, 0.7 * o.spill * o.intensity) + " 58%,transparent 100%);");
+    // la luz es un cuenco (media elipse) tan ancho como el tramo prendido; baja de tono claro a oscuro y se apaga en el borde
+    var derrame = div("nr-derrame", "left:calc(" + izq + " - " + (largo * 5) + "%);width:" + (largo * 110) + "%;top:" + (o.inset + grosor / 2) + "px;height:" + (72 * o.reach) + "dvh;" +
+      "background:radial-gradient(ellipse 50% 100% at 50% 0%," +
+      rgba(tubo, 1 * o.spill * o.intensity) + " 0%," + rgba(tubo, 0.85 * o.spill * o.intensity) + " 12%," + rgba(luz, 0.92 * o.spill * o.intensity) + " 34%," +
+      rgba(hondo, 0.78 * o.spill * o.intensity) + " 62%," + rgba(hondo, 0.18 * o.spill * o.intensity) + " 86%,transparent 100%);filter:blur(" + (6 * o.glow) + "px);");
     var halo = div("nr-halo", "left:-3%;right:-3%;top:" + (-26 * o.glow) + "px;height:" + (grosor + 52 * o.glow) + "px;" +
       "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);");
     var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 3px rgba(255,255,255,.9),0 0 " + (8 * o.glow) + "px " + tubo + ",0 0 " + (20 * o.glow) + "px " + rgba(tubo, 0.55) + ",0 0 " + (44 * o.glow) + "px " + rgba(luz, 0.45) + ";");
@@ -87,19 +89,21 @@
       a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: 0.34, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
         { duration: T, delay: delay, easing: "linear" });
 
-      // la luz nace como un resplandor chico bajo el tramo prendido y se abre al expandirse, bajando de a poco
-      a(derrame, [
-        { opacity: 0, transform: "scale(0.14, 0.09)", offset: 0 },
-        { opacity: 0.55, transform: "scale(0.14, 0.09)", offset: 0.34, easing: EXPANDE },
-        { opacity: 1, transform: "scale(1, 1)", offset: 1 }
-      ], { duration: T, delay: delay, easing: "linear" });
+      // el cuenco de luz nace proporcional al tramo, titila con él y crece con la misma curva
+      var chico = "scale(0.12, 0.12)";
+      var fl = parpadeo
+        ? [[0, 0], [0.07, 0.95], [0.15, 0.25], [0.23, 0.95], [0.31, 0.3], [0.4, 0.9]]
+        : [[0, 0], [0.4, 0.9]];
+      var kd = fl.map(function (f, i) { var k = { opacity: f[1], transform: chico, offset: f[0] }; if (i === fl.length - 1) k.easing = EXPANDE; return k; });
+      kd.push({ opacity: 1, transform: "scale(1, 1)", offset: 1 });
+      a(derrame, kd, { duration: T, delay: delay, easing: "linear" });
 
       // el contenido aparece de arriba hacia abajo, siguiendo a la luz
       var hijos = Array.prototype.slice.call(contenido.children);
       var ultima = null;
       hijos.forEach(function (h, i) {
         ultima = a(h, [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "translateY(0)" }],
-          { duration: 900 * k, delay: delay + (1250 + i * 260) * k, easing: ENTRADA });
+          { duration: 900 * k, delay: delay + (1600 + i * 300) * k, easing: ENTRADA });
       });
 
       var fin = animaciones.slice();
@@ -119,7 +123,7 @@
       });
     }
     reproducir();
-    return { replay: reproducir, subtituloMs: (o.revealDelay + (1250 + 1 * 260) * (o.revealDuration / 2500)) };
+    return { replay: reproducir, subtituloMs: (o.revealDelay + (1600 + 1 * 300) * (o.revealDuration / 2500)) };
   }
   window.NeonReveal = NeonReveal;
 })();
