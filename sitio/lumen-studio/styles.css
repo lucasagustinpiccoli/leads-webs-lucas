@@ -257,23 +257,22 @@
 .ray { position: fixed; right: var(--space-lg); bottom: var(--space-lg); z-index: var(--z-sticky); display: grid; justify-items: end; gap: var(--space-sm); opacity: 0; transform: translateY(24px) scale(.9); pointer-events: none; transform-origin: 100% 100%; transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
 .ray.ver { opacity: 1; transform: none; pointer-events: none; }
 .ray.ver > * { pointer-events: auto; }
-.ray-fig { width: 120px; height: 143px; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)) drop-shadow(0 0 1px rgba(0,0,0,.6)); padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 12px; transform-origin: 50% 100%; }
+.ray-fig { width: 76px; height: 76px; filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)); border: 0; background: transparent; cursor: pointer; border-radius: 12px; transform-origin: 50% 100%; }
 .ray-fig:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
 .ray-fig.saltando { animation: ray-salto 700ms var(--ease-out); }
 @keyframes ray-salto { 0% { transform: translateY(0) scale(1.04, .94); } 28% { transform: translateY(-16px) scale(.96, 1.05); } 55% { transform: translateY(0) scale(1.05, .95); } 75% { transform: translateY(-4px); } 100% { transform: none; } }
-.ray-brazo-der { transform-origin: 104px 130px; animation: ray-saludo 2.6s ease-in-out infinite; }
-@keyframes ray-saludo { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-14deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-10deg); } }
-.ray-rayos { transform-origin: 80px 64px; animation: ray-pulso 3.4s ease-in-out infinite; }
+.ray-mic { animation: ray-pulso 2.8s ease-in-out infinite; }
 @keyframes ray-pulso { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
 .ray-ojo { transition: transform 110ms ease-out; }
 .ray-ojo.cierra { transform: scaleY(.1); }
 .ray-pupila { transition: transform 60ms linear; }
+.ray-fig:hover .ray-sonrisa { stroke-width: 3.6; }
 .ray-sueno, .ray-z { opacity: 0; }
+.ray.dormido .ray-ojo { display: none; }
 .ray.dormido .ray-pupila, .ray.dormido .ray-sonrisa { opacity: 0; }
 .ray.dormido .ray-sueno { opacity: 1; }
 .ray.dormido .ray-z { opacity: .9; animation: ray-z 2.4s ease-in-out infinite; }
-.ray.dormido .ray-rayos { opacity: .3; animation: none; }
-.ray.dormido .ray-brazo-der { animation: none; }
+.ray.dormido .ray-mic { animation: none; opacity: .4; }
 @keyframes ray-z { 0% { transform: translate(0, 8px); opacity: 0; } 40% { opacity: .9; } 100% { transform: translate(6px, -8px); opacity: 0; } }
 .ray-burbuja { position: relative; max-width: 15rem; padding: var(--space-sm) var(--space-md); background: var(--color-paper-hi); color: var(--color-ink); border: 0; border-radius: 14px 14px 4px 14px; font: 500 var(--text-sm)/1.35 var(--font-body); text-align: left; cursor: pointer; box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .55); opacity: 0; transform: translateY(8px) scale(.96); pointer-events: none; transform-origin: 100% 100%; transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
 .ray.ver .ray-burbuja.ver { opacity: 1; transform: none; }
@@ -284,5 +283,5 @@
 .ray-cerrar { margin-left: auto; width: 40px; height: 40px; border: 0; background: transparent; font-size: 1.6rem; line-height: 1; color: var(--color-muted); cursor: pointer; border-radius: 8px; }
 .ray-cerrar:hover { background: var(--color-paper-2); color: var(--color-ink); }
 .ray.abierto .ray-burbuja { display: none; }
-@media (max-width: 60rem) { .ray { right: var(--space-md); bottom: calc(var(--space-md) + 68px); } .ray-fig { width: 84px; height: 100px; } }
-@media (prefers-reduced-motion: reduce) { .ray, .ray-burbuja { transition: none; } .ray-brazo-der, .ray-rayos, .ray-fig.saltando, .ray-chat { animation: none; } }
+@media (max-width: 60rem) { .ray { right: var(--space-md); bottom: calc(var(--space-md) + 68px); } .ray-fig { width: 64px; height: 64px; } }
+@media (prefers-reduced-motion: reduce) { .ray, .ray-burbuja { transition: none; } .ray-mic, .ray-fig.saltando, .ray-chat { animation: none; } }

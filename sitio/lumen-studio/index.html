@@ -213,36 +213,25 @@
   </div>
   <button type="button" class="ray-burbuja" tabindex="-1">Hola, soy Ray. ¿Te ayudo?</button>
   <button type="button" class="ray-fig" aria-label="Hablar con Ray, el asistente" aria-expanded="false">
-    <svg viewBox="0 0 160 190" width="100%" height="100%" aria-hidden="true" focusable="false">
-      <defs>
-        <radialGradient id="ray-halo" cx="50%" cy="38%" r="55%"><stop offset="0" stop-color="#E8A33D" stop-opacity=".34"/><stop offset="1" stop-color="#E8A33D" stop-opacity="0"/></radialGradient>
-        <linearGradient id="ray-cabeza" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C25A"/><stop offset="1" stop-color="#E8A33D"/></linearGradient>
-      </defs>
-      <circle class="ray-halo" cx="80" cy="64" r="76" fill="url(#ray-halo)"/>
-      <g class="ray-rayos" stroke="#E8A33D" stroke-width="5" stroke-linecap="round">
-        <line x1="80" y1="6" x2="80" y2="18"/><line x1="36" y1="22" x2="45" y2="32"/><line x1="124" y1="22" x2="115" y2="32"/>
-        <line x1="14" y1="64" x2="26" y2="64"/><line x1="134" y1="64" x2="146" y2="64"/>
-      </g>
-      <g class="ray-cuerpo">
-        <path class="ray-brazo-izq" d="M57 138 C48 136 40 140 36 148" fill="none" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round"/>
-        <g class="ray-brazo-der"><path d="M104 130 C114 124 118 116 119 105" fill="none" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round"/></g>
-        <path d="M58 109 L102 109 L108 176 L52 176 Z" fill="#F4F1E8"/>
-        <path d="M56 129 L104 129 L106 148 L54 148 Z" fill="#C58A2B"/>
-        <rect x="50" y="104" width="60" height="9" rx="3" fill="#F4F1E8"/>
-        <rect x="46" y="174" width="68" height="8" rx="3" fill="#F4F1E8"/>
-      </g>
-      <g class="ray-cabeza">
-        <rect x="72" y="14" width="16" height="10" rx="3" fill="#F4F1E8"/>
-        <rect x="60" y="22" width="40" height="11" rx="4" fill="#F4F1E8"/>
-        <circle cx="80" cy="68" r="40" fill="url(#ray-cabeza)"/>
-        <ellipse cx="60" cy="48" rx="9" ry="5.5" fill="#fff" opacity=".35" transform="rotate(-32 60 48)"/>
-        <ellipse cx="56" cy="78" rx="7" ry="4.5" fill="#C58A2B" opacity=".45"/><ellipse cx="104" cy="78" rx="7" ry="4.5" fill="#C58A2B" opacity=".45"/>
-        <g class="ray-ojo" style="transform-origin:66px 68px"><circle cx="66" cy="68" r="7" fill="#fff" opacity="0"/><g class="ray-pupila"><circle cx="66" cy="68" r="6.5" fill="#111"/><circle cx="68.4" cy="65.6" r="2" fill="#fff"/></g></g>
-        <g class="ray-ojo" style="transform-origin:94px 68px"><circle cx="94" cy="68" r="7" fill="#fff" opacity="0"/><g class="ray-pupila"><circle cx="94" cy="68" r="6.5" fill="#111"/><circle cx="96.4" cy="65.6" r="2" fill="#fff"/></g></g>
-        <path class="ray-sonrisa" d="M70 83 Q80 92 90 83" fill="none" stroke="#111" stroke-width="3.4" stroke-linecap="round"/>
-        <path class="ray-sueno" d="M64 70 Q66 73 68 70 M92 70 Q94 73 96 70" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round"/>
-      </g>
-      <text class="ray-z" x="118" y="30" font-size="16" font-weight="700" fill="#F4F1E8">z</text>
+    <svg viewBox="0 0 120 120" width="100%" height="100%" aria-hidden="true" focusable="false">
+      <rect x="1" y="1" width="118" height="118" rx="14" fill="#0E0E0E" stroke="#2A2A2A"/>
+      <circle class="ray-halo" cx="60" cy="56" r="44" fill="#E8A33D" opacity=".07"/>
+      <!-- auricular -->
+      <path d="M26 64 V52 a34 34 0 0 1 68 0 V64" fill="none" stroke="#F4F1E8" stroke-width="4.5" stroke-linecap="round"/>
+      <rect x="19" y="56" width="11" height="26" rx="5.5" fill="#F4F1E8"/>
+      <rect x="90" y="56" width="11" height="26" rx="5.5" fill="#F4F1E8"/>
+      <path d="M24.5 82 C24.5 96 38 100 50 98" fill="none" stroke="#F4F1E8" stroke-width="3.4" stroke-linecap="round"/>
+      <circle class="ray-mic" cx="52" cy="98" r="3.6" fill="#E8A33D"/>
+      <!-- pantalla -->
+      <rect x="35" y="36" width="50" height="38" rx="7" fill="#161616" stroke="#F4F1E8" stroke-width="3"/>
+      <g class="ray-ojo" style="transform-origin:50px 52px"><g class="ray-pupila"><rect x="46.5" y="45" width="7" height="14" rx="3.5" fill="#E8A33D"/></g></g>
+      <g class="ray-ojo" style="transform-origin:70px 52px"><g class="ray-pupila"><rect x="66.5" y="45" width="7" height="14" rx="3.5" fill="#E8A33D"/></g></g>
+      <path class="ray-sonrisa" d="M52 65 Q60 71 68 65" fill="none" stroke="#E8A33D" stroke-width="3" stroke-linecap="round"/>
+      <path class="ray-sueno" d="M46 54 H54 M66 54 H74" fill="none" stroke="#E8A33D" stroke-width="3" stroke-linecap="round"/>
+      <!-- pie -->
+      <rect x="57" y="74" width="6" height="7" fill="#F4F1E8"/>
+      <rect x="46" y="80" width="28" height="4.5" rx="2.2" fill="#F4F1E8"/>
+      <text class="ray-z" x="92" y="30" font-size="13" font-weight="700" fill="#F4F1E8">z</text>
     </svg>
   </button>
 </div>
