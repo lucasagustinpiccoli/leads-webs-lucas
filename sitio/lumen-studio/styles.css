@@ -209,8 +209,10 @@
 .faq summary { transition: color var(--dur-short) var(--ease-out); }
 .faq summary:hover::after { color: var(--color-accent); }
 .faq summary:hover span::before { color: var(--color-ink); }
-.faq summary:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -2px; }
-.faq details p { padding: 0 var(--space-2xl) var(--space-xl) calc(1.6em + var(--space-md)); max-width: 62rem; color: var(--color-ink-2); }
+.faq summary { outline: none; padding-inline: var(--space-xs); }
+.faq summary:focus-visible { background: color-mix(in oklab, var(--color-accent) 16%, transparent); }
+.faq summary:focus-visible::after { color: var(--color-ink); }
+.faq details p { padding: 0 var(--space-2xl) var(--space-xl) calc(1.6em + var(--space-md) + var(--space-xs)); max-width: 62rem; color: var(--color-ink-2); }
 
 /* cierre */
 .close { text-align: left; }
