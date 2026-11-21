@@ -66,9 +66,8 @@
 .dots-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .nr-capa { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .nr-base, .nr-lit, .nr-derrame, .nr-halo, .nr-nucleo { position: absolute; }
-.nr-lit { transform-origin: 50% 50%; will-change: transform; }
-.nr-derrame { transform-origin: 50% 0; will-change: transform, opacity; }
-.nr-halo, .nr-nucleo { will-change: opacity; }
+.nr-lit { transform-origin: 50% 50%; }
+.nr-derrame { transform-origin: 50% 0; }
 /* el menú de arriba aparece después de que se enciende la página */
 .nr .nav .container { opacity: 0; filter: blur(8px); transition: opacity 1800ms cubic-bezier(0.33, 0, 0.2, 1), filter 1800ms cubic-bezier(0.33, 0, 0.2, 1); }
 .nr.nr-nav .nav .container { opacity: 1; filter: blur(0); }

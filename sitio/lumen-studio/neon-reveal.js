@@ -55,7 +55,7 @@
       rgba(tubo, 0.9 * sp) + " 0%," + rgba(tubo, 0.62 * sp) + " 9%," + rgba(luz, 0.55 * sp) + " 22%," +
       rgba(luz, 0.34 * sp) + " 36%," + rgba(hondo, 0.22 * sp) + " 50%," + rgba(hondo, 0.12 * sp) + " 64%," +
       rgba(hondo, 0.05 * sp) + " 80%,transparent 100%);" +
-      "-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 17%,#000 83%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 17%,#000 83%,transparent 100%);filter:blur(" + (14 * o.glow) + "px);");
+      "-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 17%,#000 83%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 17%,#000 83%,transparent 100%);");
     var halo = div("nr-halo", "left:-3%;right:-3%;top:" + (-26 * o.glow) + "px;height:" + (grosor + 52 * o.glow) + "px;" +
       "background:radial-gradient(ellipse at 50% 50%," + rgba(tubo, 0.7 * o.intensity) + "," + rgba(luz, 0.35 * o.intensity) + " 48%,transparent 74%);filter:blur(" + (10 * o.glow) + "px);");
     var nucleo = div("nr-nucleo", "inset:0;border-radius:" + grosor + "px;background:#fff;box-shadow:0 0 2px rgba(255,255,255,.95),0 0 " + (5 * o.glow) + "px " + tubo + ",0 0 " + (12 * o.glow) + "px " + rgba(tubo, 0.5) + ";");
