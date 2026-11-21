@@ -37,25 +37,13 @@
         <p class="lead">Te muestro cómo quedaría tu página antes de que contrates.</p>
         <div class="actions" id="acciones-hero">
           <a class="btn btn--primary crop" data-wa href="#contacto">Escribime por WhatsApp</a>
-          <a class="btn" href="#lupa">Contale a Lupa</a>
+          <a class="btn" href="#faro">Contale a Faro</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section lupa" id="lupa">
-    <div class="container lupa-g">
-      <div class="section-head">
-        <h2>Contale a Lupa qué necesitás</h2>
-        <p>Lupa es el asistente de Lumen Studio. Te hace unas preguntas, te muestra un rango de precio y le pasa el resumen a Lucas por WhatsApp.</p>
-      </div>
-      <div class="chat crop" role="region" aria-label="Chat con Lupa">
-        <div class="chat-cab"><span class="avatar" aria-hidden="true">L</span><div><strong>Lupa</strong><span>Asistente de Lumen Studio</span></div></div>
-        <div class="chat-log" id="chat-log" role="log" aria-live="polite"></div>
-        <div class="chat-input" id="chat-input"></div>
-      </div>
-    </div>
-  </section>
+
 
   <section class="section" id="hago">
     <div class="container">
@@ -121,13 +109,13 @@
       <div class="section-head"><h2>¿Cómo trabajamos?</h2></div>
       <ol class="pipe" id="pipe">
         <li class="nodo" style="--i:0">
-          <span class="quien">Con Lupa</span>
+          <span class="quien">Con Faro</span>
           <h3>Contás qué necesitás</h3>
           <p>Respondés unas preguntas y ves al instante un rango de precio.</p>
-          <a class="link" href="#lupa">Empezar con Lupa</a>
+          <a class="link" href="#faro">Empezar con Faro</a>
         </li>
         <li class="nodo" style="--i:1">
-          <span class="quien">Con Lupa</span>
+          <span class="quien">Con Faro</span>
           <h3>Dejás tus datos</h3>
           <p>Tu nombre y el de tu negocio. Con eso Lucas te escribe por WhatsApp.</p>
         </li>
@@ -181,6 +169,20 @@
         </div>
       </div>
       <p class="price-note">Valores en dólares, por escrito antes de empezar.</p>
+    </div>
+  </section>
+
+  <section class="section faro" id="faro">
+    <div class="container faro-g">
+      <div class="faro-txt">
+        <h2>Contale a Faro qué necesitás</h2>
+        <p>Faro es el asistente de Lumen Studio. Te hace cinco preguntas, te muestra un rango de precio y le pasa el resumen a Lucas por WhatsApp.</p>
+      </div>
+      <div class="chat" role="region" aria-label="Chat con Faro">
+        <div class="chat-cab"><span class="avatar" aria-hidden="true">F</span><div><strong>Faro</strong><span>Asistente de Lumen Studio</span></div></div>
+        <div class="chat-log" id="chat-log" role="log" aria-live="polite"></div>
+        <div class="chat-input" id="chat-input"></div>
+      </div>
     </div>
   </section>
 
@@ -265,10 +267,10 @@
       es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
       barra.classList.toggle("ver", vistos.size === 0);
     });
-    ["#acciones-hero", "#lupa", "#cta-contacto", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
+    ["#acciones-hero", "#faro", "#cta-contacto", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
   })();
 </script>
-<script src="lupa.js"></script>
+<script src="faro.js"></script>
 <script src="typewriter.js"></script>
 <script src="dots-grid.js"></script>
 <script src="neon-reveal.js"></script>

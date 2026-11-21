@@ -1,4 +1,4 @@
-/* Lupa: asistente guiado de Lumen Studio. Hace unas preguntas, calcula un rango de precio con la tabla de la página
+/* Faro: asistente guiado de Lumen Studio. Hace unas preguntas, calcula un rango de precio con la tabla de la página
    y arma el mensaje para Lucas por WhatsApp. No usa IA ni guarda nada: los datos solo viajan en ese mensaje. */
 (function () {
   "use strict";
@@ -33,17 +33,17 @@
   function armarMensaje(d, est) {
     var precio = "USD " + est.min + (est.max !== est.min ? " a " + est.max : "");
     var l = [
-      "Hola Lucas, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Lupa en tu página.",
+      "Hola Lucas, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Faro en tu página.",
       "Tipo de negocio: " + d.rubro,
       "Quiero: " + listaTexto(d.quiere),
       "Material: " + d.material,
       "Plazo: " + d.cuando,
-      "Estimación de Lupa: " + precio + (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + "."
+      "Estimación de Faro: " + precio + (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + "."
     ];
     return l.join("\n");
   }
 
-  window.Lupa = { estimar: estimar, armarMensaje: armarMensaje };
+  window.Faro = { estimar: estimar, armarMensaje: armarMensaje };
 
   var log = document.getElementById("chat-log");
   var entrada = document.getElementById("chat-input");
@@ -65,17 +65,17 @@
     return b;
   }
 
-  /* Lupa "escribe": un indicador de tres puntos y después el mensaje. */
+  /* Faro "escribe": un indicador de tres puntos y después el mensaje. */
   function decir(texto) {
     var t = document.createElement("div");
-    t.className = "burbuja lupa escribiendo";
+    t.className = "burbuja bot escribiendo";
     t.setAttribute("aria-hidden", "true");
     t.innerHTML = "<i></i><i></i><i></i>";
     log.appendChild(t);
     abajo();
     return esperar(550 + Math.min(texto.length * 12, 700)).then(function () {
       t.remove();
-      return burbuja(texto, "lupa");
+      return burbuja(texto, "bot");
     });
   }
 
@@ -195,7 +195,7 @@
 
   function correr() {
     datos = {};
-    return decir("Hola, soy Lupa, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
+    return decir("Hola, soy Faro, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
       .then(function () { return decir("¿Qué tipo de negocio tenés?"); })
       .then(function () { return elegirUno(RUBROS); })
       .then(function (r) { datos.rubro = r; return decir("¿Qué querés que haga tu página? Podés elegir varias. Incluye siempre botón de WhatsApp y mapa."); })
