@@ -26,7 +26,7 @@
   function mirar(x, y) {
     var r = boton.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height * 0.36;
     var dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 220);
-    objetivo.x = dx / d * 3.2 * k; objetivo.y = dy / d * 2.6 * k;
+    objetivo.x = dx / d * 9 * k; objetivo.y = dy / d * 7 * k;
     despertarLoop();
   }
 
@@ -48,7 +48,7 @@
       if (visible && !dormido) {
         parpadear();
         if (Math.random() < 0.3) setTimeout(parpadear, 260);
-        if (Math.random() < 0.35 && !abierto) { objetivo.x = (Math.random() - 0.5) * 5; objetivo.y = (Math.random() - 0.3) * 3; despertarLoop(); }
+        if (Math.random() < 0.35 && !abierto) { objetivo.x = (Math.random() - 0.5) * 14; objetivo.y = (Math.random() - 0.3) * 8; despertarLoop(); }
       }
       if (visible && !dormido && !abierto && Date.now() - ultimaActividad > 12000) dormir(true);
       ciclo();
