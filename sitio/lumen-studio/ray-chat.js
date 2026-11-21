@@ -1,4 +1,4 @@
-/* Faro: asistente guiado de Lumen Studio. Hace unas preguntas, calcula un rango de precio con la tabla de la página
+/* Ray: asistente guiado de Lumen Studio. Hace unas preguntas, calcula un rango de precio con la tabla de la página
    y arma el mensaje para Lucas por WhatsApp. No usa IA ni guarda nada: los datos solo viajan en ese mensaje. */
 (function () {
   "use strict";
@@ -33,17 +33,17 @@
   function armarMensaje(d, est) {
     var precio = "USD " + est.min + (est.max !== est.min ? " a " + est.max : "");
     var l = [
-      "Hola Lucas, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Faro en tu página.",
+      "Hola Lucas, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Ray en tu página.",
       "Tipo de negocio: " + d.rubro,
       "Quiero: " + listaTexto(d.quiere),
       "Material: " + d.material,
       "Plazo: " + d.cuando,
-      "Estimación de Faro: " + precio + (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + "."
+      "Estimación de Ray: " + precio + (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + "."
     ];
     return l.join("\n");
   }
 
-  window.Faro = { estimar: estimar, armarMensaje: armarMensaje };
+  window.Ray = { estimar: estimar, armarMensaje: armarMensaje };
 
   var log = document.getElementById("chat-log");
   var entrada = document.getElementById("chat-input");
@@ -65,7 +65,7 @@
     return b;
   }
 
-  /* Faro "escribe": un indicador de tres puntos y después el mensaje. */
+  /* Ray "escribe": un indicador de tres puntos y después el mensaje. */
   function decir(texto) {
     var t = document.createElement("div");
     t.className = "burbuja bot escribiendo";
@@ -195,7 +195,7 @@
 
   function correr() {
     datos = {};
-    return decir("Hola, soy Faro, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
+    return decir("Hola, soy Ray, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
       .then(function () { return decir("¿Qué tipo de negocio tenés?"); })
       .then(function () { return elegirUno(RUBROS); })
       .then(function (r) { datos.rubro = r; return decir("¿Qué querés que haga tu página? Podés elegir varias. Incluye siempre botón de WhatsApp y mapa."); })
@@ -211,11 +211,6 @@
 
   function reiniciar() { log.innerHTML = ""; limpiarEntrada(); correr(); }
 
-  /* Arranca cuando el chat entra en pantalla, así la conversación no pasa sin que nadie la vea. */
-  function iniciar() { if (iniciado) return; iniciado = true; correr(); }
-  if (!("IntersectionObserver" in window)) { iniciar(); return; }
-  var io = new IntersectionObserver(function (es) {
-    if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); iniciar(); }
-  }, { threshold: 0.25 });
-  io.observe(log.parentNode);
+  /* La conversación arranca la primera vez que se abre el chat. */
+  window.RayChat = { iniciar: function () { if (iniciado) return; iniciado = true; correr(); } };
 })();

@@ -37,7 +37,7 @@
         <p class="lead">Te muestro cómo quedaría tu página antes de que contrates.</p>
         <div class="actions" id="acciones-hero">
           <a class="btn btn--primary crop" data-wa href="#contacto">Escribime por WhatsApp</a>
-          <a class="btn" href="#faro">Contale a Faro</a>
+          <a class="btn" href="#contacto" data-ray-abrir>Hablá con Ray</a>
         </div>
       </div>
     </div>
@@ -109,13 +109,13 @@
       <div class="section-head"><h2>¿Cómo trabajamos?</h2></div>
       <ol class="pipe" id="pipe">
         <li class="nodo" style="--i:0">
-          <span class="quien">Con Faro</span>
+          <span class="quien">Con Ray</span>
           <h3>Contás qué necesitás</h3>
           <p>Respondés unas preguntas y ves al instante un rango de precio.</p>
-          <a class="link" href="#faro">Empezar con Faro</a>
+          <a class="link" href="#contacto" data-ray-abrir>Empezar con Ray</a>
         </li>
         <li class="nodo" style="--i:1">
-          <span class="quien">Con Faro</span>
+          <span class="quien">Con Ray</span>
           <h3>Dejás tus datos</h3>
           <p>Tu nombre y el de tu negocio. Con eso Lucas te escribe por WhatsApp.</p>
         </li>
@@ -172,20 +172,6 @@
     </div>
   </section>
 
-  <section class="section faro" id="faro">
-    <div class="container faro-g">
-      <div class="faro-txt">
-        <h2>Contale a Faro qué necesitás</h2>
-        <p>Faro es el asistente de Lumen Studio. Te hace cinco preguntas, te muestra un rango de precio y le pasa el resumen a Lucas por WhatsApp.</p>
-      </div>
-      <div class="chat" role="region" aria-label="Chat con Faro">
-        <div class="chat-cab"><span class="avatar" aria-hidden="true">F</span><div><strong>Faro</strong><span>Asistente de Lumen Studio</span></div></div>
-        <div class="chat-log" id="chat-log" role="log" aria-live="polite"></div>
-        <div class="chat-input" id="chat-input"></div>
-      </div>
-    </div>
-  </section>
-
   <section class="section section--band" id="preguntas">
     <div class="container">
       <div class="section-head"><h2>Preguntas frecuentes</h2></div>
@@ -208,15 +194,58 @@
   </section>
 </main>
 
-<footer class="foot proof">
+<footer class="foot">
   <div class="container">
     <div class="row">
+      <span class="marca-pie">Lumen Studio</span>
       <span>Diseño web para negocios locales</span>
       <span>Buenos Aires, Argentina. © 2026</span>
     </div>
-    <div class="big" aria-hidden="true">Lumen Studio</div>
   </div>
 </footer>
+
+
+<div class="ray" id="ray">
+  <div class="ray-chat" role="dialog" aria-label="Chat con Ray" hidden>
+    <div class="chat-cab"><span class="avatar" aria-hidden="true">R</span><div><strong>Ray</strong><span>Asistente de Lumen Studio</span></div><button type="button" class="ray-cerrar" aria-label="Cerrar el chat">&times;</button></div>
+    <div class="chat-log" id="chat-log" role="log" aria-live="polite"></div>
+    <div class="chat-input" id="chat-input"></div>
+  </div>
+  <button type="button" class="ray-burbuja" tabindex="-1">Hola, soy Ray. ¿Te ayudo?</button>
+  <button type="button" class="ray-fig" aria-label="Hablar con Ray, el asistente" aria-expanded="false">
+    <svg viewBox="0 0 160 190" width="100%" height="100%" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="ray-halo" cx="50%" cy="38%" r="55%"><stop offset="0" stop-color="#E8A33D" stop-opacity=".34"/><stop offset="1" stop-color="#E8A33D" stop-opacity="0"/></radialGradient>
+        <linearGradient id="ray-cabeza" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6C25A"/><stop offset="1" stop-color="#E8A33D"/></linearGradient>
+      </defs>
+      <circle class="ray-halo" cx="80" cy="64" r="76" fill="url(#ray-halo)"/>
+      <g class="ray-rayos" stroke="#E8A33D" stroke-width="5" stroke-linecap="round">
+        <line x1="80" y1="6" x2="80" y2="18"/><line x1="36" y1="22" x2="45" y2="32"/><line x1="124" y1="22" x2="115" y2="32"/>
+        <line x1="14" y1="64" x2="26" y2="64"/><line x1="134" y1="64" x2="146" y2="64"/>
+      </g>
+      <g class="ray-cuerpo">
+        <path class="ray-brazo-izq" d="M57 138 C48 136 40 140 36 148" fill="none" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round"/>
+        <g class="ray-brazo-der"><path d="M104 130 C114 124 118 116 119 105" fill="none" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round"/></g>
+        <path d="M58 109 L102 109 L108 176 L52 176 Z" fill="#F4F1E8"/>
+        <path d="M56 129 L104 129 L106 148 L54 148 Z" fill="#C58A2B"/>
+        <rect x="50" y="104" width="60" height="9" rx="3" fill="#F4F1E8"/>
+        <rect x="46" y="174" width="68" height="8" rx="3" fill="#F4F1E8"/>
+      </g>
+      <g class="ray-cabeza">
+        <rect x="72" y="14" width="16" height="10" rx="3" fill="#F4F1E8"/>
+        <rect x="60" y="22" width="40" height="11" rx="4" fill="#F4F1E8"/>
+        <circle cx="80" cy="68" r="40" fill="url(#ray-cabeza)"/>
+        <ellipse cx="60" cy="48" rx="9" ry="5.5" fill="#fff" opacity=".35" transform="rotate(-32 60 48)"/>
+        <ellipse cx="56" cy="78" rx="7" ry="4.5" fill="#C58A2B" opacity=".45"/><ellipse cx="104" cy="78" rx="7" ry="4.5" fill="#C58A2B" opacity=".45"/>
+        <g class="ray-ojo" style="transform-origin:66px 68px"><circle cx="66" cy="68" r="7" fill="#fff" opacity="0"/><g class="ray-pupila"><circle cx="66" cy="68" r="6.5" fill="#111"/><circle cx="68.4" cy="65.6" r="2" fill="#fff"/></g></g>
+        <g class="ray-ojo" style="transform-origin:94px 68px"><circle cx="94" cy="68" r="7" fill="#fff" opacity="0"/><g class="ray-pupila"><circle cx="94" cy="68" r="6.5" fill="#111"/><circle cx="96.4" cy="65.6" r="2" fill="#fff"/></g></g>
+        <path class="ray-sonrisa" d="M70 83 Q80 92 90 83" fill="none" stroke="#111" stroke-width="3.4" stroke-linecap="round"/>
+        <path class="ray-sueno" d="M64 70 Q66 73 68 70 M92 70 Q94 73 96 70" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round"/>
+      </g>
+      <text class="ray-z" x="118" y="30" font-size="16" font-weight="700" fill="#F4F1E8">z</text>
+    </svg>
+  </button>
+</div>
 
 <div class="barra"><a class="btn btn--primary" data-wa href="#contacto">Escribime por WhatsApp</a></div>
 
@@ -267,10 +296,11 @@
       es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
       barra.classList.toggle("ver", vistos.size === 0);
     });
-    ["#acciones-hero", "#faro", "#cta-contacto", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
+    ["#acciones-hero", "#cta-contacto", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
   })();
 </script>
-<script src="faro.js"></script>
+<script src="ray-chat.js"></script>
+<script src="ray.js"></script>
 <script src="typewriter.js"></script>
 <script src="dots-grid.js"></script>
 <script src="neon-reveal.js"></script>

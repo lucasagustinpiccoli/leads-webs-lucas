@@ -103,11 +103,6 @@
 .section-head p { color: var(--color-ink-2); }
 
 /* Lupa: chat guiado */
-.faro { background: var(--color-night); color: var(--color-on-night); padding-block: var(--section-gap-s); }
-.faro-g { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); gap: var(--space-2xl); align-items: center; justify-content: space-between; }
-.faro-txt h2 { font-family: var(--font-marca); font-weight: 400; font-size: var(--text-section); line-height: 1; letter-spacing: 0.01em; text-transform: uppercase; max-width: 16ch; }
-.faro-txt p { margin-top: var(--space-md); color: var(--color-on-night-muted); max-width: 40ch; font-size: var(--text-md); }
-.chat { background: var(--color-paper-hi); color: var(--color-ink); border: var(--rule-hair) solid var(--color-night-line); border-radius: var(--radius-card); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 540px; width: 100%; }
 .chat-cab { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); }
 .chat-cab strong { display: block; font-family: var(--font-marca); font-size: var(--text-lg); font-weight: 400; line-height: 1.1; letter-spacing: 0.03em; text-transform: uppercase; }
 .chat-cab span:not(.avatar) { display: block; font-size: var(--text-xs); color: var(--color-muted); }
@@ -220,9 +215,6 @@
 .close .side p { color: var(--color-ink-2); }
 
 /* pie */
-.foot { border-top: var(--rule-hair) solid var(--color-ink); padding-top: var(--space-xl); overflow: hidden; }
-.foot .row { display: flex; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap; font-size: var(--text-sm); color: var(--color-ink-2); }
-.foot .big { font-family: var(--font-marca); font-weight: 400; font-size: var(--text-wordmark); letter-spacing: var(--tracking-display); line-height: 0.82; margin-top: var(--space-xl); margin-bottom: -0.1em; white-space: nowrap; color: var(--color-ink); user-select: none; }
 
 /* barra fija en celular */
 .barra { display: none; }
@@ -235,9 +227,7 @@
   .expand { flex-direction: column; height: 600px; }
   .x-detalle p { font-size: var(--text-sm); }
   .steps { grid-template-columns: minmax(0, 1fr); }
-  .faro-g { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); }
-  .chat { height: 540px; }
-  .burbuja { max-width: 94%; }
+    .burbuja { max-width: 94%; }
   .pipe { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
   .nodo:not(:last-child)::after { top: 100%; left: 28px; width: var(--rule-hair); height: var(--space-xl); }
   .nodo:not(:last-child)::before { top: 100%; left: 25px; }
@@ -246,8 +236,7 @@
   .faq details p { padding-right: 0; }
   .hero { padding-block: var(--space-2xl); }
   .pair { justify-self: start; }
-  .foot { padding-bottom: 76px; }
-  .barra { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-sticky-nav); padding: var(--space-sm) var(--space-md) calc(var(--space-sm) + env(safe-area-inset-bottom)); background: var(--color-paper); border-top: var(--rule-hair) solid var(--color-ink); transform: translateY(110%); transition: transform var(--dur-long) var(--ease-out); }
+    .barra { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-sticky-nav); padding: var(--space-sm) var(--space-md) calc(var(--space-sm) + env(safe-area-inset-bottom)); background: var(--color-paper); border-top: var(--rule-hair) solid var(--color-ink); transform: translateY(110%); transition: transform var(--dur-long) var(--ease-out); }
   .barra.ver { transform: none; }
   .barra .btn { width: 100%; }
 }
@@ -258,3 +247,42 @@
   .x-panel, .x-panel img, .x-detalle { transition: none; }
   .barra { transition: none; }
 }
+
+/* pie final: una barra simple */
+.foot { background: var(--color-night); color: var(--color-on-night-muted); border-top: var(--rule-hair) solid var(--color-night-line); padding-block: var(--space-lg); font-size: var(--text-sm); }
+.foot .row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-md) var(--space-lg); flex-wrap: wrap; }
+.foot .marca-pie { font-family: var(--font-marca); font-size: var(--text-lg); letter-spacing: 0.03em; text-transform: uppercase; color: var(--color-on-night); }
+
+/* Ray: mascota flotante y chat */
+.ray { position: fixed; right: var(--space-lg); bottom: var(--space-lg); z-index: var(--z-sticky); display: grid; justify-items: end; gap: var(--space-sm); opacity: 0; transform: translateY(24px) scale(.9); pointer-events: none; transform-origin: 100% 100%; transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
+.ray.ver { opacity: 1; transform: none; pointer-events: none; }
+.ray.ver > * { pointer-events: auto; }
+.ray-fig { width: 120px; height: 143px; filter: drop-shadow(0 6px 10px rgba(0,0,0,.35)) drop-shadow(0 0 1px rgba(0,0,0,.6)); padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 12px; transform-origin: 50% 100%; }
+.ray-fig:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+.ray-fig.saltando { animation: ray-salto 700ms var(--ease-out); }
+@keyframes ray-salto { 0% { transform: translateY(0) scale(1.04, .94); } 28% { transform: translateY(-16px) scale(.96, 1.05); } 55% { transform: translateY(0) scale(1.05, .95); } 75% { transform: translateY(-4px); } 100% { transform: none; } }
+.ray-brazo-der { transform-origin: 104px 130px; animation: ray-saludo 2.6s ease-in-out infinite; }
+@keyframes ray-saludo { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-14deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-10deg); } }
+.ray-rayos { transform-origin: 80px 64px; animation: ray-pulso 3.4s ease-in-out infinite; }
+@keyframes ray-pulso { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+.ray-ojo { transition: transform 110ms ease-out; }
+.ray-ojo.cierra { transform: scaleY(.1); }
+.ray-pupila { transition: transform 60ms linear; }
+.ray-sueno, .ray-z { opacity: 0; }
+.ray.dormido .ray-pupila, .ray.dormido .ray-sonrisa { opacity: 0; }
+.ray.dormido .ray-sueno { opacity: 1; }
+.ray.dormido .ray-z { opacity: .9; animation: ray-z 2.4s ease-in-out infinite; }
+.ray.dormido .ray-rayos { opacity: .3; animation: none; }
+.ray.dormido .ray-brazo-der { animation: none; }
+@keyframes ray-z { 0% { transform: translate(0, 8px); opacity: 0; } 40% { opacity: .9; } 100% { transform: translate(6px, -8px); opacity: 0; } }
+.ray-burbuja { position: relative; max-width: 15rem; padding: var(--space-sm) var(--space-md); background: var(--color-paper-hi); color: var(--color-ink); border: 0; border-radius: 14px 14px 4px 14px; font: 500 var(--text-sm)/1.35 var(--font-body); text-align: left; cursor: pointer; box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .55); opacity: 0; transform: translateY(8px) scale(.96); pointer-events: none; transform-origin: 100% 100%; transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+.ray.ver .ray-burbuja.ver { opacity: 1; transform: none; }
+.ray.ver .ray-burbuja:not(.ver) { pointer-events: none; }
+.ray-chat { width: min(24rem, calc(100vw - 2 * var(--space-lg))); height: min(32rem, 70dvh); background: var(--color-paper-hi); color: var(--color-ink); border: var(--rule-hair) solid var(--color-night-line); border-radius: 12px; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .7); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; animation: ray-abre 320ms var(--ease-out); transform-origin: 100% 100%; }
+.ray-chat[hidden] { display: none; }
+@keyframes ray-abre { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+.ray-cerrar { margin-left: auto; width: 40px; height: 40px; border: 0; background: transparent; font-size: 1.6rem; line-height: 1; color: var(--color-muted); cursor: pointer; border-radius: 8px; }
+.ray-cerrar:hover { background: var(--color-paper-2); color: var(--color-ink); }
+.ray.abierto .ray-burbuja { display: none; }
+@media (max-width: 60rem) { .ray { right: var(--space-md); bottom: calc(var(--space-md) + 68px); } .ray-fig { width: 84px; height: 100px; } }
+@media (prefers-reduced-motion: reduce) { .ray, .ray-burbuja { transition: none; } .ray-brazo-der, .ray-rayos, .ray-fig.saltando, .ray-chat { animation: none; } }
