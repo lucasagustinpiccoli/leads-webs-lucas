@@ -306,9 +306,9 @@
     var chico = window.matchMedia("(max-width: 60rem)").matches;
     // Cinta de servicios: CurvedLoop de React Bits (JavaScript puro), al pie del hero.
     if (window.CurvedLoop) CurvedLoop(document.getElementById("cinta"), {
-      text: "Páginas web · Reserva de turnos · Sistemas de gestión · Rediseños · Diseño para celular ·", separator: "",
+      text: "Web Design\u00A0\u00A0\u00A0\u00A0\u00A0·\u00A0\u00A0\u00A0\u00A0\u00A0Development\u00A0\u00A0\u00A0\u00A0\u00A0·\u00A0\u00A0\u00A0\u00A0\u00A0UI/UX\u00A0\u00A0\u00A0\u00A0\u00A0·\u00A0\u00A0\u00A0\u00A0\u00A0Branding\u00A0\u00A0\u00A0\u00A0\u00A0·\u00A0\u00A0\u00A0\u00A0\u00A0Conversion\u00A0\u00A0\u00A0\u00A0\u00A0·", separator: "",
       shape: "line", curveAmount: 0, speed: 2, direction: "left", interactive: true, scrollBoost: 1,
-      fontSize: chico ? 26 : 34, height: chico ? 56 : 80, letterSpacing: 1, fontFamily: "var(--font-marca)"
+      fontSize: chico ? 17 : 22, height: chico ? 42 : 56, letterSpacing: 1, fontFamily: "var(--font-marca)"
     });
     // Fondo: grilla de puntos y líneas que se ilumina cerca del cursor (reimplementa el componente Dots de Framer).
     if (hero && window.DotsGrid) DotsGrid(hero.querySelector(".hero-fondo"), { spacing: chico ? 44 : 60, dotColor: "#F5F2E9", dotSize: chico ? 2.5 : 3 });
