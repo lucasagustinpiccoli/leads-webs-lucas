@@ -77,6 +77,12 @@
     new IntersectionObserver(function (es) { alCambiarHero(es[0].isIntersecting && es[0].intersectionRatio > 0.35); }, { threshold: [0, 0.35, 0.6] }).observe(hero);
   } else { alCambiarHero(false); }
 
+  /* en la sección de trabajos se esconde en el margen para no tapar las capturas */
+  var trabajos = document.getElementById("trabajos");
+  if (trabajos && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { raiz.classList.toggle("escondido", es[0].isIntersecting); }, { rootMargin: "-10% 0px -10% 0px" }).observe(trabajos);
+  }
+
   /* abrir y cerrar el chat */
   function setCerrado() {
     abierto = false; panel.hidden = true; raiz.classList.remove("abierto"); boton.setAttribute("aria-expanded", "false");

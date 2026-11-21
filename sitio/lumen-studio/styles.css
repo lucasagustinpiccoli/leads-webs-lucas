@@ -285,3 +285,8 @@
 .ray.abierto .ray-burbuja { display: none; }
 @media (max-width: 60rem) { .ray { right: var(--space-2xs); bottom: calc(var(--space-xs) + 68px); } .ray-fig { width: 70px; height: 64px; } }
 @media (prefers-reduced-motion: reduce) { .ray, .ray-burbuja { transition: none; } .ray-mic, .ray-fig.saltando, .ray-chat { animation: none; } }
+
+/* escondido en el margen: asoma un pedazo y sale completo al acercarse */
+.ray.escondido:not(.abierto) { transform: translateX(calc(100% - max(6px, var(--gutter) - 14px))); }
+.ray.escondido:not(.abierto):hover, .ray.escondido:not(.abierto):focus-within { transform: none; }
+.ray.escondido:not(.abierto) .ray-burbuja { display: none; }
