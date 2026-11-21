@@ -81,11 +81,11 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   a auditarla: `/hallmark audit sitio/lumen-studio/index.html`. Una sola página en español, estilo sobrio, con
   solo lo que se puede respaldar: sin testimonios ni logos inventados. Ver `sitio/lumen-studio/LEEME.md` (qué completar
   antes de publicar: número de WhatsApp y permisos de los casos).
-- La página madre (nombre de marca: Lumen Studio) lleva tres piezas interactivas, todas en JavaScript puro y sin servidor:
+- La página madre (nombre de marca: Lumen Studio) lleva cuatro piezas interactivas, todas en JavaScript puro y sin servidor:
   la apertura "Neon Reveal" (`neon-reveal.js`: un tubo de neón se enciende arriba, parpadea y su luz revela el contenido;
   es una versión propia basada en la descripción pública del componente de React Bits Pro, que requiere licencia; cuando se
   compre la licencia se puede cambiar por el original), un rotador de palabras con efecto de máquina de escribir inspirado
-  en el componente AnimatedTextRotator de Framer (`typewriter.js`) y **Ray** (`ray-chat.js`), el asistente guiado (la mascota flotante `ray.js`, que aparece al pasar el hero y abre el chat) que pregunta
+  en el componente AnimatedTextRotator de Framer (`typewriter.js`) una cinta de servicios con CurvedLoop de React Bits (`curved-loop.js`, al pie del hero) y **Ray** (`ray-chat.js`), el asistente guiado (la mascota flotante `ray.js`, que aparece al pasar el hero y abre el chat) que pregunta
   rubro, necesidades, material y plazo, calcula el rango de precio (base USD 180 + extras de USD 40 a 60) y arma el mensaje
   para Lucas por WhatsApp. Si cambian los precios, hay que tocar `PRECIO_BASE`, `EXTRA_MIN` y `EXTRA_MAX` en `ray-chat.js`.
 - `python scripts/armar_sitio.py` junta la página madre y las demos de `output/demos/` en `output/publicar/` (y en

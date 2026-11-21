@@ -290,3 +290,11 @@
 .ray.escondido:not(.abierto) { transform: translateX(calc(100% - max(6px, var(--gutter) - 14px))); }
 .ray.escondido:not(.abierto):hover, .ray.escondido:not(.abierto):focus-within { transform: none; }
 .ray.escondido:not(.abierto) .ray-burbuja { display: none; }
+
+/* cinta de servicios al pie del hero (CurvedLoop) */
+.cinta { position: absolute; left: 0; right: 0; bottom: 0; background: var(--color-accent); color: var(--color-accent-ink); z-index: 2; }
+.curved-loop-jacket { width: 100%; display: flex; align-items: center; overflow: hidden; }
+.curved-loop-svg { width: 100%; display: block; overflow: visible; fill: currentColor; -webkit-user-select: none; user-select: none; text-transform: uppercase; line-height: 1; }
+.nr .cinta { opacity: 0; transition: opacity 1600ms cubic-bezier(0.33, 0, 0.2, 1); }
+.nr.nr-nav .cinta { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .nr .cinta { opacity: 1; transition: none; } }

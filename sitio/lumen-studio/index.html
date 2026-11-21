@@ -41,9 +41,8 @@
         </div>
       </div>
     </div>
+    <div class="cinta" id="cinta" role="presentation"></div>
   </section>
-
-
 
   <section class="section" id="hago">
     <div class="container">
@@ -294,6 +293,7 @@
 <script src="ray-chat.js"></script>
 <script src="ray.js"></script>
 <script src="typewriter.js"></script>
+<script src="curved-loop.js"></script>
 <script src="dots-grid.js"></script>
 <script src="neon-reveal.js"></script>
 <script>
@@ -301,6 +301,12 @@
     // Apertura: tubo de neón que se enciende y revela el contenido (versión propia del Neon Reveal de React Bits Pro).
     var hero = document.getElementById("inicio");
     var chico = window.matchMedia("(max-width: 60rem)").matches;
+    // Cinta de servicios: CurvedLoop de React Bits (JavaScript puro), al pie del hero.
+    if (window.CurvedLoop) CurvedLoop(document.getElementById("cinta"), {
+      text: "Páginas web · Reserva de turnos · Sistemas de gestión · Rediseños · Diseño para celular ·", separator: "",
+      shape: "line", curveAmount: 0, speed: 2, direction: "left", interactive: true, scrollBoost: 1,
+      fontSize: chico ? 26 : 34, height: chico ? 56 : 80, letterSpacing: 1, fontFamily: "var(--font-marca)"
+    });
     // Fondo: grilla de puntos y líneas que se ilumina cerca del cursor (reimplementa el componente Dots de Framer).
     if (hero && window.DotsGrid) DotsGrid(hero.querySelector(".hero-fondo"), { spacing: chico ? 44 : 60, dotColor: "#F5F2E9", dotSize: chico ? 2.5 : 3 });
     var fx = hero && window.NeonReveal ? NeonReveal(hero, { contenido: hero.querySelector(".hero-col"), colors: ["#F5F2E9", "#E8A33D"], spill: 0.36, glow: 0.7 }) : null;
