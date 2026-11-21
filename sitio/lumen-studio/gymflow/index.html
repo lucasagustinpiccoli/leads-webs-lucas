@@ -1,0 +1,3093 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>GymFlow — Gestión de socios</title>
+<script>
+  // Se aplica antes de pintar la página para que no se vea un flash del
+  // tema por defecto (oscuro) al cargar en modo claro.
+  (function () {
+    try {
+      var t = localStorage.getItem('gymflow-tema');
+      if (t !== 'light' && t !== 'dark') {
+        t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --negro: #0a0a0a;
+  --gris-oscuro: #1c1c1c;
+  --gris: #2e2e2e;
+  --gris-claro: #9a9a9a;
+  --blanco: #f5f5f5;
+  --bordo: #1e4d8c;
+  --bordo-claro: #2f74c9;
+
+  --hover-secundario: #3a3a3a;
+  --verde-bg: #1f4d2b;
+  --verde-texto: #8fe0a5;
+  --amarillo-bg: #5c4a1a;
+  --amarillo-texto: #f0c869;
+  --rojo-bg: #4d1f1f;
+  --rojo-texto: #e08f8f;
+}
+
+/* Modo claro: mismos roles de variable, off-white/off-black en vez de
+   blanco/negro puro, y los mismos colores de marca (bordo) para que se
+   siga viendo igual de "GYMFLOW" en los dos modos. */
+:root[data-theme="light"] {
+  --negro: #f3f1ef;
+  --gris-oscuro: #ffffff;
+  --gris: #ddd8d3;
+  --gris-claro: #6e6863;
+  --blanco: #18140f;
+  --bordo: #1e4d8c;
+  --bordo-claro: #1f5fae;
+
+  --hover-secundario: #cfc9c3;
+  --verde-bg: #d9ecdd;
+  --verde-texto: #1e7a3a;
+  --amarillo-bg: #f7e7b8;
+  --amarillo-texto: #7a5c0d;
+  --rojo-bg: #f6dcdc;
+  --rojo-texto: #a32a2f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body, .navbar, .modal, .modal-fondo, table, input, select,
+  .caja-tarjeta, .pill, .pill-clase, .skeleton {
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+}
+
+[hidden] { display: none !important; }
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), background 150ms ease;
+}
+
+button.primario { background: var(--bordo); color: var(--blanco); }
+button.primario:hover { background: var(--bordo-claro); }
+button.secundario { background: var(--gris); color: var(--blanco); }
+button.secundario:hover { background: var(--hover-secundario); }
+button.link { background: none; color: var(--gris-claro); padding: 4px 8px; }
+button.link:hover { color: var(--blanco); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button:not(:disabled):active { transform: scale(0.97); }
+
+input, select {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris);
+  color: var(--blanco);
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  transition: outline-color 120ms ease, border-color 120ms ease;
+}
+input:focus, select:focus { outline: 2px solid var(--bordo); outline-offset: 0; }
+
+.checkbox-inline {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0 4px;
+  color: var(--gris-claro);
+  font-size: 13px;
+  cursor: pointer;
+}
+.checkbox-inline input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: var(--bordo);
+  cursor: pointer;
+}
+
+label { font-size: 13px; color: var(--gris-claro); display: block; margin: 10px 0 4px; }
+
+/* --- Login ---
+   Esta pantalla es la identidad de marca (el cartel de la entrada del
+   gimnasio), no una vista de datos - a propósito NO sigue el toggle de
+   modo claro/oscuro de la app, queda siempre oscura como el cartel real,
+   con colores fijos en vez de las variables de tema. */
+#pantalla-login, #pantalla-recuperar, #pantalla-nueva-password {
+  min-height: 100vh;
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 16px;
+  background: #0a0a0a;
+}
+/* El cartel (cuernos + GYMFLOW) va afuera de la tarjeta, como un mural
+   montado en la pared por encima de la entrada - la tarjeta de login es
+   el "mostrador" aparte, no el mismo objeto que el cartel. */
+.login-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  max-width: 380px;
+  opacity: 1;
+  transform: scale(1);
+  animation: login-entrada 500ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes login-entrada {
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-wrap { animation: none; }
+}
+.login-sign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.login-sign-texto {
+  font-family: "Orbitron", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  color: #f2f0ee;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.55), 0 0 16px rgba(47, 116, 201, 0.75);
+}
+.tarjeta-login {
+  position: relative;
+  background: #1c1c1c;
+  border: 1px solid #2e2e2e;
+  border-radius: 12px;
+  box-shadow: 0 0 34px rgba(47, 116, 201, 0.22);
+  padding: 32px;
+  width: 100%;
+}
+.tarjeta-login h1 {
+  color: #2f74c9;
+  text-align: center;
+  letter-spacing: 2px;
+  margin: 0 0 4px;
+}
+.tarjeta-login label { color: #9a9a9a; }
+.tarjeta-login input {
+  background: #141110;
+  border: 1px solid #2e2e2e;
+  color: #f5f5f5;
+}
+.tarjeta-login p.subtitulo {
+  text-align: center;
+  color: #9a9a9a;
+  margin: 0 0 24px;
+  font-size: 13px;
+}
+.link-login-secundario {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #9a9a9a;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 14px;
+  padding: 4px;
+  cursor: pointer;
+}
+.link-login-secundario:hover { color: #f5f5f5; }
+#error-login, #error-recuperar, #error-nueva-password {
+  color: #d64545;
+  font-size: 13px;
+  margin-top: 12px;
+  min-height: 18px;
+}
+
+/* --- App --- */
+#app { min-height: 100vh; }
+
+/* --- Navbar --- */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--gris);
+  background: var(--gris-oscuro);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.navbar-marca { display: flex; align-items: center; margin-right: 8px; }
+.navbar-marca-texto { font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: var(--bordo-claro); }
+
+.navbar-menu-movil { display: contents; }
+
+.navbar-tabs { display: flex; gap: 4px; flex: 1; }
+.navbar-tab {
+  background: none;
+  color: var(--gris-claro);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  position: relative;
+  transition: color 150ms ease, background 150ms ease;
+}
+.navbar-tab:hover { color: var(--blanco); background: rgba(255,255,255,0.04); }
+.navbar-tab:focus-visible { outline: 2px solid var(--bordo-claro); outline-offset: 2px; }
+.navbar-tab.is-active { color: var(--blanco); }
+.navbar-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 14px; right: 14px; bottom: -1px;
+  height: 2px;
+  background: var(--bordo-claro);
+  border-radius: 2px;
+}
+
+.navbar-usuario { display: flex; align-items: center; gap: 14px; }
+.navbar-usuario span { color: var(--gris-claro); font-size: 13px; }
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--gris);
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: var(--gris-claro);
+}
+.theme-toggle:hover { color: var(--blanco); border-color: var(--gris-claro); }
+.theme-toggle svg {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1), transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.theme-toggle .icono-sol { opacity: 1; transform: rotate(0deg) scale(1); }
+.theme-toggle .icono-luna { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+:root[data-theme="light"] .theme-toggle .icono-sol { opacity: 0; transform: rotate(90deg) scale(0.5); }
+:root[data-theme="light"] .theme-toggle .icono-luna { opacity: 1; transform: rotate(0deg) scale(1); }
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle svg { transition: opacity 1ms; }
+}
+
+.navbar-hamburguesa {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  background: none;
+  padding: 8px;
+  border-radius: 6px;
+}
+.navbar-hamburguesa span { display: block; width: 20px; height: 2px; background: var(--blanco); border-radius: 2px; transition: transform 180ms ease, opacity 180ms ease; }
+.navbar-hamburguesa:focus-visible { outline: 2px solid var(--bordo-claro); outline-offset: 2px; }
+.navbar-hamburguesa.is-abierto span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.navbar-hamburguesa.is-abierto span:nth-child(2) { opacity: 0; }
+.navbar-hamburguesa.is-abierto span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .navbar { position: relative; flex-wrap: wrap; }
+  .navbar-tabs, .navbar-usuario {
+    display: none;
+  }
+  .navbar-menu-movil.is-abierto {
+    display: flex;
+  }
+  .navbar-menu-movil {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--gris-oscuro);
+    border-bottom: 1px solid var(--gris);
+    padding: 8px 16px 16px;
+  }
+  .navbar-menu-movil .navbar-tabs { display: flex; flex-direction: column; gap: 2px; }
+  .navbar-menu-movil .navbar-usuario {
+    display: flex; flex-direction: column; align-items: stretch; gap: 10px;
+    padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--gris);
+  }
+  .navbar-tab.is-active::after { display: none; }
+  .navbar-tab.is-active { background: var(--negro); }
+  .navbar-hamburguesa { display: flex; }
+}
+
+main { padding: 16px 24px; max-width: 1100px; margin: 0 auto; }
+.vista { animation: vista-entra 200ms ease-out; }
+@keyframes vista-entra { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .vista { animation: none; } }
+
+.proximamente {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--gris-claro);
+  border: 1px dashed var(--gris);
+  border-radius: 12px;
+}
+.proximamente h2 { color: var(--blanco); margin: 0 0 8px; }
+.proximamente p { margin: 0; font-size: 14px; }
+
+/* --- Skeleton loading --- */
+.skeleton {
+  background: linear-gradient(90deg, var(--gris-oscuro) 25%, var(--gris) 37%, var(--gris-oscuro) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: 4px;
+  display: inline-block;
+  height: 12px;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; background: var(--gris); }
+}
+
+.barra-acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.barra-acciones-derecha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.buscador { width: 220px; }
+#filtro-estado, #filtro-plan, #filtro-dia { width: 150px; }
+@media (max-width: 640px) {
+  .barra-acciones-derecha { width: 100%; }
+  .buscador { width: 100%; }
+  #filtro-estado, #filtro-plan, #filtro-dia { width: 100%; }
+}
+
+.ayuda-calendario { color: var(--gris-claro); font-size: 12px; margin: 2px 0 10px; }
+
+/* --- Calendario: grilla estilo planilla de horarios --- */
+.calendario-grid {
+  display: grid;
+  grid-template-columns: 96px repeat(5, 1fr);
+  border: 1px solid var(--gris);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.calendario-celda {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--gris);
+  border-right: 1px solid var(--gris);
+  min-height: 34px;
+}
+.calendario-grid > .calendario-celda:nth-child(6n) { border-right: none; }
+.calendario-grid > .calendario-celda:nth-last-child(-n+6) { border-bottom: none; }
+
+.calendario-esquina { background: var(--negro); }
+.calendario-dia-header {
+  background: var(--negro);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gris-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calendario-hora-label {
+  background: var(--negro);
+  color: var(--gris-claro);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.calendario-turno-celda {
+  background: var(--gris-oscuro);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 5px;
+  max-height: 80px;
+  overflow-y: auto;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.calendario-turno-celda:hover { background: var(--hover-secundario); }
+
+/* Avatar circular con iniciales en vez de una pill con el nombre completo
+   - con 4-5 personas en el mismo turno, pills de texto apilaban la celda
+   entera; los avatares entran varios por fila y el nombre completo queda
+   en el title (tooltip) al pasar el mouse. */
+.calendario-turno-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bordo);
+  color: var(--blanco);
+  font-size: 11px;
+  font-weight: 700;
+}
+.calendario-turno-chip button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--negro);
+  border: 1px solid var(--gris);
+  color: var(--gris-claro);
+  font-size: 10px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+.calendario-turno-chip:hover button { opacity: 1; }
+.calendario-turno-chip button:hover { color: var(--blanco); transform: scale(1.15); }
+
+.calendario-sabado {
+  margin-top: 10px;
+  border: 1px solid var(--gris);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.calendario-sabado-titulo {
+  background: var(--bordo);
+  color: var(--blanco);
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  padding: 6px;
+}
+.calendario-sabado-nombres {
+  background: var(--gris-oscuro);
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 32px;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.calendario-sabado-nombres:hover { background: var(--hover-secundario); }
+
+@media (max-width: 768px) {
+  .calendario-grid { grid-template-columns: 70px repeat(5, minmax(90px, 1fr)); overflow-x: auto; font-size: 13px; }
+}
+
+.th-ordenable { cursor: pointer; user-select: none; transition: color 120ms ease; }
+.th-ordenable:hover { color: var(--blanco); }
+.orden-icono { margin-left: 4px; }
+.contador-socios {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gris-claro);
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 13px 14px; border-bottom: 1px solid var(--gris); transition: background-color 120ms ease; }
+th { color: var(--gris-claro); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+tr:hover td { background: var(--hover-secundario); }
+
+.pill { padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; display: inline-block; }
+.pill.activo { background: var(--verde-bg); color: var(--verde-texto); }
+.pill.por_vencer { background: var(--amarillo-bg); color: var(--amarillo-texto); }
+.pill.vencido { background: var(--rojo-bg); color: var(--rojo-texto); }
+.pill.inactivo { background: var(--gris); color: var(--gris-claro); }
+
+.deuda-ok { color: var(--verde-texto); }
+.deuda-mal { color: var(--bordo-claro); font-weight: 600; }
+
+.pill-clase {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--gris);
+  background: none;
+  color: var(--gris-claro);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.pill-clase.agotado { background: var(--rojo-bg); color: var(--rojo-texto); border-color: transparent; }
+.pill-clase-valor { min-width: 26px; text-align: center; }
+.pill-clase-btn {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.pill-clase-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.14); }
+.pill-clase-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* --- Modal --- */
+.modal-fondo {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  z-index: 10;
+  animation: fondo-entra 180ms ease-out;
+}
+.modal {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform-origin: center;
+  animation: modal-entra 200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes fondo-entra {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-entra {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal-fondo, .modal { animation: none; }
+}
+.modal h2 { margin-top: 0; font-size: 16px; color: var(--blanco); }
+.modal .acciones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.modal .error { color: var(--bordo-claro); font-size: 13px; margin-top: 10px; min-height: 18px; }
+.credenciales-nuevo-socio {
+  background: var(--negro); border: 1px dashed var(--gris);
+  border-radius: 8px; padding: 12px; font-size: 13px; margin-top: 12px;
+}
+
+.resumen-total {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  background: var(--negro);
+  border: 1px solid var(--gris);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 16px 0;
+}
+.resumen-total-label { font-size: 12px; color: var(--gris-claro); text-transform: uppercase; letter-spacing: 0.5px; }
+.resumen-total-valor { font-size: 20px; font-weight: 700; color: var(--blanco); }
+.resumen-total-leyenda { flex-basis: 100%; font-size: 12px; color: var(--bordo-claro); }
+
+.vacio { color: var(--gris-claro); text-align: center; padding: 40px 0; }
+
+/* --- Caja --- */
+#caja-fecha { width: 160px; }
+.caja-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 20px 0 24px;
+}
+.caja-tarjeta {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.caja-tarjeta-label { font-size: 12px; color: var(--gris-claro); text-transform: uppercase; letter-spacing: 0.5px; }
+.caja-tarjeta-valor { font-size: 20px; font-weight: 700; color: var(--blanco); }
+.caja-tarjeta-saldo { border-color: var(--gris); }
+/* Selector combinado a proposito: .deuda-ok/.deuda-mal solas pierden contra
+   .caja-tarjeta-valor por orden de aparicion en la hoja (misma especificidad,
+   esta regla esta despues) - esto asegura que gane sin importar el orden. */
+.caja-tarjeta-valor.deuda-ok { color: var(--verde-texto); }
+.caja-tarjeta-valor.deuda-mal { color: var(--bordo-claro); }
+.caja-subtitulo { font-size: 14px; color: var(--gris-claro); margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.caja-subtabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.caja-subtab {
+  background: var(--gris);
+  color: var(--gris-claro);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.caja-subtab:hover { background: var(--hover-secundario); }
+.caja-subtab.is-active { background: var(--bordo); color: var(--blanco); }
+.badge-pendientes {
+  background: var(--amarillo-bg);
+  color: var(--amarillo-texto);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.caja-subtab.is-active .badge-pendientes { background: rgba(255, 255, 255, 0.25); color: var(--blanco); }
+
+/* Movimiento anulado: se ve tachado en vez de desaparecer, para que anular
+   un ingreso en efectivo no sea una forma de esconderlo sin dejar rastro. */
+.movimiento-anulado td { color: var(--gris-claro) !important; text-decoration: line-through; opacity: 0.65; }
+.etiqueta-anulado {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gris-claro);
+  text-decoration: none;
+  cursor: help;
+}
+
+/* --- Dashboard --- */
+.dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; align-items: start; max-width: 560px; }
+.dashboard-panel {
+  border: 1px solid var(--gris);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--gris-oscuro);
+}
+.dashboard-barras { display: flex; align-items: flex-end; gap: 12px; height: 130px; padding-top: 8px; }
+.dashboard-barra-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 1; height: 100%; gap: 4px; }
+.dashboard-barra-valor { font-size: 12px; font-weight: 700; color: var(--gris-claro); }
+.dashboard-barra {
+  width: 100%;
+  max-width: 34px;
+  background: var(--bordo);
+  border-radius: 4px 4px 0 0;
+  min-height: 3px;
+  transition: height 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.dashboard-barra-mes { font-size: 11px; color: var(--gris-claro); text-transform: uppercase; }
+
+/* --- Rutinas --- */
+.rutina-tabs { display: flex; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+.rutina-tab {
+  background: var(--gris);
+  color: var(--gris-claro);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.rutina-tab:hover { background: var(--hover-secundario); }
+.rutina-tab.is-active { background: var(--bordo); color: var(--blanco); }
+
+.rutina-grid {
+  display: grid;
+  grid-template-columns: 130px repeat(6, 1fr);
+  border: 1px solid var(--gris);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rutina-grid > * { border-bottom: 1px solid var(--gris); border-right: 1px solid var(--gris); }
+.rutina-grid > *:nth-child(7n) { border-right: none; }
+.rutina-grid > *:last-child, .rutina-grid > *:nth-last-child(-n+7) { border-bottom: none; }
+
+.rutina-celda-esquina, .rutina-dia-header, .rutina-fila-label { background: var(--negro); padding: 8px; }
+.rutina-dia-header {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gris-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rutina-fila-label { font-size: 12px; font-weight: 600; color: var(--gris-claro); display: flex; align-items: center; }
+.rutina-divisor {
+  grid-column: 1 / -1;
+  background: var(--bordo);
+  color: var(--blanco);
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 6px;
+}
+.rutina-celda {
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--blanco);
+  background: var(--gris-oscuro);
+  border-width: 0;
+  padding: 8px;
+  resize: none;
+  overflow: hidden;
+  min-height: 76px;
+  width: 100%;
+  display: block;
+  outline: none;
+  transition: background-color 120ms ease;
+}
+.rutina-celda:hover { background: var(--hover-secundario); }
+.rutina-celda:focus { background: var(--hover-secundario); box-shadow: inset 0 0 0 2px var(--bordo); }
+
+@media (max-width: 768px) {
+  .rutina-grid { grid-template-columns: 90px repeat(6, minmax(130px, 1fr)); overflow-x: auto; }
+}
+@media (max-width: 640px) {
+  #caja-fecha { width: 100%; }
+}
+
+/* Preloader: replica del componente LogoPreloader (Framer) en CSS puro. */
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--negro);
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 0.7s cubic-bezier(0.7, 0.2, 0.2, 1);
+}
+#preloader img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  user-select: none;
+  transform: translateY(80px);
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: transform 0.7s cubic-bezier(0.7, 0.2, 0.2, 1), opacity 0.7s cubic-bezier(0.7, 0.2, 0.2, 1);
+}
+#preloader.is-loading img { transform: translateY(0); opacity: 1; }
+#preloader.is-out { opacity: 0; }
+#preloader.is-out img { transform: translateY(-80px); opacity: 0; }
+
+</style>
+</head>
+<body>
+
+<!-- ===================== PRELOADER ===================== -->
+<div id="preloader" role="status" aria-label="Cargando">
+  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiIgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByb2xlPSJpbWciIGFyaWEtbGFiZWw9Ikd5bUZsb3ciPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnZi1mb25kbyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyZjc0YzkiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFlNGQ4YyIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgcng9IjIyIiBmaWxsPSJ1cmwoI2dmLWZvbmRvKSIgLz4KICA8ZyBmaWxsPSIjZmZmZmZmIj4KICAgIDxyZWN0IHg9IjMwIiB5PSI0NCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjgiIHJ4PSI0IiAvPgogICAgPHJlY3QgeD0iMjIiIHk9IjMwIiB3aWR0aD0iMTAiIGhlaWdodD0iMzYiIHJ4PSI0IiAvPgogICAgPHJlY3QgeD0iNjQiIHk9IjMwIiB3aWR0aD0iMTAiIGhlaWdodD0iMzYiIHJ4PSI0IiAvPgogICAgPHJlY3QgeD0iMTIiIHk9IjM4IiB3aWR0aD0iOCIgaGVpZ2h0PSIyMCIgcng9IjMiIC8+CiAgICA8cmVjdCB4PSI3NiIgeT0iMzgiIHdpZHRoPSI4IiBoZWlnaHQ9IjIwIiByeD0iMyIgLz4KICA8L2c+Cjwvc3ZnPgo=" alt="GymFlow" width="96" height="96" draggable="false" />
+</div>
+<script>
+  // Mismas fases que el componente LogoPreloader de Framer: el logo sube y aparece,
+  // se sostiene, sale hacia arriba y recién ahí se desvanece el fondo.
+  (function () {
+    var el = document.getElementById("preloader");
+    var DURACION = 2; // segundos con el logo en pantalla
+    setTimeout(function () { el.classList.add("is-loading"); }, 50);
+    setTimeout(function () { el.classList.add("is-out"); }, DURACION * 1000 + 50);
+    setTimeout(function () { el.remove(); }, DURACION * 1000 + 750);
+  })();
+</script>
+
+<!-- ===================== APP ===================== -->
+<div id="app" hidden>
+  <header class="navbar">
+    <div class="navbar-marca">
+      <span class="navbar-marca-texto">GymFlow</span>
+    </div>
+
+    <button class="navbar-hamburguesa" id="btn-menu-movil" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar-menu-movil">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="navbar-menu-movil" id="navbar-menu-movil">
+      <nav class="navbar-tabs" id="navbar-tabs" aria-label="Secciones">
+        <button class="navbar-tab" data-vista="dashboard">Dashboard</button>
+        <button class="navbar-tab is-active" data-vista="socios">Socios</button>
+        <button class="navbar-tab" data-vista="caja">Caja</button>
+        <button class="navbar-tab" data-vista="calendario">Calendario</button>
+      </nav>
+      <div class="navbar-usuario">
+        <span id="nombre-usuario"></span>
+        <button class="theme-toggle" id="btn-tema" type="button" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">
+          <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4" />
+            <line x1="12" y1="2" x2="12" y2="5" />
+            <line x1="12" y1="19" x2="12" y2="22" />
+            <line x1="2" y1="12" x2="5" y2="12" />
+            <line x1="19" y1="12" x2="22" y2="12" />
+            <line x1="4.2" y1="4.2" x2="6.3" y2="6.3" />
+            <line x1="17.7" y1="17.7" x2="19.8" y2="19.8" />
+            <line x1="4.2" y1="19.8" x2="6.3" y2="17.7" />
+            <line x1="17.7" y1="6.3" x2="19.8" y2="4.2" />
+          </svg>
+          <svg class="icono-luna" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 1 0 10.5 10.5Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="vista-dashboard" class="vista" hidden>
+      <h2 style="margin:0 0 16px;">Dashboard</h2>
+
+      <div class="caja-resumen" id="dashboard-kpis"></div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-panel">
+          <h3 class="caja-subtitulo">Altas por mes</h3>
+          <div class="dashboard-barras" id="dashboard-altas"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vista-socios" class="vista">
+      <div class="barra-acciones">
+        <h2 style="margin:0;">Socios <span id="contador-socios" class="contador-socios"></span></h2>
+        <div class="barra-acciones-derecha">
+          <select id="filtro-estado" aria-label="Filtrar por estado">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activos</option>
+            <option value="por_vencer">Por vencer</option>
+            <option value="vencido">Vencidos</option>
+            <option value="inactivo">Inactivos</option>
+          </select>
+          <select id="filtro-plan" aria-label="Filtrar por plan">
+            <option value="">Todos los planes</option>
+          </select>
+          <input type="search" id="buscador-socios" class="buscador" placeholder="Buscar por nombre o código..." aria-label="Buscar socio" />
+          <button class="secundario" id="btn-exportar-socios">Exportar</button>
+          <button class="primario" id="btn-nuevo-socio">+ Nuevo socio</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="th-ordenable" data-orden="nombre">Nombre<span class="orden-icono" id="orden-icono-nombre"></span></th>
+            <th>Teléfono</th>
+            <th>Plan</th>
+            <th>Estado</th>
+            <th class="th-ordenable" data-orden="fecha_fin">Vence<span class="orden-icono" id="orden-icono-fecha_fin"></span></th>
+            <th>Deuda</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-socios"></tbody>
+      </table>
+      <div id="vacio-socios" class="vacio" hidden>Todavía no hay socios cargados.</div>
+    </section>
+
+    <section id="vista-caja" class="vista" hidden>
+      <div id="caja-bloqueada" hidden>
+        <form class="tarjeta-login" id="form-pin-caja" style="margin: 60px auto;">
+          <h1 style="font-size:20px;">Caja bloqueada</h1>
+          <p class="subtitulo">Ingresá el PIN para ver los movimientos</p>
+          <label for="pin-caja-input">PIN</label>
+          <input id="pin-caja-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" />
+          <div class="error" id="error-pin-caja"></div>
+          <button type="submit" class="primario" style="width:100%; margin-top:16px;">Desbloquear</button>
+        </form>
+      </div>
+
+      <div id="caja-contenido" hidden>
+        <div class="barra-acciones">
+          <h2 style="margin:0;">Caja</h2>
+          <div class="barra-acciones-derecha">
+            <button class="primario" id="btn-nuevo-gasto">+ Registrar gasto</button>
+          </div>
+        </div>
+
+        <h3 class="caja-subtitulo">Saldo de caja actual</h3>
+        <div class="caja-resumen">
+          <div class="caja-tarjeta">
+            <span class="caja-tarjeta-label">Efectivo</span>
+            <span class="caja-tarjeta-valor" id="caja-saldo-efectivo">$0</span>
+          </div>
+          <div class="caja-tarjeta">
+            <span class="caja-tarjeta-label">Transferencia</span>
+            <span class="caja-tarjeta-valor" id="caja-saldo-transferencia">$0</span>
+          </div>
+          <div class="caja-tarjeta caja-tarjeta-saldo">
+            <span class="caja-tarjeta-label">Total</span>
+            <span class="caja-tarjeta-valor" id="caja-saldo-total">$0</span>
+          </div>
+        </div>
+
+        <div class="caja-subtabs" style="margin-top:28px;">
+          <button type="button" class="caja-subtab is-active" id="subtab-movimientos" data-subtab="movimientos">Movimientos</button>
+          <button type="button" class="caja-subtab" id="subtab-pendientes" data-subtab="pendientes">Gastos pendientes <span id="badge-gastos-pendientes" class="badge-pendientes" hidden>0</span></button>
+        </div>
+
+        <div id="caja-panel-movimientos">
+          <div class="barra-acciones">
+            <div class="barra-acciones-derecha">
+              <select id="caja-filtro-tipo" aria-label="Tipo de movimiento">
+                <option value="">Ingresos y gastos</option>
+                <option value="ingreso">Solo ingresos</option>
+                <option value="gasto">Solo gastos</option>
+              </select>
+              <select id="caja-modo-filtro" aria-label="Ver por">
+                <option value="dia">Por día</option>
+                <option value="mes">Por mes</option>
+              </select>
+              <input type="date" id="caja-fecha" aria-label="Fecha" />
+              <input type="month" id="caja-mes" aria-label="Mes" hidden />
+              <button class="secundario" id="btn-exportar-caja">Exportar</button>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Tipo</th>
+                <th>Detalle</th>
+                <th>Método</th>
+                <th>Monto</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tabla-caja"></tbody>
+          </table>
+          <div id="vacio-caja" class="vacio" hidden>No hay movimientos en ese período.</div>
+        </div>
+
+        <div id="caja-panel-pendientes" hidden>
+          <p class="ayuda-calendario">
+            Gastos cargados sin método de pago todavía definido - no afectan el saldo de arriba. Cuando se confirmen, "Efectivizar" los pasa a Caja.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tabla-gastos-pendientes"></tbody>
+          </table>
+          <div id="vacio-gastos-pendientes" class="vacio" hidden>No hay gastos pendientes.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vista-calendario" class="vista" hidden>
+      <div class="barra-acciones">
+        <h2 style="margin:0;">Calendario</h2>
+        <div class="barra-acciones-derecha">
+          <button class="primario" id="btn-nuevo-turno">+ Nuevo turno fijo</button>
+        </div>
+      </div>
+
+      <p class="ayuda-calendario">
+        Turnos fijos: quién suele venir a qué horario, como referencia para controlar la capacidad a ojo.
+        No reserva lugar ni bloquea horarios — es solo una anotación del staff. Click en una celda para agregar a alguien a ese turno.
+      </p>
+
+      <div class="calendario-grid" id="calendario-grid"></div>
+
+      <div class="calendario-sabado" id="calendario-sabado">
+        <div class="calendario-sabado-titulo">Sábado · 09:00 a 13:00 · Open Box</div>
+        <div class="calendario-sabado-nombres" id="calendario-sabado-nombres"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== MODAL: Solicitud de socio / Vender / Renovar ===================== -->
+<div class="modal-fondo" id="modal-membresia" hidden>
+  <div class="modal">
+    <h2 id="titulo-modal-membresia">Solicitud de socio</h2>
+    <form id="form-membresia">
+      <input type="hidden" id="mem-socio-id" />
+      <input type="hidden" id="mem-membresia-actual-id" />
+
+      <div id="grupo-datos-personales">
+        <label for="mem-nombre">Nombre completo</label>
+        <input id="mem-nombre" />
+        <label for="mem-celular">Celular</label>
+        <input id="mem-celular" />
+        <label for="mem-email">Email</label>
+        <input id="mem-email" type="email" />
+      </div>
+
+      <div id="grupo-plan">
+        <label for="mem-plan">Plan</label>
+        <select id="mem-plan"></select>
+      </div>
+
+      <div id="grupo-fecha-inicio">
+        <label for="mem-fecha-inicio">Fecha de inicio</label>
+        <input id="mem-fecha-inicio" type="date" required />
+      </div>
+
+      <div id="grupo-descuento">
+        <label for="mem-descuento-pct">Descuento (%)</label>
+        <input id="mem-descuento-pct" type="number" min="0" max="100" step="1" value="0" />
+        <div id="grupo-descuento-meses" hidden>
+          <label for="mem-descuento-meses">Duración del descuento (meses)</label>
+          <select id="mem-descuento-meses">
+            <option value="1">1 mes</option>
+            <option value="2">2 meses</option>
+            <option value="3">3 meses</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="resumen-total" class="resumen-total">
+        <span class="resumen-total-label">Total a cobrar</span>
+        <span class="resumen-total-valor" id="resumen-total-valor">$0</span>
+        <span class="resumen-total-leyenda" id="resumen-total-leyenda" hidden></span>
+      </div>
+
+      <div id="grupo-metodo-pago">
+        <label for="mem-metodo-pago">Método de pago</label>
+        <select id="mem-metodo-pago" required>
+          <option value="" disabled selected>Seleccionar...</option>
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia</option>
+          <option value="mixto">Efectivo + Transferencia</option>
+        </select>
+        <div id="grupo-mem-mixto" hidden>
+          <label for="mem-monto-efectivo">Monto en efectivo ($)</label>
+          <input id="mem-monto-efectivo" type="number" min="0" step="1" />
+          <label for="mem-monto-transferencia">Monto en transferencia ($)</label>
+          <input id="mem-monto-transferencia" type="number" min="0" step="1" />
+        </div>
+      </div>
+
+      <div class="error" id="error-membresia"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-membresia">Cancelar</button>
+        <button type="submit" class="primario" id="btn-guardar-membresia">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: registrar pago suelto ===================== -->
+<div class="modal-fondo" id="modal-pago" hidden>
+  <div class="modal">
+    <h2>Registrar pago</h2>
+    <form id="form-pago">
+      <input type="hidden" id="pago-membresia-id" />
+      <label for="pago-monto">Monto ($)</label>
+      <input id="pago-monto" type="number" min="1" step="1" required />
+      <label for="pago-metodo">Método de pago</label>
+      <select id="pago-metodo">
+        <option value="efectivo">Efectivo</option>
+        <option value="transferencia">Transferencia</option>
+        <option value="mixto">Efectivo + Transferencia</option>
+      </select>
+      <div id="grupo-pago-mixto" hidden>
+        <label for="pago-monto-efectivo">Monto en efectivo ($)</label>
+        <input id="pago-monto-efectivo" type="number" min="0" step="1" />
+        <label for="pago-monto-transferencia">Monto en transferencia ($)</label>
+        <input id="pago-monto-transferencia" type="number" min="0" step="1" />
+      </div>
+      <div class="error" id="error-pago"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-pago">Cancelar</button>
+        <button type="submit" class="primario">Registrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: editar datos de socio ===================== -->
+<div class="modal-fondo" id="modal-editar-socio" hidden>
+  <div class="modal">
+    <h2>Editar socio</h2>
+    <form id="form-editar-socio">
+      <input type="hidden" id="editar-socio-id" />
+      <label for="editar-nombre">Nombre completo</label>
+      <input id="editar-nombre" required />
+      <label for="editar-celular">Celular</label>
+      <input id="editar-celular" />
+      <label for="editar-email">Email</label>
+      <input id="editar-email" type="email" />
+      <label class="checkbox-inline">
+        <input id="editar-inactivo" type="checkbox" />
+        Marcar como inactivo (deja de contar como socio activo, sin esperar a que venza)
+      </label>
+      <div class="error" id="error-editar-socio"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-editar-socio">Cancelar</button>
+        <button type="submit" class="primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: registrar gasto (Caja) ===================== -->
+<div class="modal-fondo" id="modal-gasto" hidden>
+  <div class="modal">
+    <h2 id="titulo-modal-gasto">Registrar gasto</h2>
+    <form id="form-gasto">
+      <input type="hidden" id="gasto-editar-id" />
+      <label for="gasto-concepto">Concepto</label>
+      <input id="gasto-concepto" required />
+      <label for="gasto-monto">Monto ($)</label>
+      <input id="gasto-monto" type="number" min="1" step="1" required />
+      <label for="gasto-metodo">Método de pago</label>
+      <select id="gasto-metodo">
+        <option value="">Sin definir todavía (pendiente)</option>
+        <option value="efectivo">Efectivo</option>
+        <option value="transferencia">Transferencia</option>
+      </select>
+      <label for="gasto-fecha">Fecha</label>
+      <input id="gasto-fecha" type="date" required />
+      <div class="error" id="error-gasto"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-gasto">Cancelar</button>
+        <button type="submit" class="primario" id="btn-guardar-gasto">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: anular movimiento de Caja (owner) ===================== -->
+<div class="modal-fondo" id="modal-anular-movimiento" hidden>
+  <div class="modal">
+    <h2>Anular movimiento</h2>
+    <p class="subtitulo" id="anular-movimiento-detalle"></p>
+    <form id="form-anular-movimiento">
+      <label for="anular-movimiento-motivo">Motivo (opcional)</label>
+      <input id="anular-movimiento-motivo" placeholder="Ej: error de carga" />
+      <div class="error" id="error-anular-movimiento"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-anular-movimiento">Cancelar</button>
+        <button type="submit" class="primario">Anular</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: nuevo turno fijo (Calendario) ===================== -->
+<div class="modal-fondo" id="modal-turno" hidden>
+  <div class="modal">
+    <h2>Nuevo turno fijo</h2>
+    <form id="form-turno">
+      <label for="turno-socio-id">Socio</label>
+      <select id="turno-socio-id" required></select>
+      <label for="turno-dia">Día</label>
+      <select id="turno-dia" required>
+        <option value="1">Lunes</option>
+        <option value="2">Martes</option>
+        <option value="3">Miércoles</option>
+        <option value="4">Jueves</option>
+        <option value="5">Viernes</option>
+        <option value="6">Sábado</option>
+      </select>
+      <label for="turno-horario">Turno</label>
+      <select id="turno-horario" required></select>
+      <div class="error" id="error-turno"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-turno">Cancelar</button>
+        <button type="submit" class="primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+// GymFlow — backend de demostración 100% en memoria.
+// Reemplaza a Supabase: mismos nombres de tablas/RPC que usa la app, con datos
+// de ejemplo ficticios generados relativos a la fecha de hoy (así la demo
+// siempre se ve "viva"). Todo vive en el navegador y se reinicia al recargar.
+
+(function () {
+  const pad = (n) => String(n).padStart(2, '0');
+  const isoDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const hoy0 = new Date();
+  hoy0.setHours(0, 0, 0, 0);
+  const hoyISO = () => isoDate(new Date());
+  const fecha = (offset) => {
+    const d = new Date(hoy0);
+    d.setDate(d.getDate() + offset);
+    return isoDate(d);
+  };
+  const sumarDias = (iso, dias) => {
+    const d = new Date(`${iso}T00:00:00`);
+    d.setDate(d.getDate() + dias);
+    return isoDate(d);
+  };
+  const diasEntre = (desdeISO, hastaISO) =>
+    Math.round((new Date(`${hastaISO}T00:00:00`) - new Date(`${desdeISO}T00:00:00`)) / 86400000);
+  // "Hace X minutos", pero sin cruzar a ayer: los movimientos de hoy siempre quedan con fecha de hoy.
+  const hace = (minutos) => {
+    const d = new Date(Date.now() - minutos * 60000);
+    return (d < hoy0 ? new Date(hoy0.getTime() + minutos * 1000) : d).toISOString();
+  };
+  const tsDia = (offset, hora, min = 0) => {
+    const d = new Date(hoy0);
+    d.setDate(d.getDate() + offset);
+    d.setHours(hora, min, 0, 0);
+    return d.toISOString();
+  };
+
+  let seq = 0;
+  const uid = (prefijo) => `${prefijo}-${++seq}`;
+  const clonar = (x) => (x === undefined ? x : JSON.parse(JSON.stringify(x)));
+  const esperar = () => new Promise((r) => setTimeout(r, 60));
+
+  const TENANT_ID = 'demo-gimnasio';
+  const STAFF = { id: 'demo-staff', tenant_id: TENANT_ID, nombre: 'Demo', rol: 'owner' };
+
+  const db = { planes: [], socios: [], membresias: [], pagos: [], gastos: [], turnos_fijos: [] };
+
+  // ------------------------------------------------------------
+  // Datos de ejemplo
+  // ------------------------------------------------------------
+  db.planes.push(
+    { id: 'plan-full', tenant_id: TENANT_ID, codigo: 'FULL', nombre: 'FULL', precio: 28000, duracion_dias: 30, cantidad_turnos: null, activo: true },
+    { id: 'plan-8', tenant_id: TENANT_ID, codigo: '8CLS', nombre: '8 CLASES', precio: 22000, duracion_dias: 30, cantidad_turnos: 8, activo: true },
+    { id: 'plan-trim', tenant_id: TENANT_ID, codigo: 'TRIM', nombre: 'TRIMESTRAL', precio: 75000, duracion_dias: 90, cantidad_turnos: null, activo: true }
+  );
+
+  // [nombre, celular, plan, días hasta el vencimiento, clases usadas, pago ('total' | fracción), método, extra]
+  const SOCIOS_SEMILLA = [
+    ['Valentina Ríos', '11 5012 3401', 'plan-full', 24, 0, 'total', 'transferencia'],
+    ['Mateo Fernández', '11 5127 8845', 'plan-8', 18, 3, 'total', 'efectivo'],
+    ['Camila Sosa', '11 5233 1920', 'plan-full', 30, 0, 'total', 'transferencia'],
+    ['Lucas Benítez', '11 5348 6672', 'plan-full', 2, 0, 'total', 'efectivo'],
+    ['Sofía Aguirre', '11 5461 0058', 'plan-trim', 61, 0, 'total', 'transferencia'],
+    ['Joaquín Medina', '11 5579 4416', 'plan-8', 9, 6, 'total', 'efectivo'],
+    ['Martina Cabrera', '11 5684 2237', 'plan-full', 15, 0, 'total', 'transferencia'],
+    ['Tomás Herrera', '11 5792 9503', 'plan-full', -6, 0, 'total', 'efectivo'],
+    ['Julieta Domínguez', '11 5806 7714', 'plan-8', 27, 1, 'total', 'transferencia'],
+    ['Nicolás Paz', '11 5915 3380', 'plan-full', 1, 0, 'total', 'efectivo'],
+    ['Agustina Luna', '11 6023 5561', 'plan-full', 21, 0, 0.5, 'transferencia'],
+    ['Facundo Ibarra', '11 6138 1249', 'plan-8', -3, 8, 'total', 'efectivo'],
+    ['Lucía Acosta', '11 6247 8806', 'plan-full', 12, 0, 'total', 'transferencia'],
+    ['Santiago Molina', '11 6359 4472', 'plan-trim', 44, 0, 'total', 'transferencia'],
+    ['Florencia Giménez', '11 6461 7095', 'plan-8', 3, 7, 'total', 'efectivo'],
+    ['Bruno Castro', '11 6574 2318', 'plan-full', 29, 0, 'total', 'transferencia'],
+    ['Micaela Romero', '11 6682 6643', 'plan-full', -12, 0, 'total', 'efectivo'],
+    ['Ignacio Vega', '11 6795 0927', 'plan-8', 20, 2, 0.6, 'efectivo'],
+    ['Carolina Peralta', '11 6807 5184', 'plan-full', 8, 0, 'total', 'transferencia'],
+    ['Emiliano Suárez', '11 6914 3760', 'plan-full', 30, 0, 'total', 'efectivo'],
+    ['Daniela Ortiz', '11 7026 8452', 'plan-8', 25, 4, 'total', 'transferencia'],
+    ['Franco Navarro', '11 7139 1603', 'plan-full', -20, 0, 'total', 'efectivo'],
+    ['Rocío Maldonado', '11 7241 9378', 'plan-full', 30, 0, 'total', 'transferencia'],
+    ['Gonzalo Figueroa', '11 7352 4025', 'plan-full', 17, 0, 0.5, 'efectivo'],
+    ['Abril Campos', '11 7468 6891', 'plan-8', 30, 0, 'total', 'efectivo'],
+    ['Dante Rojas', '11 7573 2114', 'plan-full', 2, 0, 'total', 'transferencia'],
+  ];
+  // Altas por mes (hace cuántos días se dio de alta cada socio) para que el gráfico del Dashboard tenga forma.
+  const ANTIGUEDAD_DIAS = [
+    150, 140, 128, 118, 108, 99, 92, 85, 79, 71, 66, 60, 54, 48, 42, 37, 31, 26, 21, 17, 12, 9, 6, 4, 2, 1,
+  ];
+
+  SOCIOS_SEMILLA.forEach(([nombre, celular, planId, vence, usadas, pago, metodo], i) => {
+    const plan = db.planes.find((p) => p.id === planId);
+    const socioId = uid('socio');
+    db.socios.push({
+      id: socioId,
+      tenant_id: TENANT_ID,
+      codigo: `GF-${String(i + 1).padStart(3, '0')}`,
+      nombre,
+      celular,
+      email: `${nombre.split(' ')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')}@ejemplo.com`,
+      inactivo: false,
+      created_at: tsDia(-ANTIGUEDAD_DIAS[i], 11),
+    });
+
+    const fin = fecha(vence);
+    const inicio = sumarDias(fin, -plan.duracion_dias);
+    const membresiaId = uid('mem');
+    db.membresias.push({
+      id: membresiaId,
+      tenant_id: TENANT_ID,
+      socio_id: socioId,
+      plan_id: planId,
+      fecha_inicio: inicio,
+      fecha_fin: fin,
+      estado: 'activa',
+      precio_lista: plan.precio,
+      descuento_pct: 0,
+      descuento_meses_restantes: 0,
+      precio_final: plan.precio,
+      clases_consumidas: plan.cantidad_turnos ? usadas : 0,
+    });
+
+    const monto = pago === 'total' ? plan.precio : Math.round(plan.precio * pago);
+    // Los movimientos del día de hoy llevan hora reciente para que Caja se vea con actividad al abrirla.
+    const cobradoHoy = inicio === hoyISO();
+    db.pagos.push({
+      id: uid('pago'),
+      tenant_id: TENANT_ID,
+      membresia_id: membresiaId,
+      monto,
+      tipo: 'pago',
+      metodo_pago: metodo,
+      fecha_pago: inicio,
+      created_at: cobradoHoy ? hace(25 + i * 17) : tsDia(diasEntre(hoyISO(), inicio), 9 + (i % 9), (i * 7) % 60),
+      anulado_en: null,
+    });
+  });
+
+  // Un socio inactivo y uno dado de alta sin cobro (queda sin plan).
+  db.socios[19].inactivo = true;
+  db.socios.push({
+    id: uid('socio'),
+    tenant_id: TENANT_ID,
+    codigo: 'GF-027',
+    nombre: 'Pilar Quiroga',
+    celular: '11 7684 5530',
+    email: 'pilar@ejemplo.com',
+    inactivo: false,
+    created_at: tsDia(-3, 15),
+  });
+
+  const GASTOS_SEMILLA = [
+    ['Alquiler del local', 180000, 'transferencia', -12],
+    ['Servicio de luz', 38500, 'transferencia', -9],
+    ['Limpieza mensual', 22000, 'efectivo', -5],
+    ['Reposición de discos y mancuernas', 64000, 'transferencia', -3],
+    ['Agua y bebidas', 9500, 'efectivo', 0],
+    ['Mantenimiento de cintas', 35000, null, -2],
+    ['Publicidad en redes', 18000, null, -1],
+  ];
+  GASTOS_SEMILLA.forEach(([concepto, monto, metodo, offset], i) => {
+    db.gastos.push({
+      id: uid('gasto'),
+      tenant_id: TENANT_ID,
+      concepto,
+      monto,
+      metodo_pago: metodo,
+      fecha: fecha(offset),
+      created_at: offset === 0 ? hace(40) : tsDia(offset, 12, i * 3),
+      anulado_en: null,
+      motivo_anulacion: null,
+    });
+  });
+
+  // Turnos fijos: [día (1 = lunes ... 6 = sábado), hora inicio, hora fin, índices de socios]
+  const TURNOS_SEMILLA = [
+    [1, '08:00:00', '09:00:00', [0, 2, 6]],
+    [1, '18:00:00', '19:00:00', [1, 3, 7, 12, 15]],
+    [1, '19:00:00', '20:00:00', [4, 8, 10]],
+    [2, '09:00:00', '10:00:00', [5, 9]],
+    [2, '17:00:00', '18:00:00', [0, 11, 13, 17]],
+    [2, '19:00:00', '20:00:00', [2, 14, 16, 18, 20]],
+    [3, '08:00:00', '09:00:00', [1, 6, 12]],
+    [3, '18:00:00', '19:00:00', [3, 4, 7, 15, 19, 21]],
+    [4, '09:00:00', '10:00:00', [8, 10]],
+    [4, '17:00:00', '18:00:00', [0, 5, 9, 13]],
+    [4, '19:00:00', '20:00:00', [2, 11, 14, 17, 22]],
+    [5, '08:00:00', '09:00:00', [1, 6, 16]],
+    [5, '18:00:00', '19:00:00', [3, 4, 12, 18, 23]],
+    [6, '09:00:00', '13:00:00', [0, 5, 8, 13, 15, 20, 24]],
+  ];
+  for (const [dia, ini, fin, indices] of TURNOS_SEMILLA) {
+    for (const i of indices) {
+      db.turnos_fijos.push({
+        id: uid('turno'),
+        tenant_id: TENANT_ID,
+        socio_id: db.socios[i].id,
+        dia_semana: dia,
+        hora_inicio: ini,
+        hora_fin: fin,
+        activo: true,
+      });
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Vista v_estado_socios (calculada al vuelo)
+  // ------------------------------------------------------------
+  const membresiaVigente = (socioId) =>
+    db.membresias
+      .filter((m) => m.socio_id === socioId && m.estado === 'activa')
+      .sort((a, b) => b.fecha_fin.localeCompare(a.fecha_fin))[0] || null;
+
+  const totalPagado = (membresiaId) =>
+    db.pagos
+      .filter((p) => p.membresia_id === membresiaId && !p.anulado_en)
+      .reduce((acc, p) => acc + (p.tipo === 'reembolso' ? -1 : 1) * Number(p.monto), 0);
+
+  function estadoDe(socio, membresia) {
+    if (socio.inactivo) return 'inactivo';
+    if (!membresia) return 'vencido';
+    const dias = diasEntre(hoyISO(), membresia.fecha_fin);
+    if (dias < 0) return 'vencido';
+    if (dias <= 3) return 'por_vencer';
+    return 'activo';
+  }
+
+  function vistaEstadoSocios() {
+    return db.socios.map((s) => {
+      const m = membresiaVigente(s.id);
+      const plan = m ? db.planes.find((p) => p.id === m.plan_id) : null;
+      const conPaquete = plan && plan.cantidad_turnos != null;
+      return {
+        socio_id: s.id,
+        codigo: s.codigo,
+        nombre: s.nombre,
+        celular: s.celular,
+        email: s.email,
+        plan_nombre: plan ? plan.nombre : null,
+        estado_socio: estadoDe(s, m),
+        fecha_fin: m ? m.fecha_fin : null,
+        membresia_id: m ? m.id : null,
+        deuda: m ? Math.max(0, m.precio_final - totalPagado(m.id)) : null,
+        cantidad_turnos: conPaquete ? plan.cantidad_turnos : null,
+        clases_consumidas: conPaquete ? m.clases_consumidas : null,
+        clases_restantes: conPaquete ? plan.cantidad_turnos - m.clases_consumidas : null,
+      };
+    });
+  }
+
+  const origen = (tabla) => (tabla === 'v_estado_socios' ? vistaEstadoSocios() : db[tabla]);
+
+  // Relaciones embebidas que pide la app: pagos -> membresias(socios(nombre)) y turnos_fijos -> socios(nombre).
+  function conRelaciones(tabla, fila, columnas) {
+    if (tabla === 'pagos' && columnas.includes('membresias(')) {
+      const m = db.membresias.find((x) => x.id === fila.membresia_id);
+      const s = m ? db.socios.find((x) => x.id === m.socio_id) : null;
+      return { ...fila, membresias: m ? { socios: s ? { nombre: s.nombre } : null } : null };
+    }
+    if (tabla === 'turnos_fijos' && columnas.includes('socios(')) {
+      const s = db.socios.find((x) => x.id === fila.socio_id);
+      return { ...fila, socios: s ? { nombre: s.nombre } : null };
+    }
+    return fila;
+  }
+
+  // ------------------------------------------------------------
+  // Mini query builder compatible con la parte de supabase-js que usa la app
+  // ------------------------------------------------------------
+  function Consulta(tabla) {
+    this.tabla = tabla;
+    this.operacion = 'select';
+    this.columnas = '*';
+    this.filtros = [];
+    this.orden = [];
+    this.unico = false;
+    this.datos = null;
+  }
+  Consulta.prototype = {
+    select(columnas) { this.columnas = columnas || '*'; return this; },
+    insert(filas) { this.operacion = 'insert'; this.datos = Array.isArray(filas) ? filas : [filas]; return this; },
+    update(valores) { this.operacion = 'update'; this.datos = valores; return this; },
+    delete() { this.operacion = 'delete'; return this; },
+    eq(col, val) { this.filtros.push((f) => f[col] === val); return this; },
+    is(col, val) { this.filtros.push((f) => (f[col] ?? null) === val); return this; },
+    not(col, op, val) { if (op === 'is') this.filtros.push((f) => (f[col] ?? null) !== val); return this; },
+    gte(col, val) { this.filtros.push((f) => f[col] != null && f[col] >= val); return this; },
+    lte(col, val) { this.filtros.push((f) => f[col] != null && f[col] <= val); return this; },
+    order(col, opciones) { this.orden.push({ col, asc: opciones?.ascending !== false }); return this; },
+    single() { this.unico = true; return this; },
+    then(ok, fallo) { return this.ejecutar().then(ok, fallo); },
+
+    async ejecutar() {
+      await esperar();
+      const coincide = (f) => this.filtros.every((fn) => fn(f));
+      let filas;
+
+      if (this.operacion === 'insert') {
+        filas = this.datos.map((d) => {
+          const base = { id: uid(this.tabla), created_at: new Date().toISOString() };
+          if (this.tabla === 'pagos') Object.assign(base, { tipo: 'pago', fecha_pago: hoyISO(), anulado_en: null });
+          if (this.tabla === 'gastos') Object.assign(base, { anulado_en: null, motivo_anulacion: null });
+          if (this.tabla === 'turnos_fijos') base.activo = true;
+          const fila = { ...base, ...d };
+          db[this.tabla].push(fila);
+          return fila;
+        });
+      } else if (this.operacion === 'update') {
+        filas = origen(this.tabla).filter(coincide);
+        filas.forEach((f) => Object.assign(f, this.datos));
+      } else if (this.operacion === 'delete') {
+        filas = origen(this.tabla).filter(coincide);
+        db[this.tabla] = db[this.tabla].filter((f) => !filas.includes(f));
+      } else {
+        filas = origen(this.tabla).filter(coincide);
+      }
+
+      for (const { col, asc } of [...this.orden].reverse()) {
+        filas = [...filas].sort((a, b) => {
+          const x = a[col];
+          const y = b[col];
+          const c = typeof x === 'string' ? x.localeCompare(y, 'es', { sensitivity: 'base' }) : x - y;
+          return asc ? c : -c;
+        });
+      }
+
+      const resultado = clonar(filas.map((f) => conRelaciones(this.tabla, f, this.columnas)));
+      if (this.unico) {
+        return resultado.length
+          ? { data: resultado[0], error: null }
+          : { data: null, error: { message: 'No se encontró el registro.' } };
+      }
+      return { data: resultado, error: null };
+    },
+  };
+
+  // ------------------------------------------------------------
+  // Funciones RPC (la lógica de negocio que en producción vive en Postgres)
+  // ------------------------------------------------------------
+  const redondear = (precio, pct) => Math.round(precio * (1 - pct / 100));
+
+  function registrarPagos(membresiaId, efectivo, transferencia) {
+    for (const [metodo, monto] of [['efectivo', efectivo], ['transferencia', transferencia]]) {
+      if (monto > 0) {
+        db.pagos.push({
+          id: uid('pago'),
+          tenant_id: TENANT_ID,
+          membresia_id: membresiaId,
+          monto,
+          tipo: 'pago',
+          metodo_pago: metodo,
+          fecha_pago: hoyISO(),
+          created_at: new Date().toISOString(),
+          anulado_en: null,
+        });
+      }
+    }
+  }
+
+  function crearMembresia(socioId, planId, inicio, pct, meses, efectivo, transferencia) {
+    const plan = db.planes.find((p) => p.id === planId);
+    if (!plan) throw new Error('El plan no existe.');
+    const membresia = {
+      id: uid('mem'),
+      tenant_id: TENANT_ID,
+      socio_id: socioId,
+      plan_id: planId,
+      fecha_inicio: inicio,
+      fecha_fin: sumarDias(inicio, plan.duracion_dias),
+      estado: 'activa',
+      precio_lista: plan.precio,
+      descuento_pct: pct || 0,
+      descuento_meses_restantes: pct > 0 ? meses || 0 : 0,
+      precio_final: redondear(plan.precio, pct || 0),
+      clases_consumidas: 0,
+    };
+    db.membresias.push(membresia);
+    registrarPagos(membresia.id, efectivo || 0, transferencia || 0);
+    return membresia;
+  }
+
+  const RPC = {
+    fn_solicitud_socio(p) {
+      const socio = {
+        id: uid('socio'),
+        tenant_id: TENANT_ID,
+        codigo: `GF-${String(db.socios.length + 1).padStart(3, '0')}`,
+        nombre: p.p_nombre,
+        email: p.p_email,
+        celular: p.p_celular,
+        inactivo: false,
+        created_at: new Date().toISOString(),
+      };
+      db.socios.push(socio);
+      if (p.p_plan_id) {
+        crearMembresia(socio.id, p.p_plan_id, p.p_fecha_inicio, p.p_descuento_pct, p.p_descuento_meses, p.p_monto_efectivo, p.p_monto_transferencia);
+      }
+      return socio.id;
+    },
+
+    fn_vender_membresia(p) {
+      const m = crearMembresia(p.p_socio_id, p.p_plan_id, p.p_fecha_inicio, p.p_descuento_pct, p.p_descuento_meses, p.p_monto_efectivo, p.p_monto_transferencia);
+      return m.id;
+    },
+
+    fn_renovar_membresia(p) {
+      const anterior = db.membresias.find((m) => m.id === p.p_membresia_actual_id);
+      if (!anterior) throw new Error('La membresía no existe.');
+      const hereda = anterior.descuento_meses_restantes > 1 && anterior.plan_id === p.p_plan_id;
+      const inicio = anterior.fecha_fin > hoyISO() ? anterior.fecha_fin : hoyISO();
+      const nueva = crearMembresia(
+        anterior.socio_id,
+        p.p_plan_id,
+        inicio,
+        hereda ? anterior.descuento_pct : 0,
+        hereda ? anterior.descuento_meses_restantes - 1 : 0,
+        p.p_monto_efectivo,
+        p.p_monto_transferencia
+      );
+      return nueva.id;
+    },
+
+    fn_ajustar_asistencia_clase(p) {
+      const m = membresiaVigente(p.p_socio_id);
+      const plan = m ? db.planes.find((x) => x.id === m.plan_id) : null;
+      if (!m || !plan || plan.cantidad_turnos == null) throw new Error('El socio no tiene un plan por paquete de clases.');
+      m.clases_consumidas = Math.min(plan.cantidad_turnos, Math.max(0, m.clases_consumidas + p.p_delta));
+      return [{ clases_consumidas: m.clases_consumidas, clases_restantes: plan.cantidad_turnos - m.clases_consumidas }];
+    },
+
+    fn_caja_pin_configurado() { return false; },
+    fn_verificar_pin_caja() { return true; },
+  };
+
+  window.DEMO_STAFF = STAFF;
+  window.crearClienteDemo = () => ({
+    from: (tabla) => new Consulta(tabla),
+    async rpc(nombre, params) {
+      await esperar();
+      try {
+        const fn = RPC[nombre];
+        if (!fn) throw new Error(`Función no disponible en la demo: ${nombre}`);
+        return { data: clonar(fn(params || {})), error: null };
+      } catch (e) {
+        return { data: null, error: { message: e.message } };
+      }
+    },
+  });
+})();
+
+</script>
+<script>
+// GymFlow (demo) — socios, vender/renovar membresía, pagos, caja, calendario y dashboard.
+// Sin build y sin backend: se sube tal cual (index.html + style.css + demo-backend.js + este archivo).
+// demo-backend.js simula la base de datos en memoria; no hay login.
+
+const sb = window.crearClienteDemo();
+
+let staffActual = null; // { id, tenant_id, nombre, rol }
+let planesCache = [];
+let sociosCache = []; // último resultado de v_estado_socios, para filtrar sin recargar
+
+const $ = (id) => document.getElementById(id);
+
+function mostrarError(elId, err) {
+  $(elId).textContent = err?.message || String(err) || 'Ocurrió un error.';
+}
+
+function abrirModal(id) { $(id).hidden = false; }
+function cerrarModal(id) { $(id).hidden = true; }
+document.querySelectorAll('[data-cerrar]').forEach((btn) => {
+  btn.addEventListener('click', () => cerrarModal(btn.dataset.cerrar));
+});
+
+// ============================================================
+// Modo claro/oscuro — el tema ya se aplicó al cargar (ver el script
+// inline en el <head>, evita el flash del tema por defecto). Este
+// listener solo maneja el toggle y lo recuerda para la próxima visita.
+// ============================================================
+$('btn-tema').addEventListener('click', () => {
+  const actual = document.documentElement.getAttribute('data-theme');
+  const nuevo = actual === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', nuevo);
+  try { localStorage.setItem('gymflow-tema', nuevo); } catch (e) {}
+});
+
+// ============================================================
+// Navegación (navbar + menú mobile)
+// ============================================================
+function irAVista(nombre) {
+  document.querySelectorAll('.vista').forEach((sec) => { sec.hidden = sec.id !== `vista-${nombre}`; });
+  document.querySelectorAll('.navbar-tab').forEach((tab) => {
+    tab.classList.toggle('is-active', tab.dataset.vista === nombre);
+  });
+  cerrarMenuMovil();
+  if (nombre === 'caja') {
+    mostrarCaja();
+  } else {
+    // Se re-bloquea al cambiar de vista, tal como se pidió.
+    cajaDesbloqueada = false;
+  }
+  if (nombre === 'calendario') cargarTurnos();
+  if (nombre === 'dashboard') cargarDashboard();
+}
+document.querySelectorAll('.navbar-tab').forEach((tab) => {
+  tab.addEventListener('click', () => irAVista(tab.dataset.vista));
+});
+
+function cerrarMenuMovil() {
+  $('navbar-menu-movil').classList.remove('is-abierto');
+  $('btn-menu-movil').classList.remove('is-abierto');
+  $('btn-menu-movil').setAttribute('aria-expanded', 'false');
+}
+$('btn-menu-movil').addEventListener('click', () => {
+  const abierto = $('navbar-menu-movil').classList.toggle('is-abierto');
+  $('btn-menu-movil').classList.toggle('is-abierto', abierto);
+  $('btn-menu-movil').setAttribute('aria-expanded', String(abierto));
+});
+
+function formatoMoneda(n) {
+  if (n === null || n === undefined) return '—';
+  return '$' + Number(n).toLocaleString('es-AR');
+}
+
+const TEXTOS_ESTADO = { activo: 'Activo', por_vencer: 'Por vencer', vencido: 'Vencido', inactivo: 'Inactivo' };
+function etiquetaEstado(estado) {
+  return `<span class="pill ${estado}">${TEXTOS_ESTADO[estado] || estado}</span>`;
+}
+function etiquetaEstadoTexto(estado) {
+  return TEXTOS_ESTADO[estado] || estado;
+}
+
+// Contador de clases consumidas — solo para planes por paquete (8 CLASES).
+// Stepper libre: +1 suma una clase, -1 resta la última (para corregir un
+// toque de más), sin la restricción de "una por día" que tenía el tilde
+// original.
+function pillClase(s) {
+  if (s.cantidad_turnos == null) return '';
+  const consumidas = s.clases_consumidas ?? 0;
+  const agotado = s.clases_restantes <= 0;
+  const clase = ['pill-clase', agotado ? 'agotado' : ''].filter(Boolean).join(' ');
+  return `
+    <span class="${clase}">
+      <button type="button" class="pill-clase-btn btn-clase-menos" title="Restar una clase" ${consumidas <= 0 ? 'disabled' : ''}>−</button>
+      <span class="pill-clase-valor">${consumidas}/${s.cantidad_turnos}</span>
+      <button type="button" class="pill-clase-btn btn-clase-mas" title="Sumar una clase">+</button>
+    </span>
+  `;
+}
+
+// A diferencia del resto de las acciones (que recargan toda la tabla), esta
+// se toca muchas veces por día — recargar de cero mostraría el esqueleto de
+// carga en cada click. El RPC ya devuelve el conteo actualizado, así que
+// alcanza con parchear el objeto en cache (misma referencia que usa
+// sociosCache) y volver a pintar sin ir de nuevo al servidor.
+async function ajustarAsistenciaClase(botones, socio, delta) {
+  botones.forEach((b) => (b.disabled = true));
+  const { data, error } = await sb.rpc('fn_ajustar_asistencia_clase', {
+    p_socio_id: socio.socio_id,
+    p_delta: delta,
+    p_registrado_por: staffActual.id,
+  });
+  botones.forEach((b) => (b.disabled = false));
+  if (error) return console.error(error.message);
+
+  const [resultado] = data;
+  socio.clases_consumidas = resultado.clases_consumidas;
+  socio.clases_restantes = resultado.clases_restantes;
+  renderizarSocios(filtrarSocios());
+}
+
+// ============================================================
+// Arranque de la demo: sin login, entra directo con un perfil de ejemplo.
+// ============================================================
+async function iniciarApp() {
+  staffActual = window.DEMO_STAFF;
+  $("app").hidden = false;
+  $("nombre-usuario").textContent = "Demo interactiva";
+  await cargarPlanes();
+  await cargarSocios();
+}
+
+// ============================================================
+// Socios (tabla principal)
+// ============================================================
+function filaEsqueleto() {
+  return `
+    <tr>
+      <td><span class="skeleton" style="width:140px;"></span></td>
+      <td><span class="skeleton" style="width:100px;"></span></td>
+      <td><span class="skeleton" style="width:90px;"></span></td>
+      <td><span class="skeleton" style="width:70px;"></span></td>
+      <td><span class="skeleton" style="width:80px;"></span></td>
+      <td><span class="skeleton" style="width:60px;"></span></td>
+      <td><span class="skeleton" style="width:60px;"></span></td>
+    </tr>`;
+}
+
+async function cargarSocios() {
+  const tbody = $('tabla-socios');
+  $('vacio-socios').hidden = true;
+  tbody.innerHTML = Array.from({ length: 6 }, filaEsqueleto).join('');
+
+  const { data, error } = await sb
+    .from('v_estado_socios')
+    .select('*')
+    .order('nombre');
+  if (error) return console.error(error.message);
+
+  sociosCache = data;
+  const contador = $('contador-socios');
+  if (contador) contador.textContent = `(${sociosCache.length})`;
+  poblarFiltroPlan();
+  renderizarSocios(filtrarSocios());
+}
+
+const SIN_PLAN = '__sin_plan__';
+
+// Se arma a partir de los planes que realmente aparecen en sociosCache (no
+// de la tabla `planes`) para que incluya también "Sin plan" y cualquier
+// plan viejo/inactivo que algún socio todavía tenga asignado.
+function poblarFiltroPlan() {
+  const select = $('filtro-plan');
+  const valorPrevio = select.value;
+  const planes = [...new Set(sociosCache.map((s) => s.plan_nombre).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b, 'es', { sensitivity: 'base' })
+  );
+  const haySinPlan = sociosCache.some((s) => !s.plan_nombre);
+
+  select.innerHTML = [
+    '<option value="">Todos los planes</option>',
+    ...planes.map((p) => `<option value="${p}">${p}</option>`),
+    haySinPlan ? `<option value="${SIN_PLAN}">Sin plan</option>` : '',
+  ].join('');
+
+  if ([...select.options].some((o) => o.value === valorPrevio)) select.value = valorPrevio;
+}
+
+// Búsqueda + filtro por estado + orden — 100% client-side sobre lo ya
+// cargado (la tabla de socios de un gimnasio chico entra entera en
+// memoria sin problema), así que no hace falta ida y vuelta al servidor.
+let ordenActual = { campo: 'nombre', direccion: 'asc' };
+
+function filtrarSocios() {
+  const q = ($('buscador-socios')?.value || '').trim().toLowerCase();
+  const estado = $('filtro-estado')?.value || '';
+  const plan = $('filtro-plan')?.value || '';
+  let resultado = sociosCache;
+  if (estado) resultado = resultado.filter((s) => s.estado_socio === estado);
+  if (plan) resultado = resultado.filter((s) => (plan === SIN_PLAN ? !s.plan_nombre : s.plan_nombre === plan));
+  if (q) {
+    resultado = resultado.filter((s) =>
+      (s.nombre || '').toLowerCase().includes(q) || (s.codigo || '').toLowerCase().includes(q)
+    );
+  }
+  return ordenarSocios(resultado);
+}
+
+function ordenarSocios(lista) {
+  const { campo, direccion } = ordenActual;
+  const signo = direccion === 'asc' ? 1 : -1;
+  return [...lista].sort((a, b) => {
+    if (campo === 'fecha_fin') {
+      if (!a.fecha_fin && !b.fecha_fin) return 0;
+      if (!a.fecha_fin) return 1; // sin vencimiento va siempre al final
+      if (!b.fecha_fin) return -1;
+      return signo * a.fecha_fin.localeCompare(b.fecha_fin);
+    }
+    return signo * (a.nombre || '').localeCompare(b.nombre || '', 'es', { sensitivity: 'base' });
+  });
+}
+
+function actualizarIconosOrden() {
+  document.querySelectorAll('.orden-icono').forEach((span) => (span.textContent = ''));
+  const icono = $(`orden-icono-${ordenActual.campo}`);
+  if (icono) icono.textContent = ordenActual.direccion === 'asc' ? ' ▲' : ' ▼';
+}
+
+document.querySelectorAll('.th-ordenable').forEach((th) => {
+  th.addEventListener('click', () => {
+    const campo = th.dataset.orden;
+    ordenActual = ordenActual.campo === campo
+      ? { campo, direccion: ordenActual.direccion === 'asc' ? 'desc' : 'asc' }
+      : { campo, direccion: 'asc' };
+    actualizarIconosOrden();
+    renderizarSocios(filtrarSocios());
+  });
+});
+actualizarIconosOrden();
+
+$('filtro-estado').addEventListener('change', () => renderizarSocios(filtrarSocios()));
+$('filtro-plan').addEventListener('change', () => renderizarSocios(filtrarSocios()));
+
+function renderizarSocios(data) {
+  const tbody = $('tabla-socios');
+  tbody.innerHTML = '';
+  $('vacio-socios').hidden = data.length > 0;
+  $('vacio-socios').textContent = sociosCache.length === 0
+    ? 'Todavía no hay socios cargados.'
+    : 'Ningún socio coincide con la búsqueda.';
+
+  for (const s of data) {
+    const tr = document.createElement('tr');
+    const deudaClase = s.deuda > 0 ? 'deuda-mal' : 'deuda-ok';
+    tr.innerHTML = `
+      <td>${s.nombre}</td>
+      <td>${s.celular || '—'}</td>
+      <td>${s.plan_nombre || '—'}</td>
+      <td>${etiquetaEstado(s.estado_socio)}</td>
+      <td>${s.fecha_fin || '—'}</td>
+      <td class="${deudaClase}">${formatoMoneda(s.deuda)}</td>
+      <td style="white-space:nowrap;">
+        ${pillClase(s)}
+        <button class="link btn-editar-socio">Editar</button>
+        <button class="link btn-vender-renovar">${s.membresia_id ? 'Renovar' : 'Vender'}</button>
+        ${s.deuda > 0 ? '<button class="link btn-registrar-pago">Cobrar</button>' : ''}
+      </td>
+    `;
+    tr.querySelector('.btn-editar-socio').addEventListener('click', () => abrirModalEditar(s));
+    tr.querySelector('.btn-vender-renovar').addEventListener('click', () =>
+      abrirModalMembresia(s)
+    );
+    const btnPago = tr.querySelector('.btn-registrar-pago');
+    if (btnPago) btnPago.addEventListener('click', () => abrirModalPago(s));
+    const btnMenos = tr.querySelector('.btn-clase-menos');
+    const btnMas = tr.querySelector('.btn-clase-mas');
+    if (btnMenos && btnMas) {
+      const botones = [btnMenos, btnMas];
+      btnMenos.addEventListener('click', () => ajustarAsistenciaClase(botones, s, -1));
+      btnMas.addEventListener('click', () => ajustarAsistenciaClase(botones, s, 1));
+    }
+    tbody.appendChild(tr);
+  }
+}
+
+$('buscador-socios').addEventListener('input', () => renderizarSocios(filtrarSocios()));
+
+// Exporta lo que se está viendo (respeta el filtro de búsqueda activo) a un
+// .xlsx real vía SheetJS — se carga por CDN, sin build.
+function exportarSociosExcel() {
+  const filas = filtrarSocios().map((s) => ({
+    Código: s.codigo || '',
+    Nombre: s.nombre,
+    Plan: s.plan_nombre || '',
+    Estado: etiquetaEstadoTexto(s.estado_socio),
+    Vence: s.fecha_fin || '',
+    'Clases usadas': s.cantidad_turnos ? `${s.clases_consumidas ?? 0}/${s.cantidad_turnos}` : '',
+    Deuda: s.deuda ?? 0,
+  }));
+  const hoja = XLSX.utils.json_to_sheet(filas);
+  hoja['!cols'] = [{ wch: 10 }, { wch: 26 }, { wch: 14 }, { wch: 12 }, { wch: 12 }, { wch: 14 }, { wch: 12 }];
+  const libro = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(libro, hoja, 'Socios');
+  const fecha = new Date().toISOString().slice(0, 10);
+  XLSX.writeFile(libro, `gymflow-socios-${fecha}.xlsx`);
+}
+$('btn-exportar-socios').addEventListener('click', exportarSociosExcel);
+
+// ============================================================
+// Solicitud de socio / Vender / Renovar membresía
+//
+// Un solo modal, tres modos:
+//  - 'alta'    : botón "+ Nuevo socio" -> crea socio + membresía + pago
+//                juntos (fn_solicitud_socio), en una sola transacción.
+//  - 'vender'  : socio existente sin plan todavía -> crea la membresía +
+//                pago (fn_vender_membresia). No puede quedar sin plan.
+//  - 'renovar' : socio con membresía -> renueva (fn_renovar_membresia). El
+//                descuento (si lo tenía y le quedan meses) se hereda solo,
+//                no se vuelve a pedir.
+// ============================================================
+let modoModal = 'alta';
+let membresiaActualCache = null; // { plan_id, descuento_pct, descuento_meses_restantes } cuando modoModal === 'renovar'
+
+async function cargarPlanes() {
+  const { data, error } = await sb
+    .from('planes')
+    .select('id, nombre, precio, duracion_dias')
+    .eq('activo', true)
+    .order('nombre');
+  if (error) return console.error(error.message);
+  planesCache = data;
+}
+
+// El select de plan es compartido entre alta/vender/renovar, pero la opción
+// "Alta sin cobro" (deja entrar a alguien gratis, sin membresía ni pago)
+// solo tiene sentido al dar de alta un socio nuevo — se agrega/quita acá
+// según el modo en vez de dejarla fija en el HTML.
+function poblarSelectPlan() {
+  const opciones = planesCache.map(
+    (p) => `<option value="${p.id}">${p.nombre} — ${formatoMoneda(p.precio)}</option>`
+  );
+  if (modoModal === 'alta') {
+    opciones.push(`<option value="">Alta sin cobro — ${formatoMoneda(0)}</option>`);
+  }
+  $('mem-plan').innerHTML = opciones.join('');
+}
+
+// Sin plan elegido (alta sin cobro): no hay precio, descuento ni pago —
+// se ocultan esos campos y método de pago deja de ser obligatorio.
+function actualizarVisibilidadPorPlan() {
+  const sinCobro = modoModal === 'alta' && !$('mem-plan').value;
+  $('grupo-descuento').hidden = modoModal === 'renovar' || sinCobro;
+  $('grupo-metodo-pago').hidden = sinCobro;
+  $('mem-metodo-pago').required = !sinCobro;
+  if (sinCobro) $('grupo-descuento-meses').hidden = true;
+}
+
+$('btn-nuevo-socio').addEventListener('click', () => abrirModalMembresia(null, 'alta'));
+
+function abrirModalMembresia(socio, modoForzado) {
+  $('form-membresia').reset();
+  $('error-membresia').textContent = '';
+  membresiaActualCache = null;
+
+  modoModal = modoForzado || (socio.membresia_id ? 'renovar' : 'vender');
+
+  $('mem-socio-id').value = socio ? socio.socio_id : '';
+  $('mem-membresia-actual-id').value = socio && socio.membresia_id ? socio.membresia_id : '';
+
+  const titulos = {
+    alta: 'Solicitud de socio',
+    vender: `Solicitud de socio — ${socio?.nombre || ''}`,
+    renovar: `Renovar membresía — ${socio?.nombre || ''}`,
+  };
+  $('titulo-modal-membresia').textContent = titulos[modoModal];
+
+  $('grupo-datos-personales').hidden = modoModal !== 'alta';
+  $('mem-nombre').required = modoModal === 'alta';
+
+  $('grupo-fecha-inicio').hidden = modoModal === 'renovar';
+  $('mem-fecha-inicio').value = new Date().toISOString().slice(0, 10);
+
+  $('grupo-descuento').hidden = modoModal === 'renovar';
+  $('mem-descuento-pct').value = 0;
+  $('grupo-descuento-meses').hidden = true;
+
+  $('mem-metodo-pago').value = '';
+  $('grupo-mem-mixto').hidden = true;
+
+  poblarSelectPlan();
+  if (planesCache.length) $('mem-plan').value = planesCache[0].id;
+  actualizarVisibilidadPorPlan();
+
+  if (modoModal === 'renovar') {
+    // Trae el descuento vigente de la membresía actual para poder mostrar
+    // en vivo si se hereda o no (fn_renovar_membresia decide lo mismo del
+    // lado del servidor; esto es solo para que el staff vea el total antes
+    // de confirmar).
+    sb.from('membresias')
+      .select('plan_id, descuento_pct, descuento_meses_restantes')
+      .eq('id', socio.membresia_id)
+      .single()
+      .then(({ data }) => {
+        membresiaActualCache = data || null;
+        if (data) $('mem-plan').value = data.plan_id;
+        actualizarResumenTotal();
+      });
+  }
+
+  actualizarResumenTotal();
+  abrirModal('modal-membresia');
+}
+
+function planSeleccionado() {
+  return planesCache.find((p) => p.id === $('mem-plan').value);
+}
+
+function calcularTotal() {
+  const plan = planSeleccionado();
+  if (!plan) return { total: 0, pct: 0, leyenda: '' };
+
+  if (modoModal === 'renovar') {
+    const hereda =
+      membresiaActualCache &&
+      membresiaActualCache.descuento_meses_restantes > 1 &&
+      membresiaActualCache.plan_id === plan.id;
+    const pct = hereda ? Number(membresiaActualCache.descuento_pct) : 0;
+    const total = Math.round(plan.precio * (1 - pct / 100));
+    const leyenda = hereda
+      ? `Descuento del ${pct}% heredado (quedan ${membresiaActualCache.descuento_meses_restantes - 1} mes(es) después de esta renovación)`
+      : '';
+    return { total, pct, leyenda };
+  }
+
+  const pct = Number($('mem-descuento-pct').value || 0);
+  const meses = $('mem-descuento-meses').value;
+  const total = Math.round(plan.precio * (1 - pct / 100));
+  const leyenda = pct > 0 ? `Descuento del ${pct}% por ${meses} mes(es)` : '';
+  return { total, pct, leyenda };
+}
+
+function actualizarResumenTotal() {
+  const { total, leyenda } = calcularTotal();
+  $('resumen-total-valor').textContent = formatoMoneda(total);
+  $('resumen-total-leyenda').textContent = leyenda;
+  $('resumen-total-leyenda').hidden = !leyenda;
+}
+
+$('mem-plan').addEventListener('change', () => {
+  actualizarVisibilidadPorPlan();
+  actualizarResumenTotal();
+});
+$('mem-descuento-pct').addEventListener('input', () => {
+  const pct = Number($('mem-descuento-pct').value || 0);
+  $('grupo-descuento-meses').hidden = !(pct > 0);
+  actualizarResumenTotal();
+});
+$('mem-descuento-meses').addEventListener('change', actualizarResumenTotal);
+
+$('mem-metodo-pago').addEventListener('change', () => {
+  $('grupo-mem-mixto').hidden = $('mem-metodo-pago').value !== 'mixto';
+});
+
+// Split efectivo/transferencia: para un solo método, todo el total va a ese
+// bucket; para "mixto" se leen los dos montos y tienen que sumar el total
+// exacto (si no, error - no hay forma correcta de adivinar la diferencia).
+function leerSplitPago(metodo, total, montoEfectivoId, montoTransferenciaId) {
+  if (metodo === 'efectivo') return { efectivo: total, transferencia: 0 };
+  if (metodo === 'transferencia') return { efectivo: 0, transferencia: total };
+  if (metodo === 'mixto') {
+    const efectivo = Number($(montoEfectivoId).value || 0);
+    const transferencia = Number($(montoTransferenciaId).value || 0);
+    if (efectivo + transferencia !== total) {
+      throw new Error(
+        `Efectivo + transferencia (${formatoMoneda(efectivo + transferencia)}) tiene que sumar el total (${formatoMoneda(total)}).`
+      );
+    }
+    return { efectivo, transferencia };
+  }
+  throw new Error('Elegí un método de pago.');
+}
+
+$('form-membresia').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-membresia').textContent = '';
+
+  const planId = $('mem-plan').value;
+  const sinCobro = modoModal === 'alta' && !planId;
+  const fechaInicio = $('mem-fecha-inicio').value;
+  const metodoPago = $('mem-metodo-pago').value;
+
+  if (!sinCobro && !planId) return mostrarError('error-membresia', { message: 'Elegí un plan.' });
+  if (modoModal === 'alta' && !$('mem-nombre').value.trim()) {
+    return mostrarError('error-membresia', { message: 'El nombre es obligatorio.' });
+  }
+
+  const { total, pct } = calcularTotal();
+  const pctInput = modoModal === 'renovar' || sinCobro ? null : pct;
+  const mesesInput = modoModal === 'renovar' || sinCobro ? null : (pct > 0 ? Number($('mem-descuento-meses').value) : null);
+
+  let split = { efectivo: null, transferencia: null };
+  if (!sinCobro) {
+    try {
+      split = leerSplitPago(metodoPago, total, 'mem-monto-efectivo', 'mem-monto-transferencia');
+    } catch (err) {
+      return mostrarError('error-membresia', err);
+    }
+  }
+
+  const btn = $('btn-guardar-membresia');
+  btn.disabled = true;
+  try {
+    let resp;
+    if (modoModal === 'alta') {
+      resp = await sb.rpc('fn_solicitud_socio', {
+        p_tenant_id: staffActual.tenant_id,
+        p_nombre: $('mem-nombre').value.trim(),
+        p_email: $('mem-email').value.trim() || null,
+        p_celular: $('mem-celular').value.trim() || null,
+        p_plan_id: sinCobro ? null : planId,
+        p_fecha_inicio: fechaInicio,
+        p_descuento_pct: pctInput,
+        p_descuento_meses: mesesInput,
+        p_monto_efectivo: split.efectivo,
+        p_monto_transferencia: split.transferencia,
+        p_cobrado_por: staffActual.id,
+      });
+    } else if (modoModal === 'vender') {
+      resp = await sb.rpc('fn_vender_membresia', {
+        p_tenant_id: staffActual.tenant_id,
+        p_socio_id: $('mem-socio-id').value,
+        p_plan_id: planId,
+        p_fecha_inicio: fechaInicio,
+        p_descuento_pct: pctInput,
+        p_descuento_meses: mesesInput,
+        p_monto_efectivo: split.efectivo,
+        p_monto_transferencia: split.transferencia,
+        p_cobrado_por: staffActual.id,
+      });
+    } else {
+      resp = await sb.rpc('fn_renovar_membresia', {
+        p_membresia_actual_id: $('mem-membresia-actual-id').value,
+        p_plan_id: planId,
+        p_monto_efectivo: split.efectivo,
+        p_monto_transferencia: split.transferencia,
+        p_cobrado_por: staffActual.id,
+      });
+    }
+
+    if (resp.error) return mostrarError('error-membresia', resp.error);
+    cerrarModal('modal-membresia');
+    await cargarSocios();
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// ============================================================
+// Editar datos de un socio (nombre / celular / email mal tipeados)
+// ============================================================
+async function abrirModalEditar(socio) {
+  $('error-editar-socio').textContent = '';
+  const { data, error } = await sb
+    .from('socios')
+    .select('nombre, celular, email, inactivo')
+    .eq('id', socio.socio_id)
+    .single();
+  if (error) return mostrarError('error-editar-socio', error);
+
+  $('form-editar-socio').reset();
+  $('editar-socio-id').value = socio.socio_id;
+  $('editar-nombre').value = data.nombre || '';
+  $('editar-celular').value = data.celular || '';
+  $('editar-email').value = data.email || '';
+  $('editar-inactivo').checked = !!data.inactivo;
+  abrirModal('modal-editar-socio');
+}
+
+$('form-editar-socio').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-editar-socio').textContent = '';
+  const nombre = $('editar-nombre').value.trim();
+  if (!nombre) return mostrarError('error-editar-socio', { message: 'El nombre es obligatorio.' });
+
+  const { error } = await sb
+    .from('socios')
+    .update({
+      nombre,
+      celular: $('editar-celular').value.trim() || null,
+      email: $('editar-email').value.trim() || null,
+      inactivo: $('editar-inactivo').checked,
+    })
+    .eq('id', $('editar-socio-id').value);
+  if (error) return mostrarError('error-editar-socio', error);
+  cerrarModal('modal-editar-socio');
+  await cargarSocios();
+});
+
+// ============================================================
+// Registrar pago suelto (para saldar deuda de una membresía existente)
+// ============================================================
+function abrirModalPago(socio) {
+  $('form-pago').reset();
+  $('error-pago').textContent = '';
+  $('grupo-pago-mixto').hidden = true;
+  $('pago-membresia-id').value = socio.membresia_id;
+  $('pago-monto').value = socio.deuda;
+  abrirModal('modal-pago');
+}
+
+$('pago-metodo').addEventListener('change', () => {
+  $('grupo-pago-mixto').hidden = $('pago-metodo').value !== 'mixto';
+});
+
+$('form-pago').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-pago').textContent = '';
+
+  let split;
+  try {
+    split = leerSplitPago($('pago-metodo').value, Number($('pago-monto').value), 'pago-monto-efectivo', 'pago-monto-transferencia');
+  } catch (err) {
+    return mostrarError('error-pago', err);
+  }
+
+  const filas = [];
+  if (split.efectivo > 0) filas.push({ metodo_pago: 'efectivo', monto: split.efectivo });
+  if (split.transferencia > 0) filas.push({ metodo_pago: 'transferencia', monto: split.transferencia });
+
+  const { error } = await sb.from('pagos').insert(
+    filas.map((f) => ({
+      tenant_id: staffActual.tenant_id,
+      membresia_id: $('pago-membresia-id').value,
+      monto: f.monto,
+      metodo_pago: f.metodo_pago,
+      cobrado_por: staffActual.id,
+    }))
+  );
+  if (error) return mostrarError('error-pago', error);
+  cerrarModal('modal-pago');
+  await cargarSocios();
+});
+
+// ============================================================
+// Caja: ingresos ya registrados (pagos) + gastos, detrás de un PIN
+// separado del login. El PIN se re-pide cada vez que se vuelve a esta
+// vista (cajaDesbloqueada se resetea en irAVista). El frontend nunca lee
+// gimnasios.pin_caja directo, solo a través de las funciones RPC.
+// ============================================================
+let cajaDesbloqueada = false;
+
+function formatoHora(iso) {
+  return new Date(iso).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+}
+
+async function mostrarCaja() {
+  $('caja-bloqueada').hidden = true;
+  $('caja-contenido').hidden = true;
+
+  if (cajaDesbloqueada) {
+    $('caja-contenido').hidden = false;
+    return cargarCaja();
+  }
+
+  const { data: requierePin, error } = await sb.rpc('fn_caja_pin_configurado', {
+    p_tenant_id: staffActual.tenant_id,
+  });
+  if (error) return console.error(error.message);
+
+  if (!requierePin) {
+    cajaDesbloqueada = true;
+    $('caja-contenido').hidden = false;
+    return cargarCaja();
+  }
+
+  $('error-pin-caja').textContent = '';
+  $('pin-caja-input').value = '';
+  $('caja-bloqueada').hidden = false;
+}
+
+$('form-pin-caja').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-pin-caja').textContent = '';
+  const { data: ok, error } = await sb.rpc('fn_verificar_pin_caja', {
+    p_tenant_id: staffActual.tenant_id,
+    p_pin: $('pin-caja-input').value.trim(),
+  });
+  if (error) return mostrarError('error-pin-caja', error);
+  if (!ok) return mostrarError('error-pin-caja', { message: 'PIN incorrecto.' });
+
+  cajaDesbloqueada = true;
+  $('caja-bloqueada').hidden = true;
+  $('caja-contenido').hidden = false;
+  await cargarCaja();
+});
+
+function cargarCaja() {
+  if (!$('caja-fecha').value) $('caja-fecha').value = new Date().toISOString().slice(0, 10);
+  if (!$('caja-mes').value) $('caja-mes').value = new Date().toISOString().slice(0, 7);
+  return Promise.all([cargarSaldoCaja(), cargarMovimientos(), cargarGastosPendientes()]);
+}
+
+// Por día (una fecha exacta) o por mes (todo el mes elegido) - el toggle
+// solo cambia qué input se ve y qué rango de fechas se pide, el resto de
+// la lógica de carga es la misma.
+$('caja-modo-filtro').addEventListener('change', () => {
+  const esMes = $('caja-modo-filtro').value === 'mes';
+  $('caja-fecha').hidden = esMes;
+  $('caja-mes').hidden = !esMes;
+  cargarMovimientos();
+});
+
+function rangoCajaElegido() {
+  if ($('caja-modo-filtro').value === 'mes') {
+    const [anio, mes] = $('caja-mes').value.split('-').map(Number);
+    const desde = `${$('caja-mes').value}-01`;
+    const ultimoDia = new Date(anio, mes, 0).getDate();
+    const hasta = `${$('caja-mes').value}-${String(ultimoDia).padStart(2, '0')}`;
+    return { desde, hasta };
+  }
+  return { desde: $('caja-fecha').value, hasta: $('caja-fecha').value };
+}
+
+const sumaPor = (lista, metodo, signo) =>
+  lista.filter((p) => p.metodo_pago === metodo).reduce((acc, p) => acc + signo(p) * Number(p.monto), 0);
+
+// "Saldo actual": acumulado de TODA la historia (sin filtro de fecha), no
+// cambia al mirar movimientos de un día pasado — es la respuesta a
+// "cuánto hay en caja ahora", no a "cuánto entró tal día".
+async function cargarSaldoCaja() {
+  const [{ data: pagos, error: errPagos }, { data: gastos, error: errGastos }] = await Promise.all([
+    sb.from('pagos').select('monto, tipo, metodo_pago').is('anulado_en', null),
+    // Los gastos pendientes (metodo_pago null, todavia sin efectivizar) no
+    // cuentan para el saldo - recien afectan la caja cuando se confirman.
+    sb.from('gastos').select('monto, metodo_pago').is('anulado_en', null).not('metodo_pago', 'is', null),
+  ]);
+  if (errPagos || errGastos) return console.error((errPagos || errGastos).message);
+
+  const netoPor = (metodo) =>
+    sumaPor(pagos, metodo, (p) => (p.tipo === 'reembolso' ? -1 : 1)) - sumaPor(gastos, metodo, () => 1);
+
+  const efectivo = netoPor('efectivo');
+  const transferencia = netoPor('transferencia');
+
+  // Efectivo y Transferencia quedan en blanco (son datos, no un juicio de
+  // "bien/mal") — el color de signo se reserva solo para el Total.
+  $('caja-saldo-efectivo').textContent = formatoMoneda(efectivo);
+  $('caja-saldo-transferencia').textContent = formatoMoneda(transferencia);
+
+  const total = efectivo + transferencia;
+  const elTotal = $('caja-saldo-total');
+  elTotal.textContent = formatoMoneda(total);
+  elTotal.classList.toggle('deuda-ok', total >= 0);
+  elTotal.classList.toggle('deuda-mal', total < 0);
+}
+
+// Movimientos del período elegido (día o mes) — solo para mirar el
+// historial, no afecta ni se confunde con el saldo actual de arriba. Los
+// gastos pendientes (sin efectivizar) no aparecen acá, tienen su propia
+// sub-pestaña. Se cachean para poder filtrar por tipo (ingreso/gasto) sin
+// volver a pedirlos a la base.
+let movimientosCajaCache = [];
+
+async function cargarMovimientos() {
+  const { desde, hasta } = rangoCajaElegido();
+
+  // Ojo: NO se filtra por anulado_en - los anulados se muestran igual
+  // (tachados) para que anular un pago en efectivo no sea una forma de
+  // hacerlo desaparecer sin dejar rastro.
+  const [{ data: pagosDia, error: errPagos }, { data: gastosDia, error: errGastos }] = await Promise.all([
+    sb.from('pagos')
+      .select('id, monto, tipo, metodo_pago, created_at, anulado_en, motivo_anulacion, membresias(socios(nombre))')
+      .gte('fecha_pago', desde)
+      .lte('fecha_pago', hasta),
+    sb.from('gastos')
+      .select('id, concepto, monto, metodo_pago, fecha, created_at, anulado_en, motivo_anulacion')
+      .gte('fecha', desde)
+      .lte('fecha', hasta)
+      .not('metodo_pago', 'is', null),
+  ]);
+  if (errPagos || errGastos) return console.error((errPagos || errGastos).message);
+
+  movimientosCajaCache = [
+    ...pagosDia.map((p) => ({
+      id: p.id,
+      origen: 'pagos',
+      hora: p.created_at,
+      tipo: p.tipo === 'reembolso' ? 'Reembolso' : 'Ingreso',
+      detalle: p.membresias?.socios?.nombre || '—',
+      metodo: p.metodo_pago,
+      monto: (p.tipo === 'reembolso' ? -1 : 1) * Number(p.monto),
+      anulado: !!p.anulado_en,
+      motivoAnulacion: p.motivo_anulacion,
+    })),
+    ...gastosDia.map((g) => ({
+      id: g.id,
+      origen: 'gastos',
+      hora: g.created_at,
+      tipo: 'Gasto',
+      detalle: g.concepto,
+      metodo: g.metodo_pago,
+      monto: -Number(g.monto),
+      anulado: !!g.anulado_en,
+      motivoAnulacion: g.motivo_anulacion,
+    })),
+  ].sort((a, b) => a.hora.localeCompare(b.hora));
+
+  renderizarMovimientosCaja();
+}
+
+$('caja-filtro-tipo').addEventListener('change', renderizarMovimientosCaja);
+
+function renderizarMovimientosCaja() {
+  const filtroTipo = $('caja-filtro-tipo').value;
+  const movimientos = movimientosCajaCache.filter((m) => {
+    if (filtroTipo === 'ingreso') return m.origen === 'pagos';
+    if (filtroTipo === 'gasto') return m.origen === 'gastos';
+    return true;
+  });
+
+  const tbody = $('tabla-caja');
+  tbody.innerHTML = '';
+  $('vacio-caja').hidden = movimientos.length > 0;
+  for (const m of movimientos) {
+    const tr = document.createElement('tr');
+    tr.classList.toggle('movimiento-anulado', m.anulado);
+    const accion = m.anulado
+      ? `<span class="etiqueta-anulado" title="${m.motivoAnulacion ? `Motivo: ${m.motivoAnulacion}` : 'Sin motivo registrado'}">Anulado</span>`
+      : staffActual.rol === 'owner'
+        ? '<button type="button" class="link btn-anular-movimiento">Anular</button>'
+        : '';
+    tr.innerHTML = `
+      <td>${formatoHora(m.hora)}</td>
+      <td>${m.tipo}</td>
+      <td>${m.detalle}</td>
+      <td>${m.metodo === 'efectivo' ? 'Efectivo' : 'Transferencia'}</td>
+      <td class="${m.monto < 0 ? 'deuda-mal' : 'deuda-ok'}">${formatoMoneda(m.monto)}</td>
+      <td>${accion}</td>
+    `;
+    const btnAnular = tr.querySelector('.btn-anular-movimiento');
+    if (btnAnular) btnAnular.addEventListener('click', () => abrirModalAnularMovimiento(m));
+    tbody.appendChild(tr);
+  }
+}
+
+$('caja-fecha').addEventListener('change', cargarMovimientos);
+$('caja-mes').addEventListener('change', cargarMovimientos);
+
+// Sub-pestañas de Caja: Movimientos (lo de siempre) vs Gastos pendientes
+// (el repositorio nuevo).
+document.querySelectorAll('.caja-subtab').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.caja-subtab').forEach((b) => b.classList.toggle('is-active', b === btn));
+    $('caja-panel-movimientos').hidden = btn.dataset.subtab !== 'movimientos';
+    $('caja-panel-pendientes').hidden = btn.dataset.subtab !== 'pendientes';
+  });
+});
+
+// Gastos pendientes: cargados sin metodo_pago todavia - no afectan el
+// saldo ni aparecen en Movimientos hasta que alguien los "Efectiviza".
+async function cargarGastosPendientes() {
+  const { data, error } = await sb
+    .from('gastos')
+    .select('id, concepto, monto, fecha')
+    .is('metodo_pago', null)
+    .is('anulado_en', null)
+    .order('fecha');
+  if (error) return console.error(error.message);
+
+  const badge = $('badge-gastos-pendientes');
+  badge.hidden = data.length === 0;
+  badge.textContent = data.length;
+
+  const tbody = $('tabla-gastos-pendientes');
+  tbody.innerHTML = '';
+  $('vacio-gastos-pendientes').hidden = data.length > 0;
+  for (const g of data) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${g.fecha}</td>
+      <td>${g.concepto}</td>
+      <td>${formatoMoneda(g.monto)}</td>
+      <td>
+        <button type="button" class="link btn-efectivizar-gasto">Efectivizar</button>
+        ${staffActual.rol === 'owner' ? '<button type="button" class="link btn-anular-movimiento">Anular</button>' : ''}
+      </td>
+    `;
+    tr.querySelector('.btn-efectivizar-gasto').addEventListener('click', () => abrirModalGasto(g));
+    const btnAnular = tr.querySelector('.btn-anular-movimiento');
+    if (btnAnular) btnAnular.addEventListener('click', () => abrirModalAnularMovimiento({ origen: 'gastos', id: g.id, tipo: 'Gasto', detalle: g.concepto, monto: -g.monto }));
+    tbody.appendChild(tr);
+  }
+}
+
+// Anular pago/gasto (solo owner, el backend lo vuelve a validar vía
+// trigger append-only — este chequeo de rol acá es solo para no mostrar el
+// botón a quien de todos modos no puede usarlo).
+let movimientoAAnular = null;
+function abrirModalAnularMovimiento(m) {
+  movimientoAAnular = m;
+  $('form-anular-movimiento').reset();
+  $('error-anular-movimiento').textContent = '';
+  $('anular-movimiento-detalle').textContent = `${m.tipo} · ${m.detalle} · ${formatoMoneda(Math.abs(m.monto))}`;
+  abrirModal('modal-anular-movimiento');
+}
+
+$('form-anular-movimiento').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-anular-movimiento').textContent = '';
+  const { error } = await sb
+    .from(movimientoAAnular.origen)
+    .update({
+      anulado_en: new Date().toISOString(),
+      anulado_por: staffActual.id,
+      motivo_anulacion: $('anular-movimiento-motivo').value.trim() || null,
+    })
+    .eq('id', movimientoAAnular.id);
+  if (error) return mostrarError('error-anular-movimiento', error);
+  cerrarModal('modal-anular-movimiento');
+  await cargarCaja();
+});
+
+// Exporta TODO el historial de movimientos (no solo el día filtrado en
+// pantalla) — pensado para bajar la data completa si en algún momento la
+// necesitan afuera del sistema.
+async function exportarCajaExcel() {
+  const [{ data: pagos, error: errPagos }, { data: gastos, error: errGastos }] = await Promise.all([
+    sb.from('pagos')
+      .select('fecha_pago, monto, tipo, metodo_pago, created_at, anulado_en, motivo_anulacion, membresias(socios(nombre))'),
+    // Los gastos pendientes (sin efectivizar) quedan afuera - no son
+    // movimientos reales todavia.
+    sb.from('gastos')
+      .select('fecha, concepto, monto, metodo_pago, created_at, anulado_en, motivo_anulacion')
+      .not('metodo_pago', 'is', null),
+  ]);
+  if (errPagos || errGastos) return console.error((errPagos || errGastos).message);
+
+  const movimientos = [
+    ...pagos.map((p) => ({
+      fecha: p.fecha_pago,
+      hora: p.created_at,
+      tipo: p.tipo === 'reembolso' ? 'Reembolso' : 'Ingreso',
+      detalle: p.membresias?.socios?.nombre || '—',
+      metodo: p.metodo_pago,
+      monto: (p.tipo === 'reembolso' ? -1 : 1) * Number(p.monto),
+      anulado: !!p.anulado_en,
+      motivoAnulacion: p.motivo_anulacion,
+    })),
+    ...gastos.map((g) => ({
+      fecha: g.fecha,
+      hora: g.created_at,
+      tipo: 'Gasto',
+      detalle: g.concepto,
+      metodo: g.metodo_pago,
+      monto: -Number(g.monto),
+      anulado: !!g.anulado_en,
+      motivoAnulacion: g.motivo_anulacion,
+    })),
+  ].sort((a, b) => a.hora.localeCompare(b.hora));
+
+  const filas = movimientos.map((m) => ({
+    Fecha: m.fecha,
+    Hora: formatoHora(m.hora),
+    Tipo: m.tipo,
+    Detalle: m.detalle,
+    Método: m.metodo === 'efectivo' ? 'Efectivo' : 'Transferencia',
+    Monto: m.monto,
+    Anulado: m.anulado ? 'Sí' : 'No',
+    'Motivo anulación': m.motivoAnulacion || '',
+  }));
+  const hoja = XLSX.utils.json_to_sheet(filas);
+  hoja['!cols'] = [{ wch: 12 }, { wch: 10 }, { wch: 12 }, { wch: 26 }, { wch: 14 }, { wch: 12 }, { wch: 10 }, { wch: 24 }];
+  const libro = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(libro, hoja, 'Caja');
+  const fecha = new Date().toISOString().slice(0, 10);
+  XLSX.writeFile(libro, `gymflow-caja-completo-${fecha}.xlsx`);
+}
+$('btn-exportar-caja').addEventListener('click', exportarCajaExcel);
+
+$('btn-nuevo-gasto').addEventListener('click', () => {
+  $('form-gasto').reset();
+  $('error-gasto').textContent = '';
+  $('gasto-editar-id').value = '';
+  $('titulo-modal-gasto').textContent = 'Registrar gasto';
+  $('btn-guardar-gasto').textContent = 'Guardar';
+  $('gasto-metodo').required = false;
+  $('gasto-fecha').value = new Date().toISOString().slice(0, 10);
+  abrirModal('modal-gasto');
+});
+
+// Reutiliza el mismo modal para "Efectivizar" un gasto pendiente: precarga
+// sus datos y exige método (efectivizar sin método no tendría sentido).
+function abrirModalGasto(gasto) {
+  $('form-gasto').reset();
+  $('error-gasto').textContent = '';
+  $('gasto-editar-id').value = gasto.id;
+  $('titulo-modal-gasto').textContent = 'Efectivizar gasto';
+  $('btn-guardar-gasto').textContent = 'Efectivizar';
+  $('gasto-concepto').value = gasto.concepto;
+  $('gasto-monto').value = gasto.monto;
+  $('gasto-fecha').value = gasto.fecha;
+  $('gasto-metodo').value = '';
+  $('gasto-metodo').required = true;
+  abrirModal('modal-gasto');
+}
+
+$('form-gasto').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-gasto').textContent = '';
+  const editandoId = $('gasto-editar-id').value;
+  const datos = {
+    concepto: $('gasto-concepto').value.trim(),
+    monto: Number($('gasto-monto').value),
+    metodo_pago: $('gasto-metodo').value || null,
+    fecha: $('gasto-fecha').value,
+  };
+
+  const { error } = editandoId
+    ? await sb.from('gastos').update(datos).eq('id', editandoId)
+    : await sb.from('gastos').insert({ ...datos, tenant_id: staffActual.tenant_id, registrado_por: staffActual.id });
+  if (error) return mostrarError('error-gasto', error);
+  cerrarModal('modal-gasto');
+  await cargarCaja();
+});
+
+// ============================================================
+// Calendario: turnos_fijos — solo anotación de referencia para el staff
+// (quién suele venir a qué horario). No reserva lugar, no valida
+// capacidad, no lo usan los socios.
+//
+// Los horarios son fijos (los mismos todos los días de lunes a viernes,
+// más el Open Box del sábado) — por eso el alta es un desplegable de
+// turnos, no un horario libre.
+// ============================================================
+const DIAS_SEMANA = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+const DIAS_LABORALES = [1, 2, 3, 4, 5]; // lunes a viernes — el sábado se muestra aparte
+const TURNOS_LUNES_A_VIERNES = [
+  ['08:00:00', '09:00:00'],
+  ['09:00:00', '10:00:00'],
+  ['17:00:00', '18:00:00'],
+  ['18:00:00', '19:00:00'],
+  ['19:00:00', '20:00:00'],
+];
+const TURNO_SABADO = ['09:00:00', '13:00:00'];
+
+let turnosCache = [];
+
+function turnosDelDia(diaSemana) {
+  return Number(diaSemana) === 6 ? [TURNO_SABADO] : TURNOS_LUNES_A_VIERNES;
+}
+
+async function cargarTurnos() {
+  const { data, error } = await sb
+    .from('turnos_fijos')
+    .select('id, dia_semana, hora_inicio, hora_fin, socios(nombre)')
+    .eq('activo', true)
+    .order('dia_semana')
+    .order('hora_inicio');
+  if (error) return console.error(error.message);
+  turnosCache = data;
+  renderizarCalendario();
+}
+
+function iniciales(nombre) {
+  const partes = (nombre || '').trim().split(/\s+/).filter(Boolean);
+  const ini = (partes[0]?.[0] || '') + (partes[1]?.[0] || '');
+  return ini.toUpperCase() || '?';
+}
+
+function chipTurno(t) {
+  const nombre = t.socios?.nombre || '—';
+  return `
+    <span class="calendario-turno-chip" title="${nombre}">
+      ${iniciales(nombre)}
+      <button type="button" data-id="${t.id}" title="Quitar a ${nombre}" aria-label="Quitar a ${nombre}">×</button>
+    </span>`;
+}
+
+function renderizarCalendario() {
+  const celdas = [
+    '<div class="calendario-celda calendario-esquina"></div>',
+    ...DIAS_LABORALES.map((d) => `<div class="calendario-celda calendario-dia-header">${DIAS_SEMANA[d]}</div>`),
+  ];
+
+  for (const [horaInicio, horaFin] of TURNOS_LUNES_A_VIERNES) {
+    celdas.push(
+      `<div class="calendario-celda calendario-hora-label">${horaInicio.slice(0, 5)} a ${horaFin.slice(0, 5)}</div>`
+    );
+    for (const dia of DIAS_LABORALES) {
+      const turnos = turnosCache.filter(
+        (t) => t.dia_semana === dia && t.hora_inicio === horaInicio && t.hora_fin === horaFin
+      );
+      celdas.push(`
+        <div class="calendario-celda calendario-turno-celda" data-dia="${dia}" data-hora-inicio="${horaInicio}" data-hora-fin="${horaFin}">
+          ${turnos.map(chipTurno).join('')}
+        </div>
+      `);
+    }
+  }
+
+  $('calendario-grid').innerHTML = celdas.join('');
+
+  const turnosSabado = turnosCache.filter((t) => t.dia_semana === 6);
+  $('calendario-sabado-nombres').innerHTML =
+    turnosSabado.map(chipTurno).join('') || '<span class="ayuda-calendario" style="margin:0;">Click para agregar</span>';
+
+  document.querySelectorAll('.calendario-turno-celda, .calendario-sabado-nombres').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return; // el click de "quitar" no debe abrir el alta
+      const dia = el.dataset.dia ? Number(el.dataset.dia) : 6;
+      const horaInicio = el.dataset.horaInicio || TURNO_SABADO[0];
+      const horaFin = el.dataset.horaFin || TURNO_SABADO[1];
+      abrirModalTurno(dia, horaInicio, horaFin);
+    });
+  });
+  document.querySelectorAll('.calendario-turno-chip button').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      quitarTurno(btn.dataset.id);
+    });
+  });
+}
+
+async function quitarTurno(id) {
+  const { error } = await sb.from('turnos_fijos').delete().eq('id', id);
+  if (error) return console.error(error.message);
+  await cargarTurnos();
+}
+
+function poblarSelectHorario(diaSemana) {
+  $('turno-horario').innerHTML = turnosDelDia(diaSemana)
+    .map(([ini, fin]) => `<option value="${ini}|${fin}">${ini.slice(0, 5)} a ${fin.slice(0, 5)}</option>`)
+    .join('');
+}
+
+function abrirModalTurno(diaPreseleccionado, horaInicioPreseleccionada, horaFinPreseleccionada) {
+  $('form-turno').reset();
+  $('error-turno').textContent = '';
+  $('turno-socio-id').innerHTML = [...sociosCache]
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }))
+    .map((s) => `<option value="${s.socio_id}">${s.nombre}</option>`)
+    .join('');
+
+  if (diaPreseleccionado) $('turno-dia').value = String(diaPreseleccionado);
+  poblarSelectHorario($('turno-dia').value);
+  if (horaInicioPreseleccionada) {
+    $('turno-horario').value = `${horaInicioPreseleccionada}|${horaFinPreseleccionada}`;
+  }
+
+  abrirModal('modal-turno');
+}
+
+$('turno-dia').addEventListener('change', () => poblarSelectHorario($('turno-dia').value));
+
+$('btn-nuevo-turno').addEventListener('click', () => abrirModalTurno());
+
+$('form-turno').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('error-turno').textContent = '';
+  const [horaInicio, horaFin] = $('turno-horario').value.split('|');
+
+  const { error } = await sb.from('turnos_fijos').insert({
+    tenant_id: staffActual.tenant_id,
+    socio_id: $('turno-socio-id').value,
+    dia_semana: Number($('turno-dia').value),
+    hora_inicio: horaInicio,
+    hora_fin: horaFin,
+  });
+  if (error) return mostrarError('error-turno', error);
+  cerrarModal('modal-turno');
+  await cargarTurnos();
+});
+
+// ============================================================
+// Dashboard: KPIs generales y altas por mes. Reusa sociosCache (ya
+// cargado). "Socios en riesgo" (fn_socios_en_riesgo) se sacó del dashboard:
+// solo tenía sentido para el plan 8 clases (que sí registra asistencias
+// para controlar el cupo), no para FULL (asistencia ilimitada, sin
+// necesidad de contar clases) - mezclar ambos en un mismo ranking de
+// "riesgo" no era representativo.
+// ============================================================
+async function cargarDashboard() {
+  renderizarKpisDashboard();
+  await cargarAltasPorMes();
+}
+
+function renderizarKpisDashboard() {
+  const conteo = { activo: 0, por_vencer: 0, vencido: 0, inactivo: 0 };
+  for (const s of sociosCache) conteo[s.estado_socio] = (conteo[s.estado_socio] || 0) + 1;
+
+  const tiles = [
+    ['Activos', conteo.activo, 'deuda-ok'],
+    ['Por vencer', conteo.por_vencer, ''],
+    ['Vencidos', conteo.vencido, 'deuda-mal'],
+    ['Inactivos', conteo.inactivo, ''],
+    ['Total', sociosCache.length, ''],
+  ];
+  $('dashboard-kpis').innerHTML = tiles
+    .map(
+      ([label, valor, clase]) => `
+    <div class="caja-tarjeta">
+      <span class="caja-tarjeta-label">${label}</span>
+      <span class="caja-tarjeta-valor ${clase}">${valor}</span>
+    </div>`
+    )
+    .join('');
+}
+
+async function cargarAltasPorMes() {
+  const { data, error } = await sb.from('socios').select('created_at');
+  if (error) return console.error(error.message);
+
+  const hoy = new Date();
+  const meses = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(hoy.getFullYear(), hoy.getMonth() - (5 - i), 1);
+    return { clave: `${d.getFullYear()}-${d.getMonth()}`, etiqueta: d.toLocaleDateString('es-AR', { month: 'short' }), total: 0 };
+  });
+
+  for (const s of data) {
+    const d = new Date(s.created_at);
+    const mes = meses.find((m) => m.clave === `${d.getFullYear()}-${d.getMonth()}`);
+    if (mes) mes.total++;
+  }
+
+  const maximo = Math.max(...meses.map((m) => m.total), 1);
+  $('dashboard-altas').innerHTML = meses
+    .map(
+      (m) => `
+    <div class="dashboard-barra-col">
+      <span class="dashboard-barra-valor">${m.total}</span>
+      <div class="dashboard-barra" style="height:${Math.round((m.total / maximo) * 100)}%" title="${m.etiqueta}: ${m.total} alta(s)"></div>
+      <span class="dashboard-barra-mes">${m.etiqueta}</span>
+    </div>`
+    )
+    .join('');
+}
+
+// ============================================================
+// (Rutinas se sacó de este esqueleto genérico - es específico de
+// gimnasios. Ver el kit base si hace falta reponerlo.)
+// ============================================================
+/* RUTINAS_DESACTIVADO
+const RUTINA_CATEGORIAS = [
+  { clave: 'movilidad', label: 'Movilidad' },
+  { clave: 'zona_media', label: 'Zona Media' },
+  { clave: 'fuerza_estructura', label: 'Fuerza / Estructura' },
+  { clave: 'divisor', label: 'BLOQUES FINALES A ELECCIÓN' },
+  { clave: 'nivel_jr', label: 'Nivel Jr.' },
+  { clave: 'nivel_2', label: 'Nivel 2' },
+  { clave: 'nivel_3', label: 'Nivel 3' },
+];
+const RUTINA_DIAS = [1, 2, 3, 4, 5, 6]; // lunes a sábado
+
+let semanaRutinaActual = null; // 'YYYY-MM-DD' del lunes de la semana elegida
+let grillaRutinasConstruida = false;
+
+function lunesDe(fecha) {
+  const d = new Date(fecha);
+  const dia = d.getDay(); // 0=domingo..6=sábado
+  d.setDate(d.getDate() + (dia === 0 ? -6 : 1 - dia));
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+function fechaISO(d) {
+  return d.toISOString().slice(0, 10);
+}
+
+// Autoajuste de altura: la celda crece sola para mostrar todo el texto sin
+// scroll interno, en vez de depender de que alguien la estire a mano.
+function autoAlturaRutina(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = `${ta.scrollHeight}px`;
+}
+
+function construirGrillaRutinas() {
+  const celdas = ['<div class="rutina-celda-esquina"></div>', ...RUTINA_DIAS.map((d) => `<div class="rutina-dia-header">${DIAS_SEMANA[d]}</div>`)];
+
+  for (const cat of RUTINA_CATEGORIAS) {
+    if (cat.clave === 'divisor') {
+      celdas.push(`<div class="rutina-divisor">${cat.label}</div>`);
+      continue;
+    }
+    celdas.push(`<div class="rutina-fila-label">${cat.label}</div>`);
+    for (const dia of RUTINA_DIAS) {
+      celdas.push(
+        `<textarea class="rutina-celda" rows="3" data-categoria="${cat.clave}" data-dia="${dia}" placeholder="—"></textarea>`
+      );
+    }
+  }
+  $('rutina-grid').innerHTML = celdas.join('');
+  document.querySelectorAll('.rutina-celda').forEach((ta) => {
+    ta.addEventListener('blur', () => guardarCeldaRutina(ta));
+    ta.addEventListener('input', () => autoAlturaRutina(ta));
+  });
+  grillaRutinasConstruida = true;
+}
+
+// Todos los lunes cuyo lunes cae dentro del mes/año dados — así las semanas
+// se agrupan por mes calendario en vez de una ventana móvil desde hoy.
+function lunesDelMes(anio, mes) {
+  const lunes = lunesDe(new Date(anio, mes, 1));
+  if (lunes.getMonth() !== mes) lunes.setDate(lunes.getDate() + 7);
+  const resultado = [];
+  while (lunes.getMonth() === mes && lunes.getFullYear() === anio) {
+    resultado.push(new Date(lunes));
+    lunes.setDate(lunes.getDate() + 7);
+  }
+  return resultado;
+}
+
+async function mostrarRutinas() {
+  const hoy = new Date();
+  const semanas = lunesDelMes(hoy.getFullYear(), hoy.getMonth());
+
+  $('rutina-tabs').innerHTML = semanas
+    .map(
+      (lunes, i) =>
+        `<button type="button" class="rutina-tab" data-semana="${fechaISO(lunes)}">Semana ${i + 1} (${lunes.toLocaleDateString('es-AR')})</button>`
+    )
+    .join('');
+
+  // Si la semana elegida no pertenece más al mes en pantalla (p.ej. cambió
+  // el mes desde la última visita), volvemos a la semana de hoy.
+  if (!semanaRutinaActual || !semanas.some((l) => fechaISO(l) === semanaRutinaActual)) {
+    const lunesHoy = lunesDe(hoy);
+    const semanaHoy = semanas.find((l) => fechaISO(l) === fechaISO(lunesHoy));
+    semanaRutinaActual = fechaISO(semanaHoy || semanas[0]);
+  }
+  if (!grillaRutinasConstruida) construirGrillaRutinas();
+
+  await cargarRutinas();
+}
+
+$('rutina-tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.rutina-tab');
+  if (!btn) return;
+  semanaRutinaActual = btn.dataset.semana;
+  cargarRutinas();
+});
+
+async function cargarRutinas() {
+  $('error-rutinas').textContent = '';
+  document.querySelectorAll('.rutina-tab').forEach((btn) => {
+    btn.classList.toggle('is-active', btn.dataset.semana === semanaRutinaActual);
+  });
+
+  const { data, error } = await sb
+    .from('rutinas')
+    .select('categoria, dia_semana, contenido')
+    .eq('tenant_id', staffActual.tenant_id)
+    .eq('semana_inicio', semanaRutinaActual);
+  if (error) return mostrarError('error-rutinas', error);
+
+  const mapa = {};
+  for (const r of data) mapa[`${r.categoria}|${r.dia_semana}`] = r.contenido;
+
+  document.querySelectorAll('.rutina-celda').forEach((ta) => {
+    const valor = mapa[`${ta.dataset.categoria}|${ta.dataset.dia}`] || '';
+    ta.value = valor;
+    ta.dataset.ultimoGuardado = valor;
+    autoAlturaRutina(ta); // el value seteado por JS no dispara 'input'
+  });
+}
+
+async function guardarCeldaRutina(ta) {
+  if (ta.value === ta.dataset.ultimoGuardado) return; // sin cambios, no pega al servidor
+  const { error } = await sb
+    .from('rutinas')
+    .upsert(
+      {
+        tenant_id: staffActual.tenant_id,
+        semana_inicio: semanaRutinaActual,
+        categoria: ta.dataset.categoria,
+        dia_semana: Number(ta.dataset.dia),
+        contenido: ta.value,
+        actualizado_por: staffActual.id,
+      },
+      { onConflict: 'tenant_id,semana_inicio,categoria,dia_semana' }
+    );
+  if (error) return mostrarError('error-rutinas', error);
+  ta.dataset.ultimoGuardado = ta.value;
+}
+*/
+
+// ============================================================
+// Arranque
+// ============================================================
+iniciarApp();
+
+</script>
+</body>
+</html>

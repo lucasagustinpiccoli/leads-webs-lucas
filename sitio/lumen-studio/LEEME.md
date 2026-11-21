@@ -11,3 +11,8 @@ Una sola página (`index.html` + `img/`). Se publica junto con las demos con `py
 ## Lo que no tiene, a propósito
 
 Testimonios, reseñas, logos de clientes y años de experiencia: no hay nada de eso que se pueda respaldar todavía. Se suman a medida que cierres clientes: pedí una reseña de Google a cada uno al entregar.
+
+
+## GymFlow (demo interactiva)
+
+`gymflow/index.html` es una maqueta autónoma con datos ficticios (sin login, sin servidor), hecha a partir del sistema real de gimnasio. Se abre desde el panel de Trabajos. Es `noindex`. Carga la tipografía de Google y la librería de Excel (jsDelivr) desde internet; todo lo demás va dentro del archivo.
