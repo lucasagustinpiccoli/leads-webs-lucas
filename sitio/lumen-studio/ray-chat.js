@@ -1,5 +1,5 @@
 /* Ray: asistente guiado de Lumen Studio. Hace unas preguntas, calcula un rango de precio con la tabla de la página
-   y arma el mensaje para Lucas por WhatsApp. No usa IA ni guarda nada: los datos solo viajan en ese mensaje. */
+   y arma el mensaje para el estudio por WhatsApp. No usa IA ni guarda nada: los datos solo viajan en ese mensaje. */
 (function () {
   "use strict";
 
@@ -33,7 +33,7 @@
   function armarMensaje(d, est) {
     var precio = "USD " + est.min + (est.max !== est.min ? " a " + est.max : "");
     var l = [
-      "Hola Lucas, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Ray en tu página.",
+      "Hola, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Ray en tu página.",
       "Tipo de negocio: " + d.rubro,
       "Quiero: " + listaTexto(d.quiere),
       "Material: " + d.material,
@@ -143,7 +143,7 @@
       f.innerHTML =
         '<label>Tu nombre<input name="nombre" autocomplete="name" required></label>' +
         '<label>Nombre de tu negocio <span class="opcional">(opcional)</span><input name="negocio" autocomplete="organization"></label>' +
-        '<p class="error" role="alert" hidden>Escribí tu nombre para que Lucas sepa a quién responder.</p>';
+        '<p class="error" role="alert" hidden>Escribí tu nombre para que sepamos a quién responder.</p>';
       var b = boton("Ver mi resumen", "btn btn--primary");
       b.type = "submit";
       f.appendChild(b);
@@ -169,13 +169,13 @@
       listaTexto(datos.quiere.map(function (t) { return t.toLowerCase(); })) + ", la estimación es de " + precio +
       (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + ".";
     return decir(resumen)
-      .then(function () { return decir("Es una estimación: el precio final te lo confirma Lucas por escrito antes de empezar. Hosting y soporte opcionales cuestan USD 15 a 20 por mes."); })
+      .then(function () { return decir("Es una estimación: el precio final te lo confirmamos por escrito antes de empezar. Hosting y soporte opcionales cuestan USD 15 a 20 por mes."); })
       .then(function () {
         limpiarEntrada();
         var wa = window.LP_WA || "";
         var a = document.createElement("a");
         a.className = "btn btn--primary";
-        a.textContent = "Seguir con Lucas por WhatsApp";
+        a.textContent = "Seguir por WhatsApp";
         var msg = armarMensaje(datos, est);
         if (wa) { a.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent(msg); a.target = "_blank"; a.rel = "noopener"; }
         else { a.href = "#contacto"; }
@@ -195,7 +195,7 @@
 
   function correr() {
     datos = {};
-    return decir("Hola, soy Ray, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen a Lucas.")
+    return decir("Hola, soy Ray, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen al equipo.")
       .then(function () { return decir("¿Qué tipo de negocio tenés?"); })
       .then(function () { return elegirUno(RUBROS); })
       .then(function (r) { datos.rubro = r; return decir("¿Qué querés que haga tu página? Podés elegir varias. Incluye siempre botón de WhatsApp y mapa."); })
