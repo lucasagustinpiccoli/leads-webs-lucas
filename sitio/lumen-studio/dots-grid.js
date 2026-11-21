@@ -3,7 +3,7 @@
    Uso: DotsGrid(contenedor, { spacing: 60, dotColor: "#F5F2E9", ... }). Sin cursor (celular) queda la grilla tenue y quieta. */
 (function () {
   "use strict";
-  var DEFAULTS = { dotColor: "#F5F2E9", dotSize: 3, spacing: 60, proximityRadius: 170, maxOpacity: 0.9, backgroundOpacity: 0.1, lineOpacity: 0.06, fadeDelay: 700 };
+  var DEFAULTS = { dotColor: "#F5F2E9", dotSize: 3, spacing: 60, proximityRadius: 170, maxOpacity: 0.55, backgroundOpacity: 0.05, lineOpacity: 0.03, fadeDelay: 700 };
 
   function DotsGrid(el, opciones) {
     var o = Object.assign({}, DEFAULTS, opciones || {});
