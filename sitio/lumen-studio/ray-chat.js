@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var PRECIO_BASE = 180;
+  var PRECIO_BASE = 200;
   var EXTRA_MIN = 40;
   var EXTRA_MAX = 60;
 
@@ -31,14 +31,13 @@
   }
 
   function armarMensaje(d, est) {
-    var precio = "USD " + est.min + (est.max !== est.min ? " a " + est.max : "");
     var l = [
       "Hola, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Ray en tu página.",
       "Tipo de negocio: " + d.rubro,
       "Quiero: " + listaTexto(d.quiere),
       "Material: " + d.material,
       "Plazo: " + d.cuando,
-      "Estimación de Ray: " + precio + (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + "."
+      "Precio de partida: desde USD " + PRECIO_BASE + (est.aparte ? ". Incluye consulta por un sistema de gestión, que se presupuesta aparte." : ".")
     ];
     return l.join("\n");
   }
@@ -164,12 +163,11 @@
   function cierre() {
     var extras = datos.quiereObj.filter(function (o) { return o.extra; }).length;
     var est = estimar(extras, datos.quiereObj.some(function (o) { return o.medida; }));
-    var precio = "USD " + est.min + (est.max !== est.min ? " a " + est.max : "");
     var resumen = "Gracias, " + datos.nombre + ". Para " + datos.rubro.toLowerCase() + ", con " +
-      listaTexto(datos.quiere.map(function (t) { return t.toLowerCase(); })) + ", la estimación es de " + precio +
-      (est.aparte ? ", más el sistema de gestión, que se presupuesta aparte" : "") + ".";
+      listaTexto(datos.quiere.map(function (t) { return t.toLowerCase(); })) + ", armamos una propuesta a medida. Nuestras páginas arrancan desde USD " + PRECIO_BASE +
+      (est.aparte ? ", y el sistema de gestión se presupuesta aparte" : "") + ".";
     return decir(resumen)
-      .then(function () { return decir("Es una estimación: el precio final te lo confirmamos por escrito antes de empezar. Hosting y soporte opcionales cuestan USD 15 a 20 por mes."); })
+      .then(function () { return decir("El valor final depende de lo que necesite tu negocio y te lo confirmamos por escrito antes de empezar."); })
       .then(function () {
         limpiarEntrada();
         var wa = window.LP_WA || "";

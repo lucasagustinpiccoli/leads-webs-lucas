@@ -86,7 +86,7 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   es una versión propia basada en la descripción pública del componente de React Bits Pro, que requiere licencia; cuando se
   compre la licencia se puede cambiar por el original), un rotador de palabras con efecto de máquina de escribir inspirado
   en el componente AnimatedTextRotator de Framer (`typewriter.js`) una cinta de servicios con CurvedLoop de React Bits (`curved-loop.js`, al pie del hero) y **Ray** (`ray-chat.js`), el asistente guiado (la mascota flotante `ray.js`, que aparece al pasar el hero y abre el chat) que pregunta
-  rubro, necesidades, material y plazo, calcula el rango de precio (base USD 180 + extras de USD 40 a 60) y arma el mensaje
+  rubro, necesidades, material y plazo, muestra el precio de partida (desde USD 200, sin guía de precios en la página) y arma el mensaje
   para Lucas por WhatsApp. Si cambian los precios, hay que tocar `PRECIO_BASE`, `EXTRA_MIN` y `EXTRA_MAX` en `ray-chat.js`.
 - `python scripts/armar_sitio.py` junta la página madre y las demos de `output/demos/` en `output/publicar/` (y en
   `output/publicar.zip`), con `robots.txt` y `_headers` para que `/demos/` no se indexe. Se sube completo a Cloudflare
