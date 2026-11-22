@@ -56,14 +56,9 @@ document.querySelectorAll('.navbar-tab').forEach((tab) => {
 });
 
 // ---- Detalles de interfaz: avatar de color, números que cuentan y el indicador deslizante del menú ----
-function colorAvatar(nombre) {
-  let h = 0;
-  for (const c of String(nombre)) h = (h * 31 + c.charCodeAt(0)) % 360;
-  return h;
-}
 function avatarHTML(nombre) {
   const ini = String(nombre).split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
-  return `<span class="avatar" style="--h:${colorAvatar(nombre)}" aria-hidden="true">${ini}</span>`;
+  return `<span class="avatar" aria-hidden="true">${ini}</span>`;
 }
 // Cuenta de 0 al valor que tiene el elemento (conserva el formato: $ y puntos de miles).
 function contar(el) {
@@ -1108,7 +1103,7 @@ function iniciales(nombre) {
 function chipTurno(t) {
   const nombre = t.socios?.nombre || '—';
   return `
-    <span class="calendario-turno-chip" style="--h:${colorAvatar(nombre)}" title="${nombre}">
+    <span class="calendario-turno-chip" title="${nombre}">
       ${iniciales(nombre)}
       <button type="button" data-id="${t.id}" title="Quitar a ${nombre}" aria-label="Quitar a ${nombre}">×</button>
     </span>`;
@@ -1224,14 +1219,7 @@ async function cargarDashboard() {
   await cargarAltasPorMes();
 }
 
-const ICONOS_KPI = {
-  activo: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m17 11 2 2 4-4"/>',
-  por_vencer: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  vencido: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
-  inactivo: '<circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/>',
-  total: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
-};
-const COLORES_ESTADO = { activo: '#22c55e', por_vencer: '#f59e0b', vencido: '#ef4444', inactivo: '#64748b' };
+const COLORES_ESTADO = { activo: 'var(--color-ink-2)', por_vencer: 'var(--color-accent)', vencido: 'var(--color-bad)', inactivo: 'var(--color-rule-2)' };
 const NOMBRES_ESTADO = { activo: 'Activos', por_vencer: 'Por vencer', vencido: 'Vencidos', inactivo: 'Inactivos' };
 
 function renderizarKpisDashboard() {
@@ -1249,11 +1237,9 @@ function renderizarKpisDashboard() {
   $('dashboard-kpis').innerHTML = tiles
     .map(
       ([clave, label, valor], i) => `
-    <div class="kpi kpi-${clave}" style="--i:${i}">
-      <span class="kpi-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONOS_KPI[clave]}</svg></span>
+    <div class="kpi kpi-${clave}">
       <span class="kpi-label">${label}</span>
       <span class="kpi-valor">${valor}</span>
-      <span class="kpi-barra"><i style="width:${clave === 'total' ? 100 : Math.round((valor / total) * 100)}%"></i></span>
     </div>`
     )
     .join('');
@@ -1271,7 +1257,7 @@ function renderizarEstadoDashboard(conteo) {
     .filter((k) => conteo[k] > 0)
     .map((k) => {
       const largo = (conteo[k] / total) * C;
-      const arco = `<circle class="donut-arco" cx="70" cy="70" r="${R}" fill="none" stroke="${COLORES_ESTADO[k]}" stroke-width="15" stroke-linecap="butt"
+      const arco = `<circle class="donut-arco" cx="70" cy="70" r="${R}" fill="none" stroke="${COLORES_ESTADO[k]}" stroke-width="14" stroke-linecap="butt"
         data-largo="${largo.toFixed(2)}" data-c="${C.toFixed(2)}" stroke-dasharray="0 ${C.toFixed(2)}" stroke-dashoffset="${(-acum).toFixed(2)}" transform="rotate(-90 70 70)"><title>${NOMBRES_ESTADO[k]}: ${conteo[k]}</title></circle>`;
       acum += largo;
       return arco;
@@ -1279,13 +1265,13 @@ function renderizarEstadoDashboard(conteo) {
     .join('');
   $('dashboard-estado').innerHTML = `
     <svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Estado de los socios">
-      <circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--gris)" stroke-width="15" opacity="0.5"/>
+      <circle class="donut-pista" cx="70" cy="70" r="${R}" fill="none" stroke-width="14"/>
       ${arcos}
       <text x="70" y="68" text-anchor="middle" class="donut-num">${total}</text>
       <text x="70" y="86" text-anchor="middle" class="donut-txt">socios</text>
     </svg>
     <ul class="donut-leyenda">
-      ${Object.keys(NOMBRES_ESTADO).map((k) => `<li><i style="background:${COLORES_ESTADO[k]}"></i><span>${NOMBRES_ESTADO[k]}</span><b>${conteo[k] || 0}</b></li>`).join('')}
+      ${Object.keys(NOMBRES_ESTADO).map((k) => `<li><i style="--c:${COLORES_ESTADO[k]}"></i><span>${NOMBRES_ESTADO[k]}</span><b>${conteo[k] || 0}</b></li>`).join('')}
     </ul>`;
   requestAnimationFrame(() => requestAnimationFrame(() => {
     $('dashboard-estado').querySelectorAll('.donut-arco').forEach((c) => {

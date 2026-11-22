@@ -11,8 +11,8 @@ Una sola página (`index.html` + `img/`). Se publica junto con las demos con `py
 ## GymFlow (demo)
 
 El código editable está en `gymflow-src/` (`index.html`, `style.css`, `app.js`, `demo-backend.js`). Para regenerar el archivo único que se publica
-(`gymflow/index.html`): `python scripts/armar_gymflow.py`. El rediseño (tipografías Space Grotesk e Inter, luz ambiente, tarjetas con
-profundidad, menú con indicador deslizante, gráficos, avatares y animaciones) está al final de `style.css`, bajo "DISEÑO V2".
+(`gymflow/index.html`): `python scripts/armar_gymflow.py`. Estilo con la skill Hallmark (tema Console, modo app): grafito, un solo acento ámbar, paneles con línea fina, sin brillos ni gradientes, cifras en
+Atkinson Hyperlegible Mono y el resto en Host Grotesk. Todo pasa por tokens al principio de `style.css`; los colores de estado (verde, rojo) solo marcan estado.
 
 ## Idioma (español / inglés)
 

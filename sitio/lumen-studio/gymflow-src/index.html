@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GymFlow — Gestión de socios</title>
+<title>GymFlow: gestión de socios</title>
+<meta name="description" content="Demo de GymFlow, una app para gestionar socios, cuotas, caja y turnos de un gimnasio, con datos de ejemplo.">
 <script>
   // Se aplica antes de pintar la página para que no se vea un flash del
   // tema por defecto (oscuro) al cargar en modo claro.
@@ -14,19 +15,20 @@
         t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
       }
       document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.classList.add('js');
     } catch (e) {}
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <!-- ===================== PRELOADER ===================== -->
 <div id="preloader" role="status" aria-label="Cargando GymFlow">
-  <span class="preloader-logo">GYMFLOW</span>
+  <span class="preloader-logo">GymFlow</span>
 </div>
 <script>
   // Mismas fases que el componente LogoPreloader de Framer: el logo sube y aparece,
@@ -43,17 +45,16 @@
       setTimeout(function () { el.remove(); }, DURACION * 1000 + 750);
     }
     // Espera a la tipografía del logo (máx. 1,2 s) para no mostrarlo con la fuente de reemplazo.
-    var listo = document.fonts && document.fonts.load ? document.fonts.load("800 44px Orbitron") : Promise.resolve();
+    var listo = document.fonts && document.fonts.load ? document.fonts.load("600 44px \"Host Grotesk\"") : Promise.resolve();
     Promise.race([listo, new Promise(function (r) { setTimeout(r, 1200); })]).then(arrancar, arrancar);
   })();
 </script>
 
 <!-- ===================== APP ===================== -->
 <div id="app" hidden>
-  <div class="ambiente" aria-hidden="true"></div>
   <header class="navbar">
     <div class="navbar-marca">
-      <span class="navbar-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span>
+      <span class="navbar-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span>
       <span class="navbar-marca-texto">GymFlow</span>
     </div>
 
@@ -63,7 +64,6 @@
 
     <div class="navbar-menu-movil" id="navbar-menu-movil">
       <nav class="navbar-tabs" id="navbar-tabs" aria-label="Secciones">
-        <span class="navbar-indicador" aria-hidden="true"></span>
         <button class="navbar-tab" data-vista="dashboard">Dashboard</button>
         <button class="navbar-tab is-active" data-vista="socios">Socios</button>
         <button class="navbar-tab" data-vista="caja">Caja</button>
@@ -132,7 +132,7 @@
           <select id="filtro-plan" aria-label="Filtrar por plan">
             <option value="">Todos los planes</option>
           </select>
-          <input type="search" id="buscador-socios" class="buscador" placeholder="Buscar por nombre o código..." aria-label="Buscar socio" />
+          <input type="search" id="buscador-socios" class="buscador" placeholder="Buscar por nombre o código…" aria-label="Buscar socio" />
           <button class="secundario" id="btn-exportar-socios">Exportar</button>
           <button class="primario" id="btn-nuevo-socio">+ Nuevo socio</button>
         </div>
@@ -232,7 +232,7 @@
 
         <div id="caja-panel-pendientes" hidden>
           <p class="ayuda-calendario">
-            Gastos cargados sin método de pago todavía definido - no afectan el saldo de arriba. Cuando se confirmen, "Efectivizar" los pasa a Caja.
+            Gastos cargados sin método de pago todavía definido - no afectan el saldo de arriba. Cuando se confirmen, “Efectivizar” los pasa a Caja.
           </p>
           <table>
             <thead>
@@ -260,13 +260,13 @@
 
       <p class="ayuda-calendario">
         Turnos fijos: quién suele venir a qué horario, como referencia para controlar la capacidad a ojo.
-        No reserva lugar ni bloquea horarios — es solo una anotación del staff. Click en una celda para agregar a alguien a ese turno.
+        No reserva lugar ni bloquea horarios: es solo una anotación del staff. Click en una celda para agregar a alguien a ese turno.
       </p>
 
       <div class="calendario-grid" id="calendario-grid"></div>
 
       <div class="calendario-sabado" id="calendario-sabado">
-        <div class="calendario-sabado-titulo">Sábado · 09:00 a 13:00 · Open Box</div>
+        <div class="calendario-sabado-titulo">Sábado, 09:00 a 13:00, Open Box</div>
         <div class="calendario-sabado-nombres" id="calendario-sabado-nombres"></div>
       </div>
     </section>
@@ -323,7 +323,7 @@
       <div id="grupo-metodo-pago">
         <label for="mem-metodo-pago">Método de pago</label>
         <select id="mem-metodo-pago" required>
-          <option value="" disabled selected>Seleccionar...</option>
+          <option value="" disabled selected>Seleccionar…</option>
           <option value="efectivo">Efectivo</option>
           <option value="transferencia">Transferencia</option>
           <option value="mixto">Efectivo + Transferencia</option>
