@@ -45,6 +45,33 @@
     "Elegís tu plan": "Choose your plan",
     "Te mostramos cómo quedaría tu página y acordamos qué incluye y cuánto cuesta, por escrito. Se paga el 50% para empezar.": "We show you how your website would look and agree in writing on what it includes and what it costs. 50% is paid to get started.",
     "Listo": "Done",
+    "¿Cómo te llamás?": "What's your name?",
+    "Nombre y apellido": "Full name",
+    "¿De dónde sos?": "Where are you from?",
+    "Escribí tu respuesta acá…": "Type your answer here…",
+    "¿Cuál es tu WhatsApp?": "What's your WhatsApp?",
+    "Elegí tu país y escribí el número sin el código de país.": "Choose your country and type the number without the country code.",
+    "País": "Country",
+    "¿Cómo se llama tu marca?": "What's your brand called?",
+    "Si necesitás naming, ¡avisanos!": "If you need naming, let us know!",
+    "Contanos más sobre tu marca": "Tell us more about your brand",
+    "¿En qué industria estás? ¿Cuál es tu producto o servicio? ¿Qué querés lograr con él?": "What industry are you in? What is your product or service? What do you want to achieve with it?",
+    "¿Qué servicio te interesa?": "Which service are you interested in?",
+    "Diseño + Desarrollo Web": "Web design + development",
+    "Landing Page": "Landing page",
+    "Rediseño de Web": "Website redesign",
+    "E-commerce": "E-commerce",
+    "Branding": "Branding",
+    "Otro": "Other",
+    "Atrás": "Back",
+    "Siguiente": "Next",
+    "Terminar": "Finish",
+    "¡Gracias, !": "Thanks!",
+    "Con tus respuestas armamos el mensaje para escribirnos por WhatsApp.": "With your answers we put together the message to write to us on WhatsApp.",
+    "Enviar por WhatsApp": "Send on WhatsApp",
+    "Cerrar el formulario": "Close the form",
+    "Gracias,": "Thanks,",
+    "11 2345 6789": "11 2345 6789",
     "Pendiente": "Pending", "En curso": "In progress", "Hecho": "Done",
     "Armamos la página, hacemos una ronda de correcciones y queda publicada en Cloudflare. Se paga el 50% restante.": "We build the site, do a round of revisions and publish it on Cloudflare. The remaining 50% is paid.",
     "Preguntas frecuentes": "Frequently asked questions",
@@ -103,7 +130,7 @@
   var lang = "es";
   var orig = new WeakMap();      // nodo -> texto original
   var origAttr = new WeakMap();  // elemento -> {atributo: valor original}
-  var ATTRS = ["alt", "aria-label"];
+  var ATTRS = ["alt", "aria-label", "placeholder"];
   var oyentes = [];
 
   function norm(t) { return String(t).replace(/\s+/g, " ").trim(); }
@@ -126,7 +153,7 @@
         n.nodeValue = m[1] + EN[k] + m[2];
       } else n.nodeValue = o;
     });
-    document.querySelectorAll("[alt],[aria-label]").forEach(function (e) {
+    document.querySelectorAll("[alt],[aria-label],[placeholder]").forEach(function (e) {
       var g = origAttr.get(e) || {};
       ATTRS.forEach(function (a) {
         if (!e.hasAttribute(a)) return;

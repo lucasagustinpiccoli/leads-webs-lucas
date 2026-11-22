@@ -31,3 +31,7 @@ Testimonios, reseñas, logos de clientes y años de experiencia: no hay nada de 
 
 - "¿Cómo trabajamos?" es un flujo de cuatro pasos conectados (`pipeline.js`): cada paso "corre" y la conexión se llena hasta el siguiente. Sin JavaScript o con "reducir movimiento" quedan los cuatro terminados.
 - Se sacó la sección "¿Cómo se ve en mi rubro?": la demo previa ya se explica en el hero y en el flujo.
+
+## Formulario "Empezá tu proyecto"
+
+Los botones "Empezá tu proyecto" abren un formulario de pantalla completa (`formulario.js`, el HTML está al final de `index.html`) con seis preguntas: nombre, de dónde sos, WhatsApp (país + número), marca, contanos más y servicio de interés. Al terminar arma un mensaje con las respuestas y abre WhatsApp: lo envía la persona, no se manda solo. Para sumar o cambiar una pregunta, editá las secciones `fm-paso` y sus textos en `i18n.js`. Ray queda como asistente aparte.
