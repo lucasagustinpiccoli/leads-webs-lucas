@@ -11,24 +11,24 @@
     "float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}",
     "float n(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);",
     "return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}",
-    "float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<5;i++){s+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return s;}",
+    "float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return s;}",
     "void main(){",
     "vec2 uv=gl_FragCoord.xy/u_res;",
-    "vec2 p=vec2(uv.x*u_res.x/u_res.y,uv.y)*1.6;",
+    "vec2 p=vec2(uv.x*u_res.x/u_res.y,uv.y)*1.5;",
     "float t=u_t;",
     "vec2 q=vec2(fbm(p+vec2(0.,t*.9)),fbm(p+vec2(5.2,1.3)-vec2(t*.7,0.)));",
     "vec2 r=vec2(fbm(p+2.2*q+vec2(1.7,9.2)+t*.5),fbm(p+2.2*q+vec2(8.3,2.8)-t*.4));",
     "float v=fbm(p+2.4*r);",
-    "v=smoothstep(.18,.88,v);",
-    "vec3 dark=vec3(.50,.52,.55),mid=vec3(.80,.81,.83),light=vec3(.98,.98,.99);",
-    "vec3 c=mix(dark,mid,smoothstep(0.,.5,v));c=mix(c,light,smoothstep(.45,1.,v));",
+    "v=smoothstep(.3,.7,v);",
+    "vec3 dark=vec3(.58,.62,.69),mid=vec3(.86,.88,.92),light=vec3(1.,1.,1.);",
+    "vec3 c=mix(dark,mid,smoothstep(0.,.5,v));c=mix(c,light,smoothstep(.5,1.,v));",
     "float a=texture2D(u_mask,vec2(uv.x,1.-uv.y)).a;",
     "gl_FragColor=vec4(c*a,a);}"
   ].join("\n");
 
   function SmokeText(el, o) {
     o = o || {};
-    var velocidad = o.speed || 0.045;
+    var velocidad = o.speed || 0.1;
     var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var canvas = document.createElement("canvas");
     canvas.setAttribute("aria-hidden", "true");

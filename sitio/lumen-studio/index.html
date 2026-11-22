@@ -314,7 +314,7 @@
     }
     I18N.onChange(function(){ if (escribiendo) escribir(); });
     // Título con humo en blancos y grises, muy lento, y el flujo de "Cómo trabajamos" que corre paso a paso.
-    if (window.SmokeText) SmokeText(document.querySelector(".hero .gigante"), { speed: 0.045 });
+    if (window.SmokeText) SmokeText(document.querySelector(".hero .gigante"), { speed: 0.1 });
     if (window.Pipeline) Pipeline(document.getElementById("pipe"));
     setTimeout(function(){ document.documentElement.classList.add("nr-nav"); }, fx ? fx.subtituloMs - 150 : 0);
     setTimeout(escribir, fx && !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? fx.subtituloMs + 500 : 0);
