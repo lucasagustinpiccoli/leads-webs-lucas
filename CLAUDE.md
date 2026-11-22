@@ -66,6 +66,7 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 - **Pensada para celular**: la visita llega desde el link de la bio de Instagram o desde "sitio web" en Google Maps.
   Menú en píldora con el botón principal siempre visible, barra fija abajo en el celular (botón + WhatsApp),
   opciones para tocar en el formulario, teléfono y dirección como links, fotos livianas.
+- **La localidad se dice una sola vez: en la dirección** (y en el mapa). Ni el título, ni la bajada, ni los textos de sección la repiten ("Odontología en Ramos Mejía", "consultorio de Ramos Mejía"): se lee como escrito por una IA. Solo el `<title>` y la descripción para buscadores la llevan.
 - **Sin estrellas ni rating en el hero**: el rating de Google va en los datos debajo del hero.
 - Formulario: `form.modo` = `turno` (motivo, extras, próximos días de atención y franja, todo con toques; inspirado
   en el recorrido de la demo Oliva Atelier (`sitio/lumen-studio/oliva/`)) o `presupuesto` (tipo, fecha, cantidad). Se envía abriendo WhatsApp

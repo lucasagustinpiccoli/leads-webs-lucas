@@ -241,3 +241,5 @@ Lucas rechazó una primera versión por estos motivos; valen para cualquier plan
 - **El título del hero lleva el nombre de la marca**; "Odontología en {localidad}" solo es demasiado básico.
 - **Las muestras de portfolio usan una marca ficticia**, nunca un negocio real (`scripts/demo.py --ficticio`).
 - **Cuando hay una referencia, copiar su estructura y su criterio, no sus efectos**: lo que el cliente no quiso (carrusel con imágenes que van apareciendo) no se copia.
+- **No repetir la localidad en los textos**: el barrio o la ciudad aparece en la dirección y en el mapa, y listo. Frases como "Odontología en Ramos Mejía" o "un consultorio de Ramos Mejía" en el título, la bajada o una sección suenan a texto de IA. Solo el `<title>` y la meta descripción llevan la localidad.
+- **El mensaje de WhatsApp lo escribe la persona que reserva, en primera persona y con tono natural**: "¡Hola! Mi nombre es X. Acabo de reservar un turno para Y, el día Z a las H. ¡Muchas gracias!". Nunca "Soy Lucas" ni el nombre de quien arma la página.

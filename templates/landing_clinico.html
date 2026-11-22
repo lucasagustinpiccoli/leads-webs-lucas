@@ -363,7 +363,7 @@
 
 <script>
   (function(){
-    var wa = "{{whatsapp}}", base = {{mensaje_wa_json}};
+    var wa = "{{whatsapp}}";
     var SERVICIOS = {{servicios_json}};
     var CFG = {{reserva_json}};
     var DIAS_N = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
@@ -374,7 +374,7 @@
 
     // Texto que gira en el sello: localidad y rubro, ajustado al aro.
     var st = $("sello-texto");
-    if (st) st.textContent = ("{{localidad}} · Odontología · ").toUpperCase();
+    if (st) st.textContent = ("Odontología · Turnos online · ").toUpperCase();
 
     // La barra flotante arranca debajo del aviso de la demo y sube hasta quedar a 14 px del borde al bajar.
     var cab = document.querySelector("header");
@@ -491,9 +491,9 @@
     $("f-nombre").addEventListener("input", function(){ $("f-error").style.display = "none"; this.removeAttribute("aria-invalid"); actualizar(); });
 
     function mensaje(){
-      var l = [base, "Tratamiento: " + SERVICIOS[est.servicio].titulo, "Día: " + largo(est.fecha), "Horario: " + est.hora + " h", "Soy " + $("f-nombre").value.trim() + "."];
-      var t = $("f-tel").value.trim(), x = $("f-extra").value.trim();
-      if (t) l.push("Mi teléfono: " + t);
+      var l = ["¡Hola! Mi nombre es " + $("f-nombre").value.trim() + ". Acabo de reservar un turno para " + SERVICIOS[est.servicio].titulo.toLowerCase() + ", el día " + largo(est.fecha).toLowerCase() + " a las " + est.hora + ". ¡Muchas gracias!"];
+      var tel = $("f-tel").value.trim(), x = $("f-extra").value.trim();
+      if (tel) l.push("Mi teléfono: " + tel);
       if (x) l.push(x);
       return l.join("\n");
     }

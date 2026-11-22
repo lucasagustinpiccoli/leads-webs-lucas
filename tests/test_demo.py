@@ -21,7 +21,7 @@ class TestDemo(unittest.TestCase):
 
     def test_render_completo_y_escapado(self):
         d = demo.armar_datos(FILA)
-        self.assertEqual(d["eyebrow"], "Salón de eventos en Morón")
+        self.assertEqual(d["eyebrow"], "Salón de eventos")  # la localidad va solo en la dirección
         self.assertEqual(d["instagram"], FILA["web"])
         out = demo.render(d)
         self.assertNotIn("{{", out)
