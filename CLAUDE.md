@@ -62,7 +62,7 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   opciones para tocar en el formulario, teléfono y dirección como links, fotos livianas.
 - **Sin estrellas ni rating en el hero**: el rating de Google va en los datos debajo del hero.
 - Formulario: `form.modo` = `turno` (motivo, extras, próximos días de atención y franja, todo con toques; inspirado
-  en el recorrido de colo-studio.pages.dev) o `presupuesto` (tipo, fecha, cantidad). Se envía abriendo WhatsApp
+  en el recorrido de la demo Oliva Atelier (`sitio/lumen-studio/oliva/`)) o `presupuesto` (tipo, fecha, cantidad). Se envía abriendo WhatsApp
   con el mensaje armado (`location.href`, porque el navegador de Instagram bloquea `window.open`).
 - Una palabra entre asteriscos en los títulos (`*imaginaste*`) sale con el énfasis del tema (cursiva o peso).
 - Tres temas por rubro (color + tipografía) que rotan según el puesto en la tanda, igual que la foto del hero.

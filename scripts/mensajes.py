@@ -25,8 +25,8 @@ from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output")
-EJEMPLO = "https://colo-studio.pages.dev/"  # ejemplo ya publicado, para prospectos sin demo
 BASE_POR_DEFECTO = "https://TU-DOMINIO.pages.dev"
+EJEMPLO = BASE_POR_DEFECTO + "/oliva/"  # demo de muestra (Oliva Atelier) de la página madre, para prospectos sin demo
 
 # Qué consigue quien los encuentra en Google, según el rubro. Un solo beneficio por mensaje.
 BENEFICIO = {
@@ -81,7 +81,7 @@ def presencia_txt(presencia):
     return "todavía no tiene un sitio web propio"
 
 
-def mensajes(fila, link, con_demo, corto):
+def mensajes(fila, link, con_demo, corto, ejemplo=EJEMPLO):
     """Devuelve (dia0, dia3, dia7, instagram) para una fila de la tanda."""
     r = rating_txt(fila["rating"])
     gancho = f"Vi que {corto} tiene {r} en Google Maps y {presencia_txt(fila['presencia'])}." if r else \
@@ -94,10 +94,10 @@ def mensajes(fila, link, con_demo, corto):
                   "Si te gusta, la dejamos andando esta semana.")
         d3 = f"Hola, ¿pudiste ver la demo de {corto}? {link}\nSi querés cambiar algo, lo vemos."
     else:
-        cuerpo = (f"Te dejo un ejemplo de una página que hice para otro negocio, con reserva de turnos: {EJEMPLO}\n\n"
+        cuerpo = (f"Te dejo un ejemplo de una página que hice para otro negocio, con reserva de turnos: {ejemplo}\n\n"
                   f"Si te interesa, te armo la tuya con tus datos, con botón de WhatsApp y mapa, para que quien te encuentre en "
                   f"Google {beneficio}. La ves antes de decidir, sin costo ni compromiso.")
-        d3 = f"Hola, ¿pudiste ver el ejemplo que te mandé? {EJEMPLO}\nSi te sirve, te preparo la de {corto} y la ves antes de decidir."
+        d3 = f"Hola, ¿pudiste ver el ejemplo que te mandé? {ejemplo}\nSi te sirve, te preparo la de {corto} y la ves antes de decidir."
     dia0 = f"Hola, ¿hablo con {corto}? Soy Lucas, diseño páginas web para negocios de la zona.\n\n{gancho} {cuerpo}"
     dia7 = (f"Hola, te escribo por última vez para no molestar. Esta semana tengo lugar para entregar la página de {corto} rápido. "
             "Si querés avanzar, te mando por escrito qué incluye y cuánto cuesta (desde USD 180). "
@@ -128,8 +128,9 @@ def armar(filas, base, demo_mod, solo_demos=True):
             with open(os.path.join(ruta, "datos.json"), encoding="utf-8") as fh:
                 datos = json.load(fh)
         corto = nombre_corto(f["negocio"], datos, f["localidad"])
-        link = f"{base.rstrip('/')}/demos/{carpeta}/" if con_demo else EJEMPLO
-        d0, d3, d7, ig = mensajes(f, link, con_demo, corto)
+        ejemplo = f"{base.rstrip('/')}/oliva/"
+        link = f"{base.rstrip('/')}/demos/{carpeta}/" if con_demo else ejemplo
+        d0, d3, d7, ig = mensajes(f, link, con_demo, corto, ejemplo)
         instagram = f["web"] if "instagram.com" in (f["web"] or "") else ""
         wa = f["whatsapp"]
         salida.append({

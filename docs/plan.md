@@ -62,7 +62,7 @@ Para que la demo no consuma las horas:
 
 - Se arma solo para los 10 a 15 prospectos mejor calificados, no para los 100.
 - Con la plantilla por rubro lleva 20 a 30 minutos.
-- Al resto se le manda un mensaje corto con una captura o un ejemplo previo (Colo Studio, el chatbot de la concesionaria).
+- Al resto se le manda un mensaje corto con una captura o un ejemplo previo (la demo Oliva Atelier, el chatbot de la concesionaria).
 - El envío lo hace Lucas a mano o semi-manual. Automatizar mensajes masivos por WhatsApp puede costar el número y rinde menos que un mensaje personalizado.
 
 **4. Secuencia de seguimiento**

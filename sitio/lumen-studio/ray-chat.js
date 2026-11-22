@@ -3,6 +3,9 @@
 (function () {
   "use strict";
 
+  function T(x) { return window.I18N ? window.I18N.t(x) : x; }
+  function EN() { return window.I18N && window.I18N.lang === "en"; }
+
   var PRECIO_BASE = 200;
   var EXTRA_MIN = 40;
   var EXTRA_MAX = 60;
@@ -27,11 +30,18 @@
 
   function listaTexto(items) {
     if (items.length <= 1) return items.join("");
-    return items.slice(0, -1).join(", ") + " y " + items[items.length - 1];
+    return items.slice(0, -1).join(", ") + (EN() ? " and " : " y ") + items[items.length - 1];
   }
 
   function armarMensaje(d, est) {
-    var l = [
+    var l = EN() ? [
+      "Hi, I'm " + d.nombre + (d.negocio ? " from " + d.negocio : "") + ". I talked to Ray on your website.",
+      "Type of business: " + d.rubro,
+      "I want: " + listaTexto(d.quiere),
+      "Material: " + d.material,
+      "Timeline: " + d.cuando,
+      "Starting price: from USD " + PRECIO_BASE + (est.aparte ? ". Includes an inquiry about a management system, quoted separately." : ".")
+    ] : [
       "Hola, soy " + d.nombre + (d.negocio ? " de " + d.negocio : "") + ". Hablé con Ray en tu página.",
       "Tipo de negocio: " + d.rubro,
       "Quiero: " + listaTexto(d.quiere),
@@ -51,6 +61,7 @@
   var reducido = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var datos = {};
   var iniciado = false;
+  var gen = 0; // cada reinicio invalida la conversación anterior
 
   function esperar(ms) { return new Promise(function (ok) { setTimeout(ok, reducido ? 0 : ms); }); }
   function abajo() { log.scrollTop = log.scrollHeight; }
@@ -66,6 +77,7 @@
 
   /* Ray "escribe": un indicador de tres puntos y después el mensaje. */
   function decir(texto) {
+    var g = gen;
     var t = document.createElement("div");
     t.className = "burbuja bot escribiendo";
     t.setAttribute("aria-hidden", "true");
@@ -74,6 +86,7 @@
     abajo();
     return esperar(550 + Math.min(texto.length * 12, 700)).then(function () {
       t.remove();
+      if (g !== gen) return new Promise(function () {}); // conversación vieja: no sigue
       return burbuja(texto, "bot");
     });
   }
@@ -94,8 +107,8 @@
       var cont = document.createElement("div");
       cont.className = "opciones";
       opciones.forEach(function (o) {
-        var b = boton(o);
-        b.addEventListener("click", function () { limpiarEntrada(); burbuja(o, "yo"); ok(o); });
+        var b = boton(T(o));
+        b.addEventListener("click", function () { limpiarEntrada(); burbuja(T(o), "yo"); ok(T(o)); });
         cont.appendChild(b);
       });
       entrada.appendChild(cont);
@@ -109,10 +122,10 @@
       var cont = document.createElement("div");
       cont.className = "opciones";
       var marcadas = {};
-      var seguir = boton("Listo", "btn btn--primary btn--small");
+      var seguir = boton(T("Listo"), "btn btn--primary btn--small");
       seguir.disabled = true;
       opciones.forEach(function (o) {
-        var b = boton(o.txt);
+        var b = boton(T(o.txt));
         b.setAttribute("aria-pressed", "false");
         b.addEventListener("click", function () {
           marcadas[o.id] = !marcadas[o.id];
@@ -124,7 +137,7 @@
       seguir.addEventListener("click", function () {
         var elegidas = opciones.filter(function (o) { return marcadas[o.id]; });
         limpiarEntrada();
-        burbuja(elegidas.map(function (o) { return o.txt; }).join(", "), "yo");
+        burbuja(elegidas.map(function (o) { return T(o.txt); }).join(", "), "yo");
         ok(elegidas);
       });
       entrada.appendChild(cont);
@@ -140,10 +153,10 @@
       f.className = "datos-form";
       f.noValidate = true;
       f.innerHTML =
-        '<label>Tu nombre<input name="nombre" autocomplete="name" required></label>' +
-        '<label>Nombre de tu negocio <span class="opcional">(opcional)</span><input name="negocio" autocomplete="organization"></label>' +
-        '<p class="error" role="alert" hidden>Escribí tu nombre para que sepamos a quién responder.</p>';
-      var b = boton("Ver mi resumen", "btn btn--primary");
+        '<label>' + T("Tu nombre") + '<input name="nombre" autocomplete="name" required></label>' +
+        '<label>' + T("Nombre de tu negocio") + ' <span class="opcional">' + T("(opcional)") + '</span><input name="negocio" autocomplete="organization"></label>' +
+        '<p class="error" role="alert" hidden>' + T("Escribí tu nombre para que sepamos a quién responder.") + '</p>';
+      var b = boton(T("Ver mi resumen"), "btn btn--primary");
       b.type = "submit";
       f.appendChild(b);
       f.addEventListener("submit", function (e) {
@@ -163,21 +176,25 @@
   function cierre() {
     var extras = datos.quiereObj.filter(function (o) { return o.extra; }).length;
     var est = estimar(extras, datos.quiereObj.some(function (o) { return o.medida; }));
-    var resumen = "Gracias, " + datos.nombre + ". Para " + datos.rubro.toLowerCase() + ", con " +
+    var resumen = EN()
+      ? "Thanks, " + datos.nombre + ". For " + datos.rubro.toLowerCase() + ", with " +
+        listaTexto(datos.quiere.map(function (t) { return t.toLowerCase(); })) + ", we'll put together a tailored proposal. Our websites start at USD " + PRECIO_BASE +
+        (est.aparte ? ", and the management system is quoted separately" : "") + "."
+      : "Gracias, " + datos.nombre + ". Para " + datos.rubro.toLowerCase() + ", con " +
       listaTexto(datos.quiere.map(function (t) { return t.toLowerCase(); })) + ", armamos una propuesta a medida. Nuestras páginas arrancan desde USD " + PRECIO_BASE +
       (est.aparte ? ", y el sistema de gestión se presupuesta aparte" : "") + ".";
     return decir(resumen)
-      .then(function () { return decir("El valor final depende de lo que necesite tu negocio y te lo confirmamos por escrito antes de empezar."); })
+      .then(function () { return decir(T("El valor final depende de lo que necesite tu negocio y te lo confirmamos por escrito antes de empezar.")); })
       .then(function () {
         limpiarEntrada();
         var wa = window.LP_WA || "";
         var a = document.createElement("a");
         a.className = "btn btn--primary";
-        a.textContent = "Seguir por WhatsApp";
+        a.textContent = T("Seguir por WhatsApp");
         var msg = armarMensaje(datos, est);
         if (wa) { a.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent(msg); a.target = "_blank"; a.rel = "noopener"; }
         else { a.href = "#contacto"; }
-        var otra = boton("Empezar de nuevo", "btn btn--small");
+        var otra = boton(T("Empezar de nuevo"), "btn btn--small");
         otra.addEventListener("click", reiniciar);
         var fila = document.createElement("div");
         fila.className = "opciones fin";
@@ -185,24 +202,25 @@
         entrada.appendChild(fila);
         var nota = document.createElement("p");
         nota.className = "nota-chat";
-        nota.textContent = "No guardo nada: tus respuestas solo viajan en el mensaje de WhatsApp.";
+        nota.textContent = T("No guardo nada: tus respuestas solo viajan en el mensaje de WhatsApp.");
         entrada.appendChild(nota);
         a.focus({ preventScroll: true });
       });
   }
 
   function correr() {
+    gen++;
     datos = {};
-    return decir("Hola, soy Ray, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen al equipo.")
-      .then(function () { return decir("¿Qué tipo de negocio tenés?"); })
+    return decir(T("Hola, soy Ray, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen al equipo."))
+      .then(function () { return decir(T("¿Qué tipo de negocio tenés?")); })
       .then(function () { return elegirUno(RUBROS); })
-      .then(function (r) { datos.rubro = r; return decir("¿Qué querés que haga tu página? Podés elegir varias. Incluye siempre botón de WhatsApp y mapa."); })
+      .then(function (r) { datos.rubro = r; return decir(T("¿Qué querés que haga tu página? Podés elegir varias. Incluye siempre botón de WhatsApp y mapa.")); })
       .then(function () { return elegirVarios(QUIERE); })
-      .then(function (q) { datos.quiereObj = q; datos.quiere = q.map(function (o) { return o.txt; }); return decir("¿Ya tenés logo y fotos?"); })
+      .then(function (q) { datos.quiereObj = q; datos.quiere = q.map(function (o) { return o.txt; }); return decir(T("¿Ya tenés logo y fotos?")); })
       .then(function () { return elegirUno(MATERIAL); })
-      .then(function (m) { datos.material = m; return decir("¿Para cuándo la necesitás?"); })
+      .then(function (m) { datos.material = m; return decir(T("¿Para cuándo la necesitás?")); })
       .then(function () { return elegirUno(CUANDO); })
-      .then(function (c) { datos.cuando = c; return decir("Última: ¿cómo te llamás y cómo se llama tu negocio?"); })
+      .then(function (c) { datos.cuando = c; return decir(T("Última: ¿cómo te llamás y cómo se llama tu negocio?")); })
       .then(pedirDatos)
       .then(function (p) { datos.nombre = p.nombre; datos.negocio = p.negocio; return cierre(); });
   }
@@ -211,4 +229,6 @@
 
   /* La conversación arranca la primera vez que se abre el chat. */
   window.RayChat = { iniciar: function () { if (iniciado) return; iniciado = true; correr(); } };
+  /* Al cambiar de idioma la conversación se reinicia en el idioma nuevo. */
+  if (window.I18N) window.I18N.onChange(function () { if (iniciado) { iniciado = true; reiniciar(); } });
 })();

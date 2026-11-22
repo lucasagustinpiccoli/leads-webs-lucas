@@ -272,7 +272,7 @@ def formulario(fm):
     """Campos del formulario según el rubro. Cada campo con data-etiqueta se suma al mensaje de WhatsApp.
 
     modo "turno" (consultorios, veterinarias, estética...): motivo, extras, próximos días y franja, todo con opciones
-    para tocar, como el recorrido de reserva de Colo Studio. modo "presupuesto" (salones...): tipo, fecha y cantidad."""
+    para tocar, como el recorrido de reserva de Oliva Atelier. modo "presupuesto" (salones...): tipo, fecha y cantidad."""
     c = []
     modo = fm.get("modo", "presupuesto")
     if fm.get("tipos"):

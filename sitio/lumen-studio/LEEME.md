@@ -5,8 +5,12 @@ Una sola página (`index.html` + `img/`). Se publica junto con las demos con `py
 ## Antes de publicar, completar
 
 1. **Número de WhatsApp.** En `index.html`, buscá `COMPLETAR` (al final, en el `<script>`) y reemplazá `549XXXXXXXXXX` por tu número con código de país, sin `+` ni espacios. Ejemplo: `5491155551234`. Mientras tenga las X, los botones de contacto no abren WhatsApp.
-2. **Permisos de los casos.** Confirmar con cada dueño que puede aparecer en tu portfolio: Colo Studio y R&RG Estudio Jurídico. La propuesta de R&RG está rotulada como propuesta de rediseño: no la muestres sin el permiso de tu amigo.
+2. **Permisos de los casos.** Confirmar con cada dueño que puede aparecer en tu portfolio: R&RG Estudio Jurídico (Oliva Atelier es una marca ficticia, no necesita permiso). La propuesta de R&RG está rotulada como propuesta de rediseño: no la muestres sin el permiso de tu amigo.
 3. **El precio** aparece solo como "desde USD 200" en las preguntas frecuentes y en Ray (`PRECIO_BASE` en `ray-chat.js`). No hay sección de precios.
+
+## Idioma (español / inglés)
+
+El selector EN / ES está en el menú. Las traducciones viven en `i18n.js` (diccionario por texto en español); si cambiás un texto de `index.html`, hay que cambiar también su clave en el diccionario, o ese texto queda en español en la versión en inglés. Ray y el rotador de palabras tienen su versión en cada idioma. La demo `oliva/` (sitio único con rutas por `#`, construido desde el proyecto Oliva Atelier) y `gymflow/` están solo en español.
 
 ## Lo que no tiene, a propósito
 
