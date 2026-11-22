@@ -30,6 +30,8 @@
     "Nos encargamos de publicarla y, si querés, de los cambios y el mantenimiento, para que no pierdas tiempo en lo técnico.": "We take care of publishing it and, if you want, of changes and maintenance, so you don't lose time on the technical side.",
     "Proyectos": "Projects",
     "Sitio con reserva de turnos y un panel para administrarlos, con una marca de ejemplo de manicuría y pedicuría. Probalo vos mismo con datos de muestra.": "A website with online booking and a panel to manage appointments, for a sample manicure and pedicure brand. Try it yourself with sample data.",
+    "Brío Dental, sitio de un consultorio odontológico con pedido de turno": "Brío Dental, website for a dental practice with appointment booking",
+    "Sitio para un consultorio odontológico, con tratamientos y pedido de turno por pasos. Una marca de ejemplo para probar.": "A website for a dental practice, with treatments and step-by-step appointment booking. A sample brand to try out.",
     "Probar la demo": "Try the demo",
     "Gestor de membresías para gimnasios: socios, cuotas, caja y calendario en un solo lugar. Probalo vos mismo con datos de ejemplo.": "Membership manager for gyms: members, fees, cash and calendar in one place. Try it yourself with sample data.",
     "R&RG Estudio Jurídico": "R&RG Law Firm",
