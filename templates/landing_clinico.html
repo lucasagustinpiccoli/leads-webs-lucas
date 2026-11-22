@@ -494,10 +494,10 @@
     }
     sig.addEventListener("click", function(){
       if (est.paso === 2 && !$("f-nombre").value.trim()) { $("f-error").style.display = "block"; $("f-nombre").setAttribute("aria-invalid", "true"); $("f-nombre").focus(); return; }
-      if (valido(est.paso)) ir(est.paso + 1, true);
+      if (valido(est.paso)) ir(est.paso + 1, false);
     });
-    atras.addEventListener("click", function(){ ir(est.paso - 1, true); });
-    pasos.forEach(function(p, i){ p.addEventListener("click", function(){ if (i < est.paso) ir(i, true); }); });
+    atras.addEventListener("click", function(){ ir(est.paso - 1, false); });
+    pasos.forEach(function(p, i){ p.addEventListener("click", function(){ if (i < est.paso) ir(i, false); }); });
     $("f-nombre").addEventListener("input", function(){ $("f-error").style.display = "none"; this.removeAttribute("aria-invalid"); actualizar(); });
 
     function mensaje(){
