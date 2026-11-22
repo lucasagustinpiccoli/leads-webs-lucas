@@ -183,42 +183,50 @@
 </footer>
 
 
-<div class="fm" id="formulario" role="dialog" aria-modal="true" aria-labelledby="fm-titulo" hidden>
-  <button type="button" class="fm-cerrar" data-fm-cerrar aria-label="Cerrar el formulario">&times;</button>
-  <div class="fm-centro">
-    <p class="fm-contador" aria-live="polite"></p>
+<div class="fm" id="formulario" role="dialog" aria-modal="true" aria-label="Contanos de tu proyecto" hidden>
+  <div class="fm-progreso" aria-hidden="true"><i></i></div>
+  <div class="fm-barra"><span class="fm-marca">Lumen Studio</span><button type="button" class="fm-cerrar" data-fm-cerrar aria-label="Cerrar el formulario">&times;</button></div>
+  <div class="fm-cuerpo">
     <section class="fm-paso" data-requerido hidden>
-      <h2 id="fm-titulo">¿Cómo te llamás?</h2>
-      <input type="text" data-k autocomplete="name" placeholder="Nombre y apellido" aria-label="¿Cómo te llamás?">
-    </section>
-    <section class="fm-paso" data-requerido hidden>
-      <h2>¿De dónde sos?</h2>
-      <input type="text" data-k autocomplete="address-level2" placeholder="Escribí tu respuesta acá…" aria-label="¿De dónde sos?">
+      <p class="fm-num"></p>
+      <h2>Para empezar, ¿cómo te llamás?</h2>
+      <div class="fm-campo"><input type="text" data-k autocomplete="name" placeholder="Tu nombre" aria-label="Tu nombre"></div>
     </section>
     <section class="fm-paso" data-requerido hidden>
-      <h2>¿Cuál es tu WhatsApp?</h2>
-      <p class="fm-sub">Elegí tu país y escribí el número sin el código de país.</p>
-      <div class="fm-tel"><select aria-label="País"><option value="54">AR Argentina +54</option><option value="598">UY Uruguay +598</option><option value="56">CL Chile +56</option><option value="595">PY Paraguay +595</option><option value="591">BO Bolivia +591</option><option value="55">BR Brasil +55</option><option value="51">PE Perú +51</option><option value="57">CO Colombia +57</option><option value="52">MX México +52</option><option value="34">ES España +34</option><option value="1">US Estados Unidos +1</option></select><input type="tel" data-k inputmode="tel" autocomplete="tel-national" placeholder="11 2345 6789" aria-label="¿Cuál es tu WhatsApp?"></div>
+      <p class="fm-num"></p>
+      <h2>¿Desde dónde nos escribís?</h2>
+      <div class="fm-campo"><input type="text" data-k autocomplete="address-level2" placeholder="Ciudad y país" aria-label="Ciudad y país"></div>
+    </section>
+    <section class="fm-paso" data-requerido hidden>
+      <p class="fm-num"></p>
+      <h2>¿A qué número te escribimos?</h2>
+      <p class="fm-sub">Coordinamos por WhatsApp. Elegí tu país y escribí el número sin el código.</p>
+      <div class="fm-campo"><select aria-label="País"><option value="54">AR +54</option><option value="598">UY +598</option><option value="56">CL +56</option><option value="595">PY +595</option><option value="591">BO +591</option><option value="55">BR +55</option><option value="51">PE +51</option><option value="57">CO +57</option><option value="52">MX +52</option><option value="34">ES +34</option><option value="1">US +1</option></select><input type="tel" data-k inputmode="tel" autocomplete="tel-national" placeholder="11 2345 6789" aria-label="Número de WhatsApp"></div>
     </section>
     <section class="fm-paso" hidden>
-      <h2>¿Cómo se llama tu marca?</h2>
-      <input type="text" data-k autocomplete="organization" placeholder="Si necesitás naming, ¡avisanos!" aria-label="¿Cómo se llama tu marca?">
+      <p class="fm-num"></p>
+      <h2>¿Cómo se llama tu negocio?</h2>
+      <p class="fm-sub">Si todavía no tiene nombre, podés dejarlo en blanco.</p>
+      <div class="fm-campo"><input type="text" data-k autocomplete="organization" placeholder="Nombre del negocio" aria-label="Nombre del negocio"></div>
     </section>
     <section class="fm-paso" hidden>
-      <h2>Contanos más sobre tu marca</h2>
-      <p class="fm-sub">¿En qué industria estás? ¿Cuál es tu producto o servicio? ¿Qué querés lograr con él?</p>
-      <textarea data-k rows="3" placeholder="Escribí tu respuesta acá…" aria-label="Contanos más sobre tu marca"></textarea>
+      <p class="fm-num"></p>
+      <h2>Contanos qué hacés</h2>
+      <p class="fm-sub">A qué se dedica tu negocio, a quién le vendés y qué te gustaría lograr con tu página.</p>
+      <div class="fm-campo"><textarea data-k rows="4" placeholder="Con unas pocas líneas alcanza" aria-label="Contanos qué hacés"></textarea></div>
     </section>
     <section class="fm-paso" hidden>
-      <h2>¿Qué servicio te interesa?</h2>
-      <div class="fm-opciones"><label class="fm-opcion"><input type="checkbox"><i aria-hidden="true"></i><span>Diseño + Desarrollo Web</span></label><label class="fm-opcion"><input type="checkbox"><i aria-hidden="true"></i><span>Landing Page</span></label><label class="fm-opcion"><input type="checkbox"><i aria-hidden="true"></i><span>Rediseño de Web</span></label><label class="fm-opcion"><input type="checkbox"><i aria-hidden="true"></i><span>E-commerce</span></label><label class="fm-opcion"><input type="checkbox"><i aria-hidden="true"></i><span>Branding</span></label><label class="fm-opcion"><input type="checkbox"><i aria-hidden="true"></i><span>Otro</span></label></div>
+      <p class="fm-num"></p>
+      <h2>¿Qué necesitás?</h2>
+      <p class="fm-sub">Podés elegir más de una opción.</p>
+      <div class="fm-chips"><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Una página nueva</span></label><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Una landing para una campaña</span></label><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Rediseñar mi página actual</span></label><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Vender online</span></label><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Reservas o turnos online</span></label><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Un sistema para administrar mi negocio</span></label><label class="fm-chip"><input type="checkbox"><i aria-hidden="true"></i><span>Otra cosa</span></label></div>
     </section>
     <section class="fm-paso fm-final" hidden>
-      <h2><span>Gracias,</span> <span class="fm-nombre"></span>!</h2>
-      <p class="fm-sub">Con tus respuestas armamos el mensaje para escribirnos por WhatsApp.</p>
-      <a class="fm-btn fm-btn--claro" data-fm-enviar href="#contacto">Enviar por WhatsApp</a>
+      <h2><span class="fm-nombre"></span>, ya tenemos lo que necesitamos.</h2>
+      <p class="fm-sub">Armamos tu mensaje con las respuestas. Lo mandás vos desde WhatsApp y te contestamos por ahí.</p>
+      <div class="fm-acciones"><a class="fm-btn" data-fm-enviar href="#">Abrir WhatsApp con mis respuestas</a><button type="button" class="fm-volver" data-fm-volver>Revisar respuestas</button></div>
     </section>
-    <div class="fm-botonera"><button type="button" class="fm-btn fm-btn--borde" data-fm-atras hidden>Atrás</button><button type="button" class="fm-btn fm-btn--claro" data-fm-sig disabled>Siguiente</button></div>
+    <div class="fm-acciones" data-fm-botonera hidden><button type="button" class="fm-btn" data-fm-sig disabled>Continuar</button><button type="button" class="fm-volver" data-fm-atras hidden>Volver</button></div>
   </div>
 </div>
 
