@@ -19,7 +19,7 @@
     --fondo:{{fondo}}; --superficie:{{superficie}}; --tinta:{{tinta}}; --suave:{{suave}};
     --oscuro:{{oscuro}}; --acento:{{acento}}; --acento-tinta:{{acento_tinta}};
     --t1:{{t1}}; --t2:{{t2}}; --t3:{{t3}}; --t4:{{t4}};
-    --display:{{display}}; --cuerpo:{{cuerpo}};
+    --display:{{display}}; --display2:{{display2}}; --cuerpo:{{cuerpo}};
     --linea:color-mix(in srgb,var(--tinta) 13%,transparent);
     --r:12px; --gut:20px;
   }
@@ -65,8 +65,9 @@
   .hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:clamp(620px,92vh,860px);background:var(--oscuro);color:#fff;overflow:hidden}
   .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.11) 1px,transparent 1.4px);background-size:24px 24px;-webkit-mask-image:linear-gradient(90deg,#000,transparent 85%);mask-image:linear-gradient(90deg,#000,transparent 85%);pointer-events:none}
   .hero-txt{position:relative;align-self:center;padding:clamp(120px,17vh,168px) clamp(28px,5vw,72px) clamp(48px,8vh,88px) max(var(--gut),calc((100vw - 1200px)/2));max-width:780px;justify-self:end;width:100%}
-  .hero h1{font-size:clamp(42px,5.6vw,84px);line-height:1.03;letter-spacing:-.035em;max-width:12ch;color:#fff}
-  .hero .texto{max-width:40ch;color:rgba(255,255,255,.74);font-size:clamp(17px,1.5vw,20px);line-height:1.5;margin-block:22px 34px}
+  .hero h1{font-size:clamp(46px,6vw,92px);line-height:1;letter-spacing:-.035em;max-width:none;color:#fff;overflow-wrap:break-word}
+  .hero .sub{font-family:var(--display2),Georgia,serif;font-weight:400;font-size:clamp(24px,2.5vw,36px);line-height:1.15;letter-spacing:-.01em;color:rgba(255,255,255,.92);margin-top:16px}
+  .hero .texto{max-width:40ch;color:rgba(255,255,255,.74);font-size:clamp(17px,1.5vw,20px);line-height:1.5;margin-block:20px 34px}
   .acciones{display:flex;flex-wrap:wrap;gap:12px}
   .hero .borde{border-color:rgba(255,255,255,.4);color:#fff}
   .hero-foto{position:relative;min-height:340px}
@@ -204,7 +205,8 @@
     header nav .btn{min-height:42px;padding:0 18px}
     .hero{grid-template-columns:1fr;min-height:0}
     .hero-txt{justify-self:stretch;max-width:none;padding:112px var(--gut) 44px}
-    .hero h1{font-size:clamp(38px,10.6vw,52px)}
+    .hero h1{font-size:clamp(40px,12vw,56px)}
+    .hero .sub{font-size:clamp(22px,6.4vw,28px);margin-top:12px}
     .hero .texto{font-size:17px;margin-block:16px 24px}
     .hero-foto{min-height:0;aspect-ratio:4/3}
     .sello{left:auto;right:22px;top:0;transform:translate(0,-50%);width:104px;height:104px}
@@ -248,6 +250,7 @@
   <div class="hero">
     <div class="hero-txt">
       <h1>{{titular}}</h1>
+      <p class="sub">{{subtitular}}</p>
       <p class="texto">{{bajada}}</p>
       <div class="acciones" id="acciones-hero"><a class="btn acento" href="#reserva">{{cta}}</a>{{boton_wa_hero}}</div>
     </div>
