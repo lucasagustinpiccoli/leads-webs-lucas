@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#16212B">
+<title>Mancomún | La app para dividir gastos</title>
+<meta name="description" content="Mancomún es una app de ejemplo para dividir gastos entre amigos, parejas y convivientes. Anotás, la app calcula y todos saldan sin cuentas incómodas.">
+<link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fuentes.css">
+<style>
+  /* Landing de una app de ejemplo. Azul pizarra, un solo acento naranja y pantallas de la app hechas en HTML. */
+  :root{
+    --noche:#16212B; --noche-2:#1F2E3B; --niebla:#F1F4F7; --niebla-2:#E3E9EF; --blanco:#FFFFFF;
+    --tinta:#111A22; --suave:#53606D; --naranja:#FF7A2F; --naranja-tinta:#1D0F05; --ok:#2E8B6A; --deuda:#C2410C;
+    --linea:rgba(17,26,34,.12); --linea-osc:rgba(241,244,247,.16);
+    --titulo:"Outfit",system-ui,sans-serif; --texto:"Albert Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --r:18px; --gut:clamp(18px,4vw,56px); --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+  html,body{overflow-x:clip}
+  body{font-family:var(--texto);font-size:17px;line-height:1.6;color:var(--tinta);background:var(--niebla);-webkit-font-smoothing:antialiased}
+  img,svg{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit}
+  h1,h2,h3{font-family:var(--titulo);font-weight:600;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
+  h2{font-size:clamp(2.1rem,4.6vw,3.6rem)}
+  h3{font-size:1.3rem;letter-spacing:-.015em;line-height:1.2}
+  .w{width:min(1200px,100% - 2*var(--gut));margin-inline:auto}
+  :focus-visible{outline:2px solid var(--naranja);outline-offset:3px}
+  section{padding-block:clamp(56px,8vw,112px)}
+  .aviso{background:#0E161D;color:rgba(241,244,247,.75);font-size:13px;text-align:center;padding:7px 16px;position:relative;z-index:60}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;border:0;background:var(--naranja);color:var(--naranja-tinta);font-weight:600;font-size:1rem;cursor:pointer;white-space:nowrap;transition:transform .16s var(--ease),filter .2s}
+  .btn:active{transform:scale(.97)}
+  .btn svg{width:20px;height:20px;flex:none}
+  .btn-borde{background:none;color:inherit;box-shadow:0 0 0 1.5px currentColor inset}
+  @media (hover:hover){.btn:hover{filter:brightness(1.07)}}
+
+  header{position:fixed;top:33px;left:0;right:0;z-index:50;color:var(--niebla);transition:background-color .3s}
+  header.solida{background:rgba(22,33,43,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+  header .w{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:68px}
+  .marca{font-family:var(--titulo);font-weight:700;font-size:1.4rem;letter-spacing:-.03em;display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .marca i{width:28px;height:28px;border-radius:9px;background:var(--naranja);display:grid;place-items:center;color:var(--naranja-tinta);font-style:normal;font-size:1rem}
+  header nav{display:flex;align-items:center;gap:28px;font-size:.95rem;font-weight:500}
+  header nav a:not(.btn){opacity:.85;min-height:44px;display:inline-flex;align-items:center}
+  header nav .btn{min-height:44px;padding:0 20px}
+  @media (hover:hover){header nav a:not(.btn):hover{opacity:1}}
+
+  /* presentación */
+  .hero{background:var(--noche);color:var(--niebla);padding-block:clamp(120px,16vw,170px) clamp(48px,7vw,96px);overflow:hidden;position:relative}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 40%,rgba(255,122,47,.16),transparent 70%);pointer-events:none}
+  .hero .w{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,5vw,80px);align-items:center;position:relative}
+  .hero h1{font-size:clamp(2.9rem,7vw,6rem);font-weight:700;letter-spacing:-.045em;line-height:.96;max-width:11ch}
+  .hero .baja{margin-top:22px;max-width:38ch;font-size:clamp(1.05rem,1.6vw,1.3rem);opacity:.85}
+  .hero .acciones{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+  .hero .nota{margin-top:16px;font-size:.92rem;opacity:.65}
+
+  /* teléfono */
+  .tel{width:min(300px,100%);aspect-ratio:9/19;border-radius:44px;background:#0B1218;padding:10px;box-shadow:0 0 0 2px #2B3B49 inset,0 40px 80px -30px rgba(0,0,0,.7);margin-inline:auto;position:relative}
+  .tel::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:84px;height:22px;border-radius:12px;background:#0B1218;z-index:3}
+  .pant{width:100%;height:100%;border-radius:34px;background:var(--niebla);color:var(--tinta);overflow:hidden;position:relative}
+  .pant>div{position:absolute;inset:0;padding:48px 18px 18px;display:flex;flex-direction:column;gap:12px;opacity:0;transform:translateY(8px);transition:opacity .45s var(--ease),transform .45s var(--ease);pointer-events:none}
+  .pant>div.on{opacity:1;transform:none}
+  .pant h4{font-family:var(--titulo);font-weight:600;font-size:1.05rem;letter-spacing:-.02em}
+  .pant small{color:var(--suave);font-size:.78rem}
+  .p-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .p-total{background:var(--noche);color:var(--niebla);border-radius:16px;padding:14px 16px}
+  .p-total b{display:block;font-family:var(--titulo);font-size:1.7rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .p-total small{color:rgba(241,244,247,.7)}
+  .p-fila{display:flex;align-items:center;gap:10px;background:var(--blanco);border-radius:14px;padding:10px 12px;font-size:.88rem}
+  .p-fila .av{width:30px;height:30px;border-radius:50%;background:var(--niebla-2);display:grid;place-items:center;font-weight:600;font-size:.78rem;flex:none}
+  .p-fila span{flex:1;min-width:0}
+  .p-fila em{font-style:normal;font-weight:600;font-variant-numeric:tabular-nums}
+  .p-fila em.mas{color:var(--ok)} .p-fila em.menos{color:var(--deuda)}
+  .p-campo{background:var(--blanco);border-radius:14px;padding:10px 14px}
+  .p-campo b{display:block;font-family:var(--titulo);font-size:1.9rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .p-chips{display:flex;gap:6px;flex-wrap:wrap}
+  .p-chips i{font-style:normal;font-size:.76rem;padding:6px 10px;border-radius:999px;background:var(--blanco);box-shadow:0 0 0 1px var(--linea) inset}
+  .p-chips i.on{background:var(--noche);color:var(--niebla);box-shadow:none}
+  .p-btn{margin-top:auto;background:var(--naranja);color:var(--naranja-tinta);border-radius:14px;text-align:center;font-weight:600;padding:13px;font-size:.92rem}
+  .p-ok{display:grid;place-items:center;text-align:center;gap:8px;flex:1}
+  .p-ok i{width:64px;height:64px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-style:normal;font-size:1.8rem}
+
+  /* cómo funciona: el teléfono acompaña al texto */
+  .funciona{background:var(--niebla)}
+  .funciona .w{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,5vw,80px);align-items:start}
+  .funciona .tel-sticky{position:sticky;top:110px;order:2;padding-block:20px}
+  .pasos{display:grid}
+  .paso{min-height:68vh;display:flex;flex-direction:column;justify-content:center;gap:14px;border-top:1px solid var(--linea);padding-block:40px;opacity:.38;transition:opacity .35s}
+  .paso.on{opacity:1}
+  .paso:first-child{border-top:0}
+  .paso .n{font-family:var(--titulo);font-weight:600;color:var(--naranja);font-size:1.1rem}
+  .paso h3{font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.035em;line-height:1.02}
+  .paso p{color:var(--suave);max-width:40ch;font-size:1.1rem}
+  .paso .movil-ph{display:none}
+  .funciona .titulo{margin-bottom:clamp(8px,2vw,24px)}
+
+  /* para qué sirve */
+  .usos{background:var(--noche);color:var(--niebla)}
+  .usos ul{list-style:none;margin-top:clamp(28px,4vw,48px);border-top:1px solid var(--linea-osc)}
+  .usos li{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr) auto;gap:20px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--linea-osc)}
+  .usos li h3{font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-.035em}
+  .usos li p{opacity:.78;max-width:46ch}
+  .usos li b{font-family:var(--titulo);color:var(--naranja);font-weight:600;font-variant-numeric:tabular-nums}
+
+  .faq .w{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:start}
+  .faq details{border-bottom:1px solid var(--linea)}
+  .faq details:first-of-type{border-top:1px solid var(--linea)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-weight:600;font-size:1.1rem;min-height:44px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:1.6rem;line-height:1;transition:transform .25s var(--ease)}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{padding:0 0 22px;color:var(--suave);max-width:60ch}
+
+  .cierre{background:var(--naranja);color:var(--naranja-tinta);text-align:left}
+  .cierre .w{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px 48px}
+  .cierre h2{max-width:14ch;font-size:clamp(2.4rem,6vw,5rem);letter-spacing:-.045em}
+  .cierre .btn{background:var(--noche);color:var(--niebla)}
+  .cierre .acciones{display:flex;flex-wrap:wrap;gap:12px}
+
+  footer{background:var(--noche);color:rgba(241,244,247,.75);padding-block:32px;font-size:.92rem}
+  footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px}
+
+  .barra{display:none}
+  @media (max-width:900px){
+    header nav a:not(.btn){display:none}
+    .hero .w,.funciona .w,.faq .w{grid-template-columns:minmax(0,1fr)}
+    .hero .tel{margin-top:16px}
+    .funciona .tel-sticky{display:none}
+    .paso{min-height:0;opacity:1;padding-block:32px}
+    .paso .movil-ph{display:block;margin-top:18px}
+    .paso .movil-ph .tel{width:min(260px,100%)}
+    .paso .movil-ph .pant>div{opacity:1;transform:none}
+    .usos li{grid-template-columns:minmax(0,1fr);gap:6px}
+    .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:45;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--noche);border-top:1px solid var(--linea-osc);transform:translateY(100%);transition:transform .25s var(--ease)}
+    .barra.ver{transform:none}
+    .barra .btn{width:100%}
+    footer{padding-bottom:92px}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="aviso">Landing de ejemplo de Lumen Studio. La app y sus datos son ficticios.</div>
+
+<header id="cab">
+  <div class="w">
+    <a class="marca" href="#inicio" aria-label="Mancomún, inicio"><i aria-hidden="true">M</i>Mancomún</a>
+    <nav>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#usos">Para qué sirve</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn" href="#descargar">Descargar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="w">
+      <div>
+        <h1>Dividí gastos sin hacer cuentas</h1>
+        <p class="baja">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
+        <div class="acciones" id="acciones-hero">
+          <a class="btn" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
+          <a class="btn btn-borde" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
+        </div>
+        <p class="nota">Gratis para grupos de hasta cinco personas.</p>
+      </div>
+      <div class="tel" aria-hidden="true"><div class="pant" id="pant-hero"></div></div>
+    </div>
+  </section>
+
+  <section class="funciona" id="como-funciona">
+    <div class="w">
+      <div class="pasos" id="pasos">
+        <h2 class="titulo">Así de simple</h2>
+        <div class="paso on" data-p="0"><span class="n">1</span><h3>Anotás un gasto en segundos</h3><p>Ponés el monto, quién pagó y entre quiénes se divide. Nada más.</p><div class="movil-ph"></div></div>
+        <div class="paso" data-p="1"><span class="n">2</span><h3>Cada uno ve cuánto debe</h3><p>La app lleva el saldo de todos al día y te muestra quién le debe a quién.</p><div class="movil-ph"></div></div>
+        <div class="paso" data-p="2"><span class="n">3</span><h3>Saldan con un toque</h3><p>Cuando alguien paga, lo marcás y el saldo se actualiza para todo el grupo.</p><div class="movil-ph"></div></div>
+      </div>
+      <div class="tel-sticky"><div class="tel" aria-hidden="true"><div class="pant" id="pant-sticky"></div></div></div>
+    </div>
+  </section>
+
+  <section class="usos" id="usos">
+    <div class="w">
+      <h2>Para cada grupo, una cuenta clara</h2>
+      <ul>
+        <li><h3>Viajes</h3><p>Alojamiento, nafta y cenas: cada gasto queda anotado y al volver se salda todo junto.</p><b>Tickets</b></li>
+        <li><h3>Departamento compartido</h3><p>Alquiler, expensas y servicios, con cuotas iguales o distintas según cada uno.</p><b>Mensual</b></li>
+        <li><h3>Salidas y asados</h3><p>Uno paga el total y los demás le devuelven su parte sin hacer cuentas en la mesa.</p><b>Al instante</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="faq" id="preguntas">
+    <div class="w">
+      <h2>Preguntas frecuentes</h2>
+      <div>
+        <details><summary>¿Hay que pagar para usarla?</summary><p>En este proyecto de ejemplo no hay precios reales. Una app de verdad define su plan gratuito y sus planes pagos.</p></details>
+        <details><summary>¿Todos tienen que instalarla?</summary><p>No. Quien arma el grupo puede invitar por link, y cada persona ve su saldo desde el celular.</p></details>
+        <details><summary>¿Se puede dividir en partes desiguales?</summary><p>Sí. Podés repartir en partes iguales, por porcentaje o con un monto fijo para cada persona.</p></details>
+        <details><summary>¿Cómo se paga lo que se debe?</summary><p>La app calcula cuánto le toca a cada uno y los pagos se hacen por fuera, como siempre. Después se marcan como saldados.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre" id="descargar">
+    <div class="w">
+      <h2>Empezá hoy con tu grupo</h2>
+      <div class="acciones" id="acciones-fin">
+        <a class="btn" href="#inicio">App Store</a>
+        <a class="btn" href="#inicio">Google Play</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="w"><span>Mancomún, landing de ejemplo de Lumen Studio.</span><span>Todos los datos de las pantallas son ficticios.</span></div>
+</footer>
+
+<div class="barra" id="barra"><a class="btn" href="#descargar">Descargar la app</a></div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = function(n){ return n.toLocaleString("es-AR"); };
+
+  /* ---- pantallas de la app, armadas en HTML ---- */
+  var PANTALLAS = [
+    '<div><div class="p-cab"><div><small>Grupo</small><h4>Viaje a las sierras</h4></div><small>4 personas</small></div>' +
+      '<div class="p-total"><small>Total gastado</small><b data-n="84300">$ 0</b></div>' +
+      '<div class="p-fila"><span class="av">AN</span><span>Ana</span><em class="mas">+ $ 12.400</em></div>' +
+      '<div class="p-fila"><span class="av">MA</span><span>Martín</span><em class="menos">- $ 8.200</em></div>' +
+      '<div class="p-fila"><span class="av">SO</span><span>Sofi</span><em class="mas">+ $ 3.100</em></div>' +
+      '<div class="p-fila"><span class="av">LU</span><span>Lucho</span><em class="menos">- $ 7.300</em></div></div>',
+    '<div><div class="p-cab"><div><small>Nuevo gasto</small><h4>Cena del sábado</h4></div></div>' +
+      '<div class="p-campo"><small>Monto</small><b>$ 18.600</b></div>' +
+      '<div class="p-campo"><small>Pagó</small><div>Sofi</div></div>' +
+      '<small>Se divide</small><div class="p-chips"><i class="on">Partes iguales</i><i>Porcentaje</i><i>Montos</i></div>' +
+      '<div class="p-chips"><i class="on">Ana</i><i class="on">Martín</i><i class="on">Sofi</i><i class="on">Lucho</i></div>' +
+      '<div class="p-btn">Guardar gasto</div></div>',
+    '<div><div class="p-cab"><div><small>Saldar</small><h4>Le debés a Sofi</h4></div></div>' +
+      '<div class="p-total"><small>Tu parte</small><b>$ 4.650</b></div>' +
+      '<div class="p-fila"><span class="av">SO</span><span>Cena del sábado</span><em>$ 4.650</em></div>' +
+      '<div class="p-ok"><i>✓</i><h4>Todo al día</h4><small>Cuando pagues, marcalo y se actualiza el grupo.</small></div>' +
+      '<div class="p-btn">Marcar como pagado</div></div>'
+  ];
+  function montar(c, activa, todas){
+    c.innerHTML = PANTALLAS.map(function(h, i){ return h.replace("<div>", '<div class="' + (todas ? "on" : (i === activa ? "on" : "")) + '">'); }).join("");
+  }
+  var sticky = $("pant-sticky"), hero = $("pant-hero");
+  var ORDEN = [1, 0, 2]; // el paso 1 muestra el gasto nuevo, el 2 el saldo y el 3 el pago
+  montar(hero, 0); montar(sticky, ORDEN[0]);
+  [].forEach.call(document.querySelectorAll(".paso"), function(p){
+    var cont = p.querySelector(".movil-ph");
+    cont.innerHTML = '<div class="tel" aria-hidden="true"><div class="pant"></div></div>';
+    var pant = cont.querySelector(".pant");
+    pant.innerHTML = PANTALLAS[ORDEN[Number(p.dataset.p)]].replace("<div>", '<div class="on">');
+  });
+
+  /* ---- número del total que cuenta ---- */
+  var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function contar(el){
+    var fin = Number(el.dataset.n);
+    if (reducido){ el.textContent = "$ " + fmt(fin); return; }
+    var t0 = performance.now();
+    (function paso(t){ var k = Math.min(1, (t - t0) / 1200); el.textContent = "$ " + fmt(Math.round(fin * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(paso); })(t0);
+  }
+  [].forEach.call(document.querySelectorAll("[data-n]"), function(el){ el.textContent = "$ " + fmt(Number(el.dataset.n)); });
+  if (!reducido) setTimeout(function(){ var e = hero.querySelector("[data-n]"); if (e) contar(e); }, 300);
+
+  /* ---- el teléfono cambia de pantalla al bajar ---- */
+  var pasos = [].slice.call(document.querySelectorAll(".paso"));
+  function activar(i){
+    pasos.forEach(function(p, k){ p.classList.toggle("on", k === i); });
+    [].forEach.call(sticky.children, function(d, k){ d.classList.toggle("on", k === ORDEN[i]); });
+  }
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(x){ if (x.isIntersecting) activar(Number(x.target.dataset.p)); });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    pasos.forEach(function(p){ io.observe(p); });
+  }
+
+  /* ---- barra superior y barra del celular ---- */
+  var cab = $("cab");
+  function alBajar(){ cab.classList.toggle("solida", window.scrollY > 80); cab.style.top = Math.max(0, document.querySelector(".aviso").offsetHeight - window.scrollY) + "px"; }
+  alBajar(); window.addEventListener("scroll", alBajar, { passive: true });
+  var barra = $("barra"), vistos = new Set();
+  if ("IntersectionObserver" in window){
+    var io2 = new IntersectionObserver(function(es){
+      es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
+      barra.classList.toggle("ver", vistos.size === 0);
+    });
+    ["#acciones-hero", "#descargar", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io2.observe(el); });
+  } else { barra.classList.add("ver"); }
+})();
+</script>
+</body>
+</html>

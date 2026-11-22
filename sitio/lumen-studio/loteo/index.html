@@ -443,7 +443,7 @@
 
   /* ---- barra superior sólida al bajar; botón flotante y barra del celular ---- */
   var cab = $("cab");
-  function alBajar(){ cab.classList.toggle("solida", window.scrollY > 80); cab.style.top = Math.max(0, 33 - window.scrollY) + "px"; }
+  function alBajar(){ cab.classList.toggle("solida", window.scrollY > 80); cab.style.top = Math.max(0, document.querySelector(".aviso").offsetHeight - window.scrollY) + "px"; }
   alBajar(); window.addEventListener("scroll", alBajar, { passive: true });
   var flota = $("flota"), barra = $("barra"), vistos = new Set();
   if ("IntersectionObserver" in window){

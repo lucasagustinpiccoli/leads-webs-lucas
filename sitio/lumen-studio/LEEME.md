@@ -39,3 +39,10 @@ Los botones "Empezá tu proyecto" abren un formulario de pantalla completa (`for
 ## Propuesta de R&RG
 
 `redisenos/rrg/` es la propuesta de rediseño. `armar_sitio.py` la copia a `/rrg/` (con `noindex`) y el panel de Proyectos la enlaza con "Ver la propuesta". Ojo: esa página tiene el logo, los textos, el WhatsApp y las fotos del estudio real, así que conviene confirmar el permiso antes de publicarla. La captura del panel muestra solo las áreas de práctica, sin personas.
+
+## Proyectos de ejemplo nuevos
+
+- `loteo/` (Aromos del Valle): loteo ficticio con mapa de lotes interactivo. Los datos de lotes, superficie y precio se generan en el propio `index.html` (arreglo `LOTES`).
+- `app/` (Mancomún): landing de una app ficticia, con el teléfono armado en HTML. Las pantallas están en `PANTALLAS`.
+- Los dos llevan sus tipografías incluidas (`fonts/`, `fuentes.css`) y `noindex`. `python scripts/inlinar.py sitio/lumen-studio/loteo output/proyecto-loteo.html` arma un solo archivo que abre completo aunque se descargue solo.
+- El número de WhatsApp de ambos es de relleno (`5491100000000`); hay que cambiarlo si se muestran a un cliente.
