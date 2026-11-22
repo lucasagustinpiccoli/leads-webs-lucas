@@ -1,5 +1,5 @@
-/* Apertura "Neon Reveal": un tubo de neón apagado, finito, cruza el borde de arriba. Un tramo del centro titila dos veces,
-   queda prendido y se expande hacia los lados mientras su luz baja y el contenido aparece detrás.
+/* Apertura "Neon Reveal": un tubo de neón apagado, finito, cruza el borde de arriba. Del centro nace un punto de luz que
+   se despliega hacia los costados (sin parpadeo) mientras su luz baja y el contenido aparece detrás.
    Inspirada en la descripción pública del componente Neon Reveal de React Bits Pro
    (https://pro.reactbits.dev/docs/components/neon-reveal); es una versión propia en JavaScript puro, no el componente
    licenciado. Los nombres y valores por defecto de las opciones siguen los de esa documentación.
@@ -32,7 +32,8 @@
     var largo = Math.min(1, Math.max(0.1, o.length));
     var izq = ((1 - largo) / 2 * 100) + "%", ancho = (largo * 100) + "%";
     var grosor = o.thickness;
-    var CHICO = 0.06;
+    var CHICO = 0.012;      // el punto de luz del que arranca todo
+    var INI = 0.26;         // momento de la línea de tiempo en que empieza a desplegarse
 
     function div(clase, css) {
       var d = document.createElement("div");
@@ -79,28 +80,24 @@
       if (reducido || !o.intro) { quieto(); return; }
       var k = o.revealDuration / 2500;          // escala de todos los tiempos
       var T = 2900 * k, delay = o.revealDelay;  // el tramo de luz dura 2,9 s con la duración por defecto
-      var parpadeo = o.flicker > 0;
 
-      // el tubo apagado aparece justo antes del primer titileo y queda visible mientras parpadea el tramo central
+      // el tubo apagado aparece primero y queda visible mientras nace el punto de luz
       a(base, [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.09 }, { opacity: 1, offset: 1 }], { duration: T, delay: delay - 150 * k, easing: SUAVE });
 
-      // dos titileos suaves del tramo central y después queda prendido
-      var cuadros = parpadeo
-        ? [{ opacity: 0, offset: 0 }, { opacity: 0.9, offset: 0.08 }, { opacity: 0.35, offset: 0.17 }, { opacity: 1, offset: 0.26 }, { opacity: 0.5, offset: 0.34 }, { opacity: 1, offset: 0.44 }, { opacity: 1, offset: 1 }]
-        : [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.4 }, { opacity: 1, offset: 1 }];
-      a(nucleo, cuadros, { duration: T, delay: delay, easing: SUAVE });
-      a(halo, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.46, easing: SUAVE }, { opacity: 0.7, offset: 1 }], { duration: T, delay: delay, easing: "linear" });
+      // un punto de luz se enciende en el centro del tubo y queda quieto un instante
+      a(nucleo, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.14 }, { opacity: 1, offset: 0.24 }, { opacity: 1, offset: 1 }], { duration: T, delay: delay, easing: SUAVE });
+      a(halo, [{ opacity: 0, offset: 0 }, { opacity: 0, offset: INI - 0.04, easing: SUAVE }, { opacity: 0.7, offset: 1 }], { duration: T, delay: delay, easing: "linear" });
 
-      // el tramo se expande hacia los lados, con arranque y llegada suaves
-      a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: 0.44, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
+      // y se despliega hacia los dos lados, con arranque y llegada suaves
+      a(lit, [{ transform: "scaleX(" + CHICO + ")", offset: 0 }, { transform: "scaleX(" + CHICO + ")", offset: INI, easing: EXPANDE }, { transform: "scaleX(1)", offset: 1 }],
         { duration: T, delay: delay, easing: "linear" });
 
-      // el cuenco de luz nace proporcional al tramo, titila con él y crece con la misma curva
+      // el cuenco de luz nace proporcional al tramo y crece con la misma curva
       var chico = "scale(0.12, 0.12)";
-      // la luz no existe durante el parpadeo: aparece y se abre recién cuando el tubo queda prendido
+      // la luz no existe mientras el punto está quieto: aparece y se abre junto con el despliegue
       var kd = [
         { opacity: 0, transform: chico, offset: 0 },
-        { opacity: 0, transform: chico, offset: 0.46, easing: EXPANDE },
+        { opacity: 0, transform: chico, offset: INI, easing: EXPANDE },
         { opacity: 1, transform: "scale(1, 1)", offset: 1 }
       ];
       a(derrame, kd, { duration: T, delay: delay, easing: "linear" });
@@ -114,7 +111,7 @@
         ultima = a(h, [
           { opacity: 0, transform: "translateY(10px)", filter: "blur(6px)", offset: 0 },
           { opacity: 1, transform: "translateY(0)", filter: "blur(0px)", offset: 1 }
-        ], { duration: 1500 * k, delay: delay + (T * 0.46 + i * 220 * k), easing: EXPANDE });
+        ], { duration: 1500 * k, delay: delay + (T * (INI + 0.2) + i * 220 * k), easing: EXPANDE });
       });
 
       var fin = animaciones.slice();
@@ -134,7 +131,7 @@
       });
     }
     reproducir();
-    return { replay: reproducir, subtituloMs: (o.revealDelay + (2900 * 0.46 + 220) * (o.revealDuration / 2500)) };
+    return { replay: reproducir, subtituloMs: (o.revealDelay + (2900 * (0.26 + 0.2) + 220) * (o.revealDuration / 2500)) };
   }
   window.NeonReveal = NeonReveal;
 })();
