@@ -229,3 +229,15 @@ Si ves alguna, corregila antes de entregar:
 - formularios que obligan a tipear en el celular,
 - el botón de WhatsApp tapando algo,
 - frases coloquiales que restan seriedad.
+
+## Errores a no repetir (revisión de la plantilla de odontología)
+
+Lucas rechazó una primera versión por estos motivos; valen para cualquier plantilla de servicios:
+
+- **Mostrar los servicios como servicios**, en tarjetas claras con su foto y un botón que lleva al pedido. Nunca una lista de "motivos de consulta" ni de categorías genéricas.
+- **El pedido de turno es un recorrido corto por pasos** (qué, cuándo, datos, confirmación), con la semana y los horarios a la vista, como en los sistemas de reserva reales. No un formulario largo de chips apilados.
+- **Nada de galería de "fotos del consultorio"**: no muestra profesionalismo. Las fotos van donde cuentan algo (el hero, cada tratamiento).
+- **El hero no lleva datos de Google** (calificación, cantidad de fotos, reseñas). Esos datos, si se usan, van más abajo y solo con respaldo real.
+- **El título del hero lleva el nombre de la marca**; "Odontología en {localidad}" solo es demasiado básico.
+- **Las muestras de portfolio usan una marca ficticia**, nunca un negocio real (`scripts/demo.py --ficticio`).
+- **Cuando hay una referencia, copiar su estructura y su criterio, no sus efectos**: lo que el cliente no quiso (carrusel con imágenes que van apareciendo) no se copia.

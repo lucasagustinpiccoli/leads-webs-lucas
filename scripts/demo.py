@@ -36,6 +36,17 @@ TEMPLATE_EVENTO = os.path.join(ROOT, "templates", "landing_evento.html")  # "est
 TEMPLATE_CERCANO = os.path.join(ROOT, "templates", "landing_cercano.html")  # "estilo": "cercano" (veterinarias y servicios de trato diario)
 TEMPLATE_SOBRIO = os.path.join(ROOT, "templates", "landing_sobrio.html")  # rubros con "estilo": "sobrio" (salud, profesionales)
 
+# Marcas inventadas para mostrar cada plantilla sin usar un negocio real (portfolio y capturas). Nada de lo que dicen existe.
+FICTICIOS = {
+    "dentista": {
+        "fila": {"ranking": "3", "rubro": "Dentista", "negocio": "Brío Dental", "localidad": "Ramos Mejía",
+                 "direccion": "Av. de Mayo 1240, Ramos Mejía", "telefono": "", "whatsapp": "5491100000000", "rating": "",
+                 "fotos": "0", "link_maps": "https://www.google.com/maps/search/?api=1&query=Ramos+Mej%C3%ADa", "web": ""},
+        "extra": {"horarios": "Lunes a viernes, de 9 a 19 h", "mapa_q": "Av. de Mayo 1240, Ramos Mejía, Buenos Aires",
+                  "aviso": "Marca de ejemplo. Sitio de muestra de Lumen Studio."},
+    },
+}
+
 ICONOS = {
     # Logo oficial de WhatsApp, del paquete simple-icons 13.21.0 (licencia CC0).
     "wa": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
@@ -135,7 +146,10 @@ def copiar_stock(d, carpeta):
     src = os.path.join(ROOT, "templates", "assets", d["rubro"])
     dst = os.path.join(carpeta, "img")
     os.makedirs(dst, exist_ok=True)
-    for n in {d["hero_stock"], *d["galeria_stock"], *(t["imagen"] for t in d["tipos"])}:
+    usadas = {d["hero_stock"], *(t["imagen"] for t in d["tipos"])}
+    if d.get("estilo") != "clinico":  # el estilo clínico no lleva galería de fotos del consultorio
+        usadas |= set(d["galeria_stock"])
+    for n in usadas:
         shutil.copyfile(os.path.join(src, n), os.path.join(dst, n))
         chica = os.path.join(dst, chica_nombre(n))
         if not os.path.exists(chica):
@@ -197,9 +211,20 @@ def render(d):
             f'<article><div class="tipo"><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 767px) 70vw, 25vw")} '
             f'alt="" loading="lazy"></div>'
             f'<div class="tipo-pie"><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p></div></article>' for t in d["tipos"])
-    gal_visibles = gal[1:] if estilo == "clinico" else gal  # en el estilo clínico la primera foto va junto al texto del consultorio
+    gal_visibles = gal[1:] if estilo == "clinico" else gal
     galeria = "".join(f'<figure><img src="{e(u)}" {srcset(u, "(max-width: 767px) 50vw, 33vw")} alt="{e(d["alt_galeria"])}" '
                       f'loading="lazy"></figure>' for u in gal_visibles)
+
+    # Estilo clínico: tratamientos en tarjetas de color, lista de puntos y datos del pedido de turno por pasos.
+    extra_clinico = {}
+    if estilo == "clinico":
+        extra_clinico["servicios_html"] = "".join(
+            f'<article class="tarjeta"><img src="{e(img_tipo[t["titulo"]])}" {srcset(img_tipo[t["titulo"]], "(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 25vw")} '
+            f'alt="" loading="lazy" width="800" height="600"><div><h3>{e(t["titulo"])}</h3><p>{e(t["texto"])}</p>'
+            f'<a href="#reserva" data-servicio="{i}">Pedir turno</a></div></article>' for i, t in enumerate(d["tipos"]))
+        extra_clinico["servicios_json"] = json.dumps([{"titulo": t["titulo"], "texto": t["texto"]} for t in d["tipos"]], ensure_ascii=False).replace("<", "\\u003c")
+        extra_clinico["reserva_json"] = json.dumps({k: d["form"].get(k, []) for k in ("dias", "manana", "tarde")}, ensure_ascii=False)
+        extra_clinico["puntos_html"] = "".join(f"<li>{e(x)}</li>" for x in d.get("puntos", []))
 
     # Teléfono y dirección como links: en el celular abren el discador y la app de mapas.
     tel_digits = re.sub(r"[^\d+]", "", d["telefono"] or "")
@@ -220,7 +245,7 @@ def render(d):
     # Con nombres largos el mínimo baja, así el nombre gigante entra en el celular y no queda cortado.
     minimo = min(48, round(650 / max(len(corto), 1)))
     gigante = f'<span style="font-size:clamp({minimo}px,{min(13, round(150 / max(len(corto), 1), 1))}vw,210px)">{e(corto)}</span>'
-    mapa = "https://www.google.com/maps?q=" + quote(f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
+    mapa = "https://www.google.com/maps?q=" + quote(d.get("mapa_q") or f'{d["negocio"]}, {d["direccion"]}') + "&output=embed"
 
     tema = {"enfasis_estilo": "italic", "enfasis_peso": "inherit", "peso_display": "400", **d["tema"]}
     plano = lambda t: e(t.replace("*", ""))  # el estilo sobrio no usa palabras destacadas
@@ -245,6 +270,8 @@ def render(d):
         "form_html": formulario(d["form"]), "form_boton": e(d["form"]["boton"]),
         "seccion_nosotros": plano(d.get("seccion_nosotros", "Quiénes somos")), "foto_nosotros": foto_nosotros,
         "negocio_pie": e(corto), "foto_fondo": e(gal[-1]),
+        "aviso": e(d.get("aviso") or f'Demo preparada para {d["negocio"]}. Fotos y textos de referencia.'),
+        **extra_clinico,
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
     if sobrio:  # textos sin énfasis, botones de la plantilla sobria
@@ -275,6 +302,8 @@ def formulario(fm):
     para tocar, como el recorrido de reserva de Oliva Atelier. modo "presupuesto" (salones...): tipo, fecha y cantidad."""
     c = []
     modo = fm.get("modo", "presupuesto")
+    if modo == "reserva":  # el estilo clínico arma su propio pedido por pasos en la plantilla
+        return ""
     if fm.get("tipos"):
         c.append(chips(fm["tipo_label"], "tipo", fm["tipos"]))
     for i, x in enumerate(fm.get("extras", [])):
@@ -314,7 +343,27 @@ def main():
     ap.add_argument("--demos", action="store_true", help="todas las marcadas para demo")
     ap.add_argument("--rubro", help="filtrar --demos por rubro (clave de config/rubros.json)")
     ap.add_argument("--render", help="regenerar index.html desde un datos.json editado")
+    ap.add_argument("--ficticio", metavar="RUBRO", help="demo de muestra con una marca inventada (ver FICTICIOS): output/demos/ejemplo-{rubro}/")
     a = ap.parse_args()
+
+    if a.ficticio:
+        if a.ficticio not in FICTICIOS:
+            sys.exit(f"Rubros con marca ficticia: {', '.join(FICTICIOS)}")
+        f = FICTICIOS[a.ficticio]
+        carpeta = os.path.join(OUT, "demos", f"ejemplo-{a.ficticio}")
+        jp = os.path.join(carpeta, "datos.json")
+        if os.path.exists(jp):
+            with open(jp, encoding="utf-8") as fh:
+                d = json.load(fh)
+        else:
+            d = armar_datos(f["fila"])
+            d.update(f["extra"])
+            os.makedirs(carpeta, exist_ok=True)
+            with open(jp, "w", encoding="utf-8") as fh:
+                json.dump(d, fh, ensure_ascii=False, indent=2)
+        escribir(d, carpeta)
+        print(f"  {d['negocio']} (marca ficticia) -> {os.path.relpath(carpeta, ROOT)}/index.html")
+        return
 
     if a.render:
         with open(a.render, encoding="utf-8") as f:

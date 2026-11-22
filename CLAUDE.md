@@ -44,6 +44,8 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 
 - `python scripts/demo.py --demos --rubro salon_eventos` → genera las demos marcadas "Sí" de ese rubro en la última tanda.
   `--ranking N` para una sola; `--render output/demos/{carpeta}/datos.json` para regenerar después de editar.
+- `python scripts/demo.py --ficticio dentista` genera `output/demos/ejemplo-dentista/` con una marca inventada (Brío Dental, Ramos Mejía) para
+  mostrar la plantilla sin usar un negocio real.
 - Cada demo: `output/demos/{ranking}-{negocio}/` con `datos.json` (editable), `index.html` e `img/` (fotos de stock
   y su versión de 800 px). La carpeta entera es lo que se publica. Si `datos.json` ya existe, no se pisa.
 - Motor único `templates/landing.html`; textos, formulario, fotos y temas por rubro en `config/landing/{rubro}.json`.
@@ -51,10 +53,12 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   en el skill `diseno-anti-ia`.
 - **Cinco estilos de plantilla**, elegidos con `"estilo"` en `config/landing/{rubro}.json`:
   `"evento"` (`templates/landing_evento.html`, salones: foto a pantalla completa, oscuro de punta a punta, títulos con serif,
-  tarjetas altas y escalonadas, tira de fotos que se desliza), `"clinico"` (`templates/landing_clinico.html`, dentistas: barra flotante en píldora de vidrio oscuro,
-  presentación partida (título sobre fondo oscuro con puntos + foto del consultorio, sello giratorio con la localidad), tarjeta flotante
-  abajo a la derecha, formulario de turno en su propia sección justo debajo, lista ordenada de motivos con foto chica, sin
-  carruseles ni imágenes que aparecen al hacer scroll; referencias: bassodontologia.com.ar e interactive-studio.io), `"cercano"`
+  tarjetas altas y escalonadas, tira de fotos que se desliza), `"clinico"` (`templates/landing_clinico.html`, dentistas: barra flotante en píldora de vidrio oscuro, presentación partida
+  (título con el nombre de la marca sobre fondo oscuro con puntos + foto del consultorio, sello giratorio con la localidad), tarjeta flotante
+  abajo a la derecha, **tratamientos en tarjetas de color** (no "motivos de consulta"), una lista corta de puntos y un **pedido de turno por
+  pasos** (tratamiento, día y horario con selector de semana, datos, confirmación) que termina en WhatsApp; sin galería de fotos del
+  consultorio, sin carruseles ni imágenes que aparecen al hacer scroll, y sin rating ni cantidad de fotos de Google en el hero;
+  referencias: bassodontologia.com.ar e interactive-studio.io), `"cercano"`
   (`templates/landing_cercano.html`, veterinarias: claro, con color, fotos redondeadas con un bloque de color detrás,
   etapas y galería que se deslizan), `"sobrio"` (`templates/landing_sobrio.html`: una sola tipografía sans, formas rectas,
   la estructura de la propuesta de R&RG; hoy sin rubro asignado) y el editorial original (`templates/landing.html`, sin

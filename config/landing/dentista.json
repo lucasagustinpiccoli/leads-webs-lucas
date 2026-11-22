@@ -7,48 +7,40 @@
   "fotos_label": "fotos del consultorio en Google",
   "meta_descripcion": "{negocio}, consultorio odontológico en {localidad}. Pedí tu turno por WhatsApp eligiendo motivo, día y horario.",
   "eyebrow": "{negocio}",
-  "titular": "Odontología en {localidad}.",
-  "bajada": "Consultas y controles cerca de tu casa. Elegí motivo, día y horario, y pedí tu turno por WhatsApp.",
+  "titular": "{negocio}. Cuidamos tu sonrisa en {localidad}.",
+  "bajada": "Odontología con turnos online. Elegí el tratamiento, el día y el horario, y lo confirmamos por WhatsApp.",
   "cta": "Pedí turno",
-  "intro": "Un consultorio odontológico en {localidad}. Coordinamos tu turno por WhatsApp, con el día y el horario que mejor te queden.",
-  "seccion_tipos": "Motivos de consulta",
+  "intro": "Tratamientos explicados con claridad, en un consultorio de {localidad}.",
+  "seccion_tipos": "Tratamientos",
   "tipos": [
     {
-      "titulo": "Primera consulta",
-      "texto": "Una revisión completa y los pasos a seguir, explicados.",
-      "imagen": "modelo-dental.jpg"
-    },
-    {
-      "titulo": "Controles periódicos",
-      "texto": "Para detectar a tiempo y cuidar lo que está bien.",
+      "titulo": "Odontología general",
+      "texto": "Consultas, controles y limpieza para cuidar tu salud bucal.",
       "imagen": "sillon-azul.jpg"
     },
     {
-      "titulo": "Limpieza y prevención",
-      "texto": "El cuidado de todos los días, con seguimiento profesional.",
-      "imagen": "cepillo-bambu.jpg"
+      "titulo": "Ortodoncia",
+      "texto": "Evaluamos tu caso y te explicamos las opciones para alinear tu sonrisa.",
+      "imagen": "modelo-dental.jpg"
     },
     {
-      "titulo": "Dolor o molestias",
-      "texto": "También para consultas que no pueden esperar.",
-      "imagen": "sillon-ventana.jpg"
+      "titulo": "Implantes y cirugía",
+      "texto": "Planificación con estudios por imágenes y seguimiento en cada etapa.",
+      "imagen": "radiografia-pantalla.jpg"
+    },
+    {
+      "titulo": "Estética dental",
+      "texto": "Tratamientos para cuidar la apariencia de tu sonrisa, con indicación profesional.",
+      "imagen": "cepillo-bambu.jpg"
     }
   ],
   "seccion_galeria": "Fotos del consultorio",
-  "banda": "Pedí tu turno.",
+  "banda": "Pedí tu turno online.",
   "seccion_ubicacion": "Cómo llegar al consultorio",
   "seccion_presupuesto": "Pedí tu turno",
-  "bajada_presupuesto": "Elegí el motivo, el día y el horario. Te respondemos por WhatsApp para confirmar.",
+  "bajada_presupuesto": "Cuatro pasos: tratamiento, día y horario, tus datos y listo. Te respondemos por WhatsApp para confirmar.",
   "form": {
-    "modo": "turno",
-    "tipo_label": "Motivo de la consulta",
-    "tipos": [
-      "Primera consulta",
-      "Control",
-      "Limpieza",
-      "Dolor o molestia",
-      "Otro"
-    ],
+    "modo": "reserva",
     "dias": [
       1,
       2,
@@ -56,12 +48,29 @@
       4,
       5
     ],
-    "franjas": [
-      "Mañana",
-      "Tarde"
+    "manana": [
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30"
     ],
-    "extra_label": "Algo más que quieras contarnos",
-    "boton": "Pedir turno"
+    "tarde": [
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:00",
+      "18:30",
+      "19:00"
+    ],
+    "boton": "Enviar por WhatsApp",
+    "extra_label": "Algo que quieras contarnos"
   },
   "mensaje_wa": "¡Hola {negocio}! Quiero pedir un turno.",
   "imagenes": {
@@ -93,7 +102,11 @@
       "acento_tinta": "#0f2a3a",
       "display": "'Sora', system-ui, sans-serif",
       "cuerpo": "'Karla', system-ui, sans-serif",
-      "fuentes": "family=Sora:wght@500;600&family=Karla:wght@400;500;600"
+      "fuentes": "family=Sora:wght@500;600&family=Karla:wght@400;500;600",
+      "t1": "#c6ebe4",
+      "t2": "#efe7de",
+      "t3": "#d9d2f1",
+      "t4": "#e0efa9"
     },
     {
       "nombre": "coral",
@@ -106,7 +119,11 @@
       "acento_tinta": "#1d2b2b",
       "display": "'Red Hat Display', system-ui, sans-serif",
       "cuerpo": "'Red Hat Text', system-ui, sans-serif",
-      "fuentes": "family=Red+Hat+Display:wght@500;600&family=Red+Hat+Text:wght@400;500;600"
+      "fuentes": "family=Red+Hat+Display:wght@500;600&family=Red+Hat+Text:wght@400;500;600",
+      "t1": "#ffd8cb",
+      "t2": "#efe7de",
+      "t3": "#cde5e1",
+      "t4": "#f3e4ae"
     },
     {
       "nombre": "sol",
@@ -119,14 +136,20 @@
       "acento_tinta": "#14213a",
       "display": "'Manrope', system-ui, sans-serif",
       "cuerpo": "'Source Sans 3', system-ui, sans-serif",
-      "fuentes": "family=Manrope:wght@500;600&family=Source+Sans+3:wght@400;500;600"
+      "fuentes": "family=Manrope:wght@500;600&family=Source+Sans+3:wght@400;500;600",
+      "t1": "#fae6a6",
+      "t2": "#e1e8f4",
+      "t3": "#dce5c6",
+      "t4": "#eee0ef"
     }
   ],
   "estilo": "clinico",
-  "seccion_nosotros": "El consultorio",
-  "galeria_primera": [
-    "sillon-gris.jpg",
-    "sala-espera.jpg",
-    "consultorio-amplio.jpg"
-  ]
+  "seccion_nosotros": "Cómo trabajamos",
+  "puntos": [
+    "Equipo profesional",
+    "Evaluaciones detalladas",
+    "Atención cercana y clara",
+    "Turnos online por WhatsApp"
+  ],
+  "bajada_servicios": "Elegí el que necesitás y pedí tu turno en un minuto."
 }

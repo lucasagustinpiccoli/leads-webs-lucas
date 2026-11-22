@@ -117,8 +117,14 @@ class TestDemo(unittest.TestCase):
 
     def test_rubro_dentista_turno(self):
         d = demo.armar_datos({**FILA, "rubro": "Dentista", "negocio": "Consultorio X"})
-        self.assertEqual(d["form"]["modo"], "turno")
-        self.assertIn("Pedí turno", demo.render(d))
+        self.assertEqual(d["form"]["modo"], "reserva")
+        out = demo.render(d)
+        self.assertIn("Pedí turno", out)
+        self.assertIn('data-servicio="0"', out)           # tratamientos en tarjetas, cada uno lleva al pedido
+        self.assertIn('id="opc-servicios"', out)           # pedido de turno por pasos
+        self.assertNotIn("de calificación en Google", out)  # sin datos de Google en la presentación
+        self.assertNotIn("fotos del consultorio", out)      # sin galería ni conteo de fotos
+        self.assertNotIn("Motivos de consulta", out)
         carpeta = os.path.join(demo.ROOT, "templates", "assets", "dentista")
         for n in {d["hero_stock"], *d["galeria_stock"], *(t["imagen"] for t in d["tipos"])}:
             self.assertTrue(os.path.exists(os.path.join(carpeta, n)), n)
