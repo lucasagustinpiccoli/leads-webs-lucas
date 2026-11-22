@@ -257,7 +257,7 @@
     <div class="hero-foto">
       <img src="{{hero_img}}" {{hero_srcset}} alt="{{alt_hero}}" fetchpriority="high" width="1600" height="1000">
       <div class="sello" aria-hidden="true">
-        <svg class="giro" viewBox="0 0 132 132"><defs><path id="aro" d="M66 66 m-49 0 a49 49 0 1 1 98 0 a49 49 0 1 1 -98 0"/></defs><text><textPath href="#aro" textLength="300" lengthAdjust="spacing" id="sello-texto"></textPath></text></svg>
+        <svg class="giro" viewBox="0 0 132 132" data-texto="{{negocio_pie}} · Odontología · "><defs><path id="aro" d="M66 66 m-49 0 a49 49 0 1 1 98 0 a49 49 0 1 1 -98 0"/></defs><text><textPath href="#aro" textLength="300" lengthAdjust="spacingAndGlyphs" id="sello-texto"></textPath></text></svg>
         <svg class="diente" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.2c-1.4-1-3.1-1.4-4.7-.9C5 4 3.8 6.1 4.1 8.6c.2 1.7.7 3 1.1 4.4.5 1.7.6 3.3 1.1 5.1.3 1.2 1 2 1.9 2 1.3 0 1.6-1.8 2-3.5.3-1.2.6-2 1.8-2s1.5.8 1.8 2c.4 1.7.7 3.5 2 3.5.9 0 1.6-.8 1.9-2 .5-1.8.6-3.4 1.1-5.1.4-1.4.9-2.7 1.1-4.4.3-2.5-.9-4.6-3.2-5.3-1.6-.5-3.3-.1-4.7.9z"/></svg>
       </div>
     </div>
@@ -372,9 +372,9 @@
     var $ = function(id){ return document.getElementById(id); };
     var est = { paso: 0, servicio: -1, fecha: null, hora: "", franja: "todos", semana: 0 };
 
-    // Texto que gira en el sello: localidad y rubro, ajustado al aro.
+    // Texto que gira en el sello: nombre de la marca y rubro, ajustado al aro.
     var st = $("sello-texto");
-    if (st) st.textContent = ("Odontología · Turnos online · ").toUpperCase();
+    if (st) st.textContent = (st.ownerSVGElement.getAttribute("data-texto") || "").toUpperCase();
 
     // La barra flotante arranca debajo del aviso de la demo y sube hasta quedar a 14 px del borde al bajar.
     var cab = document.querySelector("header");
