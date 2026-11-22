@@ -22,7 +22,7 @@
     --r:12px; --gut:20px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+  html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
   body{font-family:var(--cuerpo),system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tinta);background:var(--fondo);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
   img{display:block;max-width:100%}
   a{color:inherit;text-decoration:none}
@@ -44,27 +44,44 @@
     .acento:hover{filter:brightness(1.06)}
     .oscuro:hover{filter:brightness(1.3)}
     .borde:hover,.btn-borde:hover{border-color:var(--tinta)}
-    header nav a:not(.btn):hover{color:var(--tinta)}
+    header nav a:not(.btn):hover{color:#fff}
     .dato-card a:hover,.pie a:hover{text-decoration:underline}
   }
   a:focus-visible,.btn:focus-visible,button:focus-visible{outline:2px solid var(--tinta);outline-offset:3px}
 
-  header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--fondo) 94%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
-  header .w{height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-  .marca{font-family:var(--display),var(--cuerpo),sans-serif;font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:44px;display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  header nav{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500}
-  header nav a:not(.btn){display:inline-flex;align-items:center;min-height:44px;color:var(--suave)}
-  header nav .btn{min-height:44px;padding:0 20px}
+  /* Barra flotante en píldora: vidrio oscuro sobre la presentación, con el botón principal siempre a mano */
+  header{position:fixed;top:44px;left:50%;transform:translateX(-50%);z-index:40;width:min(1120px,100% - 24px);border-radius:999px;background:color-mix(in srgb,var(--oscuro) 88%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);border:1px solid rgba(255,255,255,.16);box-shadow:0 14px 44px -14px rgba(0,0,0,.55)}
+  header .w{width:100%;height:64px;padding:0 10px 0 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .marca{font-family:var(--display),var(--cuerpo),sans-serif;font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:44px;display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}
+  header nav{display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500}
+  header nav a:not(.btn){display:inline-flex;align-items:center;min-height:44px;color:rgba(255,255,255,.72);transition:color .2s}
+  header nav .btn{min-height:46px;padding:0 24px;border-radius:999px;background:#fff;color:var(--oscuro);box-shadow:0 0 30px rgba(255,255,255,.32)}
 
-  /* Presentación: el título y, al lado, el pedido de turno */
-  .hero{padding-block:clamp(28px,5vw,64px) clamp(28px,4vw,48px)}
-  .hero .w{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,96px);align-items:start}
-  .hero h1{max-width:13ch}
-  .hero .texto{max-width:40ch;color:var(--suave);font-size:19px;line-height:1.5;margin-block:18px 28px}
+  /* Presentación: a la izquierda el título sobre fondo oscuro, a la derecha la foto del consultorio */
+  .hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:clamp(620px,92vh,860px);background:var(--oscuro);color:#fff;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.11) 1px,transparent 1.4px);background-size:24px 24px;-webkit-mask-image:linear-gradient(90deg,#000,transparent 85%);mask-image:linear-gradient(90deg,#000,transparent 85%);pointer-events:none}
+  .hero-txt{position:relative;align-self:center;padding:clamp(120px,17vh,168px) clamp(28px,5vw,72px) clamp(48px,8vh,88px) max(var(--gut),calc((100vw - 1200px)/2));max-width:760px;justify-self:end;width:100%}
+  .hero h1{font-size:clamp(44px,6.2vw,92px);line-height:1.02;letter-spacing:-.035em;max-width:11ch;color:#fff}
+  .hero .texto{max-width:38ch;color:rgba(255,255,255,.74);font-size:clamp(17px,1.5vw,20px);line-height:1.5;margin-block:22px 32px}
   .acciones{display:flex;flex-wrap:wrap;gap:12px}
-  .cifras{display:flex;flex-wrap:wrap;gap:20px 40px;margin-top:clamp(28px,4vw,56px);padding-top:22px;border-top:1px solid var(--linea)}
-  .cifras b{display:block;font-family:var(--display),var(--cuerpo),sans-serif;font-size:clamp(24px,2.6vw,32px);line-height:1.1;letter-spacing:-.02em;font-weight:600}
-  .cifras span{display:block;color:var(--suave);font-size:14px;line-height:1.4;margin-top:2px;max-width:24ch}
+  .hero .borde{border-color:rgba(255,255,255,.4);color:#fff}
+  .cifras{display:flex;flex-wrap:wrap;gap:20px 40px;margin-top:clamp(32px,5vw,60px);padding-top:22px;border-top:1px solid rgba(255,255,255,.16)}
+  .cifras b{display:block;font-family:var(--display),var(--cuerpo),sans-serif;font-size:clamp(24px,2.6vw,32px);line-height:1.1;letter-spacing:-.02em;font-weight:600;color:#fff}
+  .cifras span{display:block;color:rgba(255,255,255,.66);font-size:14px;line-height:1.4;margin-top:2px;max-width:24ch}
+  .hero-foto{position:relative;min-height:340px}
+  .hero-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .sello{position:absolute;left:0;top:64%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;background:var(--acento);color:var(--acento-tinta);display:grid;place-items:center;box-shadow:0 12px 36px -10px rgba(0,0,0,.5)}
+  .sello svg.giro{position:absolute;inset:0;width:100%;height:100%;animation:giro 30s linear infinite}
+  .sello svg.giro text{font:600 11.5px var(--cuerpo),system-ui,sans-serif;fill:currentColor;letter-spacing:.08em}
+  .sello svg.diente{width:34px;height:34px}
+  @keyframes giro{to{transform:rotate(360deg)}}
+
+  /* Tarjeta flotante abajo a la derecha (en el celular la reemplaza la barra fija) */
+  .flota{position:fixed;right:20px;bottom:20px;z-index:35;display:flex;align-items:center;gap:12px;padding:12px 18px 12px 14px;border-radius:18px;background:color-mix(in srgb,var(--oscuro) 90%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.16);color:#fff;font-size:14.5px;line-height:1.25;box-shadow:0 18px 40px -16px rgba(0,0,0,.6);transition:opacity .25s,transform .25s}
+  .flota svg{width:26px;height:26px;flex:none;color:var(--acento)}
+  .flota b{display:block;font-weight:600}
+  .flota span{display:block;color:rgba(255,255,255,.68);font-size:13px}
+  .flota.oculta{opacity:0;transform:translateY(12px);pointer-events:none}
 
   .reserva{background:var(--superficie);border:1px solid var(--linea);border-radius:calc(var(--r) + 6px);padding:clamp(20px,2.6vw,32px);display:grid;gap:16px;box-shadow:0 24px 48px -30px color-mix(in srgb,var(--tinta) 50%,transparent)}
   .reserva h2{font-size:clamp(22px,2.2vw,28px)}
@@ -90,7 +107,10 @@
   .error{color:#a3261b;font-size:13.5px;font-weight:500;display:none}
   .nota{font-size:13px;color:var(--suave);font-weight:400;text-align:center}
 
-  .panoramica img{width:100%;height:clamp(200px,34vw,460px);object-fit:cover;object-position:50% 50%}
+  .turno{background:var(--superficie);border-block:1px solid var(--linea)}
+  .turno .w{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,6vw,96px);align-items:start}
+  .turno .bajada-turno{color:var(--suave);font-size:19px;line-height:1.5;margin-top:16px;max-width:36ch}
+  .turno .reserva{background:var(--fondo)}
 
   section{padding-block:clamp(52px,7vw,96px)}
   .cab{margin-bottom:clamp(20px,3vw,36px)}
@@ -132,15 +152,22 @@
   @media (max-width:900px){
     :root{--gut:18px}
     header nav a:not(.btn){display:none}
-    header .w{height:64px}
-    .hero{padding-block:22px 28px}
-    .hero .w,.consultorio .w,.ubicacion .w{grid-template-columns:1fr}
-    .hero h1{font-size:clamp(34px,9.4vw,42px)}
-    .hero .texto{font-size:17px;margin-block:12px 20px}
-    .hero .acciones{display:none}
-    .cifras{gap:14px 24px;margin-top:20px;padding-top:16px}
+    header{top:40px;width:calc(100% - 20px)}
+    header .w{height:58px;padding:0 8px 0 20px}
+    header nav .btn{min-height:42px;padding:0 18px}
+    .hero{grid-template-columns:1fr;min-height:0}
+    .hero-txt{justify-self:stretch;max-width:none;padding:112px var(--gut) 40px}
+    .hero h1{font-size:clamp(40px,11.5vw,54px)}
+    .hero .texto{font-size:17px;margin-block:16px 24px}
+    .hero-foto{min-height:0;aspect-ratio:4/3}
+    .sello{left:auto;right:22px;top:0;transform:translate(0,-50%);width:104px;height:104px}
+    .sello svg.diente{width:28px;height:28px}
+    .cifras{gap:14px 24px;margin-top:26px;padding-top:16px}
     .cifras b{font-size:22px}
     .cifras div:nth-child(n+3){display:none}
+    .flota{display:none}
+    .turno .w,.consultorio .w,.ubicacion .w{grid-template-columns:1fr}
+    .turno .bajada-turno{font-size:17px}
     .fila{grid-template-columns:1fr}
     .items article{grid-template-columns:84px minmax(0,1fr);gap:4px 16px;padding-block:14px}
     .items article img{width:84px;height:84px;grid-row:span 2}
@@ -158,7 +185,7 @@
     .barra.ver{transform:none}
     .barra .btn{width:100%}
   }
-  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .barra,.btn{transition:none} }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .barra,.btn,.flota{transition:none} .sello svg.giro{animation:none} }
 </style>
 </head>
 <body>
@@ -170,29 +197,41 @@
     <nav>
       <a href="#tipos">{{nav_tipos}}</a>
       <a href="#ubicacion">Ubicación</a>
-      <a class="btn acento" href="#reserva">{{cta}}</a>
+      <a class="btn" href="#reserva">{{cta}}</a>
     </nav>
   </div>
 </header>
 
 <main id="inicio">
   <div class="hero">
+    <div class="hero-txt">
+      <h1>{{titular}}</h1>
+      <p class="texto">{{bajada}}</p>
+      <div class="acciones" id="acciones-hero"><a class="btn acento" href="#reserva">{{cta}}</a>{{boton_wa_hero}}</div>
+      <div class="cifras">{{datos_html}}</div>
+    </div>
+    <div class="hero-foto">
+      <img src="{{hero_img}}" {{hero_srcset}} alt="{{alt_hero}}" fetchpriority="high" width="1600" height="1000">
+      <div class="sello" aria-hidden="true">
+        <svg class="giro" viewBox="0 0 132 132"><defs><path id="aro" d="M66 66 m-49 0 a49 49 0 1 1 98 0 a49 49 0 1 1 -98 0"/></defs><text><textPath href="#aro" textLength="300" lengthAdjust="spacing" id="sello-texto"></textPath></text></svg>
+        <svg class="diente" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.2c-1.4-1-3.1-1.4-4.7-.9C5 4 3.8 6.1 4.1 8.6c.2 1.7.7 3 1.1 4.4.5 1.7.6 3.3 1.1 5.1.3 1.2 1 2 1.9 2 1.3 0 1.6-1.8 2-3.5.3-1.2.6-2 1.8-2s1.5.8 1.8 2c.4 1.7.7 3.5 2 3.5.9 0 1.6-.8 1.9-2 .5-1.8.6-3.4 1.1-5.1.4-1.4.9-2.7 1.1-4.4.3-2.5-.9-4.6-3.2-5.3-1.6-.5-3.3-.1-4.7.9z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <section class="turno" id="reserva">
     <div class="w">
       <div>
-        <h1>{{titular}}</h1>
-        <p class="texto">{{bajada}}</p>
-        <div class="acciones">{{boton_wa_hero}}</div>
-        <div class="cifras">{{datos_html}}</div>
+        <h2>{{seccion_presupuesto}}</h2>
+        <p class="bajada-turno">{{bajada_presupuesto}}</p>
       </div>
       <form class="reserva" id="form-accion" novalidate>
-        <h2>{{seccion_presupuesto}}</h2>
         {{form_html}}
         <button class="btn acento" type="submit">{{icono_wa}}{{form_boton}}</button>
         <p class="nota">Se abre WhatsApp con tu mensaje listo para enviar.</p>
       </form>
     </div>
-  </div>
-  <div class="panoramica"><img src="{{hero_img}}" {{hero_srcset}} alt="{{alt_hero}}" fetchpriority="high" width="1600" height="640"></div>
+  </section>
 
   <section class="tipos" id="tipos">
     <div class="w">
@@ -232,7 +271,7 @@
   <section class="cierre" id="cierre">
     <div class="w">
       <h2>{{banda}}</h2>
-      <a class="btn acento" href="#reserva-form" id="ir-reserva">{{cta}}</a>
+      <a class="btn acento" href="#reserva" id="ir-reserva">{{cta}}</a>
     </div>
   </section>
 </main>
@@ -247,6 +286,7 @@
     </div>
   </div>
 </footer>
+<a class="flota" id="flota" href="#reserva">{{icono_wa}}<div><b>{{cta}}</b><span>Te respondemos por WhatsApp</span></div></a>
 <div class="barra"><a class="btn acento" href="#reserva">{{cta}}</a></div>
 
 <script>
@@ -254,10 +294,13 @@
     var wa = "{{whatsapp}}", base = {{mensaje_wa_json}};
     var f = document.getElementById("form-accion");
     f.id = "form-accion"; f.setAttribute("data-reserva", "1");
-    // Los dos botones "Pedí turno" llevan al formulario de la primera pantalla.
+    // Todos los botones "Pedí turno" llevan al formulario.
     document.querySelectorAll('a[href="#reserva"], #ir-reserva').forEach(function(a){
-      a.addEventListener("click", function(e){ e.preventDefault(); window.scrollTo({top: 0, behavior: "smooth"}); setTimeout(function(){ var c = f.querySelector("input"); if (c) c.focus({preventScroll: true}); }, 400); });
+      a.addEventListener("click", function(e){ e.preventDefault(); document.getElementById("reserva").scrollIntoView({behavior: "smooth", block: "start"}); setTimeout(function(){ var c = f.querySelector("input"); if (c) c.focus({preventScroll: true}); }, 600); });
     });
+    // Texto que gira en el sello: localidad y rubro, ajustado al aro.
+    var st = document.getElementById("sello-texto");
+    if (st) st.textContent = ("{{localidad}} · Odontología · ").toUpperCase();
     // Días: los próximos días de atención, para elegir con un toque.
     document.querySelectorAll("[data-dias]").forEach(function(cont){
       var nombres = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"], abiertos = cont.dataset.dias.split(",").map(Number);
@@ -288,14 +331,19 @@
       window.location.href = wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(l.join("\n")) : "{{link_maps}}";
     });
     // En el celular, la barra fija con el botón aparece al bajar del formulario y se esconde donde ya hay un botón a la vista.
-    var barra = document.querySelector(".barra");
+    // La barra flotante arranca debajo del aviso de la demo y sube hasta quedar a 14 px del borde al bajar.
+    var cab = document.querySelector("header");
+    function subir(){ cab.style.top = Math.max(14, (window.innerWidth <= 900 ? 40 : 44) - window.scrollY) + "px"; }
+    subir(); window.addEventListener("scroll", subir, {passive: true}); window.addEventListener("resize", subir);
+    var barra = document.querySelector(".barra"), flota = document.getElementById("flota");
     if (!("IntersectionObserver" in window)) { barra.classList.add("ver"); return; }
     var vistos = new Set();
     var io = new IntersectionObserver(function(es){
       es.forEach(function(x){ x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
       barra.classList.toggle("ver", vistos.size === 0);
+      flota.classList.toggle("oculta", vistos.size > 0);
     });
-    ["#form-accion", "#cierre", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
+    ["#acciones-hero", "#form-accion", "#cierre", "footer"].forEach(function(s){ var el = document.querySelector(s); if (el) io.observe(el); });
   })();
 </script>
 </body>
