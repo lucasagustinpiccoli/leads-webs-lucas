@@ -99,6 +99,8 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   `output/publicar.zip`), con `robots.txt` y `_headers` para que `/demos/` no se indexe. Se sube completo a Cloudflare
   Pages; cada demo queda en su propia dirección (`/demos/{carpeta}/`).
 
+- **Cada demo del portfolio tiene su propio estilo** (Oliva: claro, cálido, serif, pestañas en píldora; GymFlow: oscuro, sobrio, sans y cifras monoespaciadas; Brío Dental: hero partido con barra flotante). No se unifican barras, tarjetas ni tipografías entre ellas: que no parezca que todo sale de una plantilla.
+
 ## Otras herramientas
 
 - `python scripts/buscar.py --rubro {clave} --zona {localidad | "zona oeste" | "caba"} [--max 60]`
