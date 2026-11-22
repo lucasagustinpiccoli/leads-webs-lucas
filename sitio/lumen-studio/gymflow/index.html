@@ -262,9 +262,10 @@ td.monto { font-size: var(--text-md); font-weight: 500; }
 
 /* ===== Pantalla de carga: el nombre, en una línea, sin brillo ===== */
 #preloader { position: fixed; inset: 0; z-index: var(--z-preloader); display: flex; align-items: center; justify-content: center; background: var(--color-paper); transition: opacity 0.6s var(--ease-out); }
-.preloader-logo { font-family: var(--font-display); font-weight: 600; font-size: clamp(34px, 8vw, 72px); line-height: 1; letter-spacing: var(--tracking-display); color: var(--color-ink); user-select: none; transition: transform 0.6s var(--ease-out), opacity 0.6s var(--ease-out); }
+.preloader-logo { display: inline-flex; align-items: center; gap: 0.25em; font-family: var(--font-display); font-weight: 600; font-size: clamp(34px, 8vw, 72px); line-height: 1; letter-spacing: var(--tracking-display); color: var(--color-ink); user-select: none; transition: transform 0.6s var(--ease-out), opacity 0.6s var(--ease-out); }
 .js #preloader:not(.is-loading) .preloader-logo { transform: translateY(24px); opacity: 0; }
 #preloader.is-out { opacity: 0; }
+.preloader-logo svg { width: 0.9em; height: 0.9em; color: var(--color-accent); flex: none; }
 #preloader.is-out .preloader-logo { transform: translateY(-24px); opacity: 0; }
 body:has(#preloader) { overflow: hidden; }
 
@@ -348,7 +349,7 @@ td { padding: var(--space-md) var(--space-lg); }
 
 <!-- ===================== PRELOADER ===================== -->
 <div id="preloader" role="status" aria-label="Cargando GymFlow">
-  <span class="preloader-logo">GymFlow</span>
+  <span class="preloader-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg>GymFlow</span>
 </div>
 <script>
   // Mismas fases que el componente LogoPreloader de Framer: el logo sube y aparece,
