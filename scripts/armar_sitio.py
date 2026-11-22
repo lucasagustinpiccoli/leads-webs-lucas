@@ -22,6 +22,8 @@ a = ap.parse_args()
 
 shutil.rmtree(OUT, ignore_errors=True)
 shutil.copytree(os.path.join(ROOT, "sitio", "lumen-studio"), OUT, ignore=shutil.ignore_patterns(".hallmark", "LEEME.md", "gymflow-src"))
+# Propuesta de rediseño de R&RG (se enlaza desde "Proyectos"); lleva noindex. El archivo único es solo para verla sin carpeta.
+shutil.copytree(os.path.join(ROOT, "redisenos", "rrg"), os.path.join(OUT, "rrg"), ignore=shutil.ignore_patterns("un-archivo.html"))
 n = 0
 if not a.sin_demos:
     demos = os.path.join(ROOT, "output", "demos")

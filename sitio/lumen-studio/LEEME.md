@@ -35,3 +35,7 @@ Testimonios, reseñas, logos de clientes y años de experiencia: no hay nada de 
 ## Formulario "Empezá tu proyecto"
 
 Los botones "Empezá tu proyecto" abren un formulario de pantalla completa (`formulario.js`, el HTML está al final de `index.html`) con seis preguntas: nombre, desde dónde escribe, WhatsApp (país + número), nombre del negocio, qué hace y qué necesita (casillas). Al terminar arma un mensaje con las respuestas y abre WhatsApp: lo envía la persona, no se manda solo. Para sumar o cambiar una pregunta, editá las secciones `fm-paso` y sus textos en `i18n.js`. Ray queda como asistente aparte.
+
+## Propuesta de R&RG
+
+`redisenos/rrg/` es la propuesta de rediseño. `armar_sitio.py` la copia a `/rrg/` (con `noindex`) y el panel de Proyectos la enlaza con "Ver la propuesta". Ojo: esa página tiene el logo, los textos, el WhatsApp y las fotos del estudio real, así que conviene confirmar el permiso antes de publicarla. La captura del panel muestra solo las áreas de práctica, sin personas.
