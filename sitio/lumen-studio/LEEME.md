@@ -26,3 +26,9 @@ Testimonios, reseñas, logos de clientes y años de experiencia: no hay nada de 
 ## GymFlow (demo interactiva)
 
 `gymflow/index.html` es una maqueta autónoma con datos ficticios (sin login, sin servidor), hecha a partir del sistema real de gimnasio. Se abre desde el panel de Trabajos. Es `noindex`. Carga la tipografía de Google y la librería de Excel (jsDelivr) desde internet; todo lo demás va dentro del archivo.
+
+## Cómo trabajamos, título con humo y secciones
+
+- "¿Cómo trabajamos?" es un flujo de cuatro pasos conectados (`pipeline.js`): cada paso "corre" y la conexión se llena hasta el siguiente. Sin JavaScript o con "reducir movimiento" quedan los cuatro terminados.
+- El título "Lumen Studio" lleva humo en blancos y grises (`smoke-text.js`, WebGL). La velocidad está en `speed` (en `index.html`); más bajo es más lento.
+- Se sacó la sección "¿Cómo se ve en mi rubro?": la demo previa ya se explica en el hero y en el flujo.

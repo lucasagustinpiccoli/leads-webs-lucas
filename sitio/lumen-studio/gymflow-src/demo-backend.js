@@ -47,39 +47,39 @@
   // Datos de ejemplo
   // ------------------------------------------------------------
   db.planes.push(
-    { id: 'plan-full', tenant_id: TENANT_ID, codigo: 'FULL', nombre: 'FULL', precio: 28000, duracion_dias: 30, cantidad_turnos: null, activo: true },
-    { id: 'plan-8', tenant_id: TENANT_ID, codigo: '8CLS', nombre: '8 CLASES', precio: 22000, duracion_dias: 30, cantidad_turnos: 8, activo: true },
-    { id: 'plan-trim', tenant_id: TENANT_ID, codigo: 'TRIM', nombre: 'TRIMESTRAL', precio: 75000, duracion_dias: 90, cantidad_turnos: null, activo: true }
+    { id: 'plan-mensual', tenant_id: TENANT_ID, codigo: 'MEN', nombre: 'Mensual', precio: 28000, duracion_dias: 30, cantidad_turnos: null, activo: true },
+    { id: 'plan-trim', tenant_id: TENANT_ID, codigo: 'TRIM', nombre: 'Trimestral', precio: 75000, duracion_dias: 90, cantidad_turnos: null, activo: true },
+    { id: 'plan-anual', tenant_id: TENANT_ID, codigo: 'ANUAL', nombre: 'Anual', precio: 260000, duracion_dias: 365, cantidad_turnos: null, activo: true }
   );
 
   // [nombre, celular, plan, días hasta el vencimiento, clases usadas, pago ('total' | fracción), método, extra]
   const SOCIOS_SEMILLA = [
-    ['Valentina Ríos', '11 5012 3401', 'plan-full', 24, 0, 'total', 'transferencia'],
-    ['Mateo Fernández', '11 5127 8845', 'plan-8', 18, 3, 'total', 'efectivo'],
-    ['Camila Sosa', '11 5233 1920', 'plan-full', 30, 0, 'total', 'transferencia'],
-    ['Lucas Benítez', '11 5348 6672', 'plan-full', 2, 0, 'total', 'efectivo'],
+    ['Valentina Ríos', '11 5012 3401', 'plan-mensual', 24, 0, 'total', 'transferencia'],
+    ['Mateo Fernández', '11 5127 8845', 'plan-anual', 18, 0, 'total', 'efectivo'],
+    ['Camila Sosa', '11 5233 1920', 'plan-mensual', 30, 0, 'total', 'transferencia'],
+    ['Lucas Benítez', '11 5348 6672', 'plan-anual', 2, 0, 'total', 'efectivo'],
     ['Sofía Aguirre', '11 5461 0058', 'plan-trim', 61, 0, 'total', 'transferencia'],
-    ['Joaquín Medina', '11 5579 4416', 'plan-8', 9, 6, 'total', 'efectivo'],
-    ['Martina Cabrera', '11 5684 2237', 'plan-full', 15, 0, 'total', 'transferencia'],
-    ['Tomás Herrera', '11 5792 9503', 'plan-full', -6, 0, 'total', 'efectivo'],
-    ['Julieta Domínguez', '11 5806 7714', 'plan-8', 27, 1, 'total', 'transferencia'],
-    ['Nicolás Paz', '11 5915 3380', 'plan-full', 1, 0, 'total', 'efectivo'],
-    ['Agustina Luna', '11 6023 5561', 'plan-full', 21, 0, 0.5, 'transferencia'],
-    ['Facundo Ibarra', '11 6138 1249', 'plan-8', -3, 8, 'total', 'efectivo'],
-    ['Lucía Acosta', '11 6247 8806', 'plan-full', 12, 0, 'total', 'transferencia'],
+    ['Joaquín Medina', '11 5579 4416', 'plan-trim', 9, 0, 'total', 'efectivo'],
+    ['Martina Cabrera', '11 5684 2237', 'plan-anual', 15, 0, 'total', 'transferencia'],
+    ['Tomás Herrera', '11 5792 9503', 'plan-mensual', -6, 0, 'total', 'efectivo'],
+    ['Julieta Domínguez', '11 5806 7714', 'plan-trim', 27, 0, 'total', 'transferencia'],
+    ['Nicolás Paz', '11 5915 3380', 'plan-mensual', 1, 0, 'total', 'efectivo'],
+    ['Agustina Luna', '11 6023 5561', 'plan-anual', 21, 0, 0.5, 'transferencia'],
+    ['Facundo Ibarra', '11 6138 1249', 'plan-trim', -3, 0, 'total', 'efectivo'],
+    ['Lucía Acosta', '11 6247 8806', 'plan-mensual', 12, 0, 'total', 'transferencia'],
     ['Santiago Molina', '11 6359 4472', 'plan-trim', 44, 0, 'total', 'transferencia'],
-    ['Florencia Giménez', '11 6461 7095', 'plan-8', 3, 7, 'total', 'efectivo'],
-    ['Bruno Castro', '11 6574 2318', 'plan-full', 29, 0, 'total', 'transferencia'],
-    ['Micaela Romero', '11 6682 6643', 'plan-full', -12, 0, 'total', 'efectivo'],
-    ['Ignacio Vega', '11 6795 0927', 'plan-8', 20, 2, 0.6, 'efectivo'],
-    ['Carolina Peralta', '11 6807 5184', 'plan-full', 8, 0, 'total', 'transferencia'],
-    ['Emiliano Suárez', '11 6914 3760', 'plan-full', 30, 0, 'total', 'efectivo'],
-    ['Daniela Ortiz', '11 7026 8452', 'plan-8', 25, 4, 'total', 'transferencia'],
-    ['Franco Navarro', '11 7139 1603', 'plan-full', -20, 0, 'total', 'efectivo'],
-    ['Rocío Maldonado', '11 7241 9378', 'plan-full', 30, 0, 'total', 'transferencia'],
-    ['Gonzalo Figueroa', '11 7352 4025', 'plan-full', 17, 0, 0.5, 'efectivo'],
-    ['Abril Campos', '11 7468 6891', 'plan-8', 30, 0, 'total', 'efectivo'],
-    ['Dante Rojas', '11 7573 2114', 'plan-full', 2, 0, 'total', 'transferencia'],
+    ['Florencia Giménez', '11 6461 7095', 'plan-trim', 3, 0, 'total', 'efectivo'],
+    ['Bruno Castro', '11 6574 2318', 'plan-mensual', 29, 0, 'total', 'transferencia'],
+    ['Micaela Romero', '11 6682 6643', 'plan-anual', -12, 0, 'total', 'efectivo'],
+    ['Ignacio Vega', '11 6795 0927', 'plan-trim', 20, 0, 0.6, 'efectivo'],
+    ['Carolina Peralta', '11 6807 5184', 'plan-mensual', 8, 0, 'total', 'transferencia'],
+    ['Emiliano Suárez', '11 6914 3760', 'plan-mensual', 30, 0, 'total', 'efectivo'],
+    ['Daniela Ortiz', '11 7026 8452', 'plan-trim', 25, 0, 'total', 'transferencia'],
+    ['Franco Navarro', '11 7139 1603', 'plan-anual', -20, 0, 'total', 'efectivo'],
+    ['Rocío Maldonado', '11 7241 9378', 'plan-mensual', 30, 0, 'total', 'transferencia'],
+    ['Gonzalo Figueroa', '11 7352 4025', 'plan-mensual', 17, 0, 0.5, 'efectivo'],
+    ['Abril Campos', '11 7468 6891', 'plan-anual', 30, 0, 'total', 'efectivo'],
+    ['Dante Rojas', '11 7573 2114', 'plan-mensual', 2, 0, 'total', 'transferencia'],
   ];
   // Altas por mes (hace cuántos días se dio de alta cada socio) para que el gráfico del Dashboard tenga forma.
   const ANTIGUEDAD_DIAS = [

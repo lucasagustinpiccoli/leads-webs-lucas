@@ -293,6 +293,55 @@ body:has(#preloader) { overflow: hidden; }
   #caja-fecha { width: 100%; }
 }
 
+/* ===== Tono moderno: más aire, esquinas más redondeadas, barra translúcida y pestañas en cápsula (sigue con un solo acento) ===== */
+:root { --radius-card: 16px; --radius-ctl: 10px; --radius-pill: 999px; }
+body { letter-spacing: -0.005em; }
+.navbar { background: color-mix(in oklab, var(--color-paper) 78%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); min-height: 64px; padding: 0 var(--space-lg); }
+.navbar-marca-texto { font-weight: 600; }
+.navbar-tabs { align-self: center; gap: var(--space-2xs); padding: var(--space-2xs); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper-2); margin-right: auto; }
+.navbar-tab { min-height: 34px; padding: 0 var(--space-md); border-radius: var(--radius-pill); font-size: var(--text-sm); transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
+.navbar-tab.is-active { background: var(--color-paper-3); color: var(--color-ink); box-shadow: 0 0 0 var(--rule-hair) var(--color-rule-2) inset; }
+.navbar-tab.is-active::after { display: none; }
+.theme-toggle { border-radius: var(--radius-pill); }
+main { max-width: 1200px; padding-top: var(--space-xl); }
+.vista h2, .barra-acciones h2 { font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
+.vista-cabecera { margin-bottom: var(--space-lg); }
+button { border-radius: var(--radius-ctl); min-height: 40px; font-weight: 600; }
+button.link { min-height: 32px; border-radius: var(--radius-pill); font-weight: 500; }
+input, select, textarea { border-radius: var(--radius-ctl); min-height: 40px; }
+.pill, .tag { border-radius: var(--radius-pill); padding: 2px var(--space-sm); }
+.pill-clase { display: none; }
+.dashboard-panel, .calendario-grid, .calendario-sabado, table { border-radius: var(--radius-card); }
+th { padding: var(--space-md) var(--space-lg); }
+td { padding: var(--space-md) var(--space-lg); }
+.kpis { gap: var(--space-md); border-block: 0; }
+.kpi { background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); border-right: var(--rule-hair) solid var(--color-rule); padding: var(--space-lg); }
+.kpi:last-child { border-right: var(--rule-hair) solid var(--color-rule); }
+.kpi-valor { font-size: 2rem; }
+.caja-resumen { gap: var(--space-md); border-block: 0; }
+.caja-tarjeta { background: var(--color-paper-2); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); padding: var(--space-lg); }
+.caja-tarjeta:last-child { border-right: var(--rule-hair) solid var(--color-rule); }
+.caja-subtabs { border-bottom: 0; gap: var(--space-xs); }
+.caja-subtab { border-radius: var(--radius-pill); padding: 0 var(--space-md); min-height: 36px; background: var(--color-paper-2); box-shadow: 0 0 0 var(--rule-hair) var(--color-rule) inset; }
+.caja-subtab.is-active { background: var(--color-ink); color: var(--color-paper); box-shadow: none; }
+.caja-subtab.is-active::after { display: none; }
+.dashboard-barra { border-radius: 8px 8px 0 0; }
+.avatar { width: 32px; height: 32px; }
+.modal { border-radius: 20px; padding: var(--space-xl) var(--space-lg) var(--space-lg); }
+.calendario-turno-chip { width: 30px; height: 30px; }
+@media (max-width: 768px) {
+  .navbar { min-height: 56px; }
+  .navbar-tabs { border: 0; background: none; padding: 0; border-radius: 0; margin: 0; }
+  .navbar-tab { border-radius: var(--radius-ctl); padding: 0 var(--space-sm); justify-content: flex-start; }
+  .navbar-tab.is-active { background: var(--color-paper-3); }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi, .kpi:last-child, .kpi:nth-child(odd), .kpi:nth-child(-n+3) { border: var(--rule-hair) solid var(--color-rule); }
+  .kpi:last-child { grid-column: 1 / -1; }
+  .caja-resumen { grid-template-columns: minmax(0, 1fr); }
+  .caja-tarjeta, .caja-tarjeta:last-child { border: var(--rule-hair) solid var(--color-rule); }
+}
+@media (min-width: 1001px) and (max-width: 1100px) { .kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
 </style>
 </head>
 <body>
@@ -792,39 +841,39 @@ body:has(#preloader) { overflow: hidden; }
   // Datos de ejemplo
   // ------------------------------------------------------------
   db.planes.push(
-    { id: 'plan-full', tenant_id: TENANT_ID, codigo: 'FULL', nombre: 'FULL', precio: 28000, duracion_dias: 30, cantidad_turnos: null, activo: true },
-    { id: 'plan-8', tenant_id: TENANT_ID, codigo: '8CLS', nombre: '8 CLASES', precio: 22000, duracion_dias: 30, cantidad_turnos: 8, activo: true },
-    { id: 'plan-trim', tenant_id: TENANT_ID, codigo: 'TRIM', nombre: 'TRIMESTRAL', precio: 75000, duracion_dias: 90, cantidad_turnos: null, activo: true }
+    { id: 'plan-mensual', tenant_id: TENANT_ID, codigo: 'MEN', nombre: 'Mensual', precio: 28000, duracion_dias: 30, cantidad_turnos: null, activo: true },
+    { id: 'plan-trim', tenant_id: TENANT_ID, codigo: 'TRIM', nombre: 'Trimestral', precio: 75000, duracion_dias: 90, cantidad_turnos: null, activo: true },
+    { id: 'plan-anual', tenant_id: TENANT_ID, codigo: 'ANUAL', nombre: 'Anual', precio: 260000, duracion_dias: 365, cantidad_turnos: null, activo: true }
   );
 
   // [nombre, celular, plan, días hasta el vencimiento, clases usadas, pago ('total' | fracción), método, extra]
   const SOCIOS_SEMILLA = [
-    ['Valentina Ríos', '11 5012 3401', 'plan-full', 24, 0, 'total', 'transferencia'],
-    ['Mateo Fernández', '11 5127 8845', 'plan-8', 18, 3, 'total', 'efectivo'],
-    ['Camila Sosa', '11 5233 1920', 'plan-full', 30, 0, 'total', 'transferencia'],
-    ['Lucas Benítez', '11 5348 6672', 'plan-full', 2, 0, 'total', 'efectivo'],
+    ['Valentina Ríos', '11 5012 3401', 'plan-mensual', 24, 0, 'total', 'transferencia'],
+    ['Mateo Fernández', '11 5127 8845', 'plan-anual', 18, 0, 'total', 'efectivo'],
+    ['Camila Sosa', '11 5233 1920', 'plan-mensual', 30, 0, 'total', 'transferencia'],
+    ['Lucas Benítez', '11 5348 6672', 'plan-anual', 2, 0, 'total', 'efectivo'],
     ['Sofía Aguirre', '11 5461 0058', 'plan-trim', 61, 0, 'total', 'transferencia'],
-    ['Joaquín Medina', '11 5579 4416', 'plan-8', 9, 6, 'total', 'efectivo'],
-    ['Martina Cabrera', '11 5684 2237', 'plan-full', 15, 0, 'total', 'transferencia'],
-    ['Tomás Herrera', '11 5792 9503', 'plan-full', -6, 0, 'total', 'efectivo'],
-    ['Julieta Domínguez', '11 5806 7714', 'plan-8', 27, 1, 'total', 'transferencia'],
-    ['Nicolás Paz', '11 5915 3380', 'plan-full', 1, 0, 'total', 'efectivo'],
-    ['Agustina Luna', '11 6023 5561', 'plan-full', 21, 0, 0.5, 'transferencia'],
-    ['Facundo Ibarra', '11 6138 1249', 'plan-8', -3, 8, 'total', 'efectivo'],
-    ['Lucía Acosta', '11 6247 8806', 'plan-full', 12, 0, 'total', 'transferencia'],
+    ['Joaquín Medina', '11 5579 4416', 'plan-trim', 9, 0, 'total', 'efectivo'],
+    ['Martina Cabrera', '11 5684 2237', 'plan-anual', 15, 0, 'total', 'transferencia'],
+    ['Tomás Herrera', '11 5792 9503', 'plan-mensual', -6, 0, 'total', 'efectivo'],
+    ['Julieta Domínguez', '11 5806 7714', 'plan-trim', 27, 0, 'total', 'transferencia'],
+    ['Nicolás Paz', '11 5915 3380', 'plan-mensual', 1, 0, 'total', 'efectivo'],
+    ['Agustina Luna', '11 6023 5561', 'plan-anual', 21, 0, 0.5, 'transferencia'],
+    ['Facundo Ibarra', '11 6138 1249', 'plan-trim', -3, 0, 'total', 'efectivo'],
+    ['Lucía Acosta', '11 6247 8806', 'plan-mensual', 12, 0, 'total', 'transferencia'],
     ['Santiago Molina', '11 6359 4472', 'plan-trim', 44, 0, 'total', 'transferencia'],
-    ['Florencia Giménez', '11 6461 7095', 'plan-8', 3, 7, 'total', 'efectivo'],
-    ['Bruno Castro', '11 6574 2318', 'plan-full', 29, 0, 'total', 'transferencia'],
-    ['Micaela Romero', '11 6682 6643', 'plan-full', -12, 0, 'total', 'efectivo'],
-    ['Ignacio Vega', '11 6795 0927', 'plan-8', 20, 2, 0.6, 'efectivo'],
-    ['Carolina Peralta', '11 6807 5184', 'plan-full', 8, 0, 'total', 'transferencia'],
-    ['Emiliano Suárez', '11 6914 3760', 'plan-full', 30, 0, 'total', 'efectivo'],
-    ['Daniela Ortiz', '11 7026 8452', 'plan-8', 25, 4, 'total', 'transferencia'],
-    ['Franco Navarro', '11 7139 1603', 'plan-full', -20, 0, 'total', 'efectivo'],
-    ['Rocío Maldonado', '11 7241 9378', 'plan-full', 30, 0, 'total', 'transferencia'],
-    ['Gonzalo Figueroa', '11 7352 4025', 'plan-full', 17, 0, 0.5, 'efectivo'],
-    ['Abril Campos', '11 7468 6891', 'plan-8', 30, 0, 'total', 'efectivo'],
-    ['Dante Rojas', '11 7573 2114', 'plan-full', 2, 0, 'total', 'transferencia'],
+    ['Florencia Giménez', '11 6461 7095', 'plan-trim', 3, 0, 'total', 'efectivo'],
+    ['Bruno Castro', '11 6574 2318', 'plan-mensual', 29, 0, 'total', 'transferencia'],
+    ['Micaela Romero', '11 6682 6643', 'plan-anual', -12, 0, 'total', 'efectivo'],
+    ['Ignacio Vega', '11 6795 0927', 'plan-trim', 20, 0, 0.6, 'efectivo'],
+    ['Carolina Peralta', '11 6807 5184', 'plan-mensual', 8, 0, 'total', 'transferencia'],
+    ['Emiliano Suárez', '11 6914 3760', 'plan-mensual', 30, 0, 'total', 'efectivo'],
+    ['Daniela Ortiz', '11 7026 8452', 'plan-trim', 25, 0, 'total', 'transferencia'],
+    ['Franco Navarro', '11 7139 1603', 'plan-anual', -20, 0, 'total', 'efectivo'],
+    ['Rocío Maldonado', '11 7241 9378', 'plan-mensual', 30, 0, 'total', 'transferencia'],
+    ['Gonzalo Figueroa', '11 7352 4025', 'plan-mensual', 17, 0, 0.5, 'efectivo'],
+    ['Abril Campos', '11 7468 6891', 'plan-anual', 30, 0, 'total', 'efectivo'],
+    ['Dante Rojas', '11 7573 2114', 'plan-mensual', 2, 0, 'total', 'transferencia'],
   ];
   // Altas por mes (hace cuántos días se dio de alta cada socio) para que el gráfico del Dashboard tenga forma.
   const ANTIGUEDAD_DIAS = [
