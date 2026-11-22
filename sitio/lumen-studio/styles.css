@@ -149,7 +149,7 @@
 .pl-enlace { position: relative; flex: 0 0 clamp(28px, 3.4vw, 64px); align-self: flex-start; margin-top: 58px; height: 2px; background: var(--color-rule); border-radius: 2px; overflow: hidden; }
 .pl-enlace i { position: absolute; inset: 0; background: var(--color-accent); transform: scaleX(0); transform-origin: left; transition: transform 750ms var(--ease-in-out); }
 /* Estados: sin JavaScript o con "reducir movimiento" los cuatro pasos quedan terminados */
-.pipeline:not(.anima) .pl-nodo, .pl-nodo.is-done { border-color: var(--color-ink); }
+.pipeline:not(.anima) .pl-nodo, .pl-nodo.is-done { border-color: var(--color-accent); box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-accent) 22%, transparent); }
 .pipeline:not(.anima) .pl-icono, .pl-nodo.is-done .pl-icono { background: var(--color-ink); color: var(--color-paper-hi); border-color: var(--color-ink); }
 .pipeline:not(.anima) .pl-estado, .pl-nodo.is-done .pl-estado { color: var(--color-ink); }
 .pipeline:not(.anima) .pl-estado i, .pl-nodo.is-done .pl-estado i { background: var(--color-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7'/%3E%3C/svg%3E") center / 10px no-repeat; border-color: var(--color-accent); }
