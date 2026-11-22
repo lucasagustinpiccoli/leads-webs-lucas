@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GymFlow — Gestión de socios</title>
+<script>
+  // Se aplica antes de pintar la página para que no se vea un flash del
+  // tema por defecto (oscuro) al cargar en modo claro.
+  (function () {
+    try {
+      var t = localStorage.getItem('gymflow-tema');
+      if (t !== 'light' && t !== 'dark') {
+        t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===================== PRELOADER ===================== -->
+<div id="preloader" role="status" aria-label="Cargando GymFlow">
+  <span class="preloader-logo">GYMFLOW</span>
+</div>
+<script>
+  // Mismas fases que el componente LogoPreloader de Framer: el logo sube y aparece,
+  // se sostiene, sale hacia arriba y recién ahí se desvanece el fondo.
+  // Para sacar una captura: abrir la página con #logo al final de la URL y el logo queda fijo.
+  (function () {
+    var el = document.getElementById("preloader");
+    var DURACION = 2; // segundos con el logo en pantalla
+    var fijo = location.hash === "#logo";
+    function arrancar() {
+      setTimeout(function () { el.classList.add("is-loading"); }, 50);
+      if (fijo) return;
+      setTimeout(function () { el.classList.add("is-out"); }, DURACION * 1000 + 50);
+      setTimeout(function () { el.remove(); }, DURACION * 1000 + 750);
+    }
+    // Espera a la tipografía del logo (máx. 1,2 s) para no mostrarlo con la fuente de reemplazo.
+    var listo = document.fonts && document.fonts.load ? document.fonts.load("800 44px Orbitron") : Promise.resolve();
+    Promise.race([listo, new Promise(function (r) { setTimeout(r, 1200); })]).then(arrancar, arrancar);
+  })();
+</script>
+
+<!-- ===================== APP ===================== -->
+<div id="app" hidden>
+  <div class="ambiente" aria-hidden="true"></div>
+  <header class="navbar">
+    <div class="navbar-marca">
+      <span class="navbar-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span>
+      <span class="navbar-marca-texto">GymFlow</span>
+    </div>
+
+    <button class="navbar-hamburguesa" id="btn-menu-movil" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar-menu-movil">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="navbar-menu-movil" id="navbar-menu-movil">
+      <nav class="navbar-tabs" id="navbar-tabs" aria-label="Secciones">
+        <span class="navbar-indicador" aria-hidden="true"></span>
+        <button class="navbar-tab" data-vista="dashboard">Dashboard</button>
+        <button class="navbar-tab is-active" data-vista="socios">Socios</button>
+        <button class="navbar-tab" data-vista="caja">Caja</button>
+        <button class="navbar-tab" data-vista="calendario">Calendario</button>
+      </nav>
+      <div class="navbar-usuario">
+        <span id="nombre-usuario"></span>
+        <button class="theme-toggle" id="btn-tema" type="button" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">
+          <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4" />
+            <line x1="12" y1="2" x2="12" y2="5" />
+            <line x1="12" y1="19" x2="12" y2="22" />
+            <line x1="2" y1="12" x2="5" y2="12" />
+            <line x1="19" y1="12" x2="22" y2="12" />
+            <line x1="4.2" y1="4.2" x2="6.3" y2="6.3" />
+            <line x1="17.7" y1="17.7" x2="19.8" y2="19.8" />
+            <line x1="4.2" y1="19.8" x2="6.3" y2="17.7" />
+            <line x1="17.7" y1="6.3" x2="19.8" y2="4.2" />
+          </svg>
+          <svg class="icono-luna" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 1 0 10.5 10.5Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="vista-dashboard" class="vista" hidden>
+      <div class="vista-cabecera">
+        <div>
+          <h2>Dashboard</h2>
+          <p class="vista-sub">Un resumen de cómo está tu gimnasio hoy.</p>
+        </div>
+      </div>
+
+      <div class="kpis" id="dashboard-kpis"></div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-panel panel-altas">
+          <h3 class="panel-titulo">Altas por mes</h3>
+          <div class="dashboard-barras" id="dashboard-altas"></div>
+        </div>
+        <div class="dashboard-panel panel-estado">
+          <h3 class="panel-titulo">Estado de los socios</h3>
+          <div class="donut-caja" id="dashboard-estado"></div>
+        </div>
+        <div class="dashboard-panel panel-vencen">
+          <h3 class="panel-titulo">Próximos vencimientos</h3>
+          <div class="lista-vencen" id="dashboard-vencen"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vista-socios" class="vista">
+      <div class="barra-acciones">
+        <h2 style="margin:0;">Socios <span id="contador-socios" class="contador-socios"></span></h2>
+        <div class="barra-acciones-derecha">
+          <select id="filtro-estado" aria-label="Filtrar por estado">
+            <option value="">Todos los estados</option>
+            <option value="activo">Activos</option>
+            <option value="por_vencer">Por vencer</option>
+            <option value="vencido">Vencidos</option>
+            <option value="inactivo">Inactivos</option>
+          </select>
+          <select id="filtro-plan" aria-label="Filtrar por plan">
+            <option value="">Todos los planes</option>
+          </select>
+          <input type="search" id="buscador-socios" class="buscador" placeholder="Buscar por nombre o código..." aria-label="Buscar socio" />
+          <button class="secundario" id="btn-exportar-socios">Exportar</button>
+          <button class="primario" id="btn-nuevo-socio">+ Nuevo socio</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="th-ordenable" data-orden="nombre">Nombre<span class="orden-icono" id="orden-icono-nombre"></span></th>
+            <th>Teléfono</th>
+            <th>Plan</th>
+            <th>Estado</th>
+            <th class="th-ordenable" data-orden="fecha_fin">Vence<span class="orden-icono" id="orden-icono-fecha_fin"></span></th>
+            <th>Deuda</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-socios"></tbody>
+      </table>
+      <div id="vacio-socios" class="vacio" hidden>Todavía no hay socios cargados.</div>
+    </section>
+
+    <section id="vista-caja" class="vista" hidden>
+      <div id="caja-bloqueada" hidden>
+        <form class="tarjeta-login" id="form-pin-caja" style="margin: 60px auto;">
+          <h1 style="font-size:20px;">Caja bloqueada</h1>
+          <p class="subtitulo">Ingresá el PIN para ver los movimientos</p>
+          <label for="pin-caja-input">PIN</label>
+          <input id="pin-caja-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" />
+          <div class="error" id="error-pin-caja"></div>
+          <button type="submit" class="primario" style="width:100%; margin-top:16px;">Desbloquear</button>
+        </form>
+      </div>
+
+      <div id="caja-contenido" hidden>
+        <div class="barra-acciones">
+          <h2 style="margin:0;">Caja</h2>
+          <div class="barra-acciones-derecha">
+            <button class="primario" id="btn-nuevo-gasto">+ Registrar gasto</button>
+          </div>
+        </div>
+
+        <h3 class="caja-subtitulo">Saldo de caja actual</h3>
+        <div class="caja-resumen">
+          <div class="caja-tarjeta">
+            <span class="caja-tarjeta-label">Efectivo</span>
+            <span class="caja-tarjeta-valor" id="caja-saldo-efectivo">$0</span>
+          </div>
+          <div class="caja-tarjeta">
+            <span class="caja-tarjeta-label">Transferencia</span>
+            <span class="caja-tarjeta-valor" id="caja-saldo-transferencia">$0</span>
+          </div>
+          <div class="caja-tarjeta caja-tarjeta-saldo">
+            <span class="caja-tarjeta-label">Total</span>
+            <span class="caja-tarjeta-valor" id="caja-saldo-total">$0</span>
+          </div>
+        </div>
+
+        <div class="caja-subtabs" style="margin-top:28px;">
+          <button type="button" class="caja-subtab is-active" id="subtab-movimientos" data-subtab="movimientos">Movimientos</button>
+          <button type="button" class="caja-subtab" id="subtab-pendientes" data-subtab="pendientes">Gastos pendientes <span id="badge-gastos-pendientes" class="badge-pendientes" hidden>0</span></button>
+        </div>
+
+        <div id="caja-panel-movimientos">
+          <div class="barra-acciones">
+            <div class="barra-acciones-derecha">
+              <select id="caja-filtro-tipo" aria-label="Tipo de movimiento">
+                <option value="">Ingresos y gastos</option>
+                <option value="ingreso">Solo ingresos</option>
+                <option value="gasto">Solo gastos</option>
+              </select>
+              <select id="caja-modo-filtro" aria-label="Ver por">
+                <option value="dia">Por día</option>
+                <option value="mes">Por mes</option>
+              </select>
+              <input type="date" id="caja-fecha" aria-label="Fecha" />
+              <input type="month" id="caja-mes" aria-label="Mes" hidden />
+              <button class="secundario" id="btn-exportar-caja">Exportar</button>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Tipo</th>
+                <th>Detalle</th>
+                <th>Método</th>
+                <th>Monto</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tabla-caja"></tbody>
+          </table>
+          <div id="vacio-caja" class="vacio" hidden>No hay movimientos en ese período.</div>
+        </div>
+
+        <div id="caja-panel-pendientes" hidden>
+          <p class="ayuda-calendario">
+            Gastos cargados sin método de pago todavía definido - no afectan el saldo de arriba. Cuando se confirmen, "Efectivizar" los pasa a Caja.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tabla-gastos-pendientes"></tbody>
+          </table>
+          <div id="vacio-gastos-pendientes" class="vacio" hidden>No hay gastos pendientes.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vista-calendario" class="vista" hidden>
+      <div class="barra-acciones">
+        <h2 style="margin:0;">Calendario</h2>
+        <div class="barra-acciones-derecha">
+          <button class="primario" id="btn-nuevo-turno">+ Nuevo turno fijo</button>
+        </div>
+      </div>
+
+      <p class="ayuda-calendario">
+        Turnos fijos: quién suele venir a qué horario, como referencia para controlar la capacidad a ojo.
+        No reserva lugar ni bloquea horarios — es solo una anotación del staff. Click en una celda para agregar a alguien a ese turno.
+      </p>
+
+      <div class="calendario-grid" id="calendario-grid"></div>
+
+      <div class="calendario-sabado" id="calendario-sabado">
+        <div class="calendario-sabado-titulo">Sábado · 09:00 a 13:00 · Open Box</div>
+        <div class="calendario-sabado-nombres" id="calendario-sabado-nombres"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== MODAL: Solicitud de socio / Vender / Renovar ===================== -->
+<div class="modal-fondo" id="modal-membresia" hidden>
+  <div class="modal">
+    <h2 id="titulo-modal-membresia">Solicitud de socio</h2>
+    <form id="form-membresia">
+      <input type="hidden" id="mem-socio-id" />
+      <input type="hidden" id="mem-membresia-actual-id" />
+
+      <div id="grupo-datos-personales">
+        <label for="mem-nombre">Nombre completo</label>
+        <input id="mem-nombre" />
+        <label for="mem-celular">Celular</label>
+        <input id="mem-celular" />
+        <label for="mem-email">Email</label>
+        <input id="mem-email" type="email" />
+      </div>
+
+      <div id="grupo-plan">
+        <label for="mem-plan">Plan</label>
+        <select id="mem-plan"></select>
+      </div>
+
+      <div id="grupo-fecha-inicio">
+        <label for="mem-fecha-inicio">Fecha de inicio</label>
+        <input id="mem-fecha-inicio" type="date" required />
+      </div>
+
+      <div id="grupo-descuento">
+        <label for="mem-descuento-pct">Descuento (%)</label>
+        <input id="mem-descuento-pct" type="number" min="0" max="100" step="1" value="0" />
+        <div id="grupo-descuento-meses" hidden>
+          <label for="mem-descuento-meses">Duración del descuento (meses)</label>
+          <select id="mem-descuento-meses">
+            <option value="1">1 mes</option>
+            <option value="2">2 meses</option>
+            <option value="3">3 meses</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="resumen-total" class="resumen-total">
+        <span class="resumen-total-label">Total a cobrar</span>
+        <span class="resumen-total-valor" id="resumen-total-valor">$0</span>
+        <span class="resumen-total-leyenda" id="resumen-total-leyenda" hidden></span>
+      </div>
+
+      <div id="grupo-metodo-pago">
+        <label for="mem-metodo-pago">Método de pago</label>
+        <select id="mem-metodo-pago" required>
+          <option value="" disabled selected>Seleccionar...</option>
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia</option>
+          <option value="mixto">Efectivo + Transferencia</option>
+        </select>
+        <div id="grupo-mem-mixto" hidden>
+          <label for="mem-monto-efectivo">Monto en efectivo ($)</label>
+          <input id="mem-monto-efectivo" type="number" min="0" step="1" />
+          <label for="mem-monto-transferencia">Monto en transferencia ($)</label>
+          <input id="mem-monto-transferencia" type="number" min="0" step="1" />
+        </div>
+      </div>
+
+      <div class="error" id="error-membresia"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-membresia">Cancelar</button>
+        <button type="submit" class="primario" id="btn-guardar-membresia">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: registrar pago suelto ===================== -->
+<div class="modal-fondo" id="modal-pago" hidden>
+  <div class="modal">
+    <h2>Registrar pago</h2>
+    <form id="form-pago">
+      <input type="hidden" id="pago-membresia-id" />
+      <label for="pago-monto">Monto ($)</label>
+      <input id="pago-monto" type="number" min="1" step="1" required />
+      <label for="pago-metodo">Método de pago</label>
+      <select id="pago-metodo">
+        <option value="efectivo">Efectivo</option>
+        <option value="transferencia">Transferencia</option>
+        <option value="mixto">Efectivo + Transferencia</option>
+      </select>
+      <div id="grupo-pago-mixto" hidden>
+        <label for="pago-monto-efectivo">Monto en efectivo ($)</label>
+        <input id="pago-monto-efectivo" type="number" min="0" step="1" />
+        <label for="pago-monto-transferencia">Monto en transferencia ($)</label>
+        <input id="pago-monto-transferencia" type="number" min="0" step="1" />
+      </div>
+      <div class="error" id="error-pago"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-pago">Cancelar</button>
+        <button type="submit" class="primario">Registrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: editar datos de socio ===================== -->
+<div class="modal-fondo" id="modal-editar-socio" hidden>
+  <div class="modal">
+    <h2>Editar socio</h2>
+    <form id="form-editar-socio">
+      <input type="hidden" id="editar-socio-id" />
+      <label for="editar-nombre">Nombre completo</label>
+      <input id="editar-nombre" required />
+      <label for="editar-celular">Celular</label>
+      <input id="editar-celular" />
+      <label for="editar-email">Email</label>
+      <input id="editar-email" type="email" />
+      <label class="checkbox-inline">
+        <input id="editar-inactivo" type="checkbox" />
+        Marcar como inactivo (deja de contar como socio activo, sin esperar a que venza)
+      </label>
+      <div class="error" id="error-editar-socio"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-editar-socio">Cancelar</button>
+        <button type="submit" class="primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: registrar gasto (Caja) ===================== -->
+<div class="modal-fondo" id="modal-gasto" hidden>
+  <div class="modal">
+    <h2 id="titulo-modal-gasto">Registrar gasto</h2>
+    <form id="form-gasto">
+      <input type="hidden" id="gasto-editar-id" />
+      <label for="gasto-concepto">Concepto</label>
+      <input id="gasto-concepto" required />
+      <label for="gasto-monto">Monto ($)</label>
+      <input id="gasto-monto" type="number" min="1" step="1" required />
+      <label for="gasto-metodo">Método de pago</label>
+      <select id="gasto-metodo">
+        <option value="">Sin definir todavía (pendiente)</option>
+        <option value="efectivo">Efectivo</option>
+        <option value="transferencia">Transferencia</option>
+      </select>
+      <label for="gasto-fecha">Fecha</label>
+      <input id="gasto-fecha" type="date" required />
+      <div class="error" id="error-gasto"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-gasto">Cancelar</button>
+        <button type="submit" class="primario" id="btn-guardar-gasto">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: anular movimiento de Caja (owner) ===================== -->
+<div class="modal-fondo" id="modal-anular-movimiento" hidden>
+  <div class="modal">
+    <h2>Anular movimiento</h2>
+    <p class="subtitulo" id="anular-movimiento-detalle"></p>
+    <form id="form-anular-movimiento">
+      <label for="anular-movimiento-motivo">Motivo (opcional)</label>
+      <input id="anular-movimiento-motivo" placeholder="Ej: error de carga" />
+      <div class="error" id="error-anular-movimiento"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-anular-movimiento">Cancelar</button>
+        <button type="submit" class="primario">Anular</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: nuevo turno fijo (Calendario) ===================== -->
+<div class="modal-fondo" id="modal-turno" hidden>
+  <div class="modal">
+    <h2>Nuevo turno fijo</h2>
+    <form id="form-turno">
+      <label for="turno-socio-id">Socio</label>
+      <select id="turno-socio-id" required></select>
+      <label for="turno-dia">Día</label>
+      <select id="turno-dia" required>
+        <option value="1">Lunes</option>
+        <option value="2">Martes</option>
+        <option value="3">Miércoles</option>
+        <option value="4">Jueves</option>
+        <option value="5">Viernes</option>
+        <option value="6">Sábado</option>
+      </select>
+      <label for="turno-horario">Turno</label>
+      <select id="turno-horario" required></select>
+      <div class="error" id="error-turno"></div>
+      <div class="acciones">
+        <button type="button" class="secundario" data-cerrar="modal-turno">Cancelar</button>
+        <button type="submit" class="primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="demo-backend.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -72,7 +72,7 @@
     "Lumen Studio, inicio": "Lumen Studio, home",
     "Trabajos, pasá el cursor o tocá para ver cada uno": "Work, hover or tap to see each one",
     "Oliva Atelier, página con reserva de turnos": "Oliva Atelier, website with online booking",
-    "GymFlow, listado de socios con plan, estado, vencimiento y deuda": "GymFlow, member list with plan, status, expiry and balance due",
+    "GymFlow, tablero con indicadores, altas por mes y estado de los socios": "GymFlow, dashboard with key figures, new members per month and member status",
     "Propuesta de rediseño para R&RG Estudio Jurídico": "Redesign proposal for R&RG Law Firm",
     "Demo para un salón de eventos": "Demo for an event venue",
     "Demo para un consultorio odontológico": "Demo for a dental practice",
