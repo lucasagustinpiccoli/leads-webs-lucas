@@ -393,3 +393,5 @@
   .fm-chip { min-height: 60px; padding: var(--space-sm) var(--space-md); }
 }
 @media (prefers-reduced-motion: reduce) { .fm, .fm-progreso i, .fm-paso { transition: none; animation: none; } }
+
+.x-acciones { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
