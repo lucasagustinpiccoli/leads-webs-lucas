@@ -5,7 +5,7 @@
   "use strict";
   var EN = {
     "Trabajos": "Work",
-    "Cómo trabajo": "How we work",
+    "Proceso": "Process",
     "Preguntas": "FAQ",
     "Empezá tu proyecto": "Start your project",
     "Halo Studio, diseño web para negocios locales": "Halo Studio, web design for local businesses",
@@ -48,7 +48,7 @@
     "Sistema de gestión para gimnasios: socios, cuotas, caja y calendario en un solo lugar, para dejar atrás las planillas.": "A management system for gyms: members, fees, cash and calendar in one place, to leave spreadsheets behind.",
     "R&RG Estudio Jurídico": "R&RG Law Firm",
     "Propuesta de rediseño para un estudio de abogados de Resistencia, Chaco, pensada para transmitir confianza con sus propios colores y su logo.": "A redesign proposal for a law firm in Resistencia, Chaco, designed to build trust using its own colours and logo.",
-    "¿Cómo trabajamos?": "How do we work?",
+    "Nuestro proceso": "Our process",
     "Con Ray": "With Ray",
     "Contás qué necesitás": "Tell us what you need",
     "Respondés unas preguntas y ves al instante un rango de precio.": "Answer a few questions and see a price range right away.",
