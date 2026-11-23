@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A0A0A">
 <title>Solana | Residencias de 1 a 3 ambientes y penthouses</title>
-<meta name="description" content="Solana, un proyecto de ejemplo: recorré el edificio, mirá cada unidad y consultala por WhatsApp.">
+<meta name="description" content="Solana, departamentos de 1 a 3 ambientes y penthouses: recorré el edificio, mirá cada unidad y consultala por WhatsApp.">
 <link rel="preload" href="fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fuentes.css">
 <style>
@@ -176,9 +176,12 @@
   .contacto form .btn{width:100%;background:var(--tinta);color:var(--hielo)}
   .contacto form :focus-visible{outline-color:var(--tinta)}
 
-  footer{background:var(--noche);padding-block:clamp(36px,5vw,64px) 28px;border-top:1px solid var(--linea);overflow:hidden;color:var(--suave);position:relative;z-index:2}
-  footer .gigante{font-family:var(--titulo);font-weight:500;letter-spacing:-.07em;line-height:.85;font-size:clamp(4rem,23vw,22rem);color:var(--hielo);margin-bottom:clamp(20px,3vw,40px);white-space:nowrap}
-  footer .fila{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px;font-size:.92rem}
+  footer{background:var(--noche);border-top:1px solid var(--linea);padding-block:28px;color:var(--suave);font-size:.92rem;position:relative;z-index:2}
+  footer .w{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 32px}
+  footer .marca{font-size:1.05rem;color:var(--hielo)}
+  footer nav{display:flex;flex-wrap:wrap;gap:4px 24px}
+  footer nav a{min-height:36px;display:inline-flex;align-items:center}
+  @media (hover:hover){footer nav a:hover{color:var(--hielo)}}
 
   .flota{position:fixed;right:20px;bottom:20px;z-index:55;box-shadow:0 14px 34px -12px rgba(0,0,0,.6);transition:opacity .25s,transform .25s}
   .flota.oculta{opacity:0;transform:translateY(10px);pointer-events:none}
@@ -203,6 +206,7 @@
     .barra.ver{transform:none}
     .barra .btn{width:100%}
     footer{padding-bottom:96px}
+    footer .w{flex-direction:column;align-items:flex-start}
   }
   @media (max-width:520px){.contacto dl div{grid-template-columns:96px 1fr}.panel dl{grid-template-columns:repeat(3,auto);justify-content:space-between}}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.foto img{transform:none}}
@@ -273,7 +277,6 @@
         <figure><img src="img/barra.jpg" alt="Cocina con barra y banquetas" loading="lazy" width="1400" height="933"><figcaption>Cocina</figcaption></figure>
         <figure><img src="img/bloques.jpg" alt="Bloques del complejo vistos desde el jardín" loading="lazy" width="1100" height="1650"><figcaption>El complejo</figcaption></figure>
       </div>
-      <p class="nota">Fotos de referencia de un edificio y un departamento reales.</p>
     </div>
   </section>
 
@@ -309,7 +312,6 @@
         <div><dt>Cuotas</dt><dd>30 cuotas mensuales en pesos, ajustadas por CAC</dd></div>
         <div><dt>Saldo</dt><dd>Contra la entrega de llaves</dd></div>
       </dl>
-      <p class="nota-e">Etapas, avance y condiciones de pago de ejemplo.</p>
     </div>
   </section>
 
@@ -334,8 +336,9 @@
 
 <footer>
   <div class="w">
-    <div class="gigante" aria-hidden="true">Solana</div>
-    <div class="fila"><span>Proyecto de ejemplo de Lumen Studio. Todos los datos son ficticios.</span><span>Fotos de Pexels, de referencia: las del desarrollo las reemplazan.</span></div>
+    <a class="marca" href="#inicio" aria-label="Solana, inicio">Solana</a>
+    <nav aria-label="Pie"><a href="#escena">El edificio</a><a href="#ambientes">Ambientes</a><a href="#unidades">Unidades</a><a href="#etapas">Etapas</a><a href="#contacto">Contacto</a></nav>
+    <span class="der">Avenida del Sol 1200</span>
   </div>
 </footer>
 
