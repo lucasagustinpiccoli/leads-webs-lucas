@@ -428,7 +428,7 @@
 .wordmark { display: inline-flex; align-items: center; }
 .logo-nav { height: 44px; width: auto; display: block; overflow: visible; }
 .hero .gigante { line-height: 0; }
-.logo-hero { display: block; width: clamp(9.5rem, 20vw, 16.5rem); height: auto; margin-inline: auto; }
+.logo-hero { display: block; width: clamp(15rem, 36vw, 31rem); height: auto; margin-inline: auto; }
 .foot .marca-pie { display: inline-flex; align-items: center; }
 .logo-pie { height: 34px; width: auto; display: block; }
 .fm-marca { display: inline-flex; align-items: center; }
