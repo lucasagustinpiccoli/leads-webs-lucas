@@ -217,13 +217,15 @@
   .mega{position:absolute;top:100%;left:0;right:0;background:var(--papel);color:var(--tinta);padding:6px var(--gut) clamp(24px,3vw,40px);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .35s var(--ease),visibility .25s;box-shadow:0 30px 50px -30px rgba(0,0,0,.25)}
   header.abre-mega .mega{opacity:1;visibility:visible;transform:none}
   .mega-t{font-size:.82rem;text-transform:uppercase;color:var(--suave);margin:18px 0 16px;letter-spacing:.01em}
+  .mega-p{display:none}
+  .mega[data-act="cat"] .mega-p[data-p="cat"],.mega[data-act="col"] .mega-p[data-p="col"],.mega[data-act="nos"] .mega-p[data-p="nos"]{display:block}
   .mega-g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
   .mega-g button{position:relative;aspect-ratio:4/5.4;overflow:hidden;border-radius:20px;background:var(--papel-2);text-align:left;color:#fff}
   .mega-g img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--ox,50%) var(--oy,50%);transform:scale(var(--z,1));transform-origin:var(--ox,50%) var(--oy,50%);transition:transform .8s var(--ease)}
   @media (hover:hover){.mega-g button:hover img{transform:scale(calc(var(--z,1) * 1.06))}}
   .mega-g button::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.45),transparent 40%)}
   .mega-g span{position:absolute;left:26px;bottom:22px;z-index:2;font-size:1.15rem;font-weight:500}
-  @media (max-width:900px){.mega-g{grid-template-columns:repeat(2,minmax(0,1fr))}.mega{max-height:calc(100svh - 64px);overflow:auto}}
+  @media (max-width:900px){.mega-p{display:block!important}.mega-g{grid-template-columns:repeat(2,minmax(0,1fr))}.mega{max-height:calc(100svh - 64px);overflow:auto}}
 
   .solo-m{display:none!important}
   .mega-links{display:flex;flex-direction:column;border-bottom:1px solid var(--linea)}
@@ -234,7 +236,7 @@
 <body>
 <header id="cab">
   <div class="barra">
-    <nav aria-label="Principal"><a href="#/catalogo">Catálogo</a><button type="button" id="b-col" aria-expanded="false" aria-controls="mega">Colecciones</button><a href="#taller">Nosotros</a><a href="#contacto">Contacto</a></nav>
+    <nav aria-label="Principal"><button type="button" data-mega="cat" aria-expanded="false" aria-controls="mega">Catálogo</button><button type="button" data-mega="col" aria-expanded="false" aria-controls="mega">Colecciones</button><button type="button" data-mega="nos" aria-expanded="false" aria-controls="mega">Nosotros</button><a href="#contacto">Contacto</a></nav>
     <a class="logo" href="#inicio" aria-label="Arce, inicio">arce</a>
     <div class="der">
       <button type="button" id="b-fav" aria-label="Favoritos"><span class="txt-l">Favoritos&nbsp;</span>(<span id="n-fav">0</span>)</button>
@@ -243,7 +245,12 @@
       <button type="button" id="b-menu" class="solo-m" aria-expanded="false" aria-controls="mega">Menú</button>
     </div>
   </div>
-  <div class="mega" id="mega" aria-label="Colecciones"><div class="mega-links solo-m"><a href="#/catalogo">Catálogo</a><a href="#taller">Nosotros</a><a href="#contacto">Contacto</a></div><p class="mega-t">Últimas colecciones</p><div class="mega-g" id="mega-g"></div></div>
+  <div class="mega" id="mega" aria-label="Menú">
+    <div class="mega-links solo-m"><a href="#/catalogo">Ver todo el catálogo</a><a href="#contacto">Contacto</a></div>
+    <section class="mega-p" data-p="cat"><p class="mega-t">Categorías</p><div class="mega-g" id="mg-cat"></div></section>
+    <section class="mega-p" data-p="col"><p class="mega-t">Últimas colecciones</p><div class="mega-g" id="mega-g"></div></section>
+    <section class="mega-p" data-p="nos"><p class="mega-t">Conocé Arce</p><div class="mega-g" id="mg-nos"></div></section>
+  </div>
 </header>
 
 <main id="vista-home">
@@ -292,7 +299,7 @@
     <div class="info"><small>Nuestro taller</small><h2>Diseñamos, fabricamos y probamos cada pieza</h2><p>Trabajamos con maderas macizas, piedra y tapizados en lino. Cada pieza se hace por encargo y se entrega armada.</p><button type="button" class="btn-o" data-ir="Habitación">Ver piezas de habitación</button></div>
   </section>
 
-  <section class="hecho">
+  <section class="hecho" id="hecho">
     <div class="w">
       <div><h3>Por encargo</h3><p>Elegís la pieza, la medida y el acabado. La fabricamos y te avisamos cuando está lista.</p></div>
       <div><h3>Entrega y armado</h3><p>Llevamos las piezas a tu casa y las dejamos armadas en su lugar.</p></div>
@@ -492,24 +499,37 @@
   window.addEventListener("scroll", alBajar, { passive: true });
 
 
-  /* ---- menú de colecciones ---- */
+  /* ---- menús desplegables: catálogo, colecciones y nosotros ---- */
   (function(){
-    var cols = [], vistos = {};
-    PROD.forEach(function(p){ if (!vistos[p.col]){ vistos[p.col] = 1; cols.push(p); } });
-    $("mega-g").innerHTML = cols.slice(0, 5).map(function(p){ return '<button type="button" data-col="' + p.col + '"><img src="' + src(p.img) + '" alt="" loading="lazy" style="--z:' + Math.max(1.2, p.z * .8) + ';--ox:' + p.ox + '%;--oy:' + p.oy + '%"><span>' + p.col + '</span></button>'; }).join("");
-    var h = $("cab"), b = $("b-col"), t;
-    function abrirM(){ clearTimeout(t); h.classList.add("abre-mega"); b.setAttribute("aria-expanded", "true"); }
-    function cerrarM(){ t = setTimeout(function(){ h.classList.remove("abre-mega"); b.setAttribute("aria-expanded", "false"); }, 120); }
-    var bm = $("b-menu");
-    bm.addEventListener("click", function(){ var o = h.classList.toggle("abre-mega"); bm.setAttribute("aria-expanded", String(o)); });
-    $("mega").addEventListener("click", function(e){ if (e.target.closest("a")) h.classList.remove("abre-mega"); });
-    b.addEventListener("mouseenter", abrirM); h.addEventListener("mouseleave", cerrarM); $("mega").addEventListener("mouseenter", function(){ clearTimeout(t); });
-    b.addEventListener("click", function(){ h.classList.contains("abre-mega") ? (h.classList.remove("abre-mega"), b.setAttribute("aria-expanded", "false")) : abrirM(); });
-    document.addEventListener("keydown", function(e){ if (e.key === "Escape"){ h.classList.remove("abre-mega"); b.setAttribute("aria-expanded", "false"); } });
+    function unoPor(campo, orden){ var r = [], v = {}; PROD.forEach(function(p){ if (!v[p[campo]]){ v[p[campo]] = 1; r.push(p); } }); return orden ? orden.map(function(n){ return r.filter(function(p){ return p[campo] === n; })[0]; }).filter(Boolean) : r; }
+    function tarj(img, ox, oy, z, texto, attr){ return '<button type="button" ' + attr + '><img src="' + src(img) + '" alt="" loading="lazy" style="--z:' + z + ';--ox:' + ox + '%;--oy:' + oy + '%"><span>' + texto + '</span></button>'; }
+    $("mg-cat").innerHTML = unoPor("k", ["Sofás", "Mesas", "Sillas y banquetas", "Lámparas", "Camas"]).map(function(p){ return tarj(p.img, p.ox, p.oy, Math.max(1.2, p.z * .8), p.k, 'data-k="' + p.k + '"'); }).join("");
+    $("mega-g").innerHTML = unoPor("col").slice(0, 5).map(function(p){ return tarj(p.img, p.ox, p.oy, Math.max(1.2, p.z * .8), p.col, 'data-col="' + p.col + '"'); }).join("");
+    $("mg-nos").innerHTML = [
+      ["dormitorio", 50, 60, 1.1, "Nuestro taller", "#taller"],
+      ["barra", 40, 60, 1.3, "Por encargo", "#hecho"],
+      ["living", 70, 60, 1.2, "Entrega y armado", "#hecho"],
+      ["comedor", 55, 65, 1.3, "Contacto", "#contacto"]
+    ].map(function(a){ return tarj(a[0], a[1], a[2], a[3], a[4], 'data-href="' + a[5] + '"'); }).join("");
+    var h = $("cab"), m = $("mega"), btns = [].slice.call(document.querySelectorAll("[data-mega]")), bm = $("b-menu"), t;
+    function abrirM(k){ clearTimeout(t); m.dataset.act = k; h.classList.add("abre-mega"); btns.forEach(function(b){ b.setAttribute("aria-expanded", String(b.dataset.mega === k)); }); }
+    function cerrarM(){ clearTimeout(t); h.classList.remove("abre-mega"); delete m.dataset.act; btns.forEach(function(b){ b.setAttribute("aria-expanded", "false"); }); bm.setAttribute("aria-expanded", "false"); }
+    btns.forEach(function(b){
+      b.addEventListener("mouseenter", function(){ abrirM(b.dataset.mega); });
+      b.addEventListener("click", function(){
+        if (b.dataset.mega === "cat" && window.innerWidth > 900){ cerrarM(); ir(null); return; }
+        h.classList.contains("abre-mega") && m.dataset.act === b.dataset.mega ? cerrarM() : abrirM(b.dataset.mega);
+      });
+    });
+    h.addEventListener("mouseleave", function(){ t = setTimeout(cerrarM, 140); });
+    m.addEventListener("mouseenter", function(){ clearTimeout(t); });
+    bm.addEventListener("click", function(){ if (h.classList.contains("abre-mega")) cerrarM(); else { abrirM("col"); bm.setAttribute("aria-expanded", "true"); } });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape") cerrarM(); });
     document.addEventListener("click", function(e){
-      var c = e.target.closest("[data-col]"); if (!c) return;
-      h.classList.remove("abre-mega"); b.setAttribute("aria-expanded", "false");
-      F = { k: [], col: [c.dataset.col], amb: [], q: "" }; $("q").value = "";
+      var c = e.target.closest("[data-col],[data-k],[data-href]"); if (!c || !m.contains(c)) { if (e.target.closest("#mega a")) cerrarM(); return; }
+      cerrarM();
+      if (c.dataset.href){ if (location.hash === c.dataset.href){ var el = document.getElementById(c.dataset.href.slice(1)); if (el) el.scrollIntoView(); } else location.hash = c.dataset.href; return; }
+      F = { k: c.dataset.k ? [c.dataset.k] : [], col: c.dataset.col ? [c.dataset.col] : [], amb: [], q: "" }; $("q").value = "";
       if (location.hash === "#/catalogo") pintarCat(); else location.hash = "#/catalogo";
     });
   })();
