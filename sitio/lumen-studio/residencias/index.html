@@ -153,17 +153,29 @@
   .ficha .nota{font-size:.9rem;color:var(--suave)}
   .ficha .btn{width:100%}
 
+  .etapas .cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 40px}
+  .avance{display:flex;align-items:baseline;gap:16px;max-width:46ch}
+  .avance b{font-family:var(--marca);font-weight:500;font-size:clamp(2.6rem,6vw,4.4rem);letter-spacing:-.05em;line-height:1}
+  .avance span{color:var(--suave)}
+  .etapas li small{display:block;margin-top:4px;color:var(--suave);font-size:.9rem}
+  .pago-t{margin-top:clamp(40px,5vw,64px);font-size:1.4rem}
+  .pago{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(16px,3vw,40px);margin-top:14px;border-top:1px solid var(--linea)}
+  .pago div{padding:16px 0;border-bottom:1px solid var(--linea)}
+  .pago dt{color:var(--suave);font-size:.92rem}
+  .pago dd{font-weight:600;margin-top:2px}
+  .nota-e{margin-top:24px;color:var(--suave);font-size:.92rem}
+  @media (max-width:900px){.pago{grid-template-columns:minmax(0,1fr)}}
   .etapas{background:var(--noche-2)}
   .etapas ol{list-style:none;position:relative;margin-top:clamp(28px,4vw,48px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2vw,28px)}
   .etapas ol::before{content:"";position:absolute;left:0;right:0;top:11px;height:2px;background:var(--linea)}
-  .etapas ol::after{content:"";position:absolute;left:0;top:11px;height:2px;width:calc(var(--prog,0) * 100%);background:var(--cian);transition:width .2s linear}
+  .etapas ol::after{content:"";position:absolute;left:0;top:11px;height:2px;width:calc(var(--prog,0) * 100%);background:var(--cian);transition:width 1.6s var(--ease)}
   .etapas li{position:relative;padding-top:44px}
   .etapas li::before{content:"";position:absolute;top:0;left:0;width:24px;height:24px;border-radius:50%;background:var(--noche-2);border:2px solid var(--linea);z-index:1}
   .etapas li.hecha::before{background:var(--cian);border-color:var(--cian)}
   .etapas li.curso::before{border-color:var(--cian);box-shadow:0 0 0 5px rgba(255,255,255,.18)}
   .etapas h3{font-size:1.15rem;letter-spacing:-.03em}
   .etapas li p{color:var(--suave);margin-top:6px}
-  .etapas li span{display:inline-block;margin-top:10px;font-size:.88rem;font-weight:600;color:var(--cian)}
+  .etapas li span{display:inline-block;margin-top:10px;font-size:.92rem;font-weight:600;color:var(--cian)}
 
   .contacto .w{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,96px);align-items:start}
   .contacto dl{margin-top:28px;border-top:1px solid var(--linea)}
@@ -196,7 +208,7 @@
     .unidad,.contacto .w{grid-template-columns:minmax(0,1fr)}
     .etapas ol{grid-template-columns:minmax(0,1fr);gap:28px;padding-left:20px}
     .etapas ol::before,.etapas ol::after{left:11px;right:auto;top:0;bottom:0;width:2px;height:auto}
-    .etapas ol::after{height:calc(var(--prog,0) * 100%);width:2px}
+    .etapas ol::after{height:calc(var(--prog,0) * 100%);width:2px;transition:height 1.6s var(--ease)}
     .etapas li{padding-top:0;padding-left:34px}
     .flota{display:none}
     .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:55;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(10,10,10,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--linea);transform:translateY(100%);transition:transform .25s var(--ease)}
@@ -233,11 +245,11 @@
       <div class="fondo" aria-hidden="true"><img src="img/hero.jpg" alt="" width="1900" height="1267"></div>
       <div class="ventana" id="ventana"><div class="pista" id="pista">
         <article class="tarjeta inv"><div class="im"><div><img src="img/bloques.jpg" alt="Bloques del complejo residencial" width="1100" height="1650"></div></div>
-          <div class="tx"><h2>Solana</h2><p>Residencias de 1 a 3 ambientes y penthouses. Catorce pisos que giran apenas, para que cada unidad tenga su propia vista y su propio exterior.</p></div></article>
+          <div class="tx"><h2>Solana</h2><p>Departamentos de 1, 2 y 3 ambientes y penthouses con terraza propia, en una torre de 14 pisos.</p></div></article>
         <article class="tarjeta"><div class="im"><div><img src="img/hero.jpg" alt="Volúmenes del edificio con balcones" width="1900" height="1267"></div></div>
-          <div class="tx"><h2>El edificio</h2><p>Fachada de hormigón y vidrio, balcones en todas las unidades y un jardín común. Cuatro tipos de unidad, de 38 a 148 m².</p></div></article>
+          <div class="tx"><h2>El edificio</h2><p>52 unidades de 38 a 148 m², todas con balcón o terraza. Cocheras en subsuelo, solárium, laundry y parrilla.</p></div></article>
         <article class="tarjeta inv"><div class="im"><div><img src="img/dormitorio.jpg" alt="Dormitorio luminoso con cortinas" width="1400" height="933"></div></div>
-          <div class="tx"><h2>Por dentro</h2><p>Ambientes amplios, ventanales de piso a techo y cocinas integradas al comedor.</p><div id="acciones-hero"><a class="btn" href="#unidades">Ver las unidades</a></div></div></article>
+          <div class="tx"><h2>Por dentro</h2><p>Living comedor con ventanales, cocina integrada y pisos de madera. Se entregan con terminaciones completas.</p><div id="acciones-hero"><a class="btn" href="#unidades">Ver las unidades</a></div></div></article>
       </div></div>
       <div class="progreso" id="progreso" style="opacity:0">
         <div class="riel"><i id="relleno"></i></div>
@@ -254,11 +266,11 @@
       <div class="foto"><img src="img/cocina.jpg" alt="Cocina con isla integrada al comedor" loading="lazy" width="1900" height="1268"></div>
       <div class="velo"></div>
       <div class="w"><div class="caps">
-        <div class="panel on"><span class="n">01</span><h2>Catorce pisos que giran apenas</h2><p>Cada planta se desplaza unos grados para que todas las unidades tengan su propia vista.</p>
+        <div class="panel on"><span class="n">01</span><h2>14 pisos y 52 unidades</h2><p>Monoambientes, 2 y 3 ambientes y dos penthouses en los últimos niveles.</p>
           <dl><div><dt>pisos</dt><dd data-cuenta="pisos">14</dd></div><div><dt>unidades</dt><dd data-cuenta="total">52</dd></div><div><dt>disponibles</dt><dd data-cuenta="disp">32</dd></div></dl></div>
-        <div class="panel"><span class="n">02</span><h2>Balcones en cada unidad</h2><p>Todas las unidades tienen exterior propio, de 5 a 40 m², para usarlo todo el año.</p></div>
-        <div class="panel"><span class="n">03</span><h2>Ambientes amplios y luminosos</h2><p>Ventanales de piso a techo y pisos de madera en todos los living.</p></div>
-        <div class="panel"><span class="n">04</span><h2>Cocinas integradas al comedor</h2><p>Islas y barras para cocinar y recibir en el mismo espacio.</p><div><a class="btn" href="#unidades">Ver las unidades</a></div></div>
+        <div class="panel"><span class="n">02</span><h2>Balcón o terraza en todas</h2><p>Exteriores de 5 a 40 m², con barandas de vidrio.</p></div>
+        <div class="panel"><span class="n">03</span><h2>Living con luz natural</h2><p>Ventanales de piso a techo y pisos de madera en todos los ambientes principales.</p></div>
+        <div class="panel"><span class="n">04</span><h2>Cocina integrada</h2><p>Isla o barra abierta al comedor, con mesada de piedra y artefactos incluidos.</p><div><a class="btn" href="#unidades">Ver las unidades</a></div></div>
       </div></div>
       <div class="pasos" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
     </div>
@@ -267,8 +279,8 @@
   <section class="solido ambientes claro" id="ambientes">
     <div class="w">
       <div class="cab">
-        <h2>Cómo se vive adentro</h2>
-        <p>Ambientes amplios, cocinas integradas y balcones en todas las unidades.</p>
+        <h2>Por dentro</h2>
+        <p>Terminaciones completas: pisos de madera, ventanales y cocinas con isla.</p>
       </div>
       <div class="fotos">
         <figure><img src="img/comedor.jpg" alt="Comedor frente a los ventanales" loading="lazy" width="1400" height="933"><figcaption>Comedor</figcaption></figure>
@@ -276,15 +288,15 @@
         <figure><img src="img/barra.jpg" alt="Cocina con barra y banquetas" loading="lazy" width="1400" height="933"><figcaption>Cocina</figcaption></figure>
         <figure><img src="img/bloques.jpg" alt="Bloques del complejo vistos desde el jardín" loading="lazy" width="1100" height="1650"><figcaption>El complejo</figcaption></figure>
       </div>
-      <p class="nota">Fotos de referencia de un edificio y un departamento reales, solo para mostrar el tipo de ambiente.</p>
+      <p class="nota">Fotos de referencia de un edificio y un departamento reales.</p>
     </div>
   </section>
 
   <section class="solido unidades claro" id="unidades">
     <div class="w">
       <div class="cab">
-        <div><h2>Elegí tu unidad</h2></div>
-        <p>Cuatro tipos de unidad. Tocá cada uno para ver su plano y su precio.</p>
+        <div><h2>Unidades</h2></div>
+        <p>Cuatro tipologías. Elegí una para ver el plano, la superficie y el precio.</p>
       </div>
       <div class="tabs" role="tablist" aria-label="Tipos de unidad" id="tabs"></div>
       <div class="unidad" style="margin-top:24px">
@@ -296,14 +308,23 @@
 
   <section class="solido etapas" id="etapas">
     <div class="w">
-      <h2>Etapas de obra</h2>
+      <div class="cab">
+        <h2>Avance de obra</h2>
+        <div class="avance"><b>38%</b><span>Actualizado a noviembre de 2026. Entrega estimada: diciembre de 2027.</span></div>
+      </div>
       <ol id="ol-etapas">
-        <li class="hecha"><h3>Proyecto y permisos</h3><p>Planos aprobados y obra habilitada.</p><span>Terminada</span></li>
-        <li class="curso"><h3>Estructura</h3><p>Losas y columnas, piso por piso.</p><span>En curso</span></li>
-        <li><h3>Cerramientos</h3><p>Fachada de vidrio, balcones y terminaciones.</p><span>Próxima</span></li>
-        <li><h3>Entrega</h3><p>Escrituras y entrega de llaves.</p><span>Próxima</span></li>
+        <li class="hecha"><h3>Proyecto y permisos</h3><p>Planos aprobados y obra habilitada.</p><span>Terminada</span><small>Marzo de 2026</small></li>
+        <li class="curso"><h3>Estructura</h3><p>Losas y columnas. Van 6 de 14 pisos.</p><span>En curso, 60%</span><small>Hasta abril de 2027</small></li>
+        <li><h3>Cerramientos</h3><p>Fachada de vidrio, balcones y terminaciones.</p><span>Próxima</span><small>Mayo a octubre de 2027</small></li>
+        <li><h3>Entrega</h3><p>Escritura y entrega de llaves.</p><span>Prevista</span><small>Diciembre de 2027</small></li>
       </ol>
-      <p style="margin-top:28px;color:var(--suave);font-size:.92rem">Etapas y avance de ejemplo.</p>
+      <h3 class="pago-t">Forma de pago</h3>
+      <dl class="pago">
+        <div><dt>Anticipo</dt><dd>30% al firmar el boleto</dd></div>
+        <div><dt>Cuotas</dt><dd>30 cuotas mensuales en pesos, ajustadas por CAC</dd></div>
+        <div><dt>Saldo</dt><dd>Contra la entrega de llaves</dd></div>
+      </dl>
+      <p class="nota-e">Etapas, avance y condiciones de pago de ejemplo.</p>
     </div>
   </section>
 

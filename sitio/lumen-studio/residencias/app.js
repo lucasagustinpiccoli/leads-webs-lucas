@@ -62,7 +62,7 @@
     $("plano").innerHTML = plano(actual);
     var l = libres(actual.id), pis = actual.pisos[0] === actual.pisos[1] ? "piso " + actual.pisos[0] : "pisos " + actual.pisos[0] + " a " + actual.pisos[1];
     $("ficha").innerHTML = '<img class="foto-tipo" src="' + fotoTipo(actual.id) + '" alt="Ambiente de referencia de ' + actual.nombre + '" loading="lazy"><h3>' + actual.nombre + '</h3><p class="precio">Desde USD ' + fmt(actual.precio) + '</p>' +
-      '<dl><div><dt>Superficie cubierta</dt><dd>' + actual.m2 + ' m²</dd></div><div><dt>Exterior</dt><dd>' + actual.ext + '</dd></div><div><dt>Ubicación</dt><dd>' + pis + '</dd></div><div><dt>Disponibles</dt><dd>' + l + '</dd></div></dl>' +
+      '<dl><div><dt>Superficie cubierta</dt><dd>' + actual.m2 + ' m²</dd></div><div><dt>Exterior</dt><dd>' + actual.ext + '</dd></div><div><dt>Ubicación</dt><dd>' + pis + '</dd></div><div><dt>Disponibles</dt><dd>' + l + '</dd></div><div><dt>Entrega</dt><dd>Diciembre de 2027</dd></div></dl>' +
       '<button class="btn" type="button" id="consultar">Consultar este tipo</button><p class="nota">Precios y disponibilidad de ejemplo.</p>';
     $("consultar").addEventListener("click", function () { $("f-tipo").value = actual.id; irAWhatsApp(mensaje($("f-nombre").value.trim(), actual)); });
   }
@@ -85,14 +85,13 @@
   });
   $("f-nombre").addEventListener("input", function () { $("f-error").style.display = "none"; this.removeAttribute("aria-invalid"); });
 
-  /* ---- línea de etapas que se llena al bajar ---- */
-  var ol = $("ol-etapas");
-  function prog() {
-    var r = ol.getBoundingClientRect(), h = window.innerHeight;
-    var p = Math.max(0, Math.min(1, (h * 0.85 - r.top) / (r.height + h * 0.3)));
-    ol.style.setProperty("--prog", (0.12 + p * 0.38).toFixed(3));
-  }
-  prog(); window.addEventListener("scroll", prog, { passive: true });
+  /* ---- línea de etapas: se llena una vez hasta donde va la obra ---- */
+  var ol = $("ol-etapas"), HASTA = 0.4;
+  if ("IntersectionObserver" in window && !reducido) {
+    ol.style.setProperty("--prog", "0.02");
+    var ioE = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { ol.style.setProperty("--prog", HASTA); ioE.disconnect(); } }, { threshold: 0.5 });
+    ioE.observe(ol);
+  } else { ol.style.setProperty("--prog", HASTA); }
 
   /* ---- barra superior, botón flotante y barra del celular ---- */
   var cab = $("cab"), aviso = document.querySelector(".aviso");
