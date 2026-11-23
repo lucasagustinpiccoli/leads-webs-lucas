@@ -173,9 +173,9 @@
     tres: { W: 11.0, H: 8.5, rooms: [["Living", 0, 0, 5.0, 4.8], ["Cocina", 0, 4.8, 2.8, 3.7], ["Baño", 2.8, 4.8, 2.2, 3.7], ["Dormitorio 1", 5.0, 0, 6.0, 3.4], ["Pasillo", 5.0, 3.4, 6.0, 1.1], ["Dormitorio 2", 5.0, 4.5, 3.0, 4.0], ["Dormitorio 3", 8.0, 4.5, 3.0, 4.0]], bal: [-2.5, 0, 2.5, 4.8],
       ven: [[0.5, 0, 2.6, "h"], [5.8, 0, 4.4, "h"], [11.0, 0.8, 1.8, "v"], [11.0, 5.4, 1.8, "v"], [5.6, 8.5, 2.0, "h"], [8.4, 8.5, 2.0, "h"], [0, 5.6, 1.4, "v"]],
       pu: [[0, 1.2, 2.0, "v", 0], [3.9, 0, 0.9, "h", 1], [5.0, 3.5, 0.9, "v", 0], [6.0, 3.4, 0.8, "h", -1], [5.2, 4.5, 0.8, "h", 1], [9.2, 4.5, 0.8, "h", 1], [3.4, 4.8, 0.8, "h", -1], [0.4, 4.8, 1.6, "h", 0]] },
-    pent: { W: 13.0, H: 11.4, rooms: [["Living", 0, 0, 6.4, 6.0], ["Cocina", 0, 6.0, 3.4, 5.4], ["Baño", 3.4, 6.0, 3.0, 5.4], ["Pasillo", 6.4, 0, 1.2, 11.4], ["Suite", 7.6, 0, 5.4, 4.4], ["Dormitorio", 7.6, 4.4, 5.4, 3.6], ["Escritorio", 7.6, 8.0, 5.4, 3.4]], bal: [-6.7, 0, 6.7, 6.0],
+    pent: { W: 13.0, H: 11.4, rooms: [["Living", 0, 0, 6.4, 6.0], ["Cocina", 0, 6.0, 3.4, 5.4], ["Baño", 3.4, 6.0, 3.0, 5.4], ["Pasillo", 6.4, 0, 1.2, 11.4], ["Suite", 7.6, 0, 3.2, 4.4], ["Baño en suite", 10.8, 0, 2.2, 4.4], ["Dormitorio", 7.6, 4.4, 5.4, 3.6], ["Escritorio", 7.6, 8.0, 5.4, 3.4]], bal: [-6.7, 0, 6.7, 6.0],
       ven: [[0.8, 0, 4.8, "h"], [8.2, 0, 4.0, "h"], [13.0, 1.0, 2.4, "v"], [13.0, 5.0, 2.0, "v"], [13.0, 8.6, 1.8, "v"], [8.4, 11.4, 3.6, "h"]],
-      pu: [[0, 1.4, 3.6, "v", 0], [4.6, 0, 0.9, "h", 1], [6.4, 2.0, 1.0, "v", 0], [7.6, 3.2, 0.8, "v", 1], [7.6, 6.6, 0.8, "v", 1], [7.6, 9.4, 0.8, "v", 1], [6.4, 7.0, 0.8, "v", -1], [0.5, 6.0, 1.8, "h", 0]] }
+      pu: [[0, 1.4, 3.6, "v", 0], [4.6, 0, 0.9, "h", 1], [6.4, 2.0, 1.0, "v", 0], [7.6, 3.2, 0.8, "v", 1], [10.8, 2.3, 0.8, "v", -1], [7.6, 6.6, 0.8, "v", 1], [7.6, 9.4, 0.8, "v", 1], [6.4, 7.0, 0.8, "v", -1], [0.5, 6.0, 1.8, "h", 0]] }
   };
 
   var tipoActual = "";
@@ -190,9 +190,9 @@
       oclu += '<clipPath id="cp' + n + '"><rect x="' + f1(x) + '" y="' + f1(y) + '" width="' + f1(w) + '" height="' + f1(h) + '"/></clipPath><g clip-path="url(#cp' + n + ')">' + RR(x, y, w, h, 'fill="none" stroke="#000" stroke-opacity=".42" stroke-width="7" filter="url(#difuso)"') + "</g>"; n++;
       pared += RR(x, y, w, h, 'fill="none" stroke="currentColor" stroke-width="' + WT + '" stroke-linejoin="miter"');
       mue += mueble(nom, x, y, w, h);
-      var m2 = Math.round(w * h), l = nom.toLowerCase(), alto = l.indexOf("living") > -1 || l.indexOf("estar") > -1, tx = l.indexOf("estar") > -1 ? x + 1.9 : (l.indexOf("living") > -1 ? x + Math.min(2.2, w / 2) : x + w / 2), ty = l.indexOf("estar") > -1 ? y + 2.8 : (l.indexOf("living") > -1 ? y + h - .5 : y + h - .5), ancho = nom.length * fm * .6 + fm * 2.2;
+      var m2 = Math.round(w * h), l = nom.toLowerCase(), alto = l.indexOf("living") > -1 || l.indexOf("estar") > -1, tx = l.indexOf("estar") > -1 ? x + 1.9 : (l.indexOf("living") > -1 ? x + Math.min(2.2, w / 2) : x + w / 2), ty = l.indexOf("estar") > -1 ? y + 2.8 : (l.indexOf("living") > -1 ? y + h - .5 : y + h - .5), lab = nom.replace(" en suite", ""), ancho = lab.length * fm * .6 + fm * 2.2;
       if (l.indexOf("pasillo") > -1 && w < 2.2) return;
-      etiq += RR(tx - ancho / 2, ty - fm * 1.25, ancho, fm * 2.9, 'fill="#fff" fill-opacity=".93" stroke="#d8d4cb" stroke-width=".2"', fm * .6) + '<text x="' + f1(tx) + '" y="' + f1(ty) + '" class="t1">' + nom + '</text><text x="' + f1(tx) + '" y="' + f1(ty + fm * 1.2) + '" class="t2">' + m2 + " m²</text>";
+      etiq += RR(tx - ancho / 2, ty - fm * 1.25, ancho, fm * 2.9, 'fill="#fff" fill-opacity=".93" stroke="#d8d4cb" stroke-width=".2"', fm * .6) + '<text x="' + f1(tx) + '" y="' + f1(ty) + '" class="t1">' + lab + '</text><text x="' + f1(tx) + '" y="' + f1(ty + fm * 1.2) + '" class="t2">' + m2 + " m²</text>";
     });
     // exterior
     piso += RR(b[0], b[1], b[2], b[3], 'fill="url(#deck)"');
