@@ -103,7 +103,7 @@
   function accion(id) {
     var n = nombre;
     if (id === "proyectos") {
-      return decir(L("Muy bien, " + n + ". Te llevo a los proyectos: hay sitios con reservas, un catálogo, una landing para una app y una inmobiliaria.", "Great, " + n + ". I'll take you to the projects: sites with online booking, a catalogue, an app landing page and a real-estate site.")).then(function () {
+      return decir(L("Te muestro algunos trabajos, " + n + ": sitios con reservas, un catálogo, una landing para una app y un desarrollo inmobiliario. Mirá los que más se parezcan a tu negocio.", "Here are some of our projects, " + n + ": sites with online booking, a catalogue, an app landing page and a real-estate development. Take a look at the ones closest to your business.")).then(function () {
         var ir = boton(L("Ver los proyectos", "See the projects"), "btn btn--primary");
         ir.addEventListener("click", function () {
           cerrarChat();
