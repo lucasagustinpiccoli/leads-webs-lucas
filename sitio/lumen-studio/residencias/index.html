@@ -223,11 +223,11 @@
   /* plano en 3D: tres capas que se separan al inclinar */
   .plano{position:relative;overflow:hidden}
   .p3d{perspective:1300px;padding:clamp(28px,4vw,48px) 0 clamp(16px,3vw,36px)}
-  .claro .plano .cuerpo{position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,26deg)) rotateZ(var(--rz,-10deg)) scale(.9);transition:transform .7s var(--ease);will-change:transform}
+  .claro .plano .cuerpo{position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,34deg)) rotateZ(var(--rz,-14deg)) scale(.88);transition:transform .7s var(--ease);will-change:transform}
   .p3d[data-plana="1"] .cuerpo{transform:none!important}
   .capa{display:block;width:100%;height:auto}
   .capa:not(.c-piso){position:absolute;inset:0}
-  .c-pared{transform:translateZ(12px)}.c-mueble{transform:translateZ(26px)}.c-etiq{transform:translateZ(40px)}
+  
   .c-piso{filter:drop-shadow(0 18px 14px rgba(0,0,0,.18))}
   .c-etiq text{font-family:var(--texto);fill:#0C1117;text-anchor:middle}
   .c-etiq .t1{font-size:4.1px;font-weight:600}.c-etiq .t2{font-size:3.3px;fill:#3d4650}

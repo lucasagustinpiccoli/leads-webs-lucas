@@ -56,11 +56,11 @@
   function Y(v) { return OY + v * K; }
   function R(x, y, w, h, att) { return '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" ' + att + '/>'; }
   function C(cx, cy, r, att) { return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r.toFixed(1) + '" ' + att + '/>'; }
-  var TELA = 'fill="#f7f4ee" stroke="#cfc6b6" stroke-width=".5"', MADERA = 'fill="#cfae82" stroke="#a98a60" stroke-width=".4"', VERDE = 'fill="#7d9870"', VERDE2 = 'fill="#9bb38c"';
+  var TELA = 'fill="url(#gTela)" stroke="#cfc6b6" stroke-width=".5"', MADERA = 'fill="url(#gMadera)" stroke="#a98a60" stroke-width=".4"', VERDE = 'fill="#7d9870"', VERDE2 = 'fill="#9bb38c"';
   function planta(cx, cy, r) { return C(cx, cy, r, VERDE) + C(cx - r * .35, cy - r * .2, r * .7, VERDE2) + C(cx + r * .3, cy + r * .25, r * .55, VERDE2); }
   function silla(cx, cy, r) { return C(cx, cy, r, 'fill="#efe9dd" stroke="#cfc6b6" stroke-width=".4"'); }
   function sala(x, y, w, h) {
-    var s = R(x + .1 * w, y + .22 * h, .62 * w, .56 * h, 'rx="1.5" fill="#d9d3c6"');
+    var s = R(x + .1 * w, y + .22 * h, .62 * w, .56 * h, 'rx="1.5" fill="#d9d3c6"') + R(x + .1 * w, y + .22 * h, .62 * w, .56 * h, 'rx="1.5" filter="url(#tejido)"');
     s += R(x + .07 * w, y + .3 * h, .15 * w, .42 * h, 'rx="2" ' + TELA) + R(x + .07 * w, y + .3 * h, .045 * w, .42 * h, 'rx="1.5" fill="#e8e1d4" stroke="#cfc6b6" stroke-width=".4"');
     s += R(x + .33 * w, y + .45 * h, .15 * w, .16 * h, 'rx="1" ' + MADERA);
     s += R(x + .56 * w, y + .46 * h, .13 * w, .17 * h, 'rx="3" ' + TELA);
@@ -82,7 +82,7 @@
     return s;
   }
   function dormM(x, y, w, h) {
-    var s = R(x + .1 * w, y + .2 * h, .8 * w, .66 * h, 'rx="1.5" fill="#d9d3c6"');
+    var s = R(x + .1 * w, y + .2 * h, .8 * w, .66 * h, 'rx="1.5" fill="#d9d3c6"') + R(x + .1 * w, y + .2 * h, .8 * w, .66 * h, 'rx="1.5" filter="url(#tejido)"');
     s += R(x + .2 * w, y + .1 * h, .6 * w, .64 * h, 'rx="1.5" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".5"') + R(x + .2 * w, y + .1 * h, .6 * w, .06 * h, 'rx="1" fill="#b79b74"');
     s += R(x + .24 * w, y + .18 * h, .24 * w, .12 * h, 'rx="2" fill="#fff" stroke="#d6cfc2" stroke-width=".4"') + R(x + .52 * w, y + .18 * h, .24 * w, .12 * h, 'rx="2" fill="#fff" stroke="#d6cfc2" stroke-width=".4"');
     s += R(x + .2 * w, y + .45 * h, .6 * w, .29 * h, 'rx="1" fill="#e3dccd"');
@@ -101,23 +101,35 @@
     if (n.indexOf("escritorio") > -1) return escrM(x, y, w, h);
     return dormM(x, y, w, h);
   }
+  /* repite una capa varias veces, una sobre otra, para dar altura (paredes y muebles con volumen al inclinar) */
+  function mezcla(a, b, k) { var pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16), o = ""; [16, 8, 0].forEach(function (sh) { var v = Math.round(((pa >> sh) & 255) * (1 - k) + ((pb >> sh) & 255) * k); o += (v < 16 ? "0" : "") + v.toString(16); }); return "#" + o; }
+  function extruir(svg, cont, cls, z0, capas, paso, colores, sombrear) {
+    var out = "";
+    for (var i = 0; i < capas; i++) {
+      var k = i / (capas - 1), estilo = colores ? "color:" + mezcla(colores[0], colores[1], k) + ";" : "color:#1a1a1a;filter:brightness(" + (0.72 + 0.28 * k).toFixed(2) + ");";
+      var g = i === 0 ? '<g filter="url(#sombra)">' + cont + '</g>' : cont;
+      out += svg(cls, g, (z0 + i * paso).toFixed(1), estilo);
+    }
+    return out;
+  }
   function plano(t) {
     var tot = t.amb.reduce(function (a, r) { return a + r[3] * r[4]; }, 0);
-    var piso = "", pared = "", mue = "", etiq = "";
+    var piso = "", pared = "", mue = "", etiq = "", oclu = "", n = 0;
     t.amb.forEach(function (a) {
       var x = X(a[1]), y = Y(a[2]), w = a[3] * K, h = a[4] * K, bano = a[0].toLowerCase().indexOf("baño") > -1;
-      piso += R(x, y, w, h, 'fill="url(#' + (bano ? "baldosa" : "madera") + ')"');
-      pared += R(x, y, w, h, 'fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="miter"');
+      piso += R(x, y, w, h, 'fill="url(#' + (bano ? "baldosa" : "madera") + ')"') + (bano ? "" : R(x, y, w, h, 'filter="url(#grano)"'));
+      oclu += '<clipPath id="cp' + (n++) + '"><rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '"/></clipPath><g clip-path="url(#cp' + (n - 1) + ')"><rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="9" filter="url(#difuso)"/></g>';
+      pared += R(x, y, w, h, 'fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="miter"');
       mue += mueble(a[0], x, y, w, h);
       var m2 = Math.round(t.m2 * (a[3] * a[4]) / tot);
       var tx = x + w / 2, ty = y + h - 7, nom = a[0];
       var ancho = Math.max(nom.length * 3.1, 18) + 4;
       etiq += R(tx - ancho / 2, ty - 5.2, ancho, 10.6, 'rx="2" fill="#fff" fill-opacity=".92"') + '<text x="' + tx.toFixed(1) + '" y="' + (ty - .2).toFixed(1) + '" class="t1">' + nom + '</text><text x="' + tx.toFixed(1) + '" y="' + (ty + 4).toFixed(1) + '" class="t2">' + m2 + ' m²</text>';
-      if (a[2] === 0 && !bano) { var wx = x + w * .12, ww = w * .76; pared += R(wx, y - 1.6, ww, 3.2, 'fill="#fff" stroke="#1a1a1a" stroke-width=".7"') + '<line x1="' + wx.toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + (wx + ww).toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="#1a1a1a" stroke-width=".5"/>'; }
+      if (a[2] === 0 && !bano) { var wx = x + w * .12, ww = w * .76; pared += R(wx, y - 1.6, ww, 3.2, 'fill="#eaf1f4" stroke="currentColor" stroke-width=".7"') + '<line x1="' + wx.toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + (wx + ww).toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="currentColor" stroke-width=".5"/>'; }
     });
     var e = t.ext_r, ex = X(e[0]), ey = Y(e[1]), ew = e[2] * K, eh = e[3] * K;
     piso += R(ex, ey, ew, eh, 'fill="url(#deck)"');
-    pared += R(ex, ey, ew, eh, 'fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-dasharray="3 2"');
+    pared += R(ex, ey, ew, eh, 'fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 2"');
     mue += planta(ex + 7, ey + eh / 2, 3.2) + planta(ex + ew - 7, ey + eh / 2, 3.2) + C(ex + ew / 2, ey + eh / 2, 3.6, MADERA) + silla(ex + ew / 2 - 8, ey + eh / 2, 2.4) + silla(ex + ew / 2 + 8, ey + eh / 2, 2.4);
     var tx2 = ex + ew / 2, ty2 = ey + eh + 7;
     etiq += '<text x="' + tx2.toFixed(1) + '" y="' + ty2.toFixed(1) + '" class="t2">' + e[4] + ', ' + t.ext.replace(/^\D+/, "").replace(/ .*/, "") + ' m²</text>';
@@ -125,11 +137,17 @@
     var defs = '<defs><pattern id="madera" width="12" height="4" patternUnits="userSpaceOnUse"><rect width="12" height="4" fill="#e7dac4"/><path d="M0 0H12M0 4H12" stroke="#d6c7ac" stroke-width=".5"/><path d="M5 0V4" stroke="#dccfb7" stroke-width=".3"/></pattern>' +
       '<pattern id="baldosa" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#ecebe7"/><path d="M0 0H6V6" fill="none" stroke="#dcdad3" stroke-width=".4"/></pattern>' +
       '<pattern id="deck" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#dedbd3"/><path d="M0 0H5" stroke="#cfcbc1" stroke-width=".5"/></pattern>' +
-      '<filter id="sombra" x="-5%" y="-5%" width="110%" height="115%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.1" flood-color="#000" flood-opacity=".28"/></filter></defs>';
+      '<filter id="sombra" x="-8%" y="-8%" width="120%" height="125%"><feDropShadow dx="0" dy="2.6" stdDeviation="2" flood-color="#2a1d0e" flood-opacity=".38"/></filter>' +
+      '<filter id="difuso" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3.2"/></filter>' +
+      '<filter id="grano" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.95" numOctaves="2" seed="7" result="r"/><feColorMatrix in="r" type="matrix" values="0 0 0 0 .42  0 0 0 0 .27  0 0 0 0 .12  0 0 0 .9 -.32"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
+      '<filter id="tejido" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="3" result="r"/><feColorMatrix in="r" type="matrix" values="0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .22  0 0 0 .7 -.22"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
+      '<linearGradient id="gTela" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfbf7"/><stop offset="1" stop-color="#e4dccd"/></linearGradient>' +
+      '<linearGradient id="gMadera" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b88c"/><stop offset="1" stop-color="#b98f5f"/></linearGradient>' +
+      '<radialGradient id="luz" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".7" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
     var comp = '<g transform="translate(200 12)"><circle r="6.4" fill="#fff" stroke="#1a1a1a" stroke-width=".6"/><path d="M0 -4L2.6 3L0 1.6L-2.6 3Z" fill="#1a1a1a"/><text y="-8.5" class="t2">N</text></g>';
-    function svg(cls, cont) { return '<svg class="capa ' + cls + '" viewBox="' + VB + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + (cls === "c-piso" ? defs : "") + cont + '</svg>'; }
+    function svg(cls, cont, z, estilo) { return '<svg class="capa ' + cls + '" viewBox="' + VB + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="' + (z !== undefined ? "transform:translateZ(" + z + "px);" : "") + (estilo || "") + '">' + (cls === "c-piso" ? defs : "") + cont + '</svg>'; }
     return '<div class="p3d" role="img" aria-label="Plano de ' + t.nombre + ', con muebles"><div class="cuerpo">' +
-      svg("c-piso", piso) + svg("c-pared", '<g filter="url(#sombra)">' + pared + '</g>') + svg("c-mueble", '<g filter="url(#sombra)">' + mue + '</g>') + svg("c-etiq", etiq + comp) + '</div></div>';
+      svg("c-piso", piso + oclu + R(X(0), Y(0), 200, 152, 'fill="url(#luz)"')) + extruir(svg, pared, "c-pared", 12, 8, 1.7, ["#0b0b0b", "#2a2a2a"], true) + extruir(svg, mue, "c-mueble", 26, 4, 1.6, null, false) + svg("c-etiq", etiq + comp, 44) + '</div></div>';
   }
 
   function fotoTipo(id) { var i = document.querySelector('#fotos-tipo img[data-t="' + id + '"]'); return i ? i.getAttribute('src') : ''; }
@@ -154,7 +172,7 @@
     caja.addEventListener("pointermove", function (e) {
       if (plana) return;
       var r = caja.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
-      caja.style.setProperty("--rx", (26 - py * 12).toFixed(1) + "deg"); caja.style.setProperty("--rz", (-10 + px * 16).toFixed(1) + "deg");
+      caja.style.setProperty("--rx", (34 - py * 12).toFixed(1) + "deg"); caja.style.setProperty("--rz", (-14 + px * 16).toFixed(1) + "deg");
     });
     caja.addEventListener("pointerleave", function () { caja.style.removeProperty("--rx"); caja.style.removeProperty("--rz"); });
   }
