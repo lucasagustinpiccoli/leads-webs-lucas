@@ -17,11 +17,6 @@
    "pexels": "https://www.pexels.com/photo/31656146/"
   },
   {
-   "id": "7534554",
-   "uso": "living",
-   "pexels": "https://www.pexels.com/photo/7534554/"
-  },
-  {
    "id": "7534548",
    "uso": "cocina / tres",
    "pexels": "https://www.pexels.com/photo/7534548/"
@@ -30,11 +25,6 @@
    "id": "7534552",
    "uso": "comedor / pent",
    "pexels": "https://www.pexels.com/photo/7534552/"
-  },
-  {
-   "id": "7534542",
-   "uso": "dormitorio",
-   "pexels": "https://www.pexels.com/photo/7534542/"
   },
   {
    "id": "7534546",
@@ -47,9 +37,50 @@
    "pexels": "https://www.pexels.com/photo/31656145/"
   },
   {
-   "id": "7534543",
+   "id": "6186823",
+   "uso": "living",
+   "pexels": "https://www.pexels.com/photo/6186823/"
+  },
+  {
+   "id": "6186827",
+   "uso": "cocina",
+   "pexels": "https://www.pexels.com/photo/6186827/"
+  },
+  {
+   "id": "6186822",
+   "uso": "dormitorio",
+   "pexels": "https://www.pexels.com/photo/6186822/"
+  },
+  {
+   "id": "6186826",
+   "uso": "comedor",
+   "pexels": "https://www.pexels.com/photo/6186826/"
+  },
+  {
+   "id": "6186818",
+   "uso": "barra",
+   "pexels": "https://www.pexels.com/photo/6186818/"
+  },
+  {
+   "id": "6186829",
    "uso": "mono",
-   "pexels": "https://www.pexels.com/photo/7534543/"
+   "pexels": "https://www.pexels.com/photo/6186829/"
+  },
+  {
+   "id": "6186821",
+   "uso": "dos",
+   "pexels": "https://www.pexels.com/photo/6186821/"
+  },
+  {
+   "id": "6186816",
+   "uso": "tres",
+   "pexels": "https://www.pexels.com/photo/6186816/"
+  },
+  {
+   "id": "6186824",
+   "uso": "pent",
+   "pexels": "https://www.pexels.com/photo/6186824/"
   }
- ]
+ ],
+ "_nota": "Interiores: una sola serie (ids 6186810 a 6186829). Exteriores: otra serie (31656143 a 31656149). Distintas de las del catálogo Arce."
 }

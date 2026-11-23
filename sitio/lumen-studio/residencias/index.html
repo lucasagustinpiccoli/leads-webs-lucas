@@ -141,9 +141,6 @@
   .unidad{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(20px,3vw,40px);align-items:stretch}
   .plano{background:var(--claro);border-radius:var(--r);padding:clamp(16px,2.4vw,32px);color:var(--tinta)}
   .plano svg{display:block;width:100%;height:auto}
-  .plano .amb{fill:#fff;stroke:#0C1117;stroke-width:.7}
-  .plano .bal{fill:none;stroke:#0C1117;stroke-width:.7;stroke-dasharray:2 1.6}
-  .plano text{font-family:var(--texto);font-size:3.6px;font-weight:600;fill:#0C1117;text-anchor:middle}
   .ficha{border:1px solid var(--linea);border-radius:var(--r);padding:clamp(22px,3vw,34px);display:grid;gap:18px;align-content:start}
   .ficha h3{font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.04em}
   .ficha .precio{font-family:var(--titulo);font-size:clamp(1.5rem,2.6vw,2rem);font-weight:500;letter-spacing:-.04em;color:var(--cian);font-variant-numeric:tabular-nums}
@@ -222,6 +219,43 @@
   }
   @media (max-width:520px){.contacto dl div{grid-template-columns:96px 1fr}.panel dl{grid-template-columns:repeat(3,auto);justify-content:space-between}}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.foto img{transform:none}}
+
+  /* plano en 3D: tres capas que se separan al inclinar */
+  .plano{position:relative;overflow:hidden}
+  .p3d{perspective:1300px;padding:clamp(28px,4vw,48px) 0 clamp(16px,3vw,36px)}
+  .claro .plano .cuerpo{position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,26deg)) rotateZ(var(--rz,-10deg)) scale(.9);transition:transform .7s var(--ease);will-change:transform}
+  .p3d[data-plana="1"] .cuerpo{transform:none!important}
+  .capa{display:block;width:100%;height:auto}
+  .capa:not(.c-piso){position:absolute;inset:0}
+  .c-pared{transform:translateZ(12px)}.c-mueble{transform:translateZ(26px)}.c-etiq{transform:translateZ(40px)}
+  .c-piso{filter:drop-shadow(0 18px 14px rgba(0,0,0,.18))}
+  .c-etiq text{font-family:var(--texto);fill:#0C1117;text-anchor:middle}
+  .c-etiq .t1{font-size:4.1px;font-weight:600}.c-etiq .t2{font-size:3.3px;fill:#3d4650}
+  .claro .plano .b-plana{position:absolute;top:14px;right:14px;z-index:5;min-height:44px;padding:0 16px;border:1px solid rgba(10,10,10,.25);border-radius:999px;background:#fff;font-size:.88rem;font-weight:500;cursor:pointer}
+  @media (prefers-reduced-motion:reduce){.claro .plano .cuerpo{transform:none}}
+  /* elegí tu piso */
+  .pisos{background:var(--noche)}
+  .pisos .cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px 40px;margin-bottom:clamp(24px,3vw,40px)}
+  .pisos .cab p{color:var(--suave);max-width:36ch}
+  .pisos-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,4vw,64px);align-items:start}
+  .torre{display:grid;gap:4px;justify-items:center}
+  .piso{display:grid;grid-template-columns:2.4rem 1fr auto;align-items:center;gap:12px;width:var(--w);min-height:40px;padding:0 14px;border:1px solid var(--linea);background:rgba(255,255,255,.03);color:var(--hielo);cursor:pointer;transition:background-color .2s,border-color .2s}
+  .piso i{display:block;height:1px;background:var(--linea)}
+  .piso .n{font-family:var(--marca);font-size:.9rem;font-variant-numeric:tabular-nums}
+  .piso em{font-style:normal;font-size:.82rem;color:var(--suave);white-space:nowrap}
+  @media (hover:hover){.piso:hover{border-color:var(--hielo)}}
+  .piso[aria-pressed="true"]{background:#fff;color:var(--tinta);border-color:#fff}
+  .piso[aria-pressed="true"] em{color:#444}.piso[aria-pressed="true"] i{background:rgba(0,0,0,.25)}
+  .det-piso h3{font-family:var(--marca);font-weight:500;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em;margin-bottom:12px}
+  .det-piso ul{list-style:none;border-top:1px solid var(--linea)}
+  .det-piso li{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--linea)}
+  .det-piso li b{display:block;font-weight:500}.det-piso li div span{font-size:.88rem;color:var(--suave)}
+  .est{font-size:.82rem;padding:5px 12px;border-radius:999px;border:1px solid var(--linea)}
+  .est.disponible{background:#fff;color:var(--tinta);border-color:#fff}
+  .est.vendida{opacity:.5}
+  .det-piso .ver{min-height:44px;padding:0 14px;border:1px solid var(--linea);background:none;cursor:pointer;font-size:.88rem}
+  @media (hover:hover){.det-piso .ver:hover{border-color:var(--hielo)}}
+  @media (max-width:900px){.pisos-g{grid-template-columns:minmax(0,1fr)}.det-piso li{grid-template-columns:1fr auto}.det-piso li .ver{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -233,6 +267,7 @@
       <a href="#escena">El edificio</a>
       <a href="#ambientes">Ambientes</a>
       <a href="#unidades">Unidades</a>
+      <a href="#pisos">Pisos</a>
       <a href="#etapas">Etapas</a>
       <a href="#contacto">Contacto</a>
       <a class="btn" href="#unidades">Ver unidades</a>
@@ -300,8 +335,18 @@
       </div>
       <div class="tabs" role="tablist" aria-label="Tipos de unidad" id="tabs"></div>
       <div class="unidad" style="margin-top:24px">
-        <div class="plano"><div id="plano"></div></div>
+        <div class="plano"><button type="button" class="b-plana" id="b-plana" aria-pressed="false">Vista plana</button><div id="plano"></div></div>
         <div class="ficha" id="ficha" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="solido pisos" id="pisos">
+    <div class="w">
+      <div class="cab"><h2>Elegí tu piso</h2><p>Tocá un nivel de la torre para ver qué unidades hay y cuáles siguen disponibles.</p></div>
+      <div class="pisos-g">
+        <div class="torre" id="torre" role="group" aria-label="Pisos de la torre"></div>
+        <div class="det-piso"><h3 id="t-piso">Piso 9</h3><ul id="lista-piso"></ul></div>
       </div>
     </div>
   </section>

@@ -50,16 +50,92 @@
     b.addEventListener("click", function () { actual = t; pintar(); });
     tabs.appendChild(b);
   });
-  function plano(t) {
-    var s = '<svg viewBox="-1 -1 102 78" role="img" aria-label="Plano de ' + t.nombre + '">';
-    t.amb.forEach(function (a) { s += '<rect class="amb" x="' + a[1] + '" y="' + a[2] + '" width="' + a[3] + '" height="' + a[4] + '"/><text x="' + (a[1] + a[3] / 2) + '" y="' + (a[2] + a[4] / 2 + 1.2) + '">' + a[0] + '</text>'; });
-    var e = t.ext_r; s += '<rect class="bal" x="' + e[0] + '" y="' + e[1] + '" width="' + e[2] + '" height="' + e[3] + '"/><text x="' + (e[0] + e[2] / 2) + '" y="' + (e[1] + e[3] / 2 + 1.2) + '">' + e[4] + '</text></svg>';
+  /* ---- plano en tres capas (piso, paredes y muebles) para que se vea casi en 3D ---- */
+  var K = 2, OX = 10, OY = 22;
+  function X(v) { return OX + v * K; }
+  function Y(v) { return OY + v * K; }
+  function R(x, y, w, h, att) { return '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" ' + att + '/>'; }
+  function C(cx, cy, r, att) { return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r.toFixed(1) + '" ' + att + '/>'; }
+  var TELA = 'fill="#f7f4ee" stroke="#cfc6b6" stroke-width=".5"', MADERA = 'fill="#cfae82" stroke="#a98a60" stroke-width=".4"', VERDE = 'fill="#7d9870"', VERDE2 = 'fill="#9bb38c"';
+  function planta(cx, cy, r) { return C(cx, cy, r, VERDE) + C(cx - r * .35, cy - r * .2, r * .7, VERDE2) + C(cx + r * .3, cy + r * .25, r * .55, VERDE2); }
+  function silla(cx, cy, r) { return C(cx, cy, r, 'fill="#efe9dd" stroke="#cfc6b6" stroke-width=".4"'); }
+  function sala(x, y, w, h) {
+    var s = R(x + .1 * w, y + .22 * h, .62 * w, .56 * h, 'rx="1.5" fill="#d9d3c6"');
+    s += R(x + .07 * w, y + .3 * h, .15 * w, .42 * h, 'rx="2" ' + TELA) + R(x + .07 * w, y + .3 * h, .045 * w, .42 * h, 'rx="1.5" fill="#e8e1d4" stroke="#cfc6b6" stroke-width=".4"');
+    s += R(x + .33 * w, y + .45 * h, .15 * w, .16 * h, 'rx="1" ' + MADERA);
+    s += R(x + .56 * w, y + .46 * h, .13 * w, .17 * h, 'rx="3" ' + TELA);
+    var cx = x + .78 * w, cy = y + .2 * h, rr = Math.min(w, h) * .09;
+    s += silla(cx - rr * 1.6, cy, rr * .55) + silla(cx + rr * 1.6, cy, rr * .55) + silla(cx, cy - rr * 1.6, rr * .55) + silla(cx, cy + rr * 1.6, rr * .55) + C(cx, cy, rr, MADERA);
+    return s + planta(x + .08 * w, y + .12 * h, Math.min(w, h) * .05);
+  }
+  function cocinaM(x, y, w, h) {
+    var s = R(x + .05 * w, y + .05 * h, .9 * w, .2 * h, 'rx=".8" fill="#f3f0ea" stroke="#cfc6b6" stroke-width=".4"');
+    s += C(x + .25 * w, y + .15 * h, 2.3, 'fill="#222"') + C(x + .25 * w + 5.5, y + .15 * h, 2.3, 'fill="#222"');
+    s += R(x + .58 * w, y + .1 * h, .22 * w, .1 * h, 'rx=".6" fill="#b9bfc3" stroke="#8f979c" stroke-width=".3"');
+    if (h > 50) s += R(x + .15 * w, y + .52 * h, .7 * w, .17 * h, 'rx="1" fill="#f3f0ea" stroke="#cfc6b6" stroke-width=".4"') + silla(x + .3 * w, y + .78 * h, 2.4) + silla(x + .7 * w, y + .78 * h, 2.4);
     return s;
   }
+  function banoM(x, y, w, h) {
+    var s = R(x + .08 * w, y + .08 * h, .84 * w, .27 * h, 'rx="4" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".5"') + R(x + .14 * w, y + .13 * h, .72 * w, .17 * h, 'rx="3" fill="#eef1f2" stroke="#d6dcde" stroke-width=".3"');
+    s += R(x + .1 * w, y + .62 * h, .34 * w, .2 * h, 'rx="1" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".4"') + C(x + .27 * w, y + .72 * h, 2.2, 'fill="#eef1f2" stroke="#d6dcde" stroke-width=".3"');
+    s += R(x + .62 * w, y + .62 * h, .26 * w, .1 * h, 'rx="1" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".4"') + '<ellipse cx="' + (x + .75 * w).toFixed(1) + '" cy="' + (y + .8 * h).toFixed(1) + '" rx="' + (.1 * w).toFixed(1) + '" ry="' + (.07 * h).toFixed(1) + '" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".4"/>';
+    return s;
+  }
+  function dormM(x, y, w, h) {
+    var s = R(x + .1 * w, y + .2 * h, .8 * w, .66 * h, 'rx="1.5" fill="#d9d3c6"');
+    s += R(x + .2 * w, y + .1 * h, .6 * w, .64 * h, 'rx="1.5" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".5"') + R(x + .2 * w, y + .1 * h, .6 * w, .06 * h, 'rx="1" fill="#b79b74"');
+    s += R(x + .24 * w, y + .18 * h, .24 * w, .12 * h, 'rx="2" fill="#fff" stroke="#d6cfc2" stroke-width=".4"') + R(x + .52 * w, y + .18 * h, .24 * w, .12 * h, 'rx="2" fill="#fff" stroke="#d6cfc2" stroke-width=".4"');
+    s += R(x + .2 * w, y + .45 * h, .6 * w, .29 * h, 'rx="1" fill="#e3dccd"');
+    s += R(x + .08 * w, y + .12 * h, .1 * w, .1 * h, 'rx=".8" ' + MADERA) + R(x + .82 * w, y + .12 * h, .1 * w, .1 * h, 'rx=".8" ' + MADERA);
+    return s + planta(x + .88 * w, y + .88 * h, Math.min(w, h) * .05);
+  }
+  function escrM(x, y, w, h) {
+    return R(x + .1 * w, y + .1 * h, .8 * w, .24 * h, 'rx=".8" ' + MADERA) + R(x + .38 * w, y + .12 * h, .24 * w, .1 * h, 'rx=".5" fill="#2a2a2a"') + silla(x + .5 * w, y + .5 * h, 3.2) + planta(x + .86 * w, y + .84 * h, Math.min(w, h) * .06);
+  }
+  function mueble(n, x, y, w, h) {
+    n = n.toLowerCase();
+    if (n.indexOf("estar") > -1) return sala(x, y + .42 * h, w, .58 * h) + dormM(x + .5 * w, y, .5 * w, .46 * h);
+    if (n.indexOf("living") > -1) return sala(x, y, w, h);
+    if (n.indexOf("cocina") > -1) return cocinaM(x, y, w, h);
+    if (n.indexOf("baño") > -1) return banoM(x, y, w, h);
+    if (n.indexOf("escritorio") > -1) return escrM(x, y, w, h);
+    return dormM(x, y, w, h);
+  }
+  function plano(t) {
+    var tot = t.amb.reduce(function (a, r) { return a + r[3] * r[4]; }, 0);
+    var piso = "", pared = "", mue = "", etiq = "";
+    t.amb.forEach(function (a) {
+      var x = X(a[1]), y = Y(a[2]), w = a[3] * K, h = a[4] * K, bano = a[0].toLowerCase().indexOf("baño") > -1;
+      piso += R(x, y, w, h, 'fill="url(#' + (bano ? "baldosa" : "madera") + ')"');
+      pared += R(x, y, w, h, 'fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linejoin="miter"');
+      mue += mueble(a[0], x, y, w, h);
+      var m2 = Math.round(t.m2 * (a[3] * a[4]) / tot);
+      var tx = x + w / 2, ty = y + h - 7, nom = a[0];
+      var ancho = Math.max(nom.length * 3.1, 18) + 4;
+      etiq += R(tx - ancho / 2, ty - 5.2, ancho, 10.6, 'rx="2" fill="#fff" fill-opacity=".92"') + '<text x="' + tx.toFixed(1) + '" y="' + (ty - .2).toFixed(1) + '" class="t1">' + nom + '</text><text x="' + tx.toFixed(1) + '" y="' + (ty + 4).toFixed(1) + '" class="t2">' + m2 + ' m²</text>';
+      if (a[2] === 0 && !bano) { var wx = x + w * .12, ww = w * .76; pared += R(wx, y - 1.6, ww, 3.2, 'fill="#fff" stroke="#1a1a1a" stroke-width=".7"') + '<line x1="' + wx.toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + (wx + ww).toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="#1a1a1a" stroke-width=".5"/>'; }
+    });
+    var e = t.ext_r, ex = X(e[0]), ey = Y(e[1]), ew = e[2] * K, eh = e[3] * K;
+    piso += R(ex, ey, ew, eh, 'fill="url(#deck)"');
+    pared += R(ex, ey, ew, eh, 'fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-dasharray="3 2"');
+    mue += planta(ex + 7, ey + eh / 2, 3.2) + planta(ex + ew - 7, ey + eh / 2, 3.2) + C(ex + ew / 2, ey + eh / 2, 3.6, MADERA) + silla(ex + ew / 2 - 8, ey + eh / 2, 2.4) + silla(ex + ew / 2 + 8, ey + eh / 2, 2.4);
+    var tx2 = ex + ew / 2, ty2 = ey + eh + 7;
+    etiq += '<text x="' + tx2.toFixed(1) + '" y="' + ty2.toFixed(1) + '" class="t2">' + e[4] + ', ' + t.ext.replace(/^\D+/, "").replace(/ .*/, "") + ' m²</text>';
+    var VB = '0 0 220 ' + (OY + 76 * K + 24);
+    var defs = '<defs><pattern id="madera" width="12" height="4" patternUnits="userSpaceOnUse"><rect width="12" height="4" fill="#e7dac4"/><path d="M0 0H12M0 4H12" stroke="#d6c7ac" stroke-width=".5"/><path d="M5 0V4" stroke="#dccfb7" stroke-width=".3"/></pattern>' +
+      '<pattern id="baldosa" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#ecebe7"/><path d="M0 0H6V6" fill="none" stroke="#dcdad3" stroke-width=".4"/></pattern>' +
+      '<pattern id="deck" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#dedbd3"/><path d="M0 0H5" stroke="#cfcbc1" stroke-width=".5"/></pattern>' +
+      '<filter id="sombra" x="-5%" y="-5%" width="110%" height="115%"><feDropShadow dx="0" dy="1.4" stdDeviation="1.1" flood-color="#000" flood-opacity=".28"/></filter></defs>';
+    var comp = '<g transform="translate(200 12)"><circle r="6.4" fill="#fff" stroke="#1a1a1a" stroke-width=".6"/><path d="M0 -4L2.6 3L0 1.6L-2.6 3Z" fill="#1a1a1a"/><text y="-8.5" class="t2">N</text></g>';
+    function svg(cls, cont) { return '<svg class="capa ' + cls + '" viewBox="' + VB + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + (cls === "c-piso" ? defs : "") + cont + '</svg>'; }
+    return '<div class="p3d" role="img" aria-label="Plano de ' + t.nombre + ', con muebles"><div class="cuerpo">' +
+      svg("c-piso", piso) + svg("c-pared", '<g filter="url(#sombra)">' + pared + '</g>') + svg("c-mueble", '<g filter="url(#sombra)">' + mue + '</g>') + svg("c-etiq", etiq + comp) + '</div></div>';
+  }
+
   function fotoTipo(id) { var i = document.querySelector('#fotos-tipo img[data-t="' + id + '"]'); return i ? i.getAttribute('src') : ''; }
   function pintar() {
     [].forEach.call(tabs.children, function (b) { b.setAttribute("aria-selected", b.id === "tab-" + actual.id ? "true" : "false"); });
-    $("plano").innerHTML = plano(actual);
+    $("plano").innerHTML = plano(actual); inclinar();
     var l = libres(actual.id), pis = actual.pisos[0] === actual.pisos[1] ? "piso " + actual.pisos[0] : "pisos " + actual.pisos[0] + " a " + actual.pisos[1];
     $("ficha").innerHTML = '<img class="foto-tipo" src="' + fotoTipo(actual.id) + '" alt="Ambiente de ' + actual.nombre + '" loading="lazy"><h3>' + actual.nombre + '</h3><p class="precio">Desde USD ' + fmt(actual.precio) + '</p>' +
       '<dl><div><dt>Superficie cubierta</dt><dd>' + actual.m2 + ' m²</dd></div><div><dt>Exterior</dt><dd>' + actual.ext + '</dd></div><div><dt>Ubicación</dt><dd>' + pis + '</dd></div><div><dt>Disponibles</dt><dd>' + l + '</dd></div><div><dt>Entrega</dt><dd>Diciembre de 2027</dd></div></dl>' +
@@ -71,7 +147,43 @@
     return saludo + (t ? " Quiero consultar por un " + (t.id === "pent" ? "penthouse" : "departamento de " + t.nombre.toLowerCase()) + " en Solana." : " Quiero consultar por las unidades disponibles en Solana.") + " Muchas gracias.";
   }
   function irAWhatsApp(texto) { window.location.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(texto); }
+  var plana = false;
+  function inclinar() { var p = $("plano").querySelector(".p3d"); if (p) p.dataset.plana = plana ? "1" : "0"; }
+  var caja = $("plano").parentNode;
+  if (!reducido) {
+    caja.addEventListener("pointermove", function (e) {
+      if (plana) return;
+      var r = caja.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+      caja.style.setProperty("--rx", (26 - py * 12).toFixed(1) + "deg"); caja.style.setProperty("--rz", (-10 + px * 16).toFixed(1) + "deg");
+    });
+    caja.addEventListener("pointerleave", function () { caja.style.removeProperty("--rx"); caja.style.removeProperty("--rz"); });
+  }
+  var bp = $("b-plana"); if (bp) bp.addEventListener("click", function () { plana = !plana; bp.setAttribute("aria-pressed", String(plana)); bp.textContent = plana ? "Vista 3D" : "Vista plana"; inclinar(); });
   pintar();
+
+  /* ---- elegí tu piso ---- */
+  (function () {
+    var cont = $("torre"), lista = $("lista-piso"); if (!cont || !lista) return;
+    var pisoSel = 9;
+    var pisos = []; for (var i = 14; i >= 1; i--) pisos.push(i);
+    function porPiso(p) { return UNIDADES.filter(function (u) { return u.piso === p; }); }
+    function dibujar() {
+      cont.innerHTML = pisos.map(function (p) {
+        var us = porPiso(p), d = us.filter(function (u) { return u.estado === "disponible"; }).length;
+        var ancho = p >= 13 ? 62 : 100 - (p % 2) * 4;
+        return '<button type="button" class="piso" data-p="' + p + '" aria-pressed="' + (p === pisoSel) + '" style="--w:' + ancho + '%"><span class="n">' + (p < 10 ? "0" + p : p) + '</span><i></i><em>' + (d ? d + (d === 1 ? " disponible" : " disponibles") : "Sin disponibles") + '</em></button>';
+      }).join("");
+      var us = porPiso(pisoSel);
+      $("t-piso").textContent = "Piso " + pisoSel;
+      lista.innerHTML = us.map(function (u) {
+        var t = TIPOS.filter(function (x) { return x.id === u.tipo; })[0], ok = u.estado === "disponible";
+        return '<li><div><b>' + t.nombre + '</b><span>' + t.m2 + ' m², ' + t.ext.toLowerCase() + '</span></div><span class="est ' + u.estado + '">' + (ok ? "Disponible" : u.estado === "reservada" ? "Reservada" : "Vendida") + '</span>' + (ok ? '<button type="button" class="ver" data-t="' + t.id + '">Ver plano</button>' : "<span></span>") + '</li>';
+      }).join("");
+    }
+    cont.addEventListener("click", function (e) { var b = e.target.closest(".piso"); if (!b) return; pisoSel = Number(b.dataset.p); dibujar(); });
+    lista.addEventListener("click", function (e) { var b = e.target.closest(".ver"); if (!b) return; actual = TIPOS.filter(function (x) { return x.id === b.dataset.t; })[0]; pintar(); $("unidades").scrollIntoView(); });
+    dibujar();
+  })();
 
   /* ---- formulario ---- */
   var sel = $("f-tipo");
