@@ -1,0 +1,21 @@
+{
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre. Son fotos de referencia de otros edificios; en un proyecto real se reemplazan por las del desarrollo.",
+ "fotos": [
+  {
+   "archivo": "living.jpg",
+   "pexels": "https://www.pexels.com/photo/6186813/"
+  },
+  {
+   "archivo": "balcon.jpg",
+   "pexels": "https://www.pexels.com/photo/7534285/"
+  },
+  {
+   "archivo": "pileta.jpg",
+   "pexels": "https://www.pexels.com/photo/261102/"
+  },
+  {
+   "archivo": "complejo.jpg",
+   "pexels": "https://www.pexels.com/photo/30707660/"
+  }
+ ]
+}
