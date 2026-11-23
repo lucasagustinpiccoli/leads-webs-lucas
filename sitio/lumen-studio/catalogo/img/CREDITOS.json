@@ -1,0 +1,45 @@
+{
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre. Todas son de una misma sesión de un departamento (ids 7534541 a 7534559) para que el conjunto sea coherente.",
+ "fotos": [
+  {
+   "id": "7534554",
+   "uso": "living",
+   "pexels": "https://www.pexels.com/photo/7534554/"
+  },
+  {
+   "id": "7534551",
+   "uso": "mesas",
+   "pexels": "https://www.pexels.com/photo/7534551/"
+  },
+  {
+   "id": "7534552",
+   "uso": "comedor",
+   "pexels": "https://www.pexels.com/photo/7534552/"
+  },
+  {
+   "id": "7534548",
+   "uso": "cocina",
+   "pexels": "https://www.pexels.com/photo/7534548/"
+  },
+  {
+   "id": "7534545",
+   "uso": "barra",
+   "pexels": "https://www.pexels.com/photo/7534545/"
+  },
+  {
+   "id": "7534542",
+   "uso": "cama",
+   "pexels": "https://www.pexels.com/photo/7534542/"
+  },
+  {
+   "id": "7534547",
+   "uso": "lampara",
+   "pexels": "https://www.pexels.com/photo/7534547/"
+  },
+  {
+   "id": "7534543",
+   "uso": "dormitorio",
+   "pexels": "https://www.pexels.com/photo/7534543/"
+  }
+ ]
+}

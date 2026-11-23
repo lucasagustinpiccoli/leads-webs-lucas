@@ -34,6 +34,7 @@
     "Sitio para un consultorio odontológico, con tratamientos y pedido de turno por pasos. Una marca de ejemplo para probar.": "A website for a dental practice, with treatments and step-by-step appointment booking. A sample brand to try out.",
     "Ver el panel de control": "See the control panel",
     "Sitio para un desarrollo inmobiliario: recorrido del edificio con el scroll, unidades con plano y precio, avance de obra y consulta por WhatsApp. Una marca de ejemplo para probar.": "A website for a real-estate development: a scroll-driven building tour, units with floor plan and price, construction progress and WhatsApp enquiries. A sample brand to try out.",
+    "Catálogo de mobiliario con favoritos, búsqueda y una lista de presupuesto que se envía por WhatsApp. Una marca de ejemplo para probar.": "A furniture catalogue with favourites, search and a quote list sent over WhatsApp. A sample brand to try out.",
     "Probar la demo": "Try the demo",
     "Gestor de membresías para gimnasios: socios, cuotas, caja y calendario en un solo lugar. Probalo vos mismo con datos de ejemplo.": "Membership manager for gyms: members, fees, cash and calendar in one place. Try it yourself with sample data.",
     "R&RG Estudio Jurídico": "R&RG Law Firm",

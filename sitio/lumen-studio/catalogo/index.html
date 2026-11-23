@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FAF9F7">
+<title>Arce | Mobiliario de diseño</title>
+<meta name="description" content="Arce, mobiliario de diseño para living, comedor, cocina y habitación. Elegí tus piezas y pedí un presupuesto por WhatsApp.">
+<link rel="preload" href="fonts/instrument-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fuentes.css">
+<style>
+  /* Catálogo de mobiliario. Papel cálido, tinta casi negra y las fotos como protagonistas. */
+  :root{
+    --papel:#FAF9F7; --papel-2:#F0EDE8; --tinta:#141210; --suave:#6B655E; --linea:rgba(20,18,16,.14); --oscuro:#0F0E0D;
+    --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --serif:"Instrument Serif",Georgia,serif;
+    --gut:clamp(18px,3vw,44px); --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+  html,body{overflow-x:clip}
+  body{font-family:var(--sans);font-size:16px;line-height:1.55;color:var(--tinta);background:var(--papel);-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  button,input{font:inherit;color:inherit}
+  a{color:inherit;text-decoration:none}
+  button{cursor:pointer;background:none;border:0}
+  h1,h2,h3{font-weight:500;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+  :focus-visible{outline:2px solid currentColor;outline-offset:3px}
+  .w{padding-inline:var(--gut)}
+
+  /* barra superior */
+  header{position:fixed;top:0;left:0;right:0;z-index:60;color:#fff;transition:background-color .3s,color .3s,border-color .3s;border-bottom:1px solid transparent}
+  header.sol,header.fija{background:rgba(250,249,247,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--tinta);border-color:var(--linea)}
+  .barra{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:64px;padding-inline:var(--gut);gap:16px}
+  .barra nav{display:flex;gap:22px;font-size:.92rem;font-weight:500}
+  .barra .der{justify-self:end}
+  .barra a,.barra button{min-height:44px;display:inline-flex;align-items:center;gap:6px;font-size:.92rem;font-weight:500}
+  .logo{font-family:var(--serif);font-style:italic;font-size:2rem;letter-spacing:-.02em;font-weight:400;text-align:center}
+  .barra .der{display:flex;gap:20px}
+  .barra .der button{gap:0}
+  @media (hover:hover){.barra a:hover,.barra button:hover{opacity:.65}}
+
+  /* presentación */
+  .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:#000;color:#fff}
+  .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
+  .slide.on{opacity:1}
+  .slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 9s linear}
+  .slide.on img{transform:scale(1)}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.05) 45%,rgba(0,0,0,.25) 100%)}
+  .hero .txt{position:absolute;left:var(--gut);bottom:clamp(40px,8vh,88px);z-index:2;max-width:min(560px,86vw)}
+  .hero .txt small{display:block;opacity:.85;margin-bottom:12px}
+  .hero h1{font-size:clamp(2.4rem,5.4vw,4.4rem);font-weight:500}
+  .btn-l{display:inline-flex;align-items:center;min-height:46px;margin-top:22px;padding:0 22px;border:1px solid currentColor;font-size:.92rem;font-weight:500;transition:background-color .2s,color .2s}
+  .hero .btn-l:hover{background:#fff;color:var(--tinta)}
+  .puntos{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;z-index:2;display:flex;gap:8px}
+  .puntos button{width:34px;height:3px;background:rgba(255,255,255,.4);padding:0;min-height:18px;background-clip:content-box;border-block:7px solid transparent}
+  .puntos button.on{background-color:#fff}
+
+  /* catálogo */
+  .cat{padding-block:clamp(56px,8vw,110px) clamp(40px,6vw,80px)}
+  .cat-cab{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 24px;margin-bottom:28px}
+  .tabs{display:flex;gap:18px;font-size:1.05rem}
+  .tabs button{color:var(--suave);padding:6px 0;min-height:44px;transition:color .2s}
+  .tabs button[aria-selected="true"]{color:var(--tinta);font-weight:600}
+  .cat-cab .acc{display:flex;gap:16px;align-items:center;font-size:.92rem}
+  .cat-cab .acc button{text-decoration:underline;text-underline-offset:4px}
+  .filtro{font-size:.92rem;color:var(--suave)}
+  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px) clamp(12px,1.6vw,22px)}
+  .prod{position:relative;text-align:left;display:block}
+  .prod .foto{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--papel-2)}
+  .prod .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--ox,50%) var(--oy,50%);transform:scale(var(--z,1));transform-origin:var(--ox,50%) var(--oy,50%);transition:transform .8s var(--ease)}
+  @media (hover:hover){.prod:hover .foto img{transform:scale(calc(var(--z,1) * 1.05))}}
+  .prod .fav{position:absolute;top:8px;right:8px;width:44px;height:44px;display:grid;place-items:center;color:var(--tinta);z-index:2}
+  .prod .fav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
+  .prod .fav[aria-pressed="true"] svg{fill:currentColor}
+  .prod h3{font-size:.98rem;letter-spacing:-.01em;font-weight:500;margin-top:10px}
+  .prod p{font-size:.74rem;color:var(--suave);margin-top:2px;text-transform:uppercase;letter-spacing:.02em}
+  .prod .abre{position:absolute;inset:0 0 56px 0;z-index:1}
+  .vacio{grid-column:1/-1;color:var(--suave);padding:40px 0}
+  @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+  /* colección dividida */
+  .div2{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);min-height:min(88vh,760px);align-items:stretch}
+  .div2 .img{position:relative;overflow:hidden;min-height:340px}
+  .div2 .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .div2 .info{display:flex;flex-direction:column;justify-content:center;gap:16px;padding:clamp(32px,6vw,96px)}
+  .div2 .info small{color:var(--suave)}
+  .div2 h2{font-size:clamp(1.9rem,3.6vw,3rem)}
+  .div2 p{color:var(--suave);max-width:40ch}
+  .div2.inv{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+  .div2.inv .img{order:2}
+  .btn-o{display:inline-flex;align-self:flex-start;align-items:center;min-height:46px;padding:0 22px;border:1px solid var(--tinta);font-size:.92rem;font-weight:500;transition:background-color .2s,color .2s}
+  @media (hover:hover){.btn-o:hover{background:var(--tinta);color:var(--papel)}}
+  @media (max-width:900px){.div2,.div2.inv{grid-template-columns:minmax(0,1fr)}.div2.inv .img{order:0}.div2 .img{min-height:300px;aspect-ratio:4/3}}
+
+  /* espacios */
+  .esp{padding-block:clamp(56px,8vw,110px)}
+  .esp-cab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px}
+  .esp-cab h2{font-size:1.5rem;font-weight:500}
+  .esp-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,22px)}
+  .esp-g button{position:relative;aspect-ratio:3/4;overflow:hidden;display:block;text-align:left;background:var(--papel-2)}
+  .esp-g img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--ox,50%) var(--oy,50%);transform:scale(var(--z,1));transform-origin:var(--ox,50%) var(--oy,50%);transition:transform .9s var(--ease)}
+  @media (hover:hover){.esp-g button:hover img{transform:scale(calc(var(--z,1) * 1.05))}}
+  .esp-g span{position:absolute;left:14px;right:14px;bottom:14px;min-height:44px;display:grid;place-items:center;background:rgba(20,18,16,.62);color:#fff;font-size:.95rem;font-weight:500;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  @media (max-width:700px){.esp-g{grid-template-columns:minmax(0,1fr)}.esp-g button{aspect-ratio:4/3}}
+
+  /* colección oscura a pantalla completa */
+  .osc{position:relative;min-height:min(92vh,820px);display:flex;align-items:flex-end;color:#fff;background:#000;overflow:hidden;isolation:isolate}
+  .osc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:brightness(.55) contrast(1.1) saturate(.7)}
+  .osc::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent 60%)}
+  .osc .txt{padding:var(--gut);padding-bottom:clamp(40px,7vw,88px);max-width:min(640px,100%)}
+  .osc small{opacity:.8}
+  .osc h2{font-size:clamp(2rem,4.6vw,3.8rem);margin-top:10px}
+  .osc .btn-l{margin-top:22px}
+  .osc .btn-l:hover{background:#fff;color:var(--tinta)}
+
+  /* taller */
+  .hecho{padding-block:clamp(56px,8vw,110px)}
+  .hecho .w{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,4vw,64px);border-top:1px solid var(--linea);padding-top:28px}
+  .hecho h3{font-size:1.15rem}
+  .hecho p{color:var(--suave);margin-top:8px;max-width:34ch}
+  @media (max-width:900px){.hecho .w{grid-template-columns:minmax(0,1fr)}}
+
+  footer{background:var(--oscuro);color:#d8d3cb;padding:clamp(40px,6vw,80px) var(--gut) 28px}
+  footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px}
+  footer .logo{text-align:left;color:#fff}
+  footer h4{font-weight:500;color:#fff;margin-bottom:10px;font-size:.95rem}
+  footer li{list-style:none;margin:4px 0;font-size:.92rem}
+  footer li a,footer li button{min-height:32px;display:inline-flex;align-items:center;color:#b9b3aa}
+  footer .pie{margin-top:36px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);font-size:.85rem;color:#8d877e}
+  @media (max-width:700px){footer .cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}footer .cols>div:first-child{grid-column:1/-1}}
+
+  /* cajón de presupuesto y favoritos */
+  .vel{position:fixed;inset:0;z-index:80;background:rgba(15,14,13,.5);opacity:0;pointer-events:none;transition:opacity .3s}
+  .vel.on{opacity:1;pointer-events:auto}
+  .caj{position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(440px,100%);background:var(--papel);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);visibility:hidden}
+  .caj.on{transform:none;visibility:visible}
+  .caj-c{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--linea)}
+  .caj-c h2{font-size:1.3rem}
+  .caj-c button{min-width:44px;min-height:44px;font-size:1.4rem}
+  .caj-l{flex:1;overflow:auto;padding:8px 22px}
+  .fila{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--linea)}
+  .fila .mini{width:72px;height:88px;position:relative;overflow:hidden;background:var(--papel-2)}
+  .fila .mini img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1));transform-origin:var(--ox,50%) var(--oy,50%)}
+  .fila b{display:block;font-weight:500}.fila small{color:var(--suave)}
+  .cant{display:flex;align-items:center;gap:4px;margin-top:6px}
+  .cant button{width:32px;height:32px;border:1px solid var(--linea);display:grid;place-items:center}
+  .cant output{min-width:26px;text-align:center}
+  .fila .quitar{font-size:.85rem;color:var(--suave);text-decoration:underline;min-height:44px}
+  .caj-p{padding:18px 22px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--linea);display:grid;gap:12px}
+  .caj-p label{display:grid;gap:6px;font-weight:500;font-size:.92rem}
+  .caj-p input{min-height:48px;border:1px solid var(--tinta);padding:0 14px;background:#fff;border-radius:0}
+  .caj-p .btn-s{min-height:52px;background:var(--tinta);color:var(--papel);font-weight:500}
+  .caj-p .btn-s[disabled]{opacity:.35;cursor:not-allowed}
+  .caj-p .err{color:#9B2C1C;font-size:.88rem;display:none}
+  .caj-v{color:var(--suave);padding:36px 0}
+
+  /* ficha de producto */
+  dialog{border:0;padding:0;background:var(--papel);color:var(--tinta);width:min(960px,calc(100% - 2*var(--gut)));max-height:calc(100svh - 2*var(--gut));margin:auto;overflow:auto}
+  dialog::backdrop{background:rgba(15,14,13,.55)}
+  .ficha{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .ficha .foto{position:relative;min-height:420px;background:var(--papel-2);overflow:hidden}
+  .ficha .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ficha .info{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:14px}
+  .ficha small{color:var(--suave);text-transform:uppercase;font-size:.74rem}
+  .ficha h2{font-size:clamp(1.7rem,3vw,2.4rem)}
+  .ficha p{color:var(--suave)}
+  .ficha dl{border-top:1px solid var(--linea);margin-top:6px}
+  .ficha dl div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--linea);font-size:.92rem}
+  .ficha dt{color:var(--suave)}
+  .ficha .acciones{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap}
+  .ficha .btn-s{flex:1;min-height:50px;background:var(--tinta);color:var(--papel);font-weight:500;padding:0 18px}
+  .ficha .cerrar{position:absolute;top:8px;right:8px;z-index:3;width:44px;height:44px;font-size:1.5rem;background:rgba(250,249,247,.85)}
+  @media (max-width:760px){.ficha{grid-template-columns:minmax(0,1fr)}.ficha .foto{min-height:300px;aspect-ratio:4/3}}
+
+  /* buscar */
+  .busca{position:fixed;left:0;right:0;top:0;z-index:95;background:var(--papel);padding:22px var(--gut);transform:translateY(-102%);transition:transform .35s var(--ease);border-bottom:1px solid var(--linea)}
+  .busca.on{transform:none}
+  .busca input{width:100%;min-height:56px;border:0;border-bottom:1px solid var(--tinta);background:none;font-size:1.5rem;letter-spacing:-.02em;outline:none}
+  .busca small{display:block;margin-top:10px;color:var(--suave)}
+  .busca .x{position:absolute;right:var(--gut);top:12px;font-size:1.5rem;min-width:44px;min-height:44px}
+
+  .aviso-f{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--tinta);color:var(--papel);padding:12px 20px;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:100}
+  .aviso-f.on{opacity:1;transform:translate(-50%,0)}
+  @media (max-width:900px){.barra nav{display:none}.barra{grid-template-columns:auto 1fr}.logo{text-align:left}.barra .der{gap:12px}.barra a,.barra button{font-size:.84rem}.logo{font-size:1.7rem}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.slide img{transform:none}}
+</style>
+</head>
+<body>
+<header id="cab">
+  <div class="barra">
+    <nav aria-label="Principal"><a href="#catalogo">Catálogo</a><a href="#colecciones">Colecciones</a><a href="#taller">Nosotros</a><a href="#contacto">Contacto</a></nav>
+    <a class="logo" href="#inicio" aria-label="Arce, inicio">arce</a>
+    <div class="der">
+      <button type="button" id="b-fav" aria-label="Favoritos"><span class="txt-l">Favoritos&nbsp;</span>(<span id="n-fav">0</span>)</button>
+      <button type="button" id="b-pres">Presupuesto&nbsp;(<span id="n-pres">0</span>)</button>
+      <button type="button" id="b-bus" aria-label="Buscar">Buscar</button>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero" aria-label="Presentación">
+    <div class="slide on"><img src="img/living.jpg" alt="Living con sofá y mesas ratonas" width="1700" height="1134"></div>
+    <div class="slide"><img src="img/comedor.jpg" alt="Comedor con mesa y sillas tapizadas" loading="lazy" width="1700" height="1134"></div>
+    <div class="slide"><img src="img/cocina.jpg" alt="Cocina con isla de piedra" loading="lazy" width="1700" height="1134"></div>
+    <div class="txt">
+      <small id="h-sm">Living</small>
+      <h1 id="h-t">Piezas para vivir despacio</h1>
+      <a class="btn-l" href="#catalogo">Ver el catálogo</a>
+    </div>
+    <div class="puntos" role="group" aria-label="Elegir imagen"><button type="button" class="on" aria-label="Imagen 1"></button><button type="button" aria-label="Imagen 2"></button><button type="button" aria-label="Imagen 3"></button></div>
+  </section>
+
+  <section class="cat w" id="catalogo">
+    <div class="cat-cab">
+      <div class="tabs" role="tablist" aria-label="Selección"><button role="tab" aria-selected="true" data-t="d">Destacados</button><button role="tab" aria-selected="false" data-t="c">Clásicos</button><button role="tab" aria-selected="false" data-t="n">Nuevo</button></div>
+      <div class="acc"><span class="filtro" id="filtro" hidden></span><button type="button" id="ver-todos">Ver todos</button></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="div2" id="colecciones">
+    <div class="img"><img src="img/mesas.jpg" alt="Mesas ratonas redondas frente al sofá" loading="lazy" width="1500" height="1000"></div>
+    <div class="info"><small>Colección Órbita</small><h2>Dos mesas, una sola idea</h2><p>Tapas redondas de vidrio ahumado y bases de metal. Se usan juntas, separadas o a distinta altura, según el living.</p><button type="button" class="btn-o" data-ir="Living">Ver piezas de living</button></div>
+  </section>
+
+  <section class="esp w" id="espacios">
+    <div class="esp-cab"><h2>Espacios</h2></div>
+    <div class="esp-g">
+      <button type="button" data-ir="Living" style="--z:1.3;--ox:70%;--oy:70%"><img src="img/living.jpg" alt="" loading="lazy" width="1700" height="1134"><span>Living</span></button>
+      <button type="button" data-ir="Comedor" style="--z:1.5;--ox:62%;--oy:78%"><img src="img/comedor.jpg" alt="" loading="lazy" width="1700" height="1134"><span>Comedor</span></button>
+      <button type="button" data-ir="Cocina" style="--z:1.4;--ox:55%;--oy:80%"><img src="img/cocina.jpg" alt="" loading="lazy" width="1700" height="1134"><span>Cocina</span></button>
+    </div>
+  </section>
+
+  <section class="osc" aria-label="Colección Basalto">
+    <img src="img/barra.jpg" alt="Barra de cocina con banquetas" loading="lazy" width="1500" height="1000">
+    <div class="txt"><small>Colección Basalto</small><h2>Piedra oscura, lacado blanco y madera cálida</h2><button type="button" class="btn-l" data-ir="Cocina">Ver piezas de cocina</button></div>
+  </section>
+
+  <section class="div2 inv" id="taller">
+    <div class="img"><img src="img/dormitorio.jpg" alt="Dormitorio luminoso con cama y cortinas" loading="lazy" width="1500" height="1000"></div>
+    <div class="info"><small>Nuestro taller</small><h2>Diseñamos, fabricamos y probamos cada pieza</h2><p>Trabajamos con maderas macizas, piedra y tapizados en lino. Cada pieza se hace por encargo y se entrega armada.</p><button type="button" class="btn-o" data-ir="Habitación">Ver piezas de habitación</button></div>
+  </section>
+
+  <section class="hecho">
+    <div class="w">
+      <div><h3>Por encargo</h3><p>Elegís la pieza, la medida y el acabado. La fabricamos y te avisamos cuando está lista.</p></div>
+      <div><h3>Entrega y armado</h3><p>Llevamos las piezas a tu casa y las dejamos armadas en su lugar.</p></div>
+      <div><h3>Presupuesto sin cargo</h3><p>Sumá lo que te interese a tu presupuesto y lo enviás por WhatsApp para coordinar.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto">
+  <div class="cols">
+    <div><a class="logo" href="#inicio">arce</a><p style="margin-top:10px;max-width:30ch;color:#b9b3aa">Mobiliario de diseño para living, comedor, cocina y habitación.</p></div>
+    <div><h4>Catálogo</h4><ul><li><button type="button" data-ir="Living">Living</button></li><li><button type="button" data-ir="Comedor">Comedor</button></li><li><button type="button" data-ir="Cocina">Cocina</button></li><li><button type="button" data-ir="Habitación">Habitación</button></li></ul></div>
+    <div><h4>Arce</h4><ul><li><a href="#colecciones">Colecciones</a></li><li><a href="#taller">Nosotros</a></li></ul></div>
+    <div><h4>Contacto</h4><ul><li><a href="https://wa.me/5491100000000" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="https://www.google.com/maps/search/?api=1&query=Avenida%20del%20Sol%201200" target="_blank" rel="noopener">Avenida del Sol 1200</a></li><li>Lunes a sábado, 10 a 19 h</li></ul></div>
+  </div>
+  <div class="pie">© 2026 Arce</div>
+</footer>
+
+<div hidden id="fuentes-img"><img data-k="living" src="img/living.jpg" alt=""><img data-k="mesas" src="img/mesas.jpg" alt=""><img data-k="comedor" src="img/comedor.jpg" alt=""><img data-k="cocina" src="img/cocina.jpg" alt=""><img data-k="barra" src="img/barra.jpg" alt=""><img data-k="cama" src="img/cama.jpg" alt=""><img data-k="lampara" src="img/lampara.jpg" alt=""><img data-k="dormitorio" src="img/dormitorio.jpg" alt=""></div>
+<div class="vel" id="vel"></div>
+<aside class="caj" id="caj-pres" role="dialog" aria-modal="true" aria-label="Presupuesto" aria-hidden="true">
+  <div class="caj-c"><h2>Presupuesto</h2><button type="button" data-cerrar aria-label="Cerrar">×</button></div>
+  <div class="caj-l" id="l-pres"></div>
+  <div class="caj-p">
+    <label>Tu nombre<input id="p-nombre" autocomplete="name"><span class="err" id="p-err" role="alert">Escribí tu nombre para que sepamos a quién responder.</span></label>
+    <button type="button" class="btn-s" id="p-enviar" disabled>Pedir presupuesto por WhatsApp</button>
+  </div>
+</aside>
+<aside class="caj" id="caj-fav" role="dialog" aria-modal="true" aria-label="Favoritos" aria-hidden="true">
+  <div class="caj-c"><h2>Favoritos</h2><button type="button" data-cerrar aria-label="Cerrar">×</button></div>
+  <div class="caj-l" id="l-fav"></div>
+</aside>
+<div class="busca" id="busca" role="dialog" aria-label="Buscar">
+  <button type="button" class="x" id="x-bus" aria-label="Cerrar">×</button>
+  <input id="q" type="search" placeholder="Buscar una pieza" autocomplete="off" aria-label="Buscar una pieza">
+  <small id="q-res">Escribí el nombre de una pieza o un ambiente.</small>
+</div>
+<dialog id="dlg"></dialog>
+<div class="aviso-f" id="av" role="status"></div>
+
+<script>
+(function(){
+  "use strict";
+  var WA = "5491100000000";
+  var $ = function(id){ return document.getElementById(id); };
+  var PROD = [
+    { id:"sofa", n:"Sofá Duna", c:["Living"], t:["d"], img:"living", ox:78, oy:60, z:2.1, d:"Sofá de tres cuerpos con respaldo bajo y almohadones sueltos. Tapizado en lino.", m:"240 × 95 × 70 cm", mat:"Lino y estructura de madera" },
+    { id:"ratona", n:"Mesas Órbita", c:["Living"], t:["c"], img:"mesas", ox:46, oy:76, z:2.3, d:"Dos mesas redondas de distinta altura. Se usan juntas o por separado.", m:"Ø 90 y Ø 70 cm", mat:"Vidrio ahumado y metal" },
+    { id:"mesa", n:"Mesa Meridiano", c:["Comedor"], t:["d"], img:"comedor", ox:55, oy:72, z:1.6, d:"Mesa rectangular para ocho personas con tapa laqueada.", m:"260 × 100 × 75 cm", mat:"Laca y base de madera" },
+    { id:"silla", n:"Silla Cóndor", c:["Comedor"], t:["c"], img:"cocina", ox:20, oy:62, z:2.0, d:"Silla tapizada con respaldo envolvente y patas de madera.", m:"55 × 58 × 90 cm", mat:"Tapizado y madera maciza" },
+    { id:"banqueta", n:"Banqueta Alta", c:["Cocina"], t:["c"], img:"barra", ox:48, oy:68, z:2.3, d:"Banqueta con asiento tapizado y estructura de acero.", m:"40 × 42 × 75 cm", mat:"Acero y tapizado" },
+    { id:"cama", n:"Cama Bruma", c:["Habitación"], t:["n"], img:"cama", ox:14, oy:84, z:1.5, d:"Cama de dos plazas con respaldo bajo y base tapizada.", m:"220 × 180 × 90 cm", mat:"Tapizado en lino" },
+    { id:"isla", n:"Isla Basalto", c:["Cocina"], t:["d","n"], img:"cocina", ox:72, oy:72, z:1.5, d:"Isla con mesada de piedra oscura y frente laqueado.", m:"280 × 110 × 90 cm", mat:"Piedra y laca" },
+    { id:"lampara", n:"Lámpara Tótem", c:["Living","Habitación"], t:["d","n"], img:"lampara", ox:14, oy:54, z:2.6, d:"Lámpara de pie de fuste negro y luz difusa.", m:"Altura 180 cm", mat:"Metal" }
+  ];
+  var byId = {}; PROD.forEach(function(p){ byId[p.id] = p; });
+  function leer(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } }
+  function guardar(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  var favs = leer("arce-fav") || [], pres = leer("arce-pres") || {};
+  var tab = "d", cat = null, todos = false, q = "";
+
+  function src(k){ var i = document.querySelector('#fuentes-img img[data-k="' + k + '"]'); return i ? i.getAttribute('src') : ''; }
+  function foto(p, cls){ return '<img src="' + src(p.img) + '" alt="" loading="lazy" width="900" height="600" style="--z:' + p.z + ';--ox:' + p.ox + '%;--oy:' + p.oy + '%">'; }
+  var corazon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-9.2C1.8 7.4 3.6 4 7 4c2 0 3.4 1 5 3 1.6-2 3-3 5-3 3.400 0 5.200 3.400 4 6.800C19 15.600 12 20 12 20Z"/></svg>';
+
+  function lista(){
+    return PROD.filter(function(p){
+      if (q) return (p.n + " " + p.c.join(" ")).toLowerCase().indexOf(q.toLowerCase()) > -1;
+      if (cat) return p.c.indexOf(cat) > -1;
+      return todos || p.t.indexOf(tab) > -1;
+    });
+  }
+  function pintar(){
+    var l = lista(), g = $("grid");
+    g.innerHTML = l.length ? l.map(function(p){
+      var f = favs.indexOf(p.id) > -1;
+      return '<article class="prod"><div class="foto">' + foto(p) + '<button type="button" class="fav" data-fav="' + p.id + '" aria-pressed="' + f + '" aria-label="Favorito: ' + p.n + '">' + corazon + '</button></div><button type="button" class="abre" data-abrir="' + p.id + '" aria-label="Ver ' + p.n + '"></button><h3>' + p.n + '</h3><p>' + p.c.join(", ") + '</p></article>';
+    }).join("") : '<p class="vacio">No encontramos piezas con ese filtro.</p>';
+    var fl = $("filtro"); fl.hidden = !cat; fl.textContent = cat ? "Ambiente: " + cat : "";
+    $("ver-todos").textContent = cat ? "Quitar filtro" : (todos ? "Ver selección" : "Ver todos");
+    [].forEach.call(document.querySelectorAll(".tabs button"), function(b){ b.setAttribute("aria-selected", String(b.dataset.t === tab && !todos && !cat)); });
+  }
+  function ir(ambiente){ cat = ambiente; todos = false; q = ""; pintar(); $("catalogo").scrollIntoView(); }
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("[data-ir]"); if (t){ cerrar(); ir(t.dataset.ir); return; }
+    var f = e.target.closest("[data-fav]"); if (f){ alternarFav(f.dataset.fav); return; }
+    var a = e.target.closest("[data-abrir]"); if (a){ abrir(a.dataset.abrir); return; }
+  });
+  [].forEach.call(document.querySelectorAll(".tabs button"), function(b){ b.addEventListener("click", function(){ tab = b.dataset.t; todos = false; cat = null; pintar(); }); });
+  $("ver-todos").addEventListener("click", function(){ if (cat){ cat = null; } else { todos = !todos; } pintar(); });
+
+  /* ---- favoritos ---- */
+  function alternarFav(id){ var i = favs.indexOf(id); if (i > -1) favs.splice(i, 1); else { favs.push(id); aviso("Guardado en favoritos"); } guardar("arce-fav", favs); actualizar(); }
+  /* ---- presupuesto ---- */
+  function sumar(id, n){ pres[id] = Math.max(0, (pres[id] || 0) + n); if (!pres[id]) delete pres[id]; guardar("arce-pres", pres); actualizar(); }
+  function filaHtml(p, extra){ return '<div class="fila"><div class="mini">' + foto(p) + '</div><div><b>' + p.n + '</b><small>' + p.c.join(", ") + '</small>' + extra + '</div></div>'; }
+  function actualizar(){
+    var cant = 0; Object.keys(pres).forEach(function(k){ cant += pres[k]; });
+    $("n-pres").textContent = cant; $("n-fav").textContent = favs.length;
+    var lp = $("l-pres");
+    lp.innerHTML = cant ? Object.keys(pres).map(function(id){ var p = byId[id]; return '<div class="fila"><div class="mini">' + foto(p) + '</div><div><b>' + p.n + '</b><small>' + p.m + '</small><div class="cant"><button type="button" data-menos="' + id + '" aria-label="Una menos">−</button><output>' + pres[id] + '</output><button type="button" data-mas="' + id + '" aria-label="Una más">+</button></div></div><button type="button" class="quitar" data-quitar="' + id + '">Quitar</button></div>'; }).join("") : '<p class="caj-v">Todavía no sumaste piezas. Elegí lo que te guste del catálogo y pedí tu presupuesto.</p>';
+    $("p-enviar").disabled = !cant;
+    var lf = $("l-fav");
+    lf.innerHTML = favs.length ? favs.map(function(id){ var p = byId[id]; return '<div class="fila"><div class="mini">' + foto(p) + '</div><div><b>' + p.n + '</b><small>' + p.c.join(", ") + '</small><div class="cant"><button type="button" class="quitar" data-sumar="' + id + '" style="min-height:32px">Sumar al presupuesto</button></div></div><button type="button" class="quitar" data-fav="' + id + '">Quitar</button></div>'; }).join("") : '<p class="caj-v">Tus favoritos aparecen acá. Tocá el corazón de una pieza para guardarla.</p>';
+    [].forEach.call(document.querySelectorAll("[data-fav].fav"), function(b){ b.setAttribute("aria-pressed", String(favs.indexOf(b.dataset.fav) > -1)); });
+  }
+  document.addEventListener("click", function(e){
+    var x;
+    if ((x = e.target.closest("[data-mas]"))) sumar(x.dataset.mas, 1);
+    else if ((x = e.target.closest("[data-menos]"))) sumar(x.dataset.menos, -1);
+    else if ((x = e.target.closest("[data-quitar]"))) { delete pres[x.dataset.quitar]; guardar("arce-pres", pres); actualizar(); }
+    else if ((x = e.target.closest("[data-sumar]"))) { sumar(x.dataset.sumar, 1); aviso("Sumado al presupuesto"); }
+    else if ((x = e.target.closest("[data-agregar]"))) { sumar(x.dataset.agregar, 1); $("dlg").close(); abrirCaj("caj-pres"); }
+    else if (e.target.closest("[data-cerrar]") || e.target === $("vel")) cerrar();
+  });
+  $("p-enviar").addEventListener("click", function(){
+    var n = $("p-nombre").value.trim();
+    if (!n){ $("p-err").style.display = "block"; $("p-nombre").focus(); return; }
+    var items = Object.keys(pres).map(function(id){ return pres[id] + " × " + byId[id].n; }).join(", ");
+    window.location.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent("¡Hola! Mi nombre es " + n + ". Quisiera pedir un presupuesto por: " + items + ". Muchas gracias.");
+  });
+  $("p-nombre").addEventListener("input", function(){ $("p-err").style.display = "none"; });
+
+  /* ---- cajones, ficha y búsqueda ---- */
+  var abierto = null;
+  function abrirCaj(id){ cerrar(); abierto = $(id); abierto.classList.add("on"); abierto.setAttribute("aria-hidden", "false"); $("vel").classList.add("on"); var b = abierto.querySelector("[data-cerrar]"); if (b) b.focus(); }
+  function cerrar(){ if (abierto){ abierto.classList.remove("on"); abierto.setAttribute("aria-hidden", "true"); abierto = null; } $("vel").classList.remove("on"); $("busca").classList.remove("on"); }
+  $("b-pres").addEventListener("click", function(){ abrirCaj("caj-pres"); });
+  $("b-fav").addEventListener("click", function(){ abrirCaj("caj-fav"); });
+  $("b-bus").addEventListener("click", function(){ cerrar(); $("busca").classList.add("on"); $("vel").classList.add("on"); $("q").focus(); });
+  $("x-bus").addEventListener("click", function(){ cerrar(); });
+  $("q").addEventListener("input", function(){
+    q = this.value.trim(); cat = null; pintar();
+    var n = lista().length; $("q-res").textContent = q ? (n ? n + (n === 1 ? " pieza" : " piezas") : "Sin resultados") : "Escribí el nombre de una pieza o un ambiente.";
+    if (q) $("catalogo").scrollIntoView({ block: "start" });
+  });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") cerrar(); });
+  function abrir(id){
+    var p = byId[id], d = $("dlg");
+    d.innerHTML = '<div class="ficha"><button type="button" class="cerrar" id="dlg-x" aria-label="Cerrar">×</button><div class="foto"><img src="' + src(p.img) + '" alt="' + p.n + '" style="object-position:' + p.ox + '% ' + p.oy + '%"></div><div class="info"><small>' + p.c.join(", ") + '</small><h2>' + p.n + '</h2><p>' + p.d + '</p><dl><div><dt>Medidas</dt><dd>' + p.m + '</dd></div><div><dt>Materiales</dt><dd>' + p.mat + '</dd></div><div><dt>Fabricación</dt><dd>Por encargo</dd></div></dl><div class="acciones"><button type="button" class="btn-s" data-agregar="' + p.id + '">Agregar al presupuesto</button><button type="button" class="btn-o" data-fav="' + p.id + '">' + (favs.indexOf(p.id) > -1 ? "Quitar de favoritos" : "Guardar en favoritos") + '</button></div></div></div>';
+    d.showModal(); $("dlg-x").addEventListener("click", function(){ d.close(); });
+  }
+  $("dlg").addEventListener("click", function(e){ if (e.target === this) this.close(); });
+  function aviso(t){ var a = $("av"); a.textContent = t; a.classList.add("on"); clearTimeout(aviso.t); aviso.t = setTimeout(function(){ a.classList.remove("on"); }, 1800); }
+
+  /* ---- presentación con tres imágenes ---- */
+  var slides = [].slice.call(document.querySelectorAll(".slide")), pts = [].slice.call(document.querySelectorAll(".puntos button"));
+  var TXT = [["Living", "Piezas para vivir despacio"], ["Comedor", "La mesa es el centro de la casa"], ["Cocina", "Cocinas que invitan a quedarse"]];
+  var cur = 0, timer;
+  function ver(i){ cur = i; slides.forEach(function(s, k){ s.classList.toggle("on", k === i); }); pts.forEach(function(s, k){ s.classList.toggle("on", k === i); }); $("h-sm").textContent = TXT[i][0]; $("h-t").textContent = TXT[i][1]; }
+  pts.forEach(function(b, i){ b.addEventListener("click", function(){ ver(i); clearInterval(timer); timer = setInterval(sig, 7000); }); });
+  function sig(){ ver((cur + 1) % slides.length); }
+  if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) timer = setInterval(sig, 7000);
+
+  /* ---- barra superior ---- */
+  var cab = $("cab");
+  function alBajar(){ cab.classList.toggle("sol", window.scrollY > window.innerHeight * 0.6); }
+  alBajar(); window.addEventListener("scroll", alBajar, { passive: true });
+
+  pintar(); actualizar();
+})();
+</script>
+</body>
+</html>
