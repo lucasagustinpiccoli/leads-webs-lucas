@@ -103,7 +103,7 @@
   function accion(id) {
     var n = nombre;
     if (id === "proyectos") {
-      return decir(L("Dale, " + n + ". Te muestro los proyectos: hay sitios con reservas, un catálogo, una landing de app y una inmobiliaria.", "Sure, " + n + ". Here are the projects: websites with online booking, a catalogue, an app landing page and a real-estate site.")).then(function () {
+      return decir(L("Muy bien, " + n + ". Te llevo a los proyectos: hay sitios con reservas, un catálogo, una landing para una app y una inmobiliaria.", "Great, " + n + ". I'll take you to the projects: sites with online booking, a catalogue, an app landing page and a real-estate site.")).then(function () {
         var ir = boton(L("Ver los proyectos", "See the projects"), "btn btn--primary");
         ir.addEventListener("click", function () {
           cerrarChat();
@@ -113,13 +113,13 @@
       });
     }
     if (id === "empezar") {
-      return decir(L("Muy bien, " + n + ". Te hago unas preguntas cortas sobre tu negocio y armamos una demo de tu página, sin costo.", "Great, " + n + ". A few short questions about your business and we'll put together a demo of your site, at no cost.")).then(function () {
+      return decir(L("Muy bien, " + n + ". Respondés unas preguntas cortas sobre tu negocio y preparamos una demo de tu página, sin costo.", "Great, " + n + ". You answer a few short questions about your business and we prepare a demo of your site, at no cost.")).then(function () {
         var ir = boton(L("Empezar mi proyecto", "Start my project"), "btn btn--primary");
         ir.addEventListener("click", function () { cerrarChat(); abrirFormulario(ir); });
         return opcionesFinales(ir);
       });
     }
-    return decir(L("Perfecto, " + n + ". Te dejo el botón: abre WhatsApp con un mensaje ya escrito, solo tenés que enviarlo.", "Perfect, " + n + ". Here's the button: it opens WhatsApp with a message already written, you just have to send it.")).then(function () {
+    return decir(L("Listo, " + n + ". Tocá el botón y se abre WhatsApp con el mensaje ya escrito: solo tenés que enviarlo.", "All set, " + n + ". Tap the button and WhatsApp opens with the message already written: you just have to send it.")).then(function () {
       return opcionesFinales(enlaceWA());
     });
   }
