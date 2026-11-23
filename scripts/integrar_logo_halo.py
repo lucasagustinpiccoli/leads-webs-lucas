@@ -27,9 +27,29 @@ def sin_cabecera(svg):
     return svg.strip()
 
 
-def retrasar(svg, seg):
-    """Suma `seg` segundos al retraso de cada animación del SVG, para que arranque junto con la luz."""
-    return re.sub(r"animation:(\w+) ([\d.]+)s ([\d.]+)s", lambda m: f"animation:{m.group(1)} {m.group(2)}s {float(m.group(3)) + seg:.2f}s", svg)
+AMANECER = """<style>
+.line,.refl,.sun,.ring,.glow,.t1,.t2{animation-fill-mode:both}
+.line{transform-box:fill-box;transform-origin:50% 50%;animation:lineIn .70s 1.00s cubic-bezier(.23,1,.32,1)}
+.sun{animation:rise 2.20s 1.70s cubic-bezier(.28,.55,.2,1)}
+.ring{transform-box:fill-box;transform-origin:50% 100%;animation-timing-function:cubic-bezier(.23,1,.32,1)}
+.r1{animation:ringIn .90s 2.90s}.r2{animation:ringIn .90s 3.10s}.r3{animation:ringIn .90s 3.30s}
+.glow{animation:fade 1.60s 2.30s ease-out}.refl{animation:fade .80s 3.20s}
+.t1{animation:textIn .80s 3.10s cubic-bezier(.23,1,.32,1)}.t2{animation:textIn .80s 3.30s cubic-bezier(.23,1,.32,1)}
+@keyframes lineIn{from{transform:scaleX(0)}}
+@keyframes rise{from{transform:translateY(21px);filter:brightness(.55)}55%{filter:brightness(.85)}to{transform:none;filter:none}}
+@keyframes ringIn{from{opacity:0;transform:scale(.82)}}
+@keyframes fade{from{opacity:0}}
+@keyframes textIn{from{opacity:0;transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.line,.refl,.sun,.ring,.glow,.t1,.t2{animation:none}}
+</style>"""
+
+
+def amanecer(svg):
+    """Cambia la animación del paquete por una de amanecer: primero el horizonte solo, después sale el sol y se encienden los aros.
+    Arranca cuando el tubo de neón del inicio empieza a abrirse (1 s)."""
+    # "both": antes de su turno cada pieza queda en su estado inicial (oculta), no en el final
+    css = re.sub(r"animation:(?!none)([^;}]+)", lambda m: "animation:" + m.group(1) + " both", AMANECER)
+    return re.sub(r"<style>.*?</style>", lambda m: css, svg, count=1, flags=re.S)
 
 
 def poner_clase(svg, clase):
@@ -43,7 +63,7 @@ def main():
 
     # 1) menú: logo animado, sincronizado con la luz del inicio
     animado = sin_cabecera(leer("svg", "halo-logo-animated-on-dark.svg"))
-    animado = retrasar(animado, INICIO)
+    animado = amanecer(animado)
     animado = poner_clase(animado, "logo-nav")
     nav = f'<a class="wordmark" href="#inicio" aria-label="Halo Studio, inicio">{animado}</a>'
     html, n = re.subn(r'<a class="wordmark" href="#inicio" aria-label="Halo Studio, inicio">.*?</a>', lambda m: nav, html, count=1, flags=re.S)
