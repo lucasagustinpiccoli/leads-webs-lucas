@@ -50,57 +50,6 @@
     b.addEventListener("click", function () { actual = t; pintar(); });
     tabs.appendChild(b);
   });
-  /* ---- plano en tres capas (piso, paredes y muebles) para que se vea casi en 3D ---- */
-  var K = 2, OX = 10, OY = 22;
-  function X(v) { return OX + v * K; }
-  function Y(v) { return OY + v * K; }
-  function R(x, y, w, h, att) { return '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" ' + att + '/>'; }
-  function C(cx, cy, r, att) { return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r.toFixed(1) + '" ' + att + '/>'; }
-  var TELA = 'fill="url(#gTela)" stroke="#cfc6b6" stroke-width=".5"', MADERA = 'fill="url(#gMadera)" stroke="#a98a60" stroke-width=".4"', VERDE = 'fill="#7d9870"', VERDE2 = 'fill="#9bb38c"';
-  function planta(cx, cy, r) { return C(cx, cy, r, VERDE) + C(cx - r * .35, cy - r * .2, r * .7, VERDE2) + C(cx + r * .3, cy + r * .25, r * .55, VERDE2); }
-  function silla(cx, cy, r) { return C(cx, cy, r, 'fill="#efe9dd" stroke="#cfc6b6" stroke-width=".4"'); }
-  function sala(x, y, w, h) {
-    var s = R(x + .1 * w, y + .22 * h, .62 * w, .56 * h, 'rx="1.5" fill="#d9d3c6"') + R(x + .1 * w, y + .22 * h, .62 * w, .56 * h, 'rx="1.5" filter="url(#tejido)"');
-    s += R(x + .07 * w, y + .3 * h, .15 * w, .42 * h, 'rx="2" ' + TELA) + R(x + .07 * w, y + .3 * h, .045 * w, .42 * h, 'rx="1.5" fill="#e8e1d4" stroke="#cfc6b6" stroke-width=".4"');
-    s += R(x + .33 * w, y + .45 * h, .15 * w, .16 * h, 'rx="1" ' + MADERA);
-    s += R(x + .56 * w, y + .46 * h, .13 * w, .17 * h, 'rx="3" ' + TELA);
-    var cx = x + .78 * w, cy = y + .2 * h, rr = Math.min(w, h) * .09;
-    s += silla(cx - rr * 1.6, cy, rr * .55) + silla(cx + rr * 1.6, cy, rr * .55) + silla(cx, cy - rr * 1.6, rr * .55) + silla(cx, cy + rr * 1.6, rr * .55) + C(cx, cy, rr, MADERA);
-    return s + planta(x + .08 * w, y + .12 * h, Math.min(w, h) * .05);
-  }
-  function cocinaM(x, y, w, h) {
-    var s = R(x + .05 * w, y + .05 * h, .9 * w, .2 * h, 'rx=".8" fill="#f3f0ea" stroke="#cfc6b6" stroke-width=".4"');
-    s += C(x + .25 * w, y + .15 * h, 2.3, 'fill="#222"') + C(x + .25 * w + 5.5, y + .15 * h, 2.3, 'fill="#222"');
-    s += R(x + .58 * w, y + .1 * h, .22 * w, .1 * h, 'rx=".6" fill="#b9bfc3" stroke="#8f979c" stroke-width=".3"');
-    if (h > 50) s += R(x + .15 * w, y + .52 * h, .7 * w, .17 * h, 'rx="1" fill="#f3f0ea" stroke="#cfc6b6" stroke-width=".4"') + silla(x + .3 * w, y + .78 * h, 2.4) + silla(x + .7 * w, y + .78 * h, 2.4);
-    return s;
-  }
-  function banoM(x, y, w, h) {
-    var s = R(x + .08 * w, y + .08 * h, .84 * w, .27 * h, 'rx="4" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".5"') + R(x + .14 * w, y + .13 * h, .72 * w, .17 * h, 'rx="3" fill="#eef1f2" stroke="#d6dcde" stroke-width=".3"');
-    s += R(x + .1 * w, y + .62 * h, .34 * w, .2 * h, 'rx="1" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".4"') + C(x + .27 * w, y + .72 * h, 2.2, 'fill="#eef1f2" stroke="#d6dcde" stroke-width=".3"');
-    s += R(x + .62 * w, y + .62 * h, .26 * w, .1 * h, 'rx="1" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".4"') + '<ellipse cx="' + (x + .75 * w).toFixed(1) + '" cy="' + (y + .8 * h).toFixed(1) + '" rx="' + (.1 * w).toFixed(1) + '" ry="' + (.07 * h).toFixed(1) + '" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".4"/>';
-    return s;
-  }
-  function dormM(x, y, w, h) {
-    var s = R(x + .1 * w, y + .2 * h, .8 * w, .66 * h, 'rx="1.5" fill="#d9d3c6"') + R(x + .1 * w, y + .2 * h, .8 * w, .66 * h, 'rx="1.5" filter="url(#tejido)"');
-    s += R(x + .2 * w, y + .1 * h, .6 * w, .64 * h, 'rx="1.5" fill="#fbfaf7" stroke="#cfc6b6" stroke-width=".5"') + R(x + .2 * w, y + .1 * h, .6 * w, .06 * h, 'rx="1" fill="#b79b74"');
-    s += R(x + .24 * w, y + .18 * h, .24 * w, .12 * h, 'rx="2" fill="#fff" stroke="#d6cfc2" stroke-width=".4"') + R(x + .52 * w, y + .18 * h, .24 * w, .12 * h, 'rx="2" fill="#fff" stroke="#d6cfc2" stroke-width=".4"');
-    s += R(x + .2 * w, y + .45 * h, .6 * w, .29 * h, 'rx="1" fill="#e3dccd"');
-    s += R(x + .08 * w, y + .12 * h, .1 * w, .1 * h, 'rx=".8" ' + MADERA) + R(x + .82 * w, y + .12 * h, .1 * w, .1 * h, 'rx=".8" ' + MADERA);
-    return s + planta(x + .88 * w, y + .88 * h, Math.min(w, h) * .05);
-  }
-  function escrM(x, y, w, h) {
-    return R(x + .1 * w, y + .1 * h, .8 * w, .24 * h, 'rx=".8" ' + MADERA) + R(x + .38 * w, y + .12 * h, .24 * w, .1 * h, 'rx=".5" fill="#2a2a2a"') + silla(x + .5 * w, y + .5 * h, 3.2) + planta(x + .86 * w, y + .84 * h, Math.min(w, h) * .06);
-  }
-  function mueble(n, x, y, w, h) {
-    n = n.toLowerCase();
-    if (n.indexOf("estar") > -1) return sala(x, y + .42 * h, w, .58 * h) + dormM(x + .5 * w, y, .5 * w, .46 * h);
-    if (n.indexOf("living") > -1) return sala(x, y, w, h);
-    if (n.indexOf("cocina") > -1) return cocinaM(x, y, w, h);
-    if (n.indexOf("baño") > -1) return banoM(x, y, w, h);
-    if (n.indexOf("escritorio") > -1) return escrM(x, y, w, h);
-    return dormM(x, y, w, h);
-  }
   /* repite una capa varias veces, una sobre otra, para dar altura (paredes y muebles con volumen al inclinar) */
   function mezcla(a, b, k) { var pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16), o = ""; [16, 8, 0].forEach(function (sh) { var v = Math.round(((pa >> sh) & 255) * (1 - k) + ((pb >> sh) & 255) * k); o += (v < 16 ? "0" : "") + v.toString(16); }); return "#" + o; }
   function extruir(svg, cont, cls, z0, capas, paso, colores, sombrear) {
@@ -112,42 +61,177 @@
     }
     return out;
   }
+  /* ---- plano en tres capas, dibujado en metros reales: cada mueble tiene su medida, no se estira con el ambiente ---- */
+  var K = 10;           // unidades por metro
+  var WT = 2.0;         // espesor de pared (0,20 m)
+  function f1(v) { return (v * K).toFixed(1); }
+  function RR(x, y, w, h, att, r) { return '<rect x="' + f1(x) + '" y="' + f1(y) + '" width="' + f1(w) + '" height="' + f1(h) + '"' + (r ? ' rx="' + f1(r) + '"' : "") + " " + att + "/>"; }
+  function CC(cx, cy, r, att) { return '<circle cx="' + f1(cx) + '" cy="' + f1(cy) + '" r="' + f1(r) + '" ' + att + "/>"; }
+  var MAD = 'fill="url(#gMadera)" stroke="#8f7048" stroke-width=".35"';
+  var TEL = 'fill="url(#gTela)" stroke="#b9ae9b" stroke-width=".35"';
+  var TELO = 'fill="url(#gTelaO)" stroke="#a89c88" stroke-width=".35"';
+  var BLA = 'fill="url(#gBlanco)" stroke="#bfc4c6" stroke-width=".35"';
+  var ACE = 'fill="url(#gAcero)" stroke="#8d969b" stroke-width=".3"';
+
+  function planta(cx, cy, r) {
+    var s = CC(cx, cy, r * 1.05, 'fill="#3f5a38" fill-opacity=".35"');
+    for (var i = 0; i < 8; i++) { var a = i * .785 + .3, rr = r * (0.55 + (i % 3) * .18); s += '<ellipse cx="' + f1(cx + Math.cos(a) * rr * .55) + '" cy="' + f1(cy + Math.sin(a) * rr * .55) + '" rx="' + f1(r * .55) + '" ry="' + f1(r * .2) + '" transform="rotate(' + (a * 57.3).toFixed(0) + " " + f1(cx + Math.cos(a) * rr * .55) + " " + f1(cy + Math.sin(a) * rr * .55) + ')" fill="' + (i % 2 ? "#6f9060" : "#88aa76") + '"/>'; }
+    return s + CC(cx, cy, r * .16, 'fill="#46623c"');
+  }
+  function alfombra(x, y, w, h, c) { return RR(x, y, w, h, 'fill="' + (c || "#d8d0c0") + '"', .05) + RR(x, y, w, h, 'filter="url(#tejido)"', .05) + RR(x + .06, y + .06, w - .12, h - .12, 'fill="none" stroke="#b9ae9b" stroke-width=".4"', .04); }
+  function silla(cx, cy, d, giro) { /* silla vista desde arriba: asiento 0,45 y respaldo */ var a = 0.45;
+    return '<g transform="rotate(' + (giro || 0) + " " + f1(cx) + " " + f1(cy) + ')">' + RR(cx - a / 2, cy - a / 2, a, a, TEL, .08) + RR(cx - a / 2, cy + a / 2 - .04, a, .1, MAD, .04) + "</g>"; }
+  function sofa(x, y, w, d) { /* sofá de 3 cuerpos, w largo, d profundo (frente hacia arriba) */
+    var s = RR(x, y, w, d, TEL, .12) + RR(x, y, w, .26, TELO, .1);
+    s += RR(x, y + .06, .22, d - .06, TELO, .1) + RR(x + w - .22, y + .06, .22, d - .06, TELO, .1);
+    var n = w > 1.7 ? 3 : 2, aw = (w - .5) / n;
+    for (var i = 0; i < n; i++) s += RR(x + .25 + i * aw + .02, y + .3, aw - .04, d - .38, TEL, .08);
+    s += RR(x + .3, y + .3, .42, .3, 'fill="#c9b79a" stroke="#a89476" stroke-width=".3"', .07) + RR(x + w - .72, y + .3, .42, .3, 'fill="#9aa59b" stroke="#7d887e" stroke-width=".3"', .07);
+    return s;
+  }
+  function mesaRedonda(cx, cy, d, sillas) {
+    var s = "", i, r = d / 2 + .38;
+    for (i = 0; i < sillas; i++) { var a = (i / sillas) * 6.283 + .4; s += silla(cx + Math.cos(a) * r, cy + Math.sin(a) * r, .45, a * 57.3 + 90); }
+    return s + CC(cx, cy, d / 2, MAD) + CC(cx, cy, d / 2 * .72, 'fill="none" stroke="#a98a60" stroke-width=".3"') + planta(cx, cy, .15);
+  }
+  function cama(x, y, w, l) { /* x,y esquina sup. izquierda; cabecera arriba */
+    var s = RR(x - .04, y - .05, w + .08, l + .1, 'fill="#5b4631"', .06);
+    s += RR(x, y, w, l, 'fill="#fbfaf6" stroke="#cdc6b8" stroke-width=".35"', .06);
+    var pw = (w - .3) / 2; s += RR(x + .1, y + .12, pw, .42, 'fill="#ffffff" stroke="#d6d0c4" stroke-width=".3"', .1) + RR(x + .2 + pw, y + .12, pw, .42, 'fill="#ffffff" stroke="#d6d0c4" stroke-width=".3"', .1);
+    s += RR(x, y + l * .42, w, l * .58, 'fill="url(#gManta)" stroke="#c9bda8" stroke-width=".35"', .05);
+    s += RR(x, y + l * .42, w, .12, 'fill="#fbfaf6" fill-opacity=".85"') + RR(x + w * .2, y + l * .62, w * .6, .3, 'fill="#e6dccb" stroke="#cdbf9f" stroke-width=".3"', .06);
+    return s;
+  }
+  function velador(x, y) { return RR(x, y, .45, .4, MAD, .04) + CC(x + .225, y + .2, .09, 'fill="#fbf1d2" stroke="#d4c28a" stroke-width=".25"'); }
+  function dormM(x, y, w, h, tamano) {
+    var bw = tamano === "king" ? 1.8 : (w >= 3.8 ? 1.6 : 1.4), bl = 2.0, bx = x + (w - bw) / 2, by = y + .12;
+    if (w < 3.4) bx = x + w - bw - .65;
+    var s = alfombra(bx - .5, by + .7, bw + 1.0, bl - .2 > h - .9 ? h - 1.0 : bl, "#d6cdb9");
+    s += cama(bx, by, bw, bl) + velador(bx - .52, by + .05) + (w >= 3.4 ? velador(bx + bw + .07, by + .05) : "");
+    if (w >= 3.8 && h >= 3.2) s += RR(x + w - .62, y + h - 2.2, .52, 2.0, MAD, .03) + RR(x + w - .5, y + h - 2.1, .02, 1.8, 'fill="none" stroke="#8f7048" stroke-width=".25"');
+    return s + planta(x + .32, y + h - .35, .22);
+  }
+  function livingM(x, y, w, h) {
+    var s = alfombra(x + .5, y + h - 3.1, Math.min(2.9, w - 1.0), 2.2, "#d9d2c3");
+    var sx = x + .75, sy = y + h - 1.15; s += sofa(sx, sy, 2.2, .95);
+    s += RR(sx + .6, sy - .85, 1.0, .6, MAD, .06) + RR(sx + .72, sy - .78, .36, .26, 'fill="#fff" stroke="#cfc6b6" stroke-width=".3"', .04) + CC(sx + 1.3, sy - .55, .08, 'fill="#e9e3d6" stroke="#cfc6b6" stroke-width=".25"');
+    s += '<g transform="rotate(-18 ' + f1(sx + 2.8) + " " + f1(sy - .2) + ')">' + RR(sx + 2.4, sy - .6, .85, .85, TEL, .3) + RR(sx + 2.4, sy + .1, .85, .15, TELO, .07) + "</g>";
+    if (w >= 4.4) s += mesaRedonda(x + w - 1.4, y + 2.4, 1.1, 4);
+    s += RR(x + .12, y + 1.2, .4, 1.6, MAD, .03) + planta(x + .35, y + .4, .27) + planta(x + w - .35, y + h - .35, .25);
+    return s;
+  }
+  function estarDorm(x, y, w, h) { /* monoambiente: dormitorio arriba, estar abajo */
+    var bw = 1.6, bx = x + w - bw - .75;
+    var s = alfombra(bx - .4, y + .9, bw + .8, 1.85, "#d6cdb9") + cama(bx, y + .12, bw, 2.0) + velador(bx - .52, y + .17) + velador(bx + bw + .07, y + .17);
+    var sy = y + h - 1.2, sx = x + .5;
+    s += alfombra(x + .3, y + h - 3.0, w - .8, 2.1, "#d9d2c3") + sofa(sx, sy, 2.0, .95) + RR(sx + .5, sy - .85, .95, .55, MAD, .06) + CC(x + w - 1.1, y + h - 1.9, .38, TEL) + planta(x + .35, y + 2.2, .27) + mesaRedonda(x + .95, y + 1.0, .8, 2);
+    return s + planta(x + w - .35, y + h - .35, .25);
+  }
+  function cocinaM(x, y, w, h) {
+    var s = RR(x + .08, y + .08, w - .16, .6, 'fill="url(#gBlanco)" stroke="#bfc4c6" stroke-width=".35"', .03);
+    var fr = .7; s += RR(x + w - .08 - fr, y + .08, fr, .7, ACE, .04) + RR(x + w - .08 - fr + .05, y + .13, fr - .1, .06, 'fill="#6e777c"');
+    var hx = x + .5;
+    [[0, 0], [.34, 0], [0, .3], [.34, .3]].forEach(function (p, i) { s += CC(hx + p[0] + .2, y + .26 + p[1] * .6 + .0, i % 3 ? .08 : .11, 'fill="#252a2d" stroke="#555" stroke-width=".2"'); });
+    s += RR(x + w * .5 - .1, y + .16, Math.max(.5, w * .26), .42, ACE, .05) + RR(x + w * .5 + .02, y + .24, Math.max(.5, w * .26) - .24, .26, 'fill="#aeb7bb" stroke="#80898e" stroke-width=".25"', .04) + CC(x + w * .5 + .12 + Math.max(.5, w * .26) - .24, y + .37, .03, 'fill="#555"');
+    if (h >= 3.0) { s += RR(x + .08, y + .68, .6, Math.min(h - 1.0, 1.9), 'fill="url(#gBlanco)" stroke="#bfc4c6" stroke-width=".35"', .03); }
+    if (w >= 2.6 && h >= 3.2) s += RR(x + 1.0, y + h - 1.55, w - 1.5, .85, 'fill="url(#gBlanco)" stroke="#bfc4c6" stroke-width=".35"', .05) + silla(x + 1.5, y + h - .4, .45, 180) + silla(x + w - 1.0, y + h - .4, .45, 180);
+    return s;
+  }
+  function banoM(x, y, w, h) {
+    var tl = Math.min(1.7, w - .3), s = RR(x + .08, y + .08, tl, .78, 'fill="url(#gBlanco)" stroke="#bfc4c6" stroke-width=".4"', .3) + RR(x + .2, y + .18, tl - .24, .58, 'fill="#e9eef0" stroke="#d3dadd" stroke-width=".3"', .26) + CC(x + .45, y + .47, .05, 'fill="#9ca3a7"');
+    var ty = y + h - 1.05;
+    s += RR(x + .25, ty, .4, .24, BLA, .05) + '<ellipse cx="' + f1(x + .45) + '" cy="' + f1(ty + .55) + '" rx="' + f1(.2) + '" ry="' + f1(.3) + '" fill="url(#gBlanco)" stroke="#bfc4c6" stroke-width=".35"/>';
+    var vx = x + w - .85; s += RR(vx, y + h - .62, .7, .5, 'fill="url(#gMadera)" stroke="#8f7048" stroke-width=".35"', .04) + RR(vx + .12, y + h - .56, .46, .34, 'fill="#fff" stroke="#c4c9cb" stroke-width=".3"', .1) + CC(vx + .35, y + h - .39, .035, 'fill="#8d969b"');
+    return s + RR(x + w - .72, y + 1.3, .55, .8, 'fill="#e9e2d2" stroke="#cdbf9f" stroke-width=".3"', .05);
+  }
+  function escrM(x, y, w, h) {
+    var dw = Math.min(1.7, w - 1.0), dx = x + (w - dw) / 2, s = RR(x + .12, y + .12, .4, Math.min(h - .3, 2.2), MAD, .03);
+    s += alfombra(dx - .2, y + .9, dw + .4, 1.4, "#d9d2c3") + RR(dx, y + .1, dw, .72, MAD, .04) + RR(dx + dw / 2 - .3, y + .17, .6, .04, 'fill="#1f2326"') + RR(dx + dw / 2 - .26, y + .21, .52, .3, 'fill="#2a2f33" stroke="#555" stroke-width=".2"', .02) + RR(dx + .2, y + .3, .34, .24, 'fill="#fdf8e9" stroke="#d6cdb4" stroke-width=".2"') + silla(dx + dw / 2, y + 1.2, .5, 180);
+    return s + planta(x + w - .38, y + h - .38, .26);
+  }
+  function mueble(n, x, y, w, h) {
+    n = n.toLowerCase();
+    if (n.indexOf("estar") > -1) return estarDorm(x, y, w, h);
+    if (n.indexOf("living") > -1) return livingM(x, y, w, h);
+    if (n.indexOf("cocina") > -1) return cocinaM(x, y, w, h);
+    if (n.indexOf("baño") > -1) return banoM(x, y, w, h);
+    if (n.indexOf("escritorio") > -1) return escrM(x, y, w, h);
+    return dormM(x, y, w, h, n.indexOf("suite") > -1 ? "king" : "");
+  }
+
+  var GEO = {
+    mono: { W: 7.0, H: 5.4, rooms: [["Estar y dormitorio", 0, 0, 4.4, 5.4], ["Baño", 4.4, 0, 2.6, 2.4], ["Cocina", 4.4, 2.4, 2.6, 3.0]], bal: [-1.2, 0.6, 1.2, 4.2],
+      ven: [[0.6, 0, 1.8, "h"], [2.6, 0, 1.2, "h"], [5.2, 0, 1.2, "h"], [7.0, 3.0, 1.4, "v"]],
+      pu: [[0, 1.2, 1.8, "v", 0], [1.0, 5.4, 0.9, "h", -1], [4.4, 0.8, 0.8, "v", -1], [4.4, 3.2, 1.6, "v", 0]] },
+    dos: { W: 9.0, H: 6.9, rooms: [["Living", 0, 0, 4.8, 4.8], ["Cocina", 0, 4.8, 2.4, 2.1], ["Baño", 2.4, 4.8, 2.4, 2.1], ["Dormitorio", 4.8, 0, 4.2, 3.9], ["Escritorio", 4.8, 3.9, 4.2, 3.0]], bal: [-1.7, 0, 1.7, 4.8],
+      ven: [[0.7, 0, 2.4, "h"], [5.6, 0, 2.6, "h"], [9.0, 0.9, 1.8, "v"], [5.6, 6.9, 2.6, "h"]],
+      pu: [[0, 1.2, 1.9, "v", 0], [3.4, 0, 0.9, "h", 1], [4.8, 2.7, 0.8, "v", -1], [4.8, 4.0, 0.8, "v", 1], [3.0, 4.8, 0.8, "h", -1], [0.3, 4.8, 1.6, "h", 0]] },
+    tres: { W: 11.0, H: 8.5, rooms: [["Living", 0, 0, 5.0, 4.8], ["Cocina", 0, 4.8, 2.8, 3.7], ["Baño", 2.8, 4.8, 2.2, 3.7], ["Dormitorio 1", 5.0, 0, 6.0, 3.4], ["Dormitorio 2", 5.0, 3.4, 3.0, 3.0], ["Dormitorio 3", 8.0, 3.4, 3.0, 3.0], ["Escritorio", 5.0, 6.4, 6.0, 2.1]], bal: [-2.5, 0, 2.5, 4.8],
+      ven: [[0.5, 0, 3.0, "h"], [5.8, 0, 4.4, "h"], [11.0, 0.8, 1.8, "v"], [11.0, 4.0, 1.6, "v"], [6.0, 8.5, 4.0, "h"], [0, 5.6, 1.4, "v"]],
+      pu: [[0, 1.2, 2.4, "v", 0], [3.9, 0, 0.9, "h", 1], [5.0, 2.3, 0.8, "v", -1], [5.0, 3.9, 0.8, "v", -1], [8.2, 6.4, 0.8, "h", -1], [6.0, 6.4, 0.8, "h", -1], [3.4, 4.8, 0.8, "h", -1], [0.4, 4.8, 1.6, "h", 0]] },
+    pent: { W: 13.0, H: 11.4, rooms: [["Living", 0, 0, 6.4, 6.0], ["Cocina", 0, 6.0, 3.4, 5.4], ["Baño", 3.4, 6.0, 3.0, 5.4], ["Suite", 6.4, 0, 6.6, 5.0], ["Dormitorio", 6.4, 5.0, 6.6, 3.4], ["Escritorio", 6.4, 8.4, 6.6, 3.0]], bal: [-6.7, 0, 6.7, 6.0],
+      ven: [[0.8, 0, 4.8, "h"], [7.2, 0, 5.0, "h"], [13.0, 1.0, 2.6, "v"], [13.0, 5.8, 2.0, "v"], [7.6, 11.4, 4.6, "h"]],
+      pu: [[0, 1.4, 3.6, "v", 0], [4.6, 0, 0.9, "h", 1], [6.4, 3.2, 0.8, "v", -1], [6.4, 5.8, 0.8, "v", -1], [6.4, 9.2, 0.8, "v", -1], [4.6, 6.0, 0.8, "h", -1], [0.5, 6.0, 1.8, "h", 0]] }
+  };
+
   function plano(t) {
-    var tot = t.amb.reduce(function (a, r) { return a + r[3] * r[4]; }, 0);
-    var piso = "", pared = "", mue = "", etiq = "", oclu = "", n = 0;
-    t.amb.forEach(function (a) {
-      var x = X(a[1]), y = Y(a[2]), w = a[3] * K, h = a[4] * K, bano = a[0].toLowerCase().indexOf("baño") > -1;
-      piso += R(x, y, w, h, 'fill="url(#' + (bano ? "baldosa" : "madera") + ')"') + (bano ? "" : R(x, y, w, h, 'filter="url(#grano)"'));
-      oclu += '<clipPath id="cp' + (n++) + '"><rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '"/></clipPath><g clip-path="url(#cp' + (n - 1) + ')"><rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="9" filter="url(#difuso)"/></g>';
-      pared += R(x, y, w, h, 'fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="miter"');
-      mue += mueble(a[0], x, y, w, h);
-      var m2 = Math.round(t.m2 * (a[3] * a[4]) / tot);
-      var tx = x + w / 2, ty = y + h - 7, nom = a[0];
-      var ancho = Math.max(nom.length * 3.1, 18) + 4;
-      etiq += R(tx - ancho / 2, ty - 5.2, ancho, 10.6, 'rx="2" fill="#fff" fill-opacity=".92"') + '<text x="' + tx.toFixed(1) + '" y="' + (ty - .2).toFixed(1) + '" class="t1">' + nom + '</text><text x="' + tx.toFixed(1) + '" y="' + (ty + 4).toFixed(1) + '" class="t2">' + m2 + ' m²</text>';
-      if (a[2] === 0 && !bano) { var wx = x + w * .12, ww = w * .76; pared += R(wx, y - 1.6, ww, 3.2, 'fill="#eaf1f4" stroke="currentColor" stroke-width=".7"') + '<line x1="' + wx.toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + (wx + ww).toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="currentColor" stroke-width=".5"/>'; }
+    var g = GEO[t.id], piso = "", pared = "", mue = "", etiq = "", oclu = "", n = 0;
+    var b = g.bal, minx = Math.min(0, b[0]), maxx = Math.max(g.W, b[0] + b[2]), miny = 0, maxy = g.H;
+    var vw0 = (Math.max(g.W, b[0] + b[2]) - Math.min(0, b[0]) + 2) * K, fs = vw0 * 0.0185, fm = fs / K;
+    g.rooms.forEach(function (a) {
+      var nom = a[0], x = a[1], y = a[2], w = a[3], h = a[4], bano = nom.toLowerCase().indexOf("baño") > -1, coc = nom.toLowerCase().indexOf("cocina") > -1;
+      piso += RR(x, y, w, h, 'fill="url(#' + (bano ? "baldosa" : coc ? "ceramico" : "madera") + ')"') + ((bano || coc) ? "" : RR(x, y, w, h, 'filter="url(#grano)"'));
+      oclu += '<clipPath id="cp' + n + '"><rect x="' + f1(x) + '" y="' + f1(y) + '" width="' + f1(w) + '" height="' + f1(h) + '"/></clipPath><g clip-path="url(#cp' + n + ')">' + RR(x, y, w, h, 'fill="none" stroke="#000" stroke-opacity=".42" stroke-width="7" filter="url(#difuso)"') + "</g>"; n++;
+      pared += RR(x, y, w, h, 'fill="none" stroke="currentColor" stroke-width="' + WT + '" stroke-linejoin="miter"');
+      mue += mueble(nom, x, y, w, h);
+      var m2 = Math.round(w * h), l = nom.toLowerCase(), alto = l.indexOf("living") > -1 || l.indexOf("estar") > -1, tx = l.indexOf("estar") > -1 ? x + 1.9 : (l.indexOf("living") > -1 ? x + 1.7 : x + w / 2), ty = l.indexOf("estar") > -1 ? y + 2.8 : (l.indexOf("living") > -1 ? y + 1.2 : y + h - .5), ancho = nom.length * fm * .6 + fm * 2.2;
+      etiq += RR(tx - ancho / 2, ty - fm * 1.25, ancho, fm * 2.9, 'fill="#fff" fill-opacity=".93" stroke="#d8d4cb" stroke-width=".2"', fm * .6) + '<text x="' + f1(tx) + '" y="' + f1(ty) + '" class="t1">' + nom + '</text><text x="' + f1(tx) + '" y="' + f1(ty + fm * 1.2) + '" class="t2">' + m2 + " m²</text>";
     });
-    var e = t.ext_r, ex = X(e[0]), ey = Y(e[1]), ew = e[2] * K, eh = e[3] * K;
-    piso += R(ex, ey, ew, eh, 'fill="url(#deck)"');
-    pared += R(ex, ey, ew, eh, 'fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 2"');
-    mue += planta(ex + 7, ey + eh / 2, 3.2) + planta(ex + ew - 7, ey + eh / 2, 3.2) + C(ex + ew / 2, ey + eh / 2, 3.6, MADERA) + silla(ex + ew / 2 - 8, ey + eh / 2, 2.4) + silla(ex + ew / 2 + 8, ey + eh / 2, 2.4);
-    var tx2 = ex + ew / 2, ty2 = ey + eh + 7;
-    etiq += '<text x="' + tx2.toFixed(1) + '" y="' + ty2.toFixed(1) + '" class="t2">' + e[4] + ', ' + t.ext.replace(/^\D+/, "").replace(/ .*/, "") + ' m²</text>';
-    var VB = '0 0 220 ' + (OY + 76 * K + 24);
-    var defs = '<defs><pattern id="madera" width="12" height="4" patternUnits="userSpaceOnUse"><rect width="12" height="4" fill="#e7dac4"/><path d="M0 0H12M0 4H12" stroke="#d6c7ac" stroke-width=".5"/><path d="M5 0V4" stroke="#dccfb7" stroke-width=".3"/></pattern>' +
-      '<pattern id="baldosa" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#ecebe7"/><path d="M0 0H6V6" fill="none" stroke="#dcdad3" stroke-width=".4"/></pattern>' +
-      '<pattern id="deck" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#dedbd3"/><path d="M0 0H5" stroke="#cfcbc1" stroke-width=".5"/></pattern>' +
-      '<filter id="sombra" x="-8%" y="-8%" width="120%" height="125%"><feDropShadow dx="0" dy="2.6" stdDeviation="2" flood-color="#2a1d0e" flood-opacity=".38"/></filter>' +
-      '<filter id="difuso" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3.2"/></filter>' +
-      '<filter id="grano" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.95" numOctaves="2" seed="7" result="r"/><feColorMatrix in="r" type="matrix" values="0 0 0 0 .42  0 0 0 0 .27  0 0 0 0 .12  0 0 0 .9 -.32"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
-      '<filter id="tejido" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="3" result="r"/><feColorMatrix in="r" type="matrix" values="0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .22  0 0 0 .7 -.22"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
-      '<linearGradient id="gTela" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfbf7"/><stop offset="1" stop-color="#e4dccd"/></linearGradient>' +
-      '<linearGradient id="gMadera" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b88c"/><stop offset="1" stop-color="#b98f5f"/></linearGradient>' +
-      '<radialGradient id="luz" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".7" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
-    var comp = '<g transform="translate(200 12)"><circle r="6.4" fill="#fff" stroke="#1a1a1a" stroke-width=".6"/><path d="M0 -4L2.6 3L0 1.6L-2.6 3Z" fill="#1a1a1a"/><text y="-8.5" class="t2">N</text></g>';
-    function svg(cls, cont, z, estilo) { return '<svg class="capa ' + cls + '" viewBox="' + VB + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="' + (z !== undefined ? "transform:translateZ(" + z + "px);" : "") + (estilo || "") + '">' + (cls === "c-piso" ? defs : "") + cont + '</svg>'; }
+    // exterior
+    piso += RR(b[0], b[1], b[2], b[3], 'fill="url(#deck)"');
+    pared += RR(b[0], b[1], b[2], b[3], 'fill="none" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 2"');
+    var vert = b[3] > b[2];
+    mue += planta(b[0] + (vert ? b[2] / 2 : .5), b[1] + (vert ? .5 : b[3] / 2), .3) + planta(b[0] + (vert ? b[2] / 2 : b[2] - .5), b[1] + (vert ? b[3] - .5 : b[3] / 2), .3)
+      + (vert ? CC(b[0] + b[2] / 2, b[1] + b[3] / 2, .45, MAD) + silla(b[0] + b[2] / 2, b[1] + b[3] / 2 - 1.0, .45, 180) + silla(b[0] + b[2] / 2, b[1] + b[3] / 2 + 1.0, .45, 0)
+        : CC(b[0] + b[2] / 2, b[1] + b[3] / 2, .45, MAD) + silla(b[0] + b[2] / 2 - 1.0, b[1] + b[3] / 2, .45, 90) + silla(b[0] + b[2] / 2 + 1.0, b[1] + b[3] / 2, .45, 270));
+    etiq += '<text x="' + f1(b[0] + b[2] / 2) + '" y="' + f1(b[1] + b[3] + .7) + '" class="t2">' + t.ext.split(" de ")[0].replace(/^(\S+)\s.*$/, "$1").replace("Balcón", "Balcón").replace("Terraza", "Terraza") + ", " + Math.round(b[2] * b[3]) + " m²</text>";
+    if (vert) maxy = Math.max(maxy, b[1] + b[3]);
+    // ventanas y puertas
+    var fin = "";
+    g.ven.forEach(function (v) {
+      var x = v[0], y = v[1], L = v[2], h = v[3] === "h";
+      pared += (h ? RR(x, y - .13, L, .26, 'fill="#dbeaf0" stroke="currentColor" stroke-width=".4"') + '<line x1="' + f1(x) + '" y1="' + f1(y) + '" x2="' + f1(x + L) + '" y2="' + f1(y) + '" stroke="#7d9aa5" stroke-width=".5"/>'
+        : RR(x - .13, y, .26, L, 'fill="#dbeaf0" stroke="currentColor" stroke-width=".4"') + '<line x1="' + f1(x) + '" y1="' + f1(y) + '" x2="' + f1(x) + '" y2="' + f1(y + L) + '" stroke="#7d9aa5" stroke-width=".5"/>');
+    });
+    g.pu.forEach(function (p) {
+      var x = p[0], y = p[1], L = p[2], h = p[3] === "h", s = p[4];
+      pared += h ? RR(x, y - .1, L, .2, 'fill="#e6d6b8"') : RR(x - .1, y, .2, L, 'fill="#e6d6b8"');
+      if (!s) return;
+      if (h) fin += '<path d="M ' + f1(x + L) + " " + f1(y) + " A " + f1(L) + " " + f1(L) + " 0 0 " + (s === 1 ? 1 : 0) + " " + f1(x) + " " + f1(y + s * L) + '" fill="none" stroke="#6b665c" stroke-width=".3"/><line x1="' + f1(x) + '" y1="' + f1(y) + '" x2="' + f1(x) + '" y2="' + f1(y + s * L) + '" stroke="#3a3731" stroke-width=".6"/>';
+      else fin += '<path d="M ' + f1(x) + " " + f1(y + L) + " A " + f1(L) + " " + f1(L) + " 0 0 " + (s === 1 ? 0 : 1) + " " + f1(x + s * L) + " " + f1(y) + '" fill="none" stroke="#6b665c" stroke-width=".3"/><line x1="' + f1(x) + '" y1="' + f1(y) + '" x2="' + f1(x + s * L) + '" y2="' + f1(y) + '" stroke="#3a3731" stroke-width=".6"/>';
+    });
+    mue += fin;
+    var pad = 1.0, vx = (minx - pad) * K, vy = (miny - pad - 1.2) * K, vw = (maxx - minx + 2 * pad) * K, vh = (maxy - miny + 2 * pad + 1.2 + (vert ? 0.2 : 1.6)) * K;
+    var VB = vx.toFixed(0) + " " + vy.toFixed(0) + " " + vw.toFixed(0) + " " + vh.toFixed(0);
+    var defs = '<defs><pattern id="madera" width="14" height="1.4" patternUnits="userSpaceOnUse"><rect width="14" height="1.4" fill="#e3cfa9"/><path d="M0 0H14" stroke="#c9b189" stroke-width=".22"/><path d="M5 0V1.4M11 0V1.4" stroke="#d3be99" stroke-width=".16"/></pattern>' +
+      '<pattern id="baldosa" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#ece9e2"/><path d="M0 0H6V6" fill="none" stroke="#d9d4c8" stroke-width=".3"/></pattern>' +
+      '<pattern id="ceramico" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#d9d6cf"/><path d="M0 0H6V6" fill="none" stroke="#c4c0b6" stroke-width=".3"/></pattern>' +
+      '<pattern id="deck" width="12" height="2" patternUnits="userSpaceOnUse"><rect width="12" height="2" fill="#d6d2c8"/><path d="M0 0H12" stroke="#bfbaae" stroke-width=".3"/></pattern>' +
+      '<filter id="sombra" x="-6%" y="-6%" width="112%" height="118%"><feDropShadow dx="0" dy="1.6" stdDeviation="1.2" flood-color="#2a1d0e" flood-opacity=".4"/></filter>' +
+      '<filter id="difuso" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.4"/></filter>' +
+      '<filter id="grano" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.02 0.9" numOctaves="2" seed="7" result="r"/><feColorMatrix in="r" type="matrix" values="0 0 0 0 .42  0 0 0 0 .27  0 0 0 0 .12  0 0 0 .9 -.34"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
+      '<filter id="tejido" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="3" result="r"/><feColorMatrix in="r" type="matrix" values="0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .22  0 0 0 .8 -.28"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
+      '<linearGradient id="gTela" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfbf7"/><stop offset="1" stop-color="#e2d9c8"/></linearGradient>' +
+      '<linearGradient id="gTelaO" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e1d1"/><stop offset="1" stop-color="#cfc4ae"/></linearGradient>' +
+      '<linearGradient id="gManta" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2d6bf"/><stop offset="1" stop-color="#cdbf9f"/></linearGradient>' +
+      '<linearGradient id="gMadera" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b88c"/><stop offset="1" stop-color="#b58a58"/></linearGradient>' +
+      '<linearGradient id="gBlanco" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e3e6e7"/></linearGradient>' +
+      '<linearGradient id="gAcero" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d3d9dc"/><stop offset=".5" stop-color="#f1f4f5"/><stop offset="1" stop-color="#b9c1c5"/></linearGradient>' +
+      '<radialGradient id="luz" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset=".7" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
+    var comp = '<g transform="translate(' + f1(maxx + .2) + " " + f1(miny - .2) + ')"><circle r="7" fill="#fff" stroke="#1a1a1a" stroke-width=".6"/><path d="M0 -4.4L2.8 3.2L0 1.7L-2.8 3.2Z" fill="#1a1a1a"/><text y="-9.4" class="t2">N</text></g>';
+    function svg(cls, cont, z, estilo) { return '<svg class="capa ' + cls + '" viewBox="' + VB + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="--fs:' + fs.toFixed(2) + ';' + (z !== undefined ? "transform:translateZ(" + z + "px);" : "") + (estilo || "") + '">' + (cls === "c-piso" ? defs : "") + cont + "</svg>"; }
     return '<div class="p3d" role="img" aria-label="Plano de ' + t.nombre + ', con muebles"><div class="cuerpo">' +
-      svg("c-piso", piso + oclu + R(X(0), Y(0), 200, 152, 'fill="url(#luz)"')) + extruir(svg, pared, "c-pared", 12, 8, 1.7, ["#0b0b0b", "#2a2a2a"], true) + extruir(svg, mue, "c-mueble", 26, 4, 1.6, null, false) + svg("c-etiq", etiq + comp, 44) + '</div></div>';
+      svg("c-piso", piso + oclu + RR(minx, miny, maxx - minx, maxy - miny, 'fill="url(#luz)"')) + extruir(svg, pared, "c-pared", 12, 8, 1.7, ["#0b0b0b", "#2a2a2a"], true) + extruir(svg, mue, "c-mueble", 26, 4, 1.6, null, false) + svg("c-etiq", etiq + comp, 44) + "</div></div>";
   }
 
   function fotoTipo(id) { var i = document.querySelector('#fotos-tipo img[data-t="' + id + '"]'); return i ? i.getAttribute('src') : ''; }
