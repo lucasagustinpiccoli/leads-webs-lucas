@@ -187,8 +187,8 @@
 
   /* página del catálogo */
   .vcat{padding:calc(64px + clamp(24px,4vw,56px)) var(--gut) clamp(56px,8vw,110px);min-height:100svh}
-  .vcat-c{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
-  .filtros{position:sticky;top:90px;display:grid;gap:26px;max-height:calc(100svh - 110px);overflow:auto;padding-right:8px}
+  .vcat-c{display:grid;grid-template-columns:210px minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
+  .filtros{display:grid;gap:26px}
   .filtros legend{font-weight:600;margin-bottom:10px;font-size:1rem}
   .filtros fieldset{border:0}
   .chk{display:flex;align-items:center;gap:12px;min-height:36px;cursor:pointer;font-size:.88rem;text-transform:uppercase;letter-spacing:.01em}
@@ -201,13 +201,14 @@
   .vcat-t{display:flex;align-items:baseline;gap:16px;margin-bottom:22px}
   .vcat-t h1{font-size:clamp(1.8rem,3vw,2.4rem)}
   .vcat-t span{color:var(--suave)}
-  .vcat .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 22px}
+  .vcat .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:30px 18px}
   .vcat .prod .foto{border-radius:20px;aspect-ratio:4/5}
-  .vcat .prod h3{font-size:1.2rem;margin-top:14px}
-  .vcat .prod p{font-size:.88rem;letter-spacing:.03em;margin-top:6px}
+  .vcat .prod h3{font-size:1.05rem;margin-top:12px}
+  .vcat .prod p{font-size:.78rem;letter-spacing:.03em;margin-top:6px}
   .b-fil{display:none;min-height:44px;border:1px solid var(--tinta);padding:0 22px;font-weight:500}
-  @media (max-width:1100px){.vcat .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:800px){.vcat-c{grid-template-columns:minmax(0,1fr)}.b-fil{display:inline-flex;align-items:center}.filtros{display:none;position:static;max-height:none;margin-top:14px;padding:16px 0}.filtros.ab{display:grid}}
+  @media (max-width:1250px){.vcat .grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (max-width:1000px){.vcat .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:800px){.vcat-c{grid-template-columns:minmax(0,1fr)}.b-fil{display:inline-flex;align-items:center}.filtros{display:none;margin-top:14px;padding:16px 0}.filtros.ab{display:grid}}
 
   /* menú de colecciones que se despliega (como en La Feliz) */
   .barra nav a,.barra nav button{position:relative}
