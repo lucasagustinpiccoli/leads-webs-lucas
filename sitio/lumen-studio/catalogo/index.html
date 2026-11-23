@@ -249,10 +249,13 @@
   .mega-g.sub:not(.c4){grid-template-columns:repeat(4,minmax(0,1fr))}
   @media (max-width:900px){.mega-cat{grid-template-columns:minmax(0,1fr)}.mega-g.c4,.mega-g.sub:not(.c4){grid-template-columns:repeat(2,minmax(0,1fr))}.mc-cats{columns:2}}
 
-  .galeria{padding-block:clamp(48px,7vw,96px) 0}
-  .galeria h2{font-size:1.5rem;font-weight:500;margin-bottom:20px}
-  .gal-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
-  .gal-g img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px}
+  .galeria{padding-block:clamp(56px,8vw,110px) clamp(40px,6vw,80px)}
+  .rev-t{font-size:clamp(1.6rem,3.4vw,2.8rem);letter-spacing:-.03em;line-height:1.12;max-width:26ch;margin-bottom:clamp(28px,4vw,48px);font-weight:500;text-wrap:balance}
+  .rev-t .pw{transition:color .2s}
+  .gal-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,22px)}
+  .gal-g figure{display:grid;gap:10px}
+  .gal-g img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:20px;background:var(--papel-2)}
+  .gal-g figcaption{font-size:.98rem;font-weight:500}
   @media (max-width:700px){.gal-g{grid-template-columns:repeat(2,minmax(0,1fr))}}
   .lista{padding-block:clamp(56px,8vw,110px);text-align:center}
   .lista h2{font-size:clamp(1.6rem,3vw,2.4rem)}
@@ -337,13 +340,13 @@
     <div class="info"><small>Materiales</small><h2>Piedra, madera y lino, elegidos a mano</h2><p>Antes de fabricar, mostramos las muestras en el taller para que elijas el acabado de cada pieza.</p><button type="button" class="btn-o" data-ir="">Ver el catálogo</button></div>
   </section>
 
-  <section class="galeria w">
-    <h2>En el taller</h2>
+  <section class="galeria w" aria-label="En el taller">
+    <p class="rev-t" id="rev-t" data-texto="Cada pieza empieza con un boceto, pasa por la madera y la piedra, y se prueba antes de llegar a tu casa.">Cada pieza empieza con un boceto, pasa por la madera y la piedra, y se prueba antes de llegar a tu casa.</p>
     <div class="gal-g">
-      <img src="img/diseno.jpg" alt="Manos dibujando el boceto de una pieza" loading="lazy" width="1400" height="933">
-      <img src="img/cepillo.jpg" alt="Cepillado de una tabla de madera" loading="lazy" width="1400" height="933">
-      <img src="img/muestras.jpg" alt="Muestras de telas, maderas y piedras" loading="lazy" width="1400" height="933">
-      <img src="img/travertino.jpg" alt="Primer plano de una piedra con vetas anaranjadas" loading="lazy" width="933" height="1400">
+      <figure><img src="img/diseno.jpg" alt="Manos dibujando el boceto de una pieza" loading="lazy" width="1400" height="933"><figcaption>Boceto</figcaption></figure>
+      <figure><img src="img/cepillo.jpg" alt="Cepillado de una tabla de madera" loading="lazy" width="1400" height="933"><figcaption>Madera</figcaption></figure>
+      <figure><img src="img/muestras.jpg" alt="Muestras de telas, maderas y piedras" loading="lazy" width="1400" height="933"><figcaption>Muestras</figcaption></figure>
+      <figure><img src="img/travertino.jpg" alt="Primer plano de una piedra con vetas anaranjadas" loading="lazy" width="933" height="1400"><figcaption>Piedra</figcaption></figure>
     </div>
   </section>
 
@@ -383,7 +386,7 @@
   <div class="pie">© 2026 Arce</div>
 </footer>
 
-<div hidden id="fuentes-img"><img data-k="taller" src="img/taller.jpg" alt=""><img data-k="diseno" src="img/diseno.jpg" alt=""><img data-k="materiales" src="img/materiales.jpg" alt=""><img data-k="estudio" src="img/estudio.jpg" alt=""><img data-k="tienda" src="img/tienda.jpg" alt=""><img data-k="cepillo" src="img/cepillo.jpg" alt=""><img data-k="muestras" src="img/muestras.jpg" alt=""><img data-k="travertino" src="img/travertino.jpg" alt=""><img data-k="living" src="img/living.jpg" alt=""><img data-k="mesas" src="img/mesas.jpg" alt=""><img data-k="comedor" src="img/comedor.jpg" alt=""><img data-k="cocina" src="img/cocina.jpg" alt=""><img data-k="barra" src="img/barra.jpg" alt=""><img data-k="cama" src="img/cama.jpg" alt=""><img data-k="lampara" src="img/lampara.jpg" alt=""><img data-k="dormitorio" src="img/dormitorio.jpg" alt=""></div>
+<div hidden id="fuentes-img"><img data-k="col-duna" src="img/col-duna.jpg" alt=""><img data-k="col-meridiano" src="img/col-meridiano.jpg" alt=""><img data-k="col-basalto" src="img/col-basalto.jpg" alt=""><img data-k="col-totem" src="img/col-totem.jpg" alt=""><img data-k="col-orbita" src="img/col-orbita.jpg" alt=""><img data-k="taller" src="img/taller.jpg" alt=""><img data-k="diseno" src="img/diseno.jpg" alt=""><img data-k="materiales" src="img/materiales.jpg" alt=""><img data-k="estudio" src="img/estudio.jpg" alt=""><img data-k="tienda" src="img/tienda.jpg" alt=""><img data-k="cepillo" src="img/cepillo.jpg" alt=""><img data-k="muestras" src="img/muestras.jpg" alt=""><img data-k="travertino" src="img/travertino.jpg" alt=""><img data-k="living" src="img/living.jpg" alt=""><img data-k="mesas" src="img/mesas.jpg" alt=""><img data-k="comedor" src="img/comedor.jpg" alt=""><img data-k="cocina" src="img/cocina.jpg" alt=""><img data-k="barra" src="img/barra.jpg" alt=""><img data-k="cama" src="img/cama.jpg" alt=""><img data-k="lampara" src="img/lampara.jpg" alt=""><img data-k="dormitorio" src="img/dormitorio.jpg" alt=""></div>
 <div class="vel" id="vel"></div>
 <aside class="caj" id="caj-pres" role="dialog" aria-modal="true" aria-label="Presupuesto" aria-hidden="true">
   <div class="caj-c"><h2>Presupuesto</h2><button type="button" data-cerrar aria-label="Cerrar">×</button></div>
@@ -565,7 +568,8 @@
     function tarj2(img, ox, oy, texto, attr){ return '<button type="button" ' + attr + '><span class="im"><img src="' + src(img) + '" alt="" loading="lazy" style="object-position:' + ox + '% ' + oy + '%"></span><b>' + texto + '</b></button>'; }
     $("mc-cats").innerHTML = ["Sofás", "Mesas", "Sillas y banquetas", "Sillones y otomanos", "Lámparas", "Camas", "Alfombras", "Muebles de guardado", "Objetos"].map(function(k){ return '<li><button type="button" data-k="' + k + '">' + k + '</button></li>'; }).join("");
     $("mg-cat").innerHTML = [["living", 70, 62, "Living"], ["comedor", 55, 70, "Comedor"], ["cama", 20, 70, "Habitación"], ["cocina", 70, 70, "Cocina"]].map(function(a){ return tarj2(a[0], a[1], a[2], a[3], 'data-amb="' + a[3] + '"'); }).join("");
-    $("mega-g").innerHTML = unoPor("col").slice(0, 5).map(function(p){ return tarj(p.img, p.ox, p.oy, Math.max(1.2, p.z * .8), p.col, 'data-col="' + p.col + '"'); }).join("");
+    var CI = { "Duna": ["col-duna", 55, 60], "Meridiano": ["col-meridiano", 50, 55], "Basalto": ["col-basalto", 50, 45], "Tótem": ["col-totem", 50, 50], "Órbita": ["col-orbita", 50, 55] };
+    $("mega-g").innerHTML = ["Duna", "Meridiano", "Basalto", "Tótem", "Órbita"].map(function(n){ var c = CI[n]; return tarj(c[0], c[1], c[2], 1, n, 'data-col="' + n + '"'); }).join("");
     $("mg-nos").innerHTML = [["estudio", 50, 50, "Quiénes somos", "#taller"], ["diseno", 50, 50, "Diseño", "#taller"], ["taller", 50, 50, "Taller", "#taller"], ["materiales", 50, 50, "Materiales", "#materiales"]].map(function(a){ return tarj2(a[0], a[1], a[2], a[3], 'data-href="' + a[4] + '"'); }).join("");
     var h = $("cab"), m = $("mega"), btns = [].slice.call(document.querySelectorAll("[data-mega]")), bm = $("b-menu"), t;
     function abrirM(k){ clearTimeout(t); m.dataset.act = k; h.classList.add("abre-mega"); btns.forEach(function(b){ b.setAttribute("aria-expanded", String(b.dataset.mega === k)); }); }
@@ -588,6 +592,20 @@
       F = { k: c.dataset.k ? [c.dataset.k] : [], col: c.dataset.col ? [c.dataset.col] : [], amb: c.dataset.amb ? [c.dataset.amb] : [], q: "", t: c.dataset.t || "" }; $("q").value = "";
       if (location.hash === "#/catalogo") pintarCat(); else location.hash = "#/catalogo";
     });
+  })();
+
+
+  /* ---- frase que se aclara con el scroll (idea de Text Reveal on Scroll) ---- */
+  (function(){
+    var el = $("rev-t"); if (!el) return;
+    var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.innerHTML = el.dataset.texto.split(/\s+/).map(function(w){ return '<span class="pw">' + w + '</span>'; }).join(" ");
+    var ws = [].slice.call(el.querySelectorAll(".pw")), n = ws.length, A = [185, 180, 172], B = [20, 18, 16];
+    function pintar(){
+      var r = el.getBoundingClientRect(), vh = window.innerHeight, p = reducido ? 1 : Math.max(0, Math.min(1, (vh * .9 - r.top) / (vh * .45 + r.height)));
+      ws.forEach(function(w, i){ var t = Math.max(0, Math.min(1, p * n - i)); w.style.color = "rgb(" + A.map(function(a, k){ return Math.round(a + (B[k] - a) * t); }).join(",") + ")"; });
+    }
+    window.addEventListener("scroll", pintar, { passive: true }); window.addEventListener("resize", pintar); pintar();
   })();
 
   pintar(); actualizar(); ruta();
