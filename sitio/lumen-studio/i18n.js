@@ -10,7 +10,7 @@
     "Empezá tu proyecto": "Start your project",
     "Halo Studio, diseño web para negocios locales": "Halo Studio, web design for local businesses",
     "Diseño web para": "Web design for",
-    "Mirá tu página terminada antes de pagar nada. Si te gusta, seguimos. Si no, no pasó nada.": "See your finished website before you pay anything. If you like it, we continue. If not, nothing happens.",
+    "Tu sitio listo en 7 días. Demo gratuita.": "Your website ready in 7 days. Free demo.",
     "Ver proyectos": "See our projects",
     "Cómo te ayudamos": "How we help",
     "Tu negocio ya hace bien su trabajo. Lo nuestro es que más gente lo conozca, lo elija y te escriba, y que a vos te cueste menos atenderla.": "Your business already does great work. Ours is helping more people find it, choose it and get in touch, while making it easier for you to look after them.",
