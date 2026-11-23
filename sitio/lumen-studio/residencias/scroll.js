@@ -24,6 +24,14 @@
   window.addEventListener("resize", alScroll);
   meta = progresoInicio(); actual = meta; ap.style.setProperty("--p", actual.toFixed(4));
 
+
+  /* ---- texto del inicio: aparece desenfocado y se aclara, letra por letra ---- */
+  (function () {
+    var h = document.querySelector(".inicio h1"); if (!h || reducido) return;
+    var t = h.textContent; h.setAttribute("aria-label", t);
+    h.innerHTML = t.split("").map(function (c, i) { return '<span class="rev" aria-hidden="true" style="--i:' + i + '">' + c + "</span>"; }).join("");
+  })();
+
   /* ---- relato ---- */
   var rel = document.getElementById("escena");
   var fotos = [].slice.call(rel.querySelectorAll(".foto")), paneles = [].slice.call(rel.querySelectorAll(".panel")), marcas = [].slice.call(rel.querySelectorAll(".pasos i"));

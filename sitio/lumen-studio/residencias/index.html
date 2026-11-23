@@ -50,6 +50,18 @@
   .inicio .marco{position:relative;width:100%;height:100%;overflow:hidden;border-radius:calc(var(--p,0) * 44px);background:#222;isolation:isolate}
   .inicio .marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transform:scale(calc(1.08 - var(--p,0) * .08))}
   .inicio .marco::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.82) 0%,rgba(10,10,10,.25) 48%,rgba(10,10,10,.35) 100%)}
+  .inicio .movil{position:absolute;inset:0}
+  .inicio .movil img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transform:scale(calc(1.08 - var(--p,0) * .08));animation:deriva 16s ease-in-out infinite alternate}
+  .inicio .movil .m1{animation:alterna 14s ease-in-out infinite,deriva 16s ease-in-out infinite alternate}
+  .inicio .movil .m2{opacity:0;animation:alterna 14s ease-in-out infinite reverse,deriva 16s ease-in-out infinite alternate-reverse}
+  @keyframes alterna{0%,42%{opacity:1}50%,92%{opacity:0}100%{opacity:1}}
+  @keyframes deriva{from{translate:-1.2% 0;scale:1.04}to{translate:1.2% -.6%;scale:1.12}}
+  .inicio .marco img{animation:none}
+  .rev{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(14px);animation:rev .9s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(var(--i) * 60ms + .25s)}
+  @keyframes rev{to{opacity:1;filter:blur(0);transform:none}}
+  .inicio .lado{opacity:0;animation:aparece 1s ease forwards;animation-delay:1.1s}
+  @keyframes aparece{to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.inicio .movil img,.rev,.inicio .lado{animation:none!important;opacity:1;filter:none;transform:none}.inicio .movil .m2{opacity:0}}
   .inicio .texto{position:absolute;left:0;right:0;bottom:clamp(28px,5vw,64px);z-index:2}
   .inicio .texto .w{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:end;justify-content:space-between}
   .inicio h1{font-family:var(--marca);font-weight:500;font-size:clamp(3.6rem,13vw,11rem);letter-spacing:-.07em;line-height:.88;color:#fff}
@@ -234,7 +246,7 @@
   <section class="inicio" id="apertura" aria-label="Presentación del proyecto">
     <div class="escena">
       <div class="marco">
-        <img src="img/hero.jpg" alt="Bloques del complejo residencial con balcones" width="1900" height="1267">
+        <div class="movil" aria-hidden="true"><img class="m1" src="img/hero.jpg" alt="" width="1900" height="1267"><img class="m2" src="img/fachada.jpg" alt="" width="1900" height="1267"></div>
         <div class="texto"><div class="w">
           <h1>Solana</h1>
           <div class="lado">
