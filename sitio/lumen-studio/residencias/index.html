@@ -44,35 +44,23 @@
   @media (hover:hover){header nav a:not(.btn):hover{opacity:1}}
 
   main{position:relative;z-index:2}
-  /* inicio: tarjetas que suben apiladas sobre una foto fija (idea del componente MISSION-VISION de Framer) */
-  .inicio{height:360vh;position:relative;background:var(--noche)}
-  .inicio .escena{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:clamp(16px,2.4vw,28px)}
-  .inicio .fondo{position:absolute;inset:0}
-  .inicio .fondo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
-  .inicio .fondo::after{content:"";position:absolute;inset:0;background:rgba(10,10,10,.58)}
-  .ventana{position:relative;z-index:1;width:var(--cw);height:var(--ch);overflow:hidden;flex:0 0 auto}
-  .pista{position:absolute;top:0;left:0;width:100%;display:flex;flex-direction:column;gap:var(--cg);will-change:transform}
-  .tarjeta{flex:0 0 auto;height:var(--ch);display:flex;background:var(--papel);color:var(--tinta);border-radius:20px;overflow:hidden;border:1px solid rgba(10,10,10,.14);will-change:opacity,transform}
-  .tarjeta.inv{flex-direction:row-reverse}
-  .tarjeta .im{position:relative;flex:0 0 46%;margin:16px;border-radius:12px;overflow:hidden;background:#ddd}
-  .tarjeta .im div{position:absolute;inset:-32px}
-  .tarjeta .im img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.05)}
-  .tarjeta .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;gap:22px;padding:clamp(24px,3.4vw,44px)}
-  .tarjeta h2{font-size:clamp(3rem,6.2vw,5.5rem);font-weight:600;letter-spacing:-.05em;line-height:.95;color:var(--tinta)}
-  .tarjeta p{color:#5E5E5E;font-weight:500;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.5;max-width:40ch}
-  .tarjeta .btn{background:var(--tinta);color:#fff;align-self:flex-start}
-  .progreso{position:relative;z-index:1;width:var(--cw);flex:0 0 auto}
-  .progreso .riel{position:relative;height:2px;background:rgba(255,255,255,.25)}
-  .progreso .riel i{position:absolute;left:0;top:-2px;bottom:-2px;width:0;background:#fff}
-  .progreso .rotulos{display:flex;justify-content:space-between;margin-top:12px}
-  .progreso button{background:none;border:0;cursor:pointer;color:#fff;font-weight:600;font-size:.98rem;opacity:.6;padding:6px 0;min-height:44px;transition:opacity .3s}
-  .progreso button[aria-selected="true"]{opacity:1}
-  @media (max-width:900px){
-    .tarjeta,.tarjeta.inv{flex-direction:column}
-    .tarjeta .im{flex:0 0 38%;margin:12px 12px 0}
-    .tarjeta .tx{padding:18px 20px 22px;gap:14px}
-    .tarjeta h2{font-size:clamp(2.4rem,11vw,3.4rem)}
-  }
+  /* inicio: la foto ocupa todo y, al bajar, se encoge con márgenes y esquinas redondeadas (idea de RadiusOnScroll de Framer) */
+  .inicio{height:165vh;position:relative;background:var(--papel)}
+  .inicio .escena{position:sticky;top:0;height:100svh;padding:calc(var(--p,0) * var(--pad,22px));box-sizing:border-box}
+  .inicio .marco{position:relative;width:100%;height:100%;overflow:hidden;border-radius:calc(var(--p,0) * 44px);background:#222;isolation:isolate}
+  .inicio .marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transform:scale(calc(1.08 - var(--p,0) * .08))}
+  .inicio .marco::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.82) 0%,rgba(10,10,10,.25) 48%,rgba(10,10,10,.35) 100%)}
+  .inicio .texto{position:absolute;left:0;right:0;bottom:clamp(28px,5vw,64px);z-index:2}
+  .inicio .texto .w{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:end;justify-content:space-between}
+  .inicio h1{font-family:var(--marca);font-weight:500;font-size:clamp(3.6rem,13vw,11rem);letter-spacing:-.07em;line-height:.88;color:#fff}
+  .inicio .lado{display:grid;gap:22px;max-width:380px}
+  .inicio .lado p{color:#fff;font-size:clamp(1.02rem,1.5vw,1.2rem);line-height:1.45}
+  .inicio .cifras{display:flex;gap:clamp(18px,3vw,36px);border-top:1px solid var(--linea);padding-top:14px}
+  .inicio .cifras div{display:flex;flex-direction:column-reverse}
+  .inicio .cifras dt{font-size:.85rem;color:var(--suave)}
+  .inicio .cifras dd{font-family:var(--marca);font-weight:500;font-size:1.25rem;font-variant-numeric:tabular-nums}
+  .inicio .acciones{display:flex;flex-wrap:wrap;gap:12px}
+  @media (max-width:900px){.inicio{--pad:12px}.inicio .texto .w{align-items:start}.inicio h1{font-size:clamp(3.4rem,22vw,7rem)}}
 
   /* relato: las fotos cambian al bajar */
   .relato{height:520vh;position:relative;background:var(--noche)}
@@ -217,7 +205,7 @@
     footer{padding-bottom:96px}
   }
   @media (max-width:520px){.contacto dl div{grid-template-columns:96px 1fr}.panel dl{grid-template-columns:repeat(3,auto);justify-content:space-between}}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.inicio{height:100svh}.foto img{transform:none}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.foto img{transform:none}}
 </style>
 </head>
 <body>
@@ -242,18 +230,16 @@
 <main id="inicio">
   <section class="inicio" id="apertura" aria-label="Presentación del proyecto">
     <div class="escena">
-      <div class="fondo" aria-hidden="true"><img src="img/hero.jpg" alt="" width="1900" height="1267"></div>
-      <div class="ventana" id="ventana"><div class="pista" id="pista">
-        <article class="tarjeta inv"><div class="im"><div><img src="img/bloques.jpg" alt="Bloques del complejo residencial" width="1100" height="1650"></div></div>
-          <div class="tx"><h2>Solana</h2><p>Departamentos de 1, 2 y 3 ambientes y penthouses con terraza propia, en una torre de 14 pisos.</p></div></article>
-        <article class="tarjeta"><div class="im"><div><img src="img/hero.jpg" alt="Volúmenes del edificio con balcones" width="1900" height="1267"></div></div>
-          <div class="tx"><h2>El edificio</h2><p>52 unidades de 38 a 148 m², todas con balcón o terraza. Cocheras en subsuelo, solárium, laundry y parrilla.</p></div></article>
-        <article class="tarjeta inv"><div class="im"><div><img src="img/dormitorio.jpg" alt="Dormitorio luminoso con cortinas" width="1400" height="933"></div></div>
-          <div class="tx"><h2>Por dentro</h2><p>Living comedor con ventanales, cocina integrada y pisos de madera. Se entregan con terminaciones completas.</p><div id="acciones-hero"><a class="btn" href="#unidades">Ver las unidades</a></div></div></article>
-      </div></div>
-      <div class="progreso" id="progreso" style="opacity:0">
-        <div class="riel"><i id="relleno"></i></div>
-        <div class="rotulos" role="tablist" aria-label="El edificio o por dentro"><button type="button" role="tab" aria-selected="true">El edificio</button><button type="button" role="tab" aria-selected="false">Por dentro</button></div>
+      <div class="marco">
+        <img src="img/hero.jpg" alt="Bloques del complejo residencial con balcones" width="1900" height="1267">
+        <div class="texto"><div class="w">
+          <h1>Solana</h1>
+          <div class="lado">
+            <p>Departamentos de 1, 2 y 3 ambientes y penthouses con terraza propia, en una torre de 14 pisos.</p>
+            <dl class="cifras"><div><dt>unidades</dt><dd>52</dd></div><div><dt>desde</dt><dd>38 m²</dd></div><div><dt>entrega</dt><dd>dic. 2027</dd></div></dl>
+            <div class="acciones" id="acciones-hero"><a class="btn" href="#unidades">Ver las unidades</a><a class="btn btn-borde" href="#escena">Recorrer el edificio</a></div>
+          </div>
+        </div></div>
       </div>
     </div>
   </section>
