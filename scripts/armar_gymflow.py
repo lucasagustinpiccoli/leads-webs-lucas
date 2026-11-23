@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Junta la demo de GymFlow (sitio/lumen-studio/gymflow-src/) en un solo archivo: sitio/lumen-studio/gymflow/index.html.
+"""Junta la demo de Anima Center (sitio/lumen-studio/gymflow-src/) en un solo archivo: sitio/lumen-studio/gymflow/index.html.
 Editá los archivos de gymflow-src/ y volvé a correr este script. No usa librerías."""
 import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,4 +24,4 @@ if 'name="robots"' not in html:
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 with open(OUT, "w", encoding="utf-8") as f:
     f.write(html)
-print("GymFlow ->", os.path.relpath(OUT, ROOT), f"({len(html) // 1024} KB)")
+print("Anima Center ->", os.path.relpath(OUT, ROOT), f"({len(html) // 1024} KB)")

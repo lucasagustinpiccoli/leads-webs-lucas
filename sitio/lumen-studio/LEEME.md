@@ -8,7 +8,7 @@ Una sola página (`index.html` + `img/`). Se publica junto con las demos con `py
 2. **Permisos de los casos.** Confirmar con cada dueño que puede aparecer en tu portfolio: R&RG Estudio Jurídico (Oliva Atelier es una marca ficticia, no necesita permiso). La propuesta de R&RG está rotulada como propuesta de rediseño: no la muestres sin el permiso de tu amigo.
 3. **El precio** aparece solo como "desde USD 200" en las preguntas frecuentes y en Ray (`PRECIO_BASE` en `ray-chat.js`). No hay sección de precios.
 
-## GymFlow (demo)
+## Anima Center (demo, antes GymFlow)
 
 El código editable está en `gymflow-src/` (`index.html`, `style.css`, `app.js`, `demo-backend.js`). Para regenerar el archivo único que se publica
 (`gymflow/index.html`): `python scripts/armar_gymflow.py`. Estilo con la skill Hallmark (tema Console, modo app): grafito, un solo acento ámbar, paneles con línea fina, sin brillos ni gradientes, cifras en
@@ -23,7 +23,7 @@ El selector EN / ES está en el menú. Las traducciones viven en `i18n.js` (dicc
 Testimonios, reseñas, logos de clientes y años de experiencia: no hay nada de eso que se pueda respaldar todavía. Se suman a medida que cierres clientes: pedí una reseña de Google a cada uno al entregar.
 
 
-## GymFlow (demo interactiva)
+## Anima Center (demo interactiva, antes GymFlow)
 
 `gymflow/index.html` es una maqueta autónoma con datos ficticios (sin login, sin servidor), hecha a partir del sistema real de gimnasio. Se abre desde el panel de Trabajos. Es `noindex`. Carga la tipografía de Google y la librería de Excel (jsDelivr) desde internet; todo lo demás va dentro del archivo.
 

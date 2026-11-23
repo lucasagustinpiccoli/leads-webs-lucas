@@ -4,14 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>GymFlow: gestión de socios</title>
-<meta name="description" content="Demo de GymFlow, una app para gestionar socios, cuotas, caja y turnos de un gimnasio, con datos de ejemplo.">
+<title>Anima Center: gestión de socios</title>
+<meta name="description" content="Demo de Anima Center, una app para gestionar socios, cuotas, caja y turnos de un gimnasio, con datos de ejemplo.">
 <script>
   // Se aplica antes de pintar la página para que no se vea un flash del
   // tema por defecto (oscuro) al cargar en modo claro.
   (function () {
     try {
-      var t = localStorage.getItem('gymflow-tema');
+      var t = localStorage.getItem('anima-tema');
       if (t !== 'light' && t !== 'dark') {
         t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
       }
@@ -348,8 +348,8 @@ td { padding: var(--space-md) var(--space-lg); }
 <body>
 
 <!-- ===================== PRELOADER ===================== -->
-<div id="preloader" role="status" aria-label="Cargando GymFlow">
-  <span class="preloader-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg>GymFlow</span>
+<div id="preloader" role="status" aria-label="Cargando Anima Center">
+  <span class="preloader-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg>Anima Center</span>
 </div>
 <script>
   // Mismas fases que el componente LogoPreloader de Framer: el logo sube y aparece,
@@ -376,7 +376,7 @@ td { padding: var(--space-md) var(--space-lg); }
   <header class="navbar">
     <div class="navbar-marca">
       <span class="navbar-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span>
-      <span class="navbar-marca-texto">GymFlow</span>
+      <span class="navbar-marca-texto">Anima Center</span>
     </div>
 
     <button class="navbar-hamburguesa" id="btn-menu-movil" aria-label="Abrir menú" aria-expanded="false" aria-controls="navbar-menu-movil">
@@ -793,7 +793,7 @@ td { padding: var(--space-md) var(--space-lg); }
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
-// GymFlow — backend de demostración 100% en memoria.
+// Anima Center — backend de demostración 100% en memoria.
 // Reemplaza a Supabase: mismos nombres de tablas/RPC que usa la app, con datos
 // de ejemplo ficticios generados relativos a la fecha de hoy (así la demo
 // siempre se ve "viva"). Todo vive en el navegador y se reinicia al recargar.
@@ -1243,7 +1243,7 @@ td { padding: var(--space-md) var(--space-lg); }
 
 </script>
 <script>
-// GymFlow (demo) — socios, vender/renovar membresía, pagos, caja, calendario y dashboard.
+// Anima Center (demo) — socios, vender/renovar membresía, pagos, caja, calendario y dashboard.
 // Sin build y sin backend: se sube tal cual (index.html + style.css + demo-backend.js + este archivo).
 // demo-backend.js simula la base de datos en memoria; no hay login.
 
@@ -1274,7 +1274,7 @@ $('btn-tema').addEventListener('click', () => {
   const actual = document.documentElement.getAttribute('data-theme');
   const nuevo = actual === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', nuevo);
-  try { localStorage.setItem('gymflow-tema', nuevo); } catch (e) {}
+  try { localStorage.setItem('anima-tema', nuevo); } catch (e) {}
 });
 
 // ============================================================
@@ -1578,7 +1578,7 @@ function exportarSociosExcel() {
   const libro = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(libro, hoja, 'Socios');
   const fecha = new Date().toISOString().slice(0, 10);
-  XLSX.writeFile(libro, `gymflow-socios-${fecha}.xlsx`);
+  XLSX.writeFile(libro, `anima-center-socios-${fecha}.xlsx`);
 }
 $('btn-exportar-socios').addEventListener('click', exportarSociosExcel);
 
@@ -2251,7 +2251,7 @@ async function exportarCajaExcel() {
   const libro = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(libro, hoja, 'Caja');
   const fecha = new Date().toISOString().slice(0, 10);
-  XLSX.writeFile(libro, `gymflow-caja-completo-${fecha}.xlsx`);
+  XLSX.writeFile(libro, `anima-center-caja-completo-${fecha}.xlsx`);
 }
 $('btn-exportar-caja').addEventListener('click', exportarCajaExcel);
 

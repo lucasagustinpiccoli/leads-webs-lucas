@@ -1,4 +1,4 @@
-// GymFlow — backend de demostración 100% en memoria.
+// Anima Center — backend de demostración 100% en memoria.
 // Reemplaza a Supabase: mismos nombres de tablas/RPC que usa la app, con datos
 // de ejemplo ficticios generados relativos a la fecha de hoy (así la demo
 // siempre se ve "viva"). Todo vive en el navegador y se reinicia al recargar.

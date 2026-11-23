@@ -1,4 +1,4 @@
-// GymFlow (demo) — socios, vender/renovar membresía, pagos, caja, calendario y dashboard.
+// Anima Center (demo) — socios, vender/renovar membresía, pagos, caja, calendario y dashboard.
 // Sin build y sin backend: se sube tal cual (index.html + style.css + demo-backend.js + este archivo).
 // demo-backend.js simula la base de datos en memoria; no hay login.
 
@@ -29,7 +29,7 @@ $('btn-tema').addEventListener('click', () => {
   const actual = document.documentElement.getAttribute('data-theme');
   const nuevo = actual === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', nuevo);
-  try { localStorage.setItem('gymflow-tema', nuevo); } catch (e) {}
+  try { localStorage.setItem('anima-tema', nuevo); } catch (e) {}
 });
 
 // ============================================================
@@ -333,7 +333,7 @@ function exportarSociosExcel() {
   const libro = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(libro, hoja, 'Socios');
   const fecha = new Date().toISOString().slice(0, 10);
-  XLSX.writeFile(libro, `gymflow-socios-${fecha}.xlsx`);
+  XLSX.writeFile(libro, `anima-center-socios-${fecha}.xlsx`);
 }
 $('btn-exportar-socios').addEventListener('click', exportarSociosExcel);
 
@@ -1006,7 +1006,7 @@ async function exportarCajaExcel() {
   const libro = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(libro, hoja, 'Caja');
   const fecha = new Date().toISOString().slice(0, 10);
-  XLSX.writeFile(libro, `gymflow-caja-completo-${fecha}.xlsx`);
+  XLSX.writeFile(libro, `anima-center-caja-completo-${fecha}.xlsx`);
 }
 $('btn-exportar-caja').addEventListener('click', exportarCajaExcel);
 

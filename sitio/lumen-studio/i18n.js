@@ -104,7 +104,7 @@
     "Lumen Studio, inicio": "Lumen Studio, home",
     "Trabajos, pasá el cursor o tocá para ver cada uno": "Work, hover or tap to see each one",
     "Oliva Atelier, página con reserva de turnos": "Oliva Atelier, website with online booking",
-    "GymFlow, tablero con indicadores, altas por mes y estado de los socios": "GymFlow, dashboard with key figures, new members per month and member status",
+    "Anima Center, tablero con indicadores, altas por mes y estado de los socios": "Anima Center, dashboard with key figures, new members per month and member status",
     "R&RG Estudio Jurídico, sección de áreas de práctica de la propuesta de rediseño": "R&RG Law Firm, practice areas section of the redesign proposal",
     "Ver la propuesta": "See the proposal",
     "Chat con Ray": "Chat with Ray",
