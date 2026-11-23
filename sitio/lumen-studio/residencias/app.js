@@ -95,7 +95,7 @@
 
   /* ---- barra superior, botón flotante y barra del celular ---- */
   var cab = $("cab"), aviso = document.querySelector(".aviso");
-  function alBajar() { cab.classList.toggle("solida", window.scrollY > 80); cab.style.top = Math.max(0, aviso.offsetHeight - window.scrollY) + "px"; }
+  function alBajar() { cab.classList.toggle("solida", window.scrollY > 80); cab.style.top = aviso ? Math.max(0, aviso.offsetHeight - window.scrollY) + "px" : "0px"; }
   alBajar(); window.addEventListener("scroll", alBajar, { passive: true });
   var flota = $("flota"), barra = $("barra"), vistos = new Set();
   if ("IntersectionObserver" in window) {
