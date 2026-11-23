@@ -184,22 +184,70 @@
   .aviso-f.on{opacity:1;transform:translate(-50%,0)}
   @media (max-width:900px){.barra nav{display:none}.barra{grid-template-columns:auto 1fr}.logo{text-align:left}.barra .der{gap:12px}.barra a,.barra button{font-size:.84rem}.logo{font-size:1.7rem}}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}.slide img{transform:none}}
+
+  /* página del catálogo */
+  .vcat{padding:calc(64px + clamp(24px,4vw,56px)) var(--gut) clamp(56px,8vw,110px);min-height:100svh}
+  .vcat-c{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
+  .filtros{position:sticky;top:90px;display:grid;gap:26px;max-height:calc(100svh - 110px);overflow:auto;padding-right:8px}
+  .filtros legend{font-weight:600;margin-bottom:10px;font-size:1rem}
+  .filtros fieldset{border:0}
+  .chk{display:flex;align-items:center;gap:12px;min-height:36px;cursor:pointer;font-size:.88rem;text-transform:uppercase;letter-spacing:.01em}
+  .chk input{position:absolute;opacity:0;width:1px;height:1px}
+  .chk i{width:22px;height:22px;border-radius:6px;background:var(--papel-2);border:1px solid var(--linea);flex:none;display:grid;place-items:center}
+  .chk input:checked+i{background:var(--tinta);border-color:var(--tinta)}
+  .chk input:checked+i::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+  .chk input:focus-visible+i{outline:2px solid var(--tinta);outline-offset:2px}
+  .limpiar{justify-self:start;text-decoration:underline;text-underline-offset:4px;min-height:44px;font-size:.92rem;color:var(--suave)}
+  .vcat-t{display:flex;align-items:baseline;gap:16px;margin-bottom:22px}
+  .vcat-t h1{font-size:clamp(1.8rem,3vw,2.4rem)}
+  .vcat-t span{color:var(--suave)}
+  .vcat .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 22px}
+  .vcat .prod .foto{border-radius:20px;aspect-ratio:4/5}
+  .vcat .prod h3{font-size:1.2rem;margin-top:14px}
+  .vcat .prod p{font-size:.88rem;letter-spacing:.03em;margin-top:6px}
+  .b-fil{display:none;min-height:44px;border:1px solid var(--tinta);padding:0 22px;font-weight:500}
+  @media (max-width:1100px){.vcat .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:800px){.vcat-c{grid-template-columns:minmax(0,1fr)}.b-fil{display:inline-flex;align-items:center}.filtros{display:none;position:static;max-height:none;margin-top:14px;padding:16px 0}.filtros.ab{display:grid}}
+
+  /* menú de colecciones que se despliega (como en La Feliz) */
+  .barra nav a,.barra nav button{position:relative}
+  .barra nav a::after,.barra nav button::after{content:"";position:absolute;left:0;right:0;bottom:9px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+  .barra nav a:hover::after,.barra nav button:hover::after,.barra nav button[aria-expanded="true"]::after{transform:scaleX(1)}
+  header.abre-mega{background:var(--papel);color:var(--tinta);border-color:var(--linea)}
+  .mega{position:absolute;top:100%;left:0;right:0;background:var(--papel);color:var(--tinta);padding:6px var(--gut) clamp(24px,3vw,40px);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .35s var(--ease),visibility .25s;box-shadow:0 30px 50px -30px rgba(0,0,0,.25)}
+  header.abre-mega .mega{opacity:1;visibility:visible;transform:none}
+  .mega-t{font-size:.82rem;text-transform:uppercase;color:var(--suave);margin:18px 0 16px;letter-spacing:.01em}
+  .mega-g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
+  .mega-g button{position:relative;aspect-ratio:4/5.4;overflow:hidden;border-radius:20px;background:var(--papel-2);text-align:left;color:#fff}
+  .mega-g img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--ox,50%) var(--oy,50%);transform:scale(var(--z,1));transform-origin:var(--ox,50%) var(--oy,50%);transition:transform .8s var(--ease)}
+  @media (hover:hover){.mega-g button:hover img{transform:scale(calc(var(--z,1) * 1.06))}}
+  .mega-g button::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.45),transparent 40%)}
+  .mega-g span{position:absolute;left:26px;bottom:22px;z-index:2;font-size:1.15rem;font-weight:500}
+  @media (max-width:900px){.mega-g{grid-template-columns:repeat(2,minmax(0,1fr))}.mega{max-height:calc(100svh - 64px);overflow:auto}}
+
+  .solo-m{display:none!important}
+  .mega-links{display:flex;flex-direction:column;border-bottom:1px solid var(--linea)}
+  .mega-links a{min-height:48px;display:flex;align-items:center;font-size:1.15rem;font-weight:500}
+  @media (max-width:900px){.solo-m{display:inline-flex!important}.mega-links{display:flex}}
 </style>
 </head>
 <body>
 <header id="cab">
   <div class="barra">
-    <nav aria-label="Principal"><a href="#catalogo">Catálogo</a><a href="#colecciones">Colecciones</a><a href="#taller">Nosotros</a><a href="#contacto">Contacto</a></nav>
+    <nav aria-label="Principal"><a href="#/catalogo">Catálogo</a><button type="button" id="b-col" aria-expanded="false" aria-controls="mega">Colecciones</button><a href="#taller">Nosotros</a><a href="#contacto">Contacto</a></nav>
     <a class="logo" href="#inicio" aria-label="Arce, inicio">arce</a>
     <div class="der">
       <button type="button" id="b-fav" aria-label="Favoritos"><span class="txt-l">Favoritos&nbsp;</span>(<span id="n-fav">0</span>)</button>
       <button type="button" id="b-pres">Presupuesto&nbsp;(<span id="n-pres">0</span>)</button>
       <button type="button" id="b-bus" aria-label="Buscar">Buscar</button>
+      <button type="button" id="b-menu" class="solo-m" aria-expanded="false" aria-controls="mega">Menú</button>
     </div>
   </div>
+  <div class="mega" id="mega" aria-label="Colecciones"><div class="mega-links solo-m"><a href="#/catalogo">Catálogo</a><a href="#taller">Nosotros</a><a href="#contacto">Contacto</a></div><p class="mega-t">Últimas colecciones</p><div class="mega-g" id="mega-g"></div></div>
 </header>
 
-<main id="inicio">
+<main id="vista-home">
+  <span id="inicio"></span>
   <section class="hero" aria-label="Presentación">
     <div class="slide on"><img src="img/living.jpg" alt="Living con sofá y mesas ratonas" width="1700" height="1134"></div>
     <div class="slide"><img src="img/comedor.jpg" alt="Comedor con mesa y sillas tapizadas" loading="lazy" width="1700" height="1134"></div>
@@ -253,6 +301,13 @@
   </section>
 </main>
 
+<section class="vcat" id="vista-cat" hidden aria-label="Catálogo">
+  <div class="vcat-c">
+    <aside><button type="button" class="b-fil" id="b-filtros" aria-expanded="false">Filtros</button><form id="filtros" class="filtros" onsubmit="return false"></form></aside>
+    <div><div class="vcat-t"><h1>Catálogo</h1><span id="cuenta"></span></div><div class="grid" id="grid-c"></div></div>
+  </div>
+</section>
+
 <footer id="contacto">
   <div class="cols">
     <div><a class="logo" href="#inicio">arce</a><p style="margin-top:10px;max-width:30ch;color:#b9b3aa">Mobiliario de diseño para living, comedor, cocina y habitación.</p></div>
@@ -291,50 +346,83 @@
   var WA = "5491100000000";
   var $ = function(id){ return document.getElementById(id); };
   var PROD = [
-    { id:"sofa", n:"Sofá Duna", c:["Living"], t:["d"], img:"living", ox:78, oy:60, z:2.1, d:"Sofá de tres cuerpos con respaldo bajo y almohadones sueltos. Tapizado en lino.", m:"240 × 95 × 70 cm", mat:"Lino y estructura de madera" },
-    { id:"ratona", n:"Mesas Órbita", c:["Living"], t:["c"], img:"mesas", ox:46, oy:76, z:2.3, d:"Dos mesas redondas de distinta altura. Se usan juntas o por separado.", m:"Ø 90 y Ø 70 cm", mat:"Vidrio ahumado y metal" },
-    { id:"mesa", n:"Mesa Meridiano", c:["Comedor"], t:["d"], img:"comedor", ox:55, oy:72, z:1.6, d:"Mesa rectangular para ocho personas con tapa laqueada.", m:"260 × 100 × 75 cm", mat:"Laca y base de madera" },
-    { id:"silla", n:"Silla Cóndor", c:["Comedor"], t:["c"], img:"cocina", ox:20, oy:62, z:2.0, d:"Silla tapizada con respaldo envolvente y patas de madera.", m:"55 × 58 × 90 cm", mat:"Tapizado y madera maciza" },
-    { id:"banqueta", n:"Banqueta Alta", c:["Cocina"], t:["c"], img:"barra", ox:48, oy:68, z:2.3, d:"Banqueta con asiento tapizado y estructura de acero.", m:"40 × 42 × 75 cm", mat:"Acero y tapizado" },
-    { id:"cama", n:"Cama Bruma", c:["Habitación"], t:["n"], img:"cama", ox:14, oy:84, z:1.5, d:"Cama de dos plazas con respaldo bajo y base tapizada.", m:"220 × 180 × 90 cm", mat:"Tapizado en lino" },
-    { id:"isla", n:"Isla Basalto", c:["Cocina"], t:["d","n"], img:"cocina", ox:72, oy:72, z:1.5, d:"Isla con mesada de piedra oscura y frente laqueado.", m:"280 × 110 × 90 cm", mat:"Piedra y laca" },
-    { id:"lampara", n:"Lámpara Tótem", c:["Living","Habitación"], t:["d","n"], img:"lampara", ox:14, oy:54, z:2.6, d:"Lámpara de pie de fuste negro y luz difusa.", m:"Altura 180 cm", mat:"Metal" }
+    { id:"sofa", n:"Sofá Duna", c:["Living"], k:"Sofás", col:"Duna", t:["d"], img:"living", ox:78, oy:60, z:2.1, d:"Sofá de tres cuerpos con respaldo bajo y almohadones sueltos. Tapizado en lino.", m:"240 × 95 × 70 cm", mat:"Lino y estructura de madera" },
+    { id:"mesa", n:"Mesa Meridiano", c:["Comedor"], k:"Mesas", col:"Meridiano", t:["d"], img:"comedor", ox:55, oy:72, z:1.6, d:"Mesa rectangular para ocho personas con tapa laqueada.", m:"260 × 100 × 75 cm", mat:"Laca y base de madera" },
+    { id:"isla", n:"Isla Basalto", c:["Cocina"], k:"Mesas", col:"Basalto", t:["d","n"], img:"cocina", ox:72, oy:72, z:1.5, d:"Isla con mesada de piedra oscura y frente laqueado.", m:"280 × 110 × 90 cm", mat:"Piedra y laca" },
+    { id:"lampara", n:"Lámpara Tótem", c:["Living","Habitación"], k:"Lámparas", col:"Tótem", t:["d","n"], img:"lampara", ox:14, oy:54, z:2.6, d:"Lámpara de pie de fuste negro y luz difusa.", m:"Altura 180 cm", mat:"Metal" },
+    { id:"ratona", n:"Mesas Órbita", c:["Living"], k:"Mesas", col:"Órbita", t:["c"], img:"mesas", ox:55, oy:86, z:1.7, d:"Dos mesas redondas de distinta altura. Se usan juntas o por separado.", m:"Ø 90 y Ø 70 cm", mat:"Vidrio ahumado y metal" },
+    { id:"silla", n:"Silla Cóndor", c:["Comedor"], k:"Sillas y banquetas", col:"Meridiano", t:["c"], img:"cocina", ox:20, oy:62, z:2.0, d:"Silla tapizada con respaldo envolvente y patas de madera.", m:"55 × 58 × 90 cm", mat:"Tapizado y madera maciza" },
+    { id:"banqueta", n:"Banqueta Alta", c:["Cocina"], k:"Sillas y banquetas", col:"Basalto", t:["c"], img:"barra", ox:48, oy:68, z:2.3, d:"Banqueta con asiento tapizado y estructura de acero.", m:"40 × 42 × 75 cm", mat:"Acero y tapizado" },
+    { id:"alfombra", n:"Alfombra Tehuacán", c:["Living","Comedor"], k:"Alfombras", col:"Duna", t:["c"], img:"living", ox:30, oy:92, z:2.0, d:"Alfombra de lana anudada a mano, con diseño de motivos florales.", m:"300 × 200 cm", mat:"Lana" },
+    { id:"cama", n:"Cama Bruma", c:["Habitación"], k:"Camas", col:"Bruma", t:["n"], img:"cama", ox:14, oy:84, z:1.5, d:"Cama de dos plazas con respaldo bajo y base tapizada.", m:"220 × 180 × 90 cm", mat:"Tapizado en lino" },
+    { id:"sillon", n:"Sillón Cumbre", c:["Living"], k:"Sillones y otomanos", col:"Duna", t:["n"], img:"mesas", ox:92, oy:72, z:2.4, d:"Sillón envolvente con asiento profundo, tapizado en tela texturada.", m:"90 × 85 × 75 cm", mat:"Tela y madera" },
+    { id:"otomano", n:"Otomano Brisa", c:["Living"], k:"Sillones y otomanos", col:"Duna", t:[], img:"mesas", ox:8, oy:85, z:2.4, d:"Otomano largo para sumar asiento o apoyar los pies, con tapizado floral.", m:"120 × 55 × 40 cm", mat:"Tela y madera" },
+    { id:"aparador", n:"Aparador Grafito", c:["Living","Comedor"], k:"Muebles de guardado", col:"Órbita", t:[], img:"mesas", ox:40, oy:48, z:2.0, d:"Aparador bajo con frente lacado negro y apertura por empuje.", m:"220 × 45 × 50 cm", mat:"Laca" },
+    { id:"cuenco", n:"Cuenco Cristal", c:["Living","Comedor"], k:"Objetos", col:"Órbita", t:[], img:"mesas", ox:48, oy:68, z:3.0, d:"Cuenco de cristal tallado para el centro de la mesa.", m:"Ø 28 cm", mat:"Cristal" },
+    { id:"velador", n:"Velador Ámbar", c:["Living","Habitación"], k:"Lámparas", col:"Tótem", t:[], img:"comedor", ox:38, oy:28, z:3.0, d:"Lámpara de mesa con pantalla oscura y base de vidrio ámbar.", m:"Altura 55 cm", mat:"Vidrio y tela" }
   ];
   var byId = {}; PROD.forEach(function(p){ byId[p.id] = p; });
   function leer(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } }
   function guardar(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
   var favs = leer("arce-fav") || [], pres = leer("arce-pres") || {};
-  var tab = "d", cat = null, todos = false, q = "";
-
+  var tab = "d", F = { k: [], col: [], amb: [], q: "" };
   function src(k){ var i = document.querySelector('#fuentes-img img[data-k="' + k + '"]'); return i ? i.getAttribute('src') : ''; }
-  function foto(p, cls){ return '<img src="' + src(p.img) + '" alt="" loading="lazy" width="900" height="600" style="--z:' + p.z + ';--ox:' + p.ox + '%;--oy:' + p.oy + '%">'; }
+  function foto(p){ return '<img src="' + src(p.img) + '" alt="" loading="lazy" width="900" height="600" style="--z:' + p.z + ';--ox:' + p.ox + '%;--oy:' + p.oy + '%">'; }
   var corazon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-9.2C1.8 7.4 3.6 4 7 4c2 0 3.4 1 5 3 1.6-2 3-3 5-3 3.400 0 5.200 3.400 4 6.800C19 15.600 12 20 12 20Z"/></svg>';
-
-  function lista(){
-    return PROD.filter(function(p){
-      if (q) return (p.n + " " + p.c.join(" ")).toLowerCase().indexOf(q.toLowerCase()) > -1;
-      if (cat) return p.c.indexOf(cat) > -1;
-      return todos || p.t.indexOf(tab) > -1;
-    });
+  function tarjeta(p){
+    var f = favs.indexOf(p.id) > -1;
+    return '<article class="prod"><div class="foto">' + foto(p) + '<button type="button" class="fav" data-fav="' + p.id + '" aria-pressed="' + f + '" aria-label="Favorito: ' + p.n + '">' + corazon + '</button></div><button type="button" class="abre" data-abrir="' + p.id + '" aria-label="Ver ' + p.n + '"></button><h3>' + p.n + '</h3><p>' + p.c.join(", ") + '</p></article>';
   }
   function pintar(){
-    var l = lista(), g = $("grid");
-    g.innerHTML = l.length ? l.map(function(p){
-      var f = favs.indexOf(p.id) > -1;
-      return '<article class="prod"><div class="foto">' + foto(p) + '<button type="button" class="fav" data-fav="' + p.id + '" aria-pressed="' + f + '" aria-label="Favorito: ' + p.n + '">' + corazon + '</button></div><button type="button" class="abre" data-abrir="' + p.id + '" aria-label="Ver ' + p.n + '"></button><h3>' + p.n + '</h3><p>' + p.c.join(", ") + '</p></article>';
-    }).join("") : '<p class="vacio">No encontramos piezas con ese filtro.</p>';
-    var fl = $("filtro"); fl.hidden = !cat; fl.textContent = cat ? "Ambiente: " + cat : "";
-    $("ver-todos").textContent = cat ? "Quitar filtro" : (todos ? "Ver selección" : "Ver todos");
-    [].forEach.call(document.querySelectorAll(".tabs button"), function(b){ b.setAttribute("aria-selected", String(b.dataset.t === tab && !todos && !cat)); });
+    $("grid").innerHTML = PROD.filter(function(p){ return p.t.indexOf(tab) > -1; }).slice(0, 4).map(tarjeta).join("");
+    [].forEach.call(document.querySelectorAll(".tabs button"), function(b){ b.setAttribute("aria-selected", String(b.dataset.t === tab)); });
   }
-  function ir(ambiente){ cat = ambiente; todos = false; q = ""; pintar(); $("catalogo").scrollIntoView(); }
-  document.addEventListener("click", function(e){
-    var t = e.target.closest("[data-ir]"); if (t){ cerrar(); ir(t.dataset.ir); return; }
-    var f = e.target.closest("[data-fav]"); if (f){ alternarFav(f.dataset.fav); return; }
-    var a = e.target.closest("[data-abrir]"); if (a){ abrir(a.dataset.abrir); return; }
+  [].forEach.call(document.querySelectorAll(".tabs button"), function(b){ b.addEventListener("click", function(){ tab = b.dataset.t; pintar(); }); });
+
+  /* ---- página del catálogo, con filtros a la izquierda ---- */
+  function unicos(campo, multiple){ var r = []; PROD.forEach(function(p){ (multiple ? p[campo] : [p[campo]]).forEach(function(v){ if (r.indexOf(v) < 0) r.push(v); }); }); return r.sort(function(a, b){ return a.localeCompare(b, "es"); }); }
+  function grupo(titulo, clave, valores){
+    return '<fieldset><legend>' + titulo + '</legend>' + valores.map(function(v){ return '<label class="chk"><input type="checkbox" data-f="' + clave + '" value="' + v + '"' + (F[clave].indexOf(v) > -1 ? " checked" : "") + '><i></i><span>' + v + '</span></label>'; }).join("") + '</fieldset>';
+  }
+  function filtros(){
+    $("filtros").innerHTML = grupo("Categorías", "k", unicos("k")) + grupo("Colecciones", "col", unicos("col")) + grupo("Ambientes", "amb", ["Living", "Comedor", "Cocina", "Habitación"]) + '<button type="button" class="limpiar" id="limpiar">Quitar filtros</button>';
+  }
+  function coincide(p){
+    if (F.q && (p.n + " " + p.k + " " + p.col + " " + p.c.join(" ")).toLowerCase().indexOf(F.q.toLowerCase()) < 0) return false;
+    if (F.k.length && F.k.indexOf(p.k) < 0) return false;
+    if (F.col.length && F.col.indexOf(p.col) < 0) return false;
+    if (F.amb.length && !p.c.some(function(a){ return F.amb.indexOf(a) > -1; })) return false;
+    return true;
+  }
+  function pintarCat(){
+    var l = PROD.filter(coincide);
+    $("grid-c").innerHTML = l.length ? l.map(tarjeta).join("") : '<p class="vacio">No encontramos piezas con esos filtros.</p>';
+    $("cuenta").textContent = l.length + (l.length === 1 ? " pieza" : " piezas");
+    filtros();
+  }
+  document.addEventListener("change", function(e){
+    var c = e.target.closest("input[data-f]"); if (!c) return;
+    var a = F[c.dataset.f], i = a.indexOf(c.value); if (c.checked && i < 0) a.push(c.value); else if (!c.checked && i > -1) a.splice(i, 1);
+    pintarCat();
   });
-  [].forEach.call(document.querySelectorAll(".tabs button"), function(b){ b.addEventListener("click", function(){ tab = b.dataset.t; todos = false; cat = null; pintar(); }); });
-  $("ver-todos").addEventListener("click", function(){ if (cat){ cat = null; } else { todos = !todos; } pintar(); });
+  document.addEventListener("click", function(e){
+    if (e.target.closest("#limpiar")){ F.k = []; F.col = []; F.amb = []; F.q = ""; $("q").value = ""; pintarCat(); }
+    if (e.target.closest("#b-filtros")){ var f = $("filtros"); var ab = f.classList.toggle("ab"); e.target.closest("#b-filtros").setAttribute("aria-expanded", String(ab)); }
+  });
+  function ir(ambiente){ F = { k: [], col: [], amb: ambiente ? [ambiente] : [], q: "" }; $("q").value = ""; if (location.hash === "#/catalogo") pintarCat(); else location.hash = "#/catalogo"; }
+  $("ver-todos").addEventListener("click", function(){ ir(null); });
+
+  /* ---- rutas: inicio o catálogo ---- */
+  var cab = $("cab");
+  function ruta(){
+    var cat = location.hash === "#/catalogo";
+    $("vista-home").hidden = cat; $("vista-cat").hidden = !cat;
+    cab.classList.toggle("fija", cat);
+    if (cat){ window.scrollTo(0, 0); pintarCat(); }
+    else if (location.hash.length > 1){ var el = document.getElementById(location.hash.slice(1)); if (el) setTimeout(function(){ el.scrollIntoView(); }, 30); }
+    alBajar();
+  }
+  window.addEventListener("hashchange", ruta);
 
   /* ---- favoritos ---- */
   function alternarFav(id){ var i = favs.indexOf(id); if (i > -1) favs.splice(i, 1); else { favs.push(id); aviso("Guardado en favoritos"); } guardar("arce-fav", favs); actualizar(); }
@@ -377,9 +465,9 @@
   $("b-bus").addEventListener("click", function(){ cerrar(); $("busca").classList.add("on"); $("vel").classList.add("on"); $("q").focus(); });
   $("x-bus").addEventListener("click", function(){ cerrar(); });
   $("q").addEventListener("input", function(){
-    q = this.value.trim(); cat = null; pintar();
-    var n = lista().length; $("q-res").textContent = q ? (n ? n + (n === 1 ? " pieza" : " piezas") : "Sin resultados") : "Escribí el nombre de una pieza o un ambiente.";
-    if (q) $("catalogo").scrollIntoView({ block: "start" });
+    F.q = this.value.trim();
+    if (location.hash !== "#/catalogo") location.hash = "#/catalogo"; else pintarCat();
+    var n = PROD.filter(coincide).length; $("q-res").textContent = F.q ? (n ? n + (n === 1 ? " pieza" : " piezas") : "Sin resultados") : "Escribí el nombre de una pieza o un ambiente.";
   });
   document.addEventListener("keydown", function(e){ if (e.key === "Escape") cerrar(); });
   function abrir(id){
@@ -400,11 +488,33 @@
   if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) timer = setInterval(sig, 7000);
 
   /* ---- barra superior ---- */
-  var cab = $("cab");
-  function alBajar(){ cab.classList.toggle("sol", window.scrollY > window.innerHeight * 0.6); }
-  alBajar(); window.addEventListener("scroll", alBajar, { passive: true });
+  function alBajar(){ cab.classList.toggle("sol", window.scrollY > window.innerHeight * 0.6 || location.hash === "#/catalogo"); }
+  window.addEventListener("scroll", alBajar, { passive: true });
 
-  pintar(); actualizar();
+
+  /* ---- menú de colecciones ---- */
+  (function(){
+    var cols = [], vistos = {};
+    PROD.forEach(function(p){ if (!vistos[p.col]){ vistos[p.col] = 1; cols.push(p); } });
+    $("mega-g").innerHTML = cols.slice(0, 5).map(function(p){ return '<button type="button" data-col="' + p.col + '"><img src="' + src(p.img) + '" alt="" loading="lazy" style="--z:' + Math.max(1.2, p.z * .8) + ';--ox:' + p.ox + '%;--oy:' + p.oy + '%"><span>' + p.col + '</span></button>'; }).join("");
+    var h = $("cab"), b = $("b-col"), t;
+    function abrirM(){ clearTimeout(t); h.classList.add("abre-mega"); b.setAttribute("aria-expanded", "true"); }
+    function cerrarM(){ t = setTimeout(function(){ h.classList.remove("abre-mega"); b.setAttribute("aria-expanded", "false"); }, 120); }
+    var bm = $("b-menu");
+    bm.addEventListener("click", function(){ var o = h.classList.toggle("abre-mega"); bm.setAttribute("aria-expanded", String(o)); });
+    $("mega").addEventListener("click", function(e){ if (e.target.closest("a")) h.classList.remove("abre-mega"); });
+    b.addEventListener("mouseenter", abrirM); h.addEventListener("mouseleave", cerrarM); $("mega").addEventListener("mouseenter", function(){ clearTimeout(t); });
+    b.addEventListener("click", function(){ h.classList.contains("abre-mega") ? (h.classList.remove("abre-mega"), b.setAttribute("aria-expanded", "false")) : abrirM(); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape"){ h.classList.remove("abre-mega"); b.setAttribute("aria-expanded", "false"); } });
+    document.addEventListener("click", function(e){
+      var c = e.target.closest("[data-col]"); if (!c) return;
+      h.classList.remove("abre-mega"); b.setAttribute("aria-expanded", "false");
+      F = { k: [], col: [c.dataset.col], amb: [], q: "" }; $("q").value = "";
+      if (location.hash === "#/catalogo") pintarCat(); else location.hash = "#/catalogo";
+    });
+  })();
+
+  pintar(); actualizar(); ruta();
 })();
 </script>
 </body>
