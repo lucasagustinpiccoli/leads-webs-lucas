@@ -408,7 +408,7 @@
 
 .btn--icono, .nav .btn--icono { width: 44px; min-height: 44px; padding: 0; flex: none; border: 0; background: transparent; }
 .btn--icono::after, .nav .btn--icono::after { display: none; }
-.btn--icono svg { width: 26px; height: 26px; transition: color 200ms, transform 200ms; }
+.btn--icono svg { width: 20px; height: 20px; transition: color 200ms, transform 200ms; }
 .btn--icono:hover { background: transparent; }
 .btn--icono:hover svg { color: var(--color-accent); transform: scale(1.08); }
 .libre { display: flex; gap: var(--space-xs); }
