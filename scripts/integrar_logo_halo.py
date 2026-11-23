@@ -73,8 +73,9 @@ def main():
     est = sin_cabecera(leer("svg", "halo-logo-on-dark.svg"))
     textos = re.findall(r'<g><path d="[^"]+" transform="translate\([^)]+\)" fill="#[0-9a-f]+"/></g>', est)
     assert len(textos) == 2, "no encontré los trazos del nombre"
-    hero_svg = (f'<svg class="logo-hero" xmlns="http://www.w3.org/2000/svg" viewBox="105 20 128 62" aria-hidden="true" focusable="false">'
-                + "".join(textos) + "</svg>")
+    # nombre del inicio en una sola línea ("Halo" grueso y "Studio" liviano, tipografía del logo), ya convertido a trazados
+    with open(os.path.join(SITIO, "logo", "halo-wordmark-inline.svg"), encoding="utf-8") as f:
+        hero_svg = f.read().strip()
     html, n = re.subn(r'<span class="gigante" aria-hidden="true">.*?</span></h1>', lambda m: f'<span class="gigante" aria-hidden="true">{hero_svg}</span></h1>', html, count=1, flags=re.S)
     assert n == 1, "no encontré el título del inicio"
 
