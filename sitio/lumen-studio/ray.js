@@ -93,6 +93,7 @@
     if (window.RayChat) window.RayChat.iniciar();
   }
   window.RayAbrir = abrir;
+  window.RayCerrar = setCerrado;
   boton.addEventListener("click", function () { abierto ? setCerrado() : abrir(); });
   cerrar.addEventListener("click", function () { setCerrado(); boton.focus(); });
   burbuja.addEventListener("click", abrir);

@@ -405,3 +405,9 @@
 .nota-wa { font-size: var(--text-sm); }
 .wa-pie { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 60rem) { .cta-par .btn { flex: 1 1 100%; } }
+
+.btn--icono { width: 44px; padding: 0; flex: none; }
+.btn--icono svg { width: 20px; height: 20px; }
+.libre { display: flex; gap: var(--space-xs); }
+.libre input { flex: 1; min-width: 0; min-height: 44px; padding: 0 var(--space-sm); border: var(--rule-hair) solid var(--color-muted); border-radius: 3px; background: var(--color-paper-hi); font: var(--text-sm) var(--font-body); color: var(--color-ink); }
+@media (max-width: 60rem) { .nav .btn.btn--icono { display: inline-flex; } }

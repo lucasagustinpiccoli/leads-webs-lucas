@@ -92,9 +92,7 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
   la apertura "Neon Reveal" (`neon-reveal.js`: un tubo de neón se enciende arriba, parpadea y su luz revela el contenido;
   es una versión propia basada en la descripción pública del componente de React Bits Pro, que requiere licencia; cuando se
   compre la licencia se puede cambiar por el original), un rotador de palabras con efecto de máquina de escribir inspirado
-  en el componente AnimatedTextRotator de Framer (`typewriter.js`) una cinta de servicios con CurvedLoop de React Bits (`curved-loop.js`, al pie del hero) y **Ray** (`ray-chat.js`), el asistente guiado (la mascota flotante `ray.js`, que aparece al pasar el hero y abre el chat) que pregunta
-  rubro, necesidades, material y plazo, muestra el precio de partida (desde USD 200, sin guía de precios en la página) y arma el mensaje
-  para Lucas por WhatsApp. Si cambian los precios, hay que tocar `PRECIO_BASE`, `EXTRA_MIN` y `EXTRA_MAX` en `ray-chat.js`.
+  en el componente AnimatedTextRotator de Framer (`typewriter.js`) una cinta de servicios con CurvedLoop de React Bits (`curved-loop.js`, al pie del hero) y **Ray** (`ray-chat.js`), el asistente (la mascota flotante `ray.js`, que aparece al pasar el hero y abre el chat): saluda, pregunta el nombre y ofrece tres caminos (ver los proyectos, empezar el proyecto, que abre el formulario, o hablar por WhatsApp, con un mensaje ya escrito que lleva el nombre). Entiende también texto libre simple. No muestra precios: el "desde USD 200" solo está en las preguntas frecuentes.
 - `python scripts/armar_sitio.py` junta la página madre y las demos de `output/demos/` en `output/publicar/` (y en
   `output/publicar.zip`), con `robots.txt` y `_headers` para que `/demos/` no se indexe. Se sube completo a Cloudflare
   Pages; cada demo queda en su propia dirección (`/demos/{carpeta}/`).
