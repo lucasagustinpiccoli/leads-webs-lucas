@@ -406,8 +406,11 @@
 .wa-pie { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 60rem) { .cta-par .btn { flex: 1 1 100%; } }
 
-.btn--icono { width: 44px; padding: 0; flex: none; }
-.btn--icono svg { width: 20px; height: 20px; }
+.btn--icono, .nav .btn--icono { width: 44px; min-height: 44px; padding: 0; flex: none; border: 0; background: transparent; }
+.btn--icono::after, .nav .btn--icono::after { display: none; }
+.btn--icono svg { width: 26px; height: 26px; transition: color 200ms, transform 200ms; }
+.btn--icono:hover { background: transparent; }
+.btn--icono:hover svg { color: var(--color-accent); transform: scale(1.08); }
 .libre { display: flex; gap: var(--space-xs); }
 .libre input { flex: 1; min-width: 0; min-height: 44px; padding: 0 var(--space-sm); border: var(--rule-hair) solid var(--color-muted); border-radius: 3px; background: var(--color-paper-hi); font: var(--text-sm) var(--font-body); color: var(--color-ink); }
 @media (max-width: 60rem) { .nav .btn.btn--icono { display: inline-flex; } }
