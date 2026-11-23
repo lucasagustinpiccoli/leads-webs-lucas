@@ -432,3 +432,13 @@
 .fm-marca { display: inline-flex; align-items: center; }
 .fm-marca .logo-pie { height: 38px; }
 @media (max-width: 60rem) { .logo-nav { height: 38px; } }
+
+/* Pie: enlaces, ubicación y derechos, como una línea editorial */
+.foot { padding-block: var(--space-xl) var(--space-lg); }
+.foot-fila { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm) var(--space-lg); }
+.foot nav { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-xl); }
+.foot nav a, .foot .wa-pie { color: var(--color-on-night); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.foot nav a:hover, .foot .wa-pie:hover { color: var(--color-accent); }
+.foot-chica { margin-top: var(--space-xs); color: var(--color-on-night-muted); }
+.foot-copy { margin-top: var(--space-xl); text-align: center; font-size: var(--text-xs); letter-spacing: 0.06em; color: color-mix(in oklab, var(--color-on-night-muted) 70%, transparent); }
+@media (max-width: 40rem) { .foot-fila, .foot-chica { flex-direction: column; align-items: flex-start; } }
