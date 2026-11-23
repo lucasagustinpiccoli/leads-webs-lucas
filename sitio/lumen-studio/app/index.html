@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#16212B">
-<title>Mancomún | La app para dividir gastos</title>
-<meta name="description" content="Mancomún es una app para dividir gastos entre amigos, parejas y convivientes. Anotás, la app calcula y todos saldan sin cuentas incómodas.">
+<title>Saldo | La app para dividir gastos</title>
+<meta name="description" content="Saldo es una app para dividir gastos entre amigos, parejas y convivientes. Anotás, la app calcula y todos saldan sin cuentas incómodas.">
 <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fuentes.css">
 <style>
@@ -54,7 +54,20 @@
   .inicio .marco{position:relative;width:100%;height:100%;overflow:hidden;border-radius:calc(var(--p,0) * 44px);background:#2a2018;isolation:isolate}
   .inicio .marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.08 - var(--p,0) * .08))}
   .inicio .marco::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(17,12,8,.82) 0%,rgba(17,12,8,.3) 52%,rgba(17,12,8,.4) 100%)}
-  .inicio .texto{position:absolute;left:0;right:0;bottom:clamp(28px,5vw,64px);z-index:2;color:#fff}
+  .inicio .movil{position:absolute;inset:0}
+  .inicio .movil img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:deriva 16s ease-in-out infinite alternate}
+  .inicio .movil .m1{animation:alterna 14s ease-in-out infinite,deriva 16s ease-in-out infinite alternate}
+  .inicio .movil .m2{opacity:0;animation:alterna 14s ease-in-out infinite reverse,deriva 16s ease-in-out infinite alternate-reverse}
+  @keyframes alterna{0%,42%{opacity:1}50%,92%{opacity:0}100%{opacity:1}}
+  @keyframes deriva{from{translate:-1.2% 0;scale:1.04}to{translate:1.2% -.6%;scale:1.12}}
+  .inicio .marco>img{display:none}
+  .rev{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(12px);animation:rev .9s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(var(--i) * 55ms + .2s)}
+  @keyframes rev{to{opacity:1;filter:blur(0);transform:none}}
+  .inicio .despues{opacity:0;animation:aparece 1s ease forwards;animation-delay:1.2s}
+  @keyframes aparece{to{opacity:1}}
+  .inicio .texto{position:absolute;left:0;right:0;top:0;bottom:0;display:grid;place-items:center;text-align:center;z-index:2;color:#fff;padding-inline:var(--gut)}
+  .inicio .texto h1,.inicio .texto .baja{margin-inline:auto}
+  .inicio .texto .acciones{justify-content:center}
   .inicio h1{font-size:clamp(2.9rem,8vw,7rem);font-weight:700;letter-spacing:-.05em;line-height:.95;max-width:12ch}
   .inicio .baja{margin-top:18px;max-width:40ch;font-size:clamp(1.05rem,1.6vw,1.3rem);opacity:.92}
   .inicio .acciones{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
@@ -63,7 +76,7 @@
 
   .intro{background:var(--niebla);padding-block:clamp(72px,10vw,150px)}
   .intro p{font-family:var(--titulo);font-weight:600;font-size:clamp(1.8rem,4.4vw,3.6rem);letter-spacing:-.035em;line-height:1.08;max-width:22ch;text-wrap:balance}
-  .intro p span{color:var(--suave)}
+  .intro p{white-space:normal}
 
   /* teléfono */
   .tel{width:min(300px,100%);aspect-ratio:9/19;border-radius:44px;background:#0B1218;padding:10px;box-shadow:0 0 0 2px #2B3B49 inset,0 40px 80px -30px rgba(0,0,0,.7);margin-inline:auto;position:relative}
@@ -91,19 +104,21 @@
   .p-ok{display:grid;place-items:center;text-align:center;gap:8px;flex:1}
   .p-ok i{width:64px;height:64px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-style:normal;font-size:1.8rem}
 
-  /* cómo funciona: el teléfono acompaña al texto */
-  .funciona{background:var(--niebla)}
-  .funciona .w{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,5vw,80px);align-items:start}
-  .funciona .tel-sticky{position:sticky;top:110px;order:2;padding-block:20px}
-  .pasos{display:grid}
-  .paso{min-height:68vh;display:flex;flex-direction:column;justify-content:center;gap:14px;border-top:1px solid var(--linea);padding-block:40px;opacity:.38;transition:opacity .35s}
-  .paso.on{opacity:1}
-  .paso:first-child{border-top:0}
-  .paso .n{font-family:var(--titulo);font-weight:600;color:var(--naranja);font-size:1.1rem}
-  .paso h3{font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.035em;line-height:1.02}
-  .paso p{color:var(--suave);max-width:40ch;font-size:1.1rem}
-  .paso .movil-ph{display:none}
-  .funciona .titulo{margin-bottom:clamp(8px,2vw,24px)}
+  /* teléfono grande con textos que cambian (idea de la landing de VetX) */
+  .mano{height:420vh;position:relative;background:var(--noche);color:var(--niebla);padding:0}
+  .escena-m{position:sticky;top:0;height:100svh;overflow:hidden}
+  .mano::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 40% at 50% 60%,rgba(255,122,47,.16),transparent 70%);pointer-events:none}
+  .mano-t{position:absolute;top:clamp(84px,12vh,120px);left:0;right:0;text-align:center;font-size:clamp(1.55rem,3.2vw,2.7rem);letter-spacing:-.04em;max-width:30ch;margin-inline:auto;z-index:2;padding-inline:var(--gut)}
+  .tel-m{position:absolute;left:50%;top:calc(var(--ty,60) * 1vh + 50% + 56px);width:min(310px,70vw,calc((100svh - 250px) * .4737));transform:translate(-50%,-50%) scale(var(--sc,.9));z-index:1}
+  .tel-m .tel{width:100%;box-shadow:0 0 0 2px #2B3B49 inset,0 50px 100px -30px rgba(0,0,0,.8)}
+  .pant>.rollo{inset:auto;left:0;right:0;top:0;height:300%;padding:0;gap:0;display:block;opacity:1;transform:translateY(calc(var(--s,0) * -33.3333%));transition:none;will-change:transform}
+  .rollo>div{height:33.3333%;padding:48px 18px 18px;display:flex;flex-direction:column;gap:12px}
+  .feat{position:absolute;top:50%;width:min(300px,28vw);opacity:0;transform:translateY(calc(-50% + 18px));transition:opacity .5s var(--ease),transform .5s var(--ease);z-index:2;pointer-events:none}
+  .feat.on{opacity:1;transform:translateY(-50%)}
+  .feat[data-lado="i"]{left:max(var(--gut),calc(50% - 320px - 300px))}
+  .feat[data-lado="d"]{right:max(var(--gut),calc(50% - 320px - 300px))}
+  .feat h3{font-size:clamp(1.4rem,2.2vw,1.9rem);letter-spacing:-.03em;line-height:1.1}
+  .feat p{margin-top:10px;opacity:.78}
 
   /* funciones */
   .funciones{background:var(--blanco)}
@@ -111,6 +126,25 @@
   .funciones ul{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(20px,3vw,44px);margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--linea)}
   .funciones li{padding:26px 0 30px;border-bottom:1px solid var(--linea)}
   .funciones li p{color:var(--suave);margin-top:8px;max-width:34ch}
+
+  /* opiniones que suben y bajan, se frenan al pasar el cursor (idea de TestimonialScroll) */
+  .resenas{background:var(--niebla)}
+  .resenas .sub{color:var(--suave);max-width:46ch;margin-top:10px}
+  .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;height:680px;margin-top:clamp(24px,3vw,40px)}
+  .carril{overflow:hidden;min-width:0;mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%)}
+  .pista{display:flex;flex-direction:column;gap:12px;animation:sube var(--dur,48s) linear infinite;will-change:transform}
+  .carril.baja .pista{animation-name:baja}
+  .carril:hover .pista,.carril:focus-within .pista{animation-play-state:paused}
+  @keyframes sube{to{transform:translateY(-50%)}}
+  @keyframes baja{from{transform:translateY(-50%)}to{transform:none}}
+  .res{background:var(--blanco);border:1px solid var(--linea);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:18px;transition:background-color .25s,color .25s,border-color .25s;outline:none}
+  .res:hover,.res:focus-visible{background:var(--noche);color:var(--niebla);border-color:var(--noche)}
+  .res p{font-size:1.02rem;line-height:1.5}
+  .res footer{background:none;padding:0;color:inherit;display:flex;flex-direction:column;font-size:.92rem;margin-top:auto}
+  .res footer b{font-weight:600}
+  .res footer span{opacity:.65}
+  @media (max-width:900px){.rgrid{grid-template-columns:minmax(0,1fr);height:560px}.rgrid .carril:nth-child(n+2){display:none}}
+  @media (prefers-reduced-motion:reduce){.pista{animation:none}.carril{overflow:auto}}
 
   /* para qué sirve */
   .usos{background:var(--noche);color:var(--niebla)}
@@ -148,14 +182,13 @@
   @media (max-width:900px){
     header nav a:not(.btn){display:none}
     .inicio{--pad:12px}
-    .funciona .w,.faq .w,.usos .w{grid-template-columns:minmax(0,1fr)}
+    .faq .w,.usos .w{grid-template-columns:minmax(0,1fr)}
+    .tel-m{width:min(230px,56vw,calc((100svh - 410px) * .4737));top:calc(var(--ty,60) * 1vh + 50% + 14px)}
+    .mano-t{top:78px}
+    .feat,.feat[data-lado]{left:var(--gut);right:var(--gut);top:auto;bottom:calc(86px + env(safe-area-inset-bottom));width:auto;transform:translateY(18px);text-align:center}
+    .feat.on{transform:none}
     .funciones ul{grid-template-columns:minmax(0,1fr)}
     .usos .foto{aspect-ratio:4/3}
-    .funciona .tel-sticky{display:none}
-    .paso{min-height:0;opacity:1;padding-block:32px}
-    .paso .movil-ph{display:block;margin-top:18px}
-    .paso .movil-ph .tel{width:min(260px,100%)}
-    .paso .movil-ph .pant>div{opacity:1;transform:none}
     .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:45;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--noche);border-top:1px solid var(--linea-osc);transform:translateY(100%);transition:transform .25s var(--ease)}
     .barra.ver{transform:none}
     .barra .btn{width:100%}
@@ -168,7 +201,7 @@
 
 <header id="cab">
   <div class="w">
-    <a class="marca" href="#inicio" aria-label="Mancomún, inicio"><i aria-hidden="true">M</i>Mancomún</a>
+    <a class="marca" href="#inicio" aria-label="Saldo, inicio"><i aria-hidden="true">S</i>Saldo</a>
     <nav>
       <a href="#como-funciona">Cómo funciona</a>
       <a href="#funciones">Funciones</a>
@@ -183,33 +216,31 @@
   <section class="inicio" id="apertura" aria-label="Presentación">
     <div class="escena">
       <div class="marco">
-        <img src="img/hero.jpg" alt="Amigos brindando alrededor de una mesa" width="1900" height="1268">
-        <div class="texto"><div class="w">
+        <div class="movil" aria-hidden="true"><img class="m1" src="img/hero.jpg" alt="" width="1900" height="1268"><img class="m2" src="img/mesa.jpg" alt="" width="1600" height="1067"></div>
+        <div class="texto"><div>
           <h1>Dividí gastos sin hacer cuentas</h1>
-          <p class="baja">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
-          <div class="acciones" id="acciones-hero">
+          <p class="baja despues">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
+          <div class="acciones despues" id="acciones-hero">
             <a class="btn" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
             <a class="btn btn-borde" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
           </div>
-          <p class="nota">Gratis para grupos de hasta cinco personas.</p>
+          <p class="nota despues">Gratis para grupos de hasta cinco personas.</p>
         </div></div>
       </div>
     </div>
   </section>
 
   <section class="intro">
-    <div class="w"><p>Una cena, un viaje, el alquiler. Siempre alguien pone la plata y después hay que acordarse de todo. <span>Mancomún lleva la cuenta por vos.</span></p></div>
+    <div class="w"><p id="revela" data-texto="Una cena, un viaje, el alquiler. Siempre alguien pone la plata y después hay que acordarse de todo. Saldo lleva la cuenta por vos.">Una cena, un viaje, el alquiler. Siempre alguien pone la plata y después hay que acordarse de todo. Saldo lleva la cuenta por vos.</p></div>
   </section>
 
-  <section class="funciona" id="como-funciona">
-    <div class="w">
-      <div class="pasos" id="pasos">
-        <h2 class="titulo">Así de simple</h2>
-        <div class="paso on" data-p="0"><span class="n">1</span><h3>Anotás un gasto en segundos</h3><p>Ponés el monto, quién pagó y entre quiénes se divide. Nada más.</p><div class="movil-ph"></div></div>
-        <div class="paso" data-p="1"><span class="n">2</span><h3>Cada uno ve cuánto debe</h3><p>La app lleva el saldo de todos al día y te muestra quién le debe a quién.</p><div class="movil-ph"></div></div>
-        <div class="paso" data-p="2"><span class="n">3</span><h3>Saldan con un toque</h3><p>Cuando alguien paga, lo marcás y el saldo se actualiza para todo el grupo.</p><div class="movil-ph"></div></div>
-      </div>
-      <div class="tel-sticky"><div class="tel" aria-hidden="true"><div class="pant" id="pant-sticky"></div></div></div>
+  <section class="mano" id="como-funciona" aria-label="Cómo funciona">
+    <div class="escena-m">
+      <h2 class="mano-t">Tus cuentas, en la palma de tu mano</h2>
+      <div class="tel-m" id="tel-m"><div class="tel" aria-hidden="true"><div class="pant"><div class="rollo" id="rollo"></div></div></div></div>
+      <div class="feat" data-i="0" data-lado="i"><h3>Anotás un gasto en segundos</h3><p>Ponés el monto, quién pagó y entre quiénes se divide. Nada más.</p></div>
+      <div class="feat" data-i="1" data-lado="d"><h3>Cada uno ve cuánto debe</h3><p>La app lleva el saldo de todos al día y te muestra quién le debe a quién.</p></div>
+      <div class="feat" data-i="2" data-lado="i"><h3>Saldan con un toque</h3><p>Cuando alguien paga, lo marcás y el saldo se actualiza para todo el grupo.</p></div>
     </div>
   </section>
 
@@ -224,6 +255,14 @@
         <li><h3>Invitación por link</h3><p>Quien no tiene la app ve su saldo desde el celular, sin registrarse.</p></li>
         <li><h3>Recordatorios</h3><p>Un aviso amable a quien todavía no saldó su parte.</p></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="resenas" id="resenas">
+    <div class="w">
+      <h2>Lo que dicen los grupos</h2>
+      <p class="sub">Viajes, casas compartidas y asados que ya no terminan en discusiones por la plata.</p>
+      <div class="rgrid" id="rgrid" aria-label="Opiniones de usuarios"></div>
     </div>
   </section>
 
@@ -266,7 +305,7 @@
 
 <footer>
   <div class="w">
-    <a class="marca" href="#inicio" aria-label="Mancomún, inicio">Mancomún</a>
+    <a class="marca" href="#inicio" aria-label="Saldo, inicio">Saldo</a>
     <nav aria-label="Pie"><a href="#como-funciona">Cómo funciona</a><a href="#funciones">Funciones</a><a href="#usos">Para qué sirve</a><a href="#preguntas">Preguntas</a></nav>
   </div>
 </footer>
@@ -298,18 +337,8 @@
       '<div class="p-ok"><i>✓</i><h4>Todo al día</h4><small>Cuando pagues, marcalo y se actualiza el grupo.</small></div>' +
       '<div class="p-btn">Marcar como pagado</div></div>'
   ];
-  function montar(c, activa, todas){
-    c.innerHTML = PANTALLAS.map(function(h, i){ return h.replace("<div>", '<div class="' + (todas ? "on" : (i === activa ? "on" : "")) + '">'); }).join("");
-  }
-  var sticky = $("pant-sticky");
-  var ORDEN = [1, 0, 2]; // el paso 1 muestra el gasto nuevo, el 2 el saldo y el 3 el pago
-  montar(sticky, ORDEN[0]);
-  [].forEach.call(document.querySelectorAll(".paso"), function(p){
-    var cont = p.querySelector(".movil-ph");
-    cont.innerHTML = '<div class="tel" aria-hidden="true"><div class="pant"></div></div>';
-    var pant = cont.querySelector(".pant");
-    pant.innerHTML = PANTALLAS[ORDEN[Number(p.dataset.p)]].replace("<div>", '<div class="on">');
-  });
+  var ORDEN = [1, 0, 2]; // nuevo gasto, saldos del grupo, pago
+  $("rollo").innerHTML = ORDEN.map(function(i){ return PANTALLAS[i]; }).join("");
 
   var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var clamp = function(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); };
@@ -322,18 +351,71 @@
   window.addEventListener("scroll", alScroll, { passive: true }); window.addEventListener("resize", alScroll);
   meta = prog(); actual = meta; ap.style.setProperty("--p", actual.toFixed(4));
 
-  /* ---- el teléfono cambia de pantalla al bajar ---- */
-  var pasos = [].slice.call(document.querySelectorAll(".paso"));
-  function activar(i){
-    pasos.forEach(function(p, k){ p.classList.toggle("on", k === i); });
-    [].forEach.call(sticky.children, function(d, k){ d.classList.toggle("on", k === ORDEN[i]); });
-  }
-  if ("IntersectionObserver" in window){
-    var io = new IntersectionObserver(function(es){
-      es.forEach(function(x){ if (x.isIntersecting) activar(Number(x.target.dataset.p)); });
-    }, { rootMargin: "-45% 0px -45% 0px" });
-    pasos.forEach(function(p){ io.observe(p); });
-  }
+  /* ---- título del inicio: aparece desenfocado y se aclara ---- */
+  (function(){
+    var h = document.querySelector(".inicio h1"); if (!h || reducido) return;
+    var t = h.textContent; h.setAttribute("aria-label", t);
+    h.innerHTML = t.split(" ").map(function(w, i){ return '<span class="rev" aria-hidden="true" style="--i:' + i + '">' + w + "</span>"; }).join(" ");
+  })();
+
+  /* ---- palabras que se aclaran con el scroll (idea de Text Reveal on Scroll) ---- */
+  (function(){
+    var el = $("revela"); if (!el) return;
+    var palabras = el.dataset.texto.split(/\s+/);
+    el.innerHTML = palabras.map(function(p){ return '<span class="pw">' + p + '</span>'; }).join(" ");
+    var ws = [].slice.call(el.querySelectorAll(".pw")), n = ws.length;
+    var A = [160, 170, 180], B = [17, 26, 34], act = 0, meta = 0, corre = false; // gris azulado → tinta
+    function mix(t){ return "rgb(" + A.map(function(a, i){ return Math.round(a + (B[i] - a) * t); }).join(",") + ")"; }
+    function pintar(p){ ws.forEach(function(w, i){ var t = clamp((p * n - i) , 0, 1); w.style.color = mix(t); }); }
+    function lee(){ var r = el.getBoundingClientRect(), vh = window.innerHeight; return clamp((vh - r.top) / (vh * 0.5 + r.height), 0, 1); }
+    function paso(){ act += (meta - act) * (reducido ? 1 : 0.14); if (Math.abs(meta - act) < 0.001) act = meta; pintar(act); if (act !== meta) requestAnimationFrame(paso); else corre = false; }
+    function alScroll(){ meta = lee(); if (!corre){ corre = true; requestAnimationFrame(paso); } }
+    window.addEventListener("scroll", alScroll, { passive: true }); window.addEventListener("resize", alScroll);
+    meta = lee(); act = meta; pintar(act);
+  })();
+
+  /* ---- teléfono que sube y cambia de pantalla con el scroll (idea de la landing de VetX) ---- */
+  (function(){
+    var sec = document.querySelector(".mano"), tel = $("tel-m"), feats = [].slice.call(sec.querySelectorAll(".feat"));
+    var meta = 0, act = 0, corre = false;
+    function tramos(v, ins, outs){ if (v <= ins[0]) return outs[0]; for (var i = 1; i < ins.length; i++) if (v <= ins[i]){ var t = (v - ins[i-1]) / (ins[i] - ins[i-1]); t = t*t*(3-2*t); return outs[i-1] + (outs[i] - outs[i-1]) * t; } return outs[outs.length-1]; }
+    function lee(){ var r = sec.getBoundingClientRect(), tot = r.height - window.innerHeight; return tot > 0 ? clamp(-r.top / tot, 0, 1) : 0; }
+    var activa = -1;
+    function pintar(p){
+      var s = tramos(p, [0, .3, .42, .62, .74, 1], [0, 0, 1, 1, 2, 2]);
+      sec.style.setProperty("--s", s.toFixed(4));
+      sec.style.setProperty("--ty", tramos(p, [0, .12], [60, 0]).toFixed(2));
+      sec.style.setProperty("--sc", tramos(p, [0, .12], [.88, 1]).toFixed(4));
+      var i = p < .1 ? -1 : Math.round(s);
+      if (i !== activa){ activa = i; feats.forEach(function(f, k){ f.classList.toggle("on", k === i); }); }
+    }
+    function paso(){ act += (meta - act) * (reducido ? 1 : 0.14); if (Math.abs(meta - act) < 0.0008) act = meta; pintar(act); if (act !== meta) requestAnimationFrame(paso); else corre = false; }
+    function alScroll(){ meta = lee(); if (!corre){ corre = true; requestAnimationFrame(paso); } }
+    window.addEventListener("scroll", alScroll, { passive: true }); window.addEventListener("resize", alScroll);
+    meta = lee(); act = meta; pintar(act);
+  })();
+
+  /* ---- opiniones que suben y bajan (idea de TestimonialScroll) ---- */
+  (function(){
+    var R = [
+      ["Volvimos de Bariloche sin una sola discusión por la plata. Cargamos todo en el momento y al final el saldo estaba claro.", "Julia M.", "Viaje de amigos"],
+      ["Somos cuatro en el departamento y las expensas y el wifi siempre se perdían. Ahora cada uno ve lo suyo y listo.", "Tomás R.", "Departamento compartido"],
+      ["Lo que más uso es dividir distinto cuando no todos comieron lo mismo.", "Carolina S.", "Salidas"],
+      ["Le mandé el link a mi mamá y pudo ver su parte sin instalar nada.", "Nicolás P.", "Viaje familiar"],
+      ["Las deudas se simplifican solas: terminamos haciendo dos transferencias en lugar de ocho.", "Valentina G.", "Asados de los domingos"],
+      ["Usamos pesos y dólares en el mismo grupo durante todo el viaje y no hubo que hacer cuentas aparte.", "Martín D.", "Viaje a Brasil"]
+    ];
+    var grid = $("rgrid"); if (!grid) return;
+    function carta(r){ return '<article class="res" tabindex="0"><p>' + r[0] + '</p><footer><b>' + r[1] + '</b><span>' + r[2] + '</span></footer></article>'; }
+    for (var c = 0; c < 3; c++){
+      var items = R.map(function(_, i){ return R[(i + c * 2) % R.length]; });
+      var html = items.map(carta).join(""); 
+      var lane = document.createElement("div"); lane.className = "carril" + (c === 1 ? " baja" : "");
+      lane.innerHTML = '<div class="pista">' + html + html + '</div>';
+      lane.querySelector(".pista").style.setProperty("--dur", (44 + c * 6) + "s");
+      grid.appendChild(lane);
+    }
+  })();
 
   /* ---- barra superior y barra del celular ---- */
   var cab = $("cab");
