@@ -232,6 +232,32 @@
   .mega-links{display:flex;flex-direction:column;border-bottom:1px solid var(--linea)}
   .mega-links a{min-height:48px;display:flex;align-items:center;font-size:1.15rem;font-weight:500}
   @media (max-width:900px){.solo-m{display:inline-flex!important}.mega-links{display:flex}}
+
+  .mega-cat{display:grid;grid-template-columns:200px minmax(0,1.4fr) minmax(0,3fr);gap:clamp(24px,4vw,56px);padding-top:22px}
+  .mega-cat ul{list-style:none}
+  .mc-sel button,.mc-cats button{min-height:40px;font-size:1.1rem;font-weight:500;text-align:left}
+  .mc-cats{columns:2;column-gap:36px}
+  .mc-cats button{font-size:1.05rem;display:block;width:100%}
+  @media (hover:hover){.mc-sel button:hover,.mc-cats button:hover{text-decoration:underline;text-underline-offset:5px}}
+  .mega-g.sub{padding-top:18px;gap:22px}
+  .mega-g.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .mega-g.sub button{aspect-ratio:auto;overflow:visible;color:inherit;background:none;border-radius:0;display:grid;gap:10px;align-content:start}
+  .mega-g.sub button::after{display:none}
+  .mega-g.sub .im{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:16px;background:var(--papel-2)}
+  .mega-g.sub .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .mega-g.sub b{font-weight:500;font-size:1.2rem;letter-spacing:-.01em}
+  .mega-g.sub:not(.c4){grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media (max-width:900px){.mega-cat{grid-template-columns:minmax(0,1fr)}.mega-g.c4,.mega-g.sub:not(.c4){grid-template-columns:repeat(2,minmax(0,1fr))}.mc-cats{columns:2}}
+
+  .galeria{padding-block:clamp(48px,7vw,96px) 0}
+  .galeria h2{font-size:1.5rem;font-weight:500;margin-bottom:20px}
+  .gal-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
+  .gal-g img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px}
+  @media (max-width:700px){.gal-g{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .lista{padding-block:clamp(56px,8vw,110px);text-align:center}
+  .lista h2{font-size:clamp(1.6rem,3vw,2.4rem)}
+  .lista p{color:var(--suave);margin:10px auto 22px;max-width:46ch}
+  .lista .btn-o{align-self:auto}
 </style>
 </head>
 <body>
@@ -248,9 +274,15 @@
   </div>
   <div class="mega" id="mega" aria-label="Menú">
     <div class="mega-links solo-m"><a href="#/catalogo">Ver todo el catálogo</a><a href="#contacto">Contacto</a></div>
-    <section class="mega-p" data-p="cat"><p class="mega-t">Categorías</p><div class="mega-g" id="mg-cat"></div></section>
+    <section class="mega-p" data-p="cat">
+      <div class="mega-cat">
+        <ul class="mc-sel"><li><button type="button" data-t="d">Destacados</button></li><li><button type="button" data-t="c">Clásicos</button></li><li><button type="button" data-t="n">Nuevos</button></li></ul>
+        <div><p class="mega-t" style="margin-top:0">Categorías</p><ul class="mc-cats" id="mc-cats"></ul></div>
+        <div class="mega-g sub" id="mg-cat"></div>
+      </div>
+    </section>
     <section class="mega-p" data-p="col"><p class="mega-t">Últimas colecciones</p><div class="mega-g" id="mega-g"></div></section>
-    <section class="mega-p" data-p="nos"><p class="mega-t">Conocé Arce</p><div class="mega-g" id="mg-nos"></div></section>
+    <section class="mega-p" data-p="nos"><div class="mega-g sub c4" id="mg-nos"></div></section>
   </div>
 </header>
 
@@ -296,8 +328,28 @@
   </section>
 
   <section class="div2 inv" id="taller">
-    <div class="img"><img src="img/dormitorio.jpg" alt="Dormitorio luminoso con cama y cortinas" loading="lazy" width="1500" height="1000"></div>
-    <div class="info"><small>Nuestro taller</small><h2>Diseñamos, fabricamos y probamos cada pieza</h2><p>Trabajamos con maderas macizas, piedra y tapizados en lino. Cada pieza se hace por encargo y se entrega armada.</p><button type="button" class="btn-o" data-ir="Habitación">Ver piezas de habitación</button></div>
+    <div class="img"><img src="img/taller.jpg" alt="Manos lijando una pieza de madera en el taller" loading="lazy" width="1400" height="933"></div>
+    <div class="info"><small>Nuestro taller</small><h2>Diseñamos, fabricamos y probamos cada pieza</h2><p>Trabajamos con maderas macizas, piedra y tapizados en lino. Cada pieza se hace por encargo y se entrega armada.</p><button type="button" class="btn-o" data-ir="">Ver el catálogo</button></div>
+  </section>
+
+  <section class="div2" id="materiales">
+    <div class="img"><img src="img/materiales.jpg" alt="Primer plano de una piedra con vetas suaves" loading="lazy" width="1050" height="1400" style="object-position:50% 40%"></div>
+    <div class="info"><small>Materiales</small><h2>Piedra, madera y lino, elegidos a mano</h2><p>Antes de fabricar, mostramos las muestras en el taller para que elijas el acabado de cada pieza.</p><button type="button" class="btn-o" data-ir="">Ver el catálogo</button></div>
+  </section>
+
+  <section class="galeria w">
+    <h2>En el taller</h2>
+    <div class="gal-g">
+      <img src="img/diseno.jpg" alt="Manos dibujando el boceto de una pieza" loading="lazy" width="1400" height="933">
+      <img src="img/cepillo.jpg" alt="Cepillado de una tabla de madera" loading="lazy" width="1400" height="933">
+      <img src="img/muestras.jpg" alt="Muestras de telas, maderas y piedras" loading="lazy" width="1400" height="933">
+      <img src="img/travertino.jpg" alt="Primer plano de una piedra con vetas anaranjadas" loading="lazy" width="933" height="1400">
+    </div>
+  </section>
+
+  <section class="div2 inv" id="tienda">
+    <div class="img"><img src="img/tienda.jpg" alt="Rincón del showroom con un sillón y un arco" loading="lazy" width="935" height="1400" style="object-position:50% 60%"></div>
+    <div class="info"><small>Nuestra tienda</small><h2>Vení a conocer nuestro espacio</h2><p>Avenida del Sol 1200. De lunes a sábado, de 10 a 19 h. Podés ver las piezas y las muestras de materiales.</p><a class="btn-o" href="https://www.google.com/maps/search/?api=1&query=Avenida%20del%20Sol%201200" target="_blank" rel="noopener">Cómo llegar</a></div>
   </section>
 
   <section class="hecho" id="hecho">
@@ -306,6 +358,11 @@
       <div><h3>Entrega y armado</h3><p>Llevamos las piezas a tu casa y las dejamos armadas en su lugar.</p></div>
       <div><h3>Presupuesto sin cargo</h3><p>Sumá lo que te interese a tu presupuesto y lo enviás por WhatsApp para coordinar.</p></div>
     </div>
+  </section>
+  <section class="lista w">
+    <h2>Enterate de las novedades</h2>
+    <p>Escribinos y te avisamos cuando haya nuevas colecciones o piezas disponibles.</p>
+    <a class="btn-o" href="https://wa.me/5491100000000?text=%C2%A1Hola!%20Quiero%20recibir%20las%20novedades%20de%20Arce.%20Muchas%20gracias." target="_blank" rel="noopener">Quiero recibir novedades</a>
   </section>
 </main>
 
@@ -326,7 +383,7 @@
   <div class="pie">© 2026 Arce</div>
 </footer>
 
-<div hidden id="fuentes-img"><img data-k="living" src="img/living.jpg" alt=""><img data-k="mesas" src="img/mesas.jpg" alt=""><img data-k="comedor" src="img/comedor.jpg" alt=""><img data-k="cocina" src="img/cocina.jpg" alt=""><img data-k="barra" src="img/barra.jpg" alt=""><img data-k="cama" src="img/cama.jpg" alt=""><img data-k="lampara" src="img/lampara.jpg" alt=""><img data-k="dormitorio" src="img/dormitorio.jpg" alt=""></div>
+<div hidden id="fuentes-img"><img data-k="taller" src="img/taller.jpg" alt=""><img data-k="diseno" src="img/diseno.jpg" alt=""><img data-k="materiales" src="img/materiales.jpg" alt=""><img data-k="estudio" src="img/estudio.jpg" alt=""><img data-k="tienda" src="img/tienda.jpg" alt=""><img data-k="cepillo" src="img/cepillo.jpg" alt=""><img data-k="muestras" src="img/muestras.jpg" alt=""><img data-k="travertino" src="img/travertino.jpg" alt=""><img data-k="living" src="img/living.jpg" alt=""><img data-k="mesas" src="img/mesas.jpg" alt=""><img data-k="comedor" src="img/comedor.jpg" alt=""><img data-k="cocina" src="img/cocina.jpg" alt=""><img data-k="barra" src="img/barra.jpg" alt=""><img data-k="cama" src="img/cama.jpg" alt=""><img data-k="lampara" src="img/lampara.jpg" alt=""><img data-k="dormitorio" src="img/dormitorio.jpg" alt=""></div>
 <div class="vel" id="vel"></div>
 <aside class="caj" id="caj-pres" role="dialog" aria-modal="true" aria-label="Presupuesto" aria-hidden="true">
   <div class="caj-c"><h2>Presupuesto</h2><button type="button" data-cerrar aria-label="Cerrar">×</button></div>
@@ -397,6 +454,7 @@
   }
   function coincide(p){
     if (F.q && (p.n + " " + p.k + " " + p.col + " " + p.c.join(" ")).toLowerCase().indexOf(F.q.toLowerCase()) < 0) return false;
+    if (F.t && p.t.indexOf(F.t) < 0) return false;
     if (F.k.length && F.k.indexOf(p.k) < 0) return false;
     if (F.col.length && F.col.indexOf(p.col) < 0) return false;
     if (F.amb.length && !p.c.some(function(a){ return F.amb.indexOf(a) > -1; })) return false;
@@ -414,7 +472,7 @@
     pintarCat();
   });
   document.addEventListener("click", function(e){
-    if (e.target.closest("#limpiar")){ F.k = []; F.col = []; F.amb = []; F.q = ""; $("q").value = ""; pintarCat(); }
+    if (e.target.closest("#limpiar")){ F.k = []; F.col = []; F.amb = []; F.q = ""; F.t = ""; $("q").value = ""; pintarCat(); }
     if (e.target.closest("#b-filtros")){ var f = $("filtros"); var ab = f.classList.toggle("ab"); e.target.closest("#b-filtros").setAttribute("aria-expanded", String(ab)); }
   });
   function ir(ambiente){ F = { k: [], col: [], amb: ambiente ? [ambiente] : [], q: "" }; $("q").value = ""; if (location.hash === "#/catalogo") pintarCat(); else location.hash = "#/catalogo"; }
@@ -502,16 +560,13 @@
 
   /* ---- menús desplegables: catálogo, colecciones y nosotros ---- */
   (function(){
-    function unoPor(campo, orden){ var r = [], v = {}; PROD.forEach(function(p){ if (!v[p[campo]]){ v[p[campo]] = 1; r.push(p); } }); return orden ? orden.map(function(n){ return r.filter(function(p){ return p[campo] === n; })[0]; }).filter(Boolean) : r; }
+    function unoPor(campo){ var r = [], v = {}; PROD.forEach(function(p){ if (!v[p[campo]]){ v[p[campo]] = 1; r.push(p); } }); return r; }
     function tarj(img, ox, oy, z, texto, attr){ return '<button type="button" ' + attr + '><img src="' + src(img) + '" alt="" loading="lazy" style="--z:' + z + ';--ox:' + ox + '%;--oy:' + oy + '%"><span>' + texto + '</span></button>'; }
-    $("mg-cat").innerHTML = unoPor("k", ["Sofás", "Mesas", "Sillas y banquetas", "Lámparas", "Camas"]).map(function(p){ return tarj(p.img, p.ox, p.oy, Math.max(1.2, p.z * .8), p.k, 'data-k="' + p.k + '"'); }).join("");
+    function tarj2(img, ox, oy, texto, attr){ return '<button type="button" ' + attr + '><span class="im"><img src="' + src(img) + '" alt="" loading="lazy" style="object-position:' + ox + '% ' + oy + '%"></span><b>' + texto + '</b></button>'; }
+    $("mc-cats").innerHTML = ["Sofás", "Mesas", "Sillas y banquetas", "Sillones y otomanos", "Lámparas", "Camas", "Alfombras", "Muebles de guardado", "Objetos"].map(function(k){ return '<li><button type="button" data-k="' + k + '">' + k + '</button></li>'; }).join("");
+    $("mg-cat").innerHTML = [["living", 70, 62, "Living"], ["comedor", 55, 70, "Comedor"], ["cama", 20, 70, "Habitación"], ["cocina", 70, 70, "Cocina"]].map(function(a){ return tarj2(a[0], a[1], a[2], a[3], 'data-amb="' + a[3] + '"'); }).join("");
     $("mega-g").innerHTML = unoPor("col").slice(0, 5).map(function(p){ return tarj(p.img, p.ox, p.oy, Math.max(1.2, p.z * .8), p.col, 'data-col="' + p.col + '"'); }).join("");
-    $("mg-nos").innerHTML = [
-      ["dormitorio", 50, 60, 1.1, "Nuestro taller", "#taller"],
-      ["barra", 40, 60, 1.3, "Por encargo", "#hecho"],
-      ["living", 70, 60, 1.2, "Entrega y armado", "#hecho"],
-      ["comedor", 55, 65, 1.3, "Contacto", "#contacto"]
-    ].map(function(a){ return tarj(a[0], a[1], a[2], a[3], a[4], 'data-href="' + a[5] + '"'); }).join("");
+    $("mg-nos").innerHTML = [["estudio", 50, 50, "Quiénes somos", "#taller"], ["diseno", 50, 50, "Diseño", "#taller"], ["taller", 50, 50, "Taller", "#taller"], ["materiales", 50, 50, "Materiales", "#materiales"]].map(function(a){ return tarj2(a[0], a[1], a[2], a[3], 'data-href="' + a[4] + '"'); }).join("");
     var h = $("cab"), m = $("mega"), btns = [].slice.call(document.querySelectorAll("[data-mega]")), bm = $("b-menu"), t;
     function abrirM(k){ clearTimeout(t); m.dataset.act = k; h.classList.add("abre-mega"); btns.forEach(function(b){ b.setAttribute("aria-expanded", String(b.dataset.mega === k)); }); }
     function cerrarM(){ clearTimeout(t); h.classList.remove("abre-mega"); delete m.dataset.act; btns.forEach(function(b){ b.setAttribute("aria-expanded", "false"); }); bm.setAttribute("aria-expanded", "false"); }
@@ -527,10 +582,10 @@
     bm.addEventListener("click", function(){ if (h.classList.contains("abre-mega")) cerrarM(); else { abrirM("col"); bm.setAttribute("aria-expanded", "true"); } });
     document.addEventListener("keydown", function(e){ if (e.key === "Escape") cerrarM(); });
     document.addEventListener("click", function(e){
-      var c = e.target.closest("[data-col],[data-k],[data-href]"); if (!c || !m.contains(c)) { if (e.target.closest("#mega a")) cerrarM(); return; }
+      var c = e.target.closest("[data-col],[data-k],[data-href],[data-amb],[data-t]"); if (!c || !m.contains(c)) { if (e.target.closest("#mega a")) cerrarM(); return; }
       cerrarM();
       if (c.dataset.href){ if (location.hash === c.dataset.href){ var el = document.getElementById(c.dataset.href.slice(1)); if (el) el.scrollIntoView(); } else location.hash = c.dataset.href; return; }
-      F = { k: c.dataset.k ? [c.dataset.k] : [], col: c.dataset.col ? [c.dataset.col] : [], amb: [], q: "" }; $("q").value = "";
+      F = { k: c.dataset.k ? [c.dataset.k] : [], col: c.dataset.col ? [c.dataset.col] : [], amb: c.dataset.amb ? [c.dataset.amb] : [], q: "", t: c.dataset.t || "" }; $("q").value = "";
       if (location.hash === "#/catalogo") pintarCat(); else location.hash = "#/catalogo";
     });
   })();
