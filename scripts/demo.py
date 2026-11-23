@@ -43,7 +43,7 @@ FICTICIOS = {
                  "direccion": "Av. de Mayo 1240, Ramos Mejía", "telefono": "", "whatsapp": "5491100000000", "rating": "",
                  "fotos": "0", "link_maps": "https://www.google.com/maps/search/?api=1&query=Ramos+Mej%C3%ADa", "web": ""},
         "extra": {"horarios": "Lunes a viernes, de 9 a 19 h", "mapa_q": "Av. de Mayo 1240, Ramos Mejía, Buenos Aires",
-                  "aviso": "Marca de ejemplo. Sitio de muestra de Lumen Studio."},
+                  "aviso": "Marca de ejemplo. Sitio de muestra de Halo Studio."},
     },
 }
 

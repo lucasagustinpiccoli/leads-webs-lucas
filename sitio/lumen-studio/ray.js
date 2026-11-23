@@ -1,4 +1,4 @@
-/* Ray: la mascota de Lumen Studio. Flota abajo a la derecha, aparece al pasar el hero y abre el chat.
+/* Ray: la mascota de Halo Studio. Flota abajo a la derecha, aparece al pasar el hero y abre el chat.
    Se inspira en el comportamiento del componente Mochi de Framer (los ojos siguen el puntero, parpadea, mira alrededor,
    se duerme si nadie lo toca y salta al despertar), reimplementado en JavaScript puro sobre un SVG propio. */
 (function () {

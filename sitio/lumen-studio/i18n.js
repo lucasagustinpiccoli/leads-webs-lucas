@@ -8,7 +8,7 @@
     "Cómo trabajo": "How we work",
     "Preguntas": "FAQ",
     "Empezá tu proyecto": "Start your project",
-    "Lumen Studio, diseño web para negocios locales": "Lumen Studio, web design for local businesses",
+    "Halo Studio, diseño web para negocios locales": "Halo Studio, web design for local businesses",
     "Diseño web para": "Web design for",
     "Te mostramos cómo quedaría tu página antes de que contrates.": "We show you how your website would look before you commit.",
     "Ver trabajos": "See our work",
@@ -105,9 +105,9 @@
     "Te mostramos cómo quedaría tu página, sin costo y sin compromiso.": "We show you how your website would look, at no cost and no commitment.",
     "Diseño web para negocios locales": "Web design for local businesses",
     "Buenos Aires, Argentina. © 2026": "Buenos Aires, Argentina. © 2026",
-    "Asistente de Lumen Studio": "Lumen Studio assistant",
+    "Asistente de Halo Studio": "Halo Studio assistant",
     "Hola, soy Ray. ¿Te ayudamos?": "Hi, I'm Ray. Can we help?",
-    "Lumen Studio, inicio": "Lumen Studio, home",
+    "Halo Studio, inicio": "Halo Studio, home",
     "Trabajos, pasá el cursor o tocá para ver cada uno": "Work, hover or tap to see each one",
     "Oliva Atelier, página con reserva de turnos": "Oliva Atelier, website with online booking",
     "Anima Center, tablero con indicadores, altas por mes y estado de los socios": "Anima Center, dashboard with key figures, new members per month and member status",
@@ -117,11 +117,11 @@
     "Cerrar el chat": "Close the chat",
     "Hablar con Ray, el asistente": "Talk to Ray, the assistant",
     "Idioma": "Language",
-    "Lumen Studio | Diseño web para negocios locales": "Lumen Studio | Web design for local businesses",
-    "Lumen Studio diseña páginas web claras, rápidas y que se ven bien en cualquier pantalla, para negocios y profesionales de Buenos Aires. Antes de contratar, te mostramos cómo quedaría la tuya.": "Lumen Studio designs clear, fast websites that look good on any screen, for businesses and professionals in Buenos Aires. Before you hire us, we show you how yours would look.",
+    "Halo Studio | Diseño web para negocios locales": "Halo Studio | Web design for local businesses",
+    "Halo Studio diseña páginas web claras, rápidas y que se ven bien en cualquier pantalla, para negocios y profesionales de Buenos Aires. Antes de contratar, te mostramos cómo quedaría la tuya.": "Halo Studio designs clear, fast websites that look good on any screen, for businesses and professionals in Buenos Aires. Before you hire us, we show you how yours would look.",
     "Hola, vi tu página y quiero contarles sobre mi negocio.": "Hi, I saw your website and I'd like to tell you about my business.",
     /* Ray */
-    "Hola, soy Ray, el asistente de Lumen Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen al equipo.": "Hi, I'm Ray, Lumen Studio's assistant. I'll ask you five questions, show you a price range and pass the summary on to the team.",
+    "Hola, soy Ray, el asistente de Halo Studio. Te hago cinco preguntas, te muestro un rango de precio y le paso el resumen al equipo.": "Hi, I'm Ray, Halo Studio's assistant. I'll ask you five questions, show you a price range and pass the summary on to the team.",
     "¿Qué tipo de negocio tenés?": "What kind of business do you have?",
     "Salud o consultorio": "Health or clinic", "Salón o eventos": "Salon or events", "Belleza o estética": "Beauty or aesthetics",
     "Gimnasio o deporte": "Gym or sports", "Estudio profesional": "Professional firm", "Comercio o tienda": "Shop or store", "Otro rubro": "Other",
@@ -191,13 +191,13 @@
 
   function poner(nuevo, avisar) {
     lang = nuevo === "en" ? "en" : "es";
-    try { localStorage.setItem("lumen-lang", lang); } catch (e) {}
+    try { localStorage.setItem("halo-lang", lang); } catch (e) {}
     aplicar();
     if (avisar) oyentes.forEach(function (f) { try { f(lang); } catch (e) {} });
   }
 
   var guardado = null;
-  try { guardado = localStorage.getItem("lumen-lang"); } catch (e) {}
+  try { guardado = localStorage.getItem("halo-lang"); } catch (e) {}
   var inicial = guardado === "en" || guardado === "es" ? guardado : ((navigator.language || "es").slice(0, 2) === "es" ? "es" : "en");
 
   window.I18N = {

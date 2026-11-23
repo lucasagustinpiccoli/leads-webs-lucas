@@ -83,12 +83,12 @@ Se trabaja en **tandas de 100 prospectos** rankeados, con los mejores marcados p
 
 ## Página madre y publicación
 
-- `sitio/lumen-studio/`: la página de Lumen Studio (portfolio de Lucas), rediseñada con la skill Hallmark (tema Studio: papel
+- `sitio/lumen-studio/`: la página de Halo Studio (portfolio de Lucas), rediseñada con la skill Hallmark (tema Studio: papel
   frío, serif Hedvig, un acento naranja, marcas de corte). Estilos en `styles.css`, `tokens.css` y `base.css`. Para volver
   a auditarla: `/hallmark audit sitio/lumen-studio/index.html`. Una sola página en español, estilo sobrio, con
   solo lo que se puede respaldar: sin testimonios ni logos inventados. La demo interactiva de gimnasio está en `sitio/lumen-studio/gymflow/` (maqueta con datos ficticios; el sistema real tiene datos de socios y no se muestra). Ver `sitio/lumen-studio/LEEME.md` (qué completar
   antes de publicar: número de WhatsApp y permisos de los casos).
-- La página madre (nombre de marca: Lumen Studio) lleva cuatro piezas interactivas, todas en JavaScript puro y sin servidor:
+- La página madre (nombre de marca: Halo Studio) lleva cuatro piezas interactivas, todas en JavaScript puro y sin servidor:
   la apertura "Neon Reveal" (`neon-reveal.js`: un tubo de neón se enciende arriba, parpadea y su luz revela el contenido;
   es una versión propia basada en la descripción pública del componente de React Bits Pro, que requiere licencia; cuando se
   compre la licencia se puede cambiar por el original), un rotador de palabras con efecto de máquina de escribir inspirado

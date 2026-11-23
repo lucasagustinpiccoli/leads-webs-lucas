@@ -1,4 +1,4 @@
-/* Ray: asistente de Lumen Studio. Saluda, pregunta el nombre y guía a tres caminos: ver los proyectos,
+/* Ray: asistente de Halo Studio. Saluda, pregunta el nombre y guía a tres caminos: ver los proyectos,
    empezar un proyecto (abre el formulario) o seguir por WhatsApp con un mensaje ya escrito.
    No usa IA ni guarda nada: el nombre solo se usa en esta conversación y en el mensaje de WhatsApp. */
 (function () {
@@ -82,8 +82,8 @@
   /* Mensaje de WhatsApp escrito en primera persona, con el nombre. */
   function mensajeWA() {
     return EN()
-      ? "Hi! My name is " + nombre + ". I saw the Lumen Studio website and I'd like to ask about a website for my business. Thank you!"
-      : "¡Hola! Mi nombre es " + nombre + ". Vi la página de Lumen Studio y me gustaría consultar por una web para mi negocio. Muchas gracias.";
+      ? "Hi! My name is " + nombre + ". I saw the Halo Studio website and I'd like to ask about a website for my business. Thank you!"
+      : "¡Hola! Mi nombre es " + nombre + ". Vi la página de Halo Studio y me gustaría consultar por una web para mi negocio. Muchas gracias.";
   }
 
   function enlaceWA() {
@@ -173,7 +173,7 @@
   function correr() {
     gen++;
     nombre = "";
-    return decir(L("¡Hola! Soy Ray, el asistente de Lumen Studio.", "Hi! I'm Ray, the Lumen Studio assistant."))
+    return decir(L("¡Hola! Soy Ray, el asistente de Halo Studio.", "Hi! I'm Ray, the Halo Studio assistant."))
       .then(function () { return decir(L("¿Cómo te llamás?", "What's your name?")); })
       .then(pedirNombre)
       .then(function (n) { nombre = n; return decir(L("Mucho gusto, " + nombre + ". ¿Qué querés hacer?", "Nice to meet you, " + nombre + ". What would you like to do?")); })
