@@ -202,7 +202,8 @@
       <h2>Contanos de tu negocio</h2>
       <div class="side">
         <p>Te mostramos cómo quedaría tu página, sin costo y sin compromiso.</p>
-        <a class="btn btn--primary crop" id="cta-contacto" data-wa href="#contacto">Empezá tu proyecto</a>
+        <div class="cta-par"><a class="btn btn--primary crop" id="cta-contacto" data-wa href="#contacto">Empezá tu proyecto</a><a class="btn crop" data-wa-directo href="#contacto">Escribinos por WhatsApp</a></div>
+        <p class="nota-wa">Si preferís, contanos tu idea directo por WhatsApp.</p>
       </div>
     </div>
   </section>
@@ -213,6 +214,7 @@
     <div class="row">
       <span class="marca-pie">Lumen Studio</span>
       <span>Diseño web para negocios locales</span>
+      <a class="wa-pie" data-wa-directo href="#contacto">WhatsApp</a>
       <span>Buenos Aires, Argentina. © 2026</span>
     </div>
   </div>
@@ -331,6 +333,12 @@
     var WA = "549XXXXXXXXXX";
     var listo = WA.indexOf("X") < 0;
     window.LP_WA = listo ? WA : "";
+    // Botón directo a WhatsApp: abre el chat con un saludo escrito en primera persona. Sin número cargado, abre el formulario.
+    var saludo = "¡Hola! Vi la página de Lumen Studio y me gustaría hacer una consulta sobre una web para mi negocio. Muchas gracias.";
+    document.querySelectorAll("[data-wa-directo]").forEach(function(a){
+      if (listo) { a.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(saludo); a.target = "_blank"; a.rel = "noopener"; }
+      else a.setAttribute("data-wa", "");
+    });
 
 
     // Trabajos: el panel activo se abre; en pantallas con cursor alcanza con pasar por encima, en el celular se toca.

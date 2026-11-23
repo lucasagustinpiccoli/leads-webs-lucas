@@ -400,3 +400,8 @@
 @media (prefers-reduced-motion: reduce) { .fm, .fm-progreso i, .fm-paso { transition: none; animation: none; } }
 
 .x-acciones { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+
+.cta-par { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.nota-wa { font-size: var(--text-sm); }
+.wa-pie { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 60rem) { .cta-par .btn { flex: 1 1 100%; } }

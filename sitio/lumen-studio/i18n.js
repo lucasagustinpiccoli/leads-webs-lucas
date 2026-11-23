@@ -36,6 +36,8 @@
     "Sitio para un desarrollo inmobiliario, pensado para que el edificio se descubra con el scroll y cada unidad se pueda elegir con su plano y su precio.": "A website for a real-estate development, designed so the building is discovered as you scroll and each unit can be chosen with its floor plan and price.",
     "Catálogo de mobiliario con filtros, favoritos y una lista de presupuesto que se envía por WhatsApp, para que cada consulta llegue armada.": "A furniture catalogue with filters, favourites and a quote list sent over WhatsApp, so every enquiry arrives ready to answer.",
     "Landing para una app de gastos compartidos, pensada para que el producto se vea en acción y la descarga esté siempre a un toque.": "A landing page for a shared-expenses app, designed so the product is seen in action and the download is always one tap away.",
+    "Escribinos por WhatsApp": "Message us on WhatsApp",
+    "Si preferís, contanos tu idea directo por WhatsApp.": "Prefer to chat? Tell us your idea directly on WhatsApp.",
     "Probar la demo": "Try the demo",
     "Sistema de gestión para gimnasios: socios, cuotas, caja y calendario en un solo lugar, para dejar atrás las planillas.": "A management system for gyms: members, fees, cash and calendar in one place, to leave spreadsheets behind.",
     "R&RG Estudio Jurídico": "R&RG Law Firm",
