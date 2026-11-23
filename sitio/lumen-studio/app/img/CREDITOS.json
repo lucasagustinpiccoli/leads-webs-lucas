@@ -1,0 +1,25 @@
+{
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre. Todas son de una misma sesión (almuerzo entre amigos) para que el conjunto sea coherente.",
+ "fotos": [
+  {
+   "id": "3184183",
+   "uso": "hero",
+   "pexels": "https://www.pexels.com/photo/3184183/"
+  },
+  {
+   "id": "3184185",
+   "uso": "telefonos",
+   "pexels": "https://www.pexels.com/photo/3184185/"
+  },
+  {
+   "id": "3184190",
+   "uso": "mesa",
+   "pexels": "https://www.pexels.com/photo/3184190/"
+  },
+  {
+   "id": "3184194",
+   "uso": "brindis",
+   "pexels": "https://www.pexels.com/photo/3184194/"
+  }
+ ]
+}

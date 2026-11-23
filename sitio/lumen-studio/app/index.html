@@ -6,11 +6,11 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#16212B">
 <title>Mancomún | La app para dividir gastos</title>
-<meta name="description" content="Mancomún es una app de ejemplo para dividir gastos entre amigos, parejas y convivientes. Anotás, la app calcula y todos saldan sin cuentas incómodas.">
+<meta name="description" content="Mancomún es una app para dividir gastos entre amigos, parejas y convivientes. Anotás, la app calcula y todos saldan sin cuentas incómodas.">
 <link rel="preload" href="fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fuentes.css">
 <style>
-  /* Landing de una app de ejemplo. Azul pizarra, un solo acento naranja y pantallas de la app hechas en HTML. */
+  /* Landing de una app. Azul pizarra, un solo acento naranja y pantallas de la app hechas en HTML. */
   :root{
     --noche:#16212B; --noche-2:#1F2E3B; --niebla:#F1F4F7; --niebla-2:#E3E9EF; --blanco:#FFFFFF;
     --tinta:#111A22; --suave:#53606D; --naranja:#FF7A2F; --naranja-tinta:#1D0F05; --ok:#2E8B6A; --deuda:#C2410C;
@@ -31,7 +31,6 @@
   .w{width:min(1200px,100% - 2*var(--gut));margin-inline:auto}
   :focus-visible{outline:2px solid var(--naranja);outline-offset:3px}
   section{padding-block:clamp(56px,8vw,112px)}
-  .aviso{background:#0E161D;color:rgba(241,244,247,.75);font-size:13px;text-align:center;padding:7px 16px;position:relative;z-index:60}
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;border:0;background:var(--naranja);color:var(--naranja-tinta);font-weight:600;font-size:1rem;cursor:pointer;white-space:nowrap;transition:transform .16s var(--ease),filter .2s}
   .btn:active{transform:scale(.97)}
@@ -39,7 +38,7 @@
   .btn-borde{background:none;color:inherit;box-shadow:0 0 0 1.5px currentColor inset}
   @media (hover:hover){.btn:hover{filter:brightness(1.07)}}
 
-  header{position:fixed;top:33px;left:0;right:0;z-index:50;color:var(--niebla);transition:background-color .3s}
+  header{position:fixed;top:0;left:0;right:0;z-index:50;color:var(--niebla);transition:background-color .3s}
   header.solida{background:rgba(22,33,43,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
   header .w{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:68px}
   .marca{font-family:var(--titulo);font-weight:700;font-size:1.4rem;letter-spacing:-.03em;display:flex;align-items:center;gap:10px;white-space:nowrap}
@@ -49,14 +48,22 @@
   header nav .btn{min-height:44px;padding:0 20px}
   @media (hover:hover){header nav a:not(.btn):hover{opacity:1}}
 
-  /* presentación */
-  .hero{background:var(--noche);color:var(--niebla);padding-block:clamp(120px,16vw,170px) clamp(48px,7vw,96px);overflow:hidden;position:relative}
-  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 40%,rgba(255,122,47,.16),transparent 70%);pointer-events:none}
-  .hero .w{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,5vw,80px);align-items:center;position:relative}
-  .hero h1{font-size:clamp(2.9rem,7vw,6rem);font-weight:700;letter-spacing:-.045em;line-height:.96;max-width:11ch}
-  .hero .baja{margin-top:22px;max-width:38ch;font-size:clamp(1.05rem,1.6vw,1.3rem);opacity:.85}
-  .hero .acciones{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
-  .hero .nota{margin-top:16px;font-size:.92rem;opacity:.65}
+  /* inicio: la foto ocupa todo y al bajar se encoge con esquinas redondeadas (idea de RadiusOnScroll) */
+  .inicio{height:170vh;position:relative;background:var(--niebla);padding:0}
+  .inicio .escena{position:sticky;top:0;height:100svh;padding:calc(var(--p,0) * var(--pad,22px));box-sizing:border-box}
+  .inicio .marco{position:relative;width:100%;height:100%;overflow:hidden;border-radius:calc(var(--p,0) * 44px);background:#2a2018;isolation:isolate}
+  .inicio .marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.08 - var(--p,0) * .08))}
+  .inicio .marco::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(17,12,8,.82) 0%,rgba(17,12,8,.3) 52%,rgba(17,12,8,.4) 100%)}
+  .inicio .texto{position:absolute;left:0;right:0;bottom:clamp(28px,5vw,64px);z-index:2;color:#fff}
+  .inicio h1{font-size:clamp(2.9rem,8vw,7rem);font-weight:700;letter-spacing:-.05em;line-height:.95;max-width:12ch}
+  .inicio .baja{margin-top:18px;max-width:40ch;font-size:clamp(1.05rem,1.6vw,1.3rem);opacity:.92}
+  .inicio .acciones{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+  .inicio .nota{margin-top:14px;font-size:.92rem;opacity:.8}
+  .inicio .btn-borde{color:#fff}
+
+  .intro{background:var(--niebla);padding-block:clamp(72px,10vw,150px)}
+  .intro p{font-family:var(--titulo);font-weight:600;font-size:clamp(1.8rem,4.4vw,3.6rem);letter-spacing:-.035em;line-height:1.08;max-width:22ch;text-wrap:balance}
+  .intro p span{color:var(--suave)}
 
   /* teléfono */
   .tel{width:min(300px,100%);aspect-ratio:9/19;border-radius:44px;background:#0B1218;padding:10px;box-shadow:0 0 0 2px #2B3B49 inset,0 40px 80px -30px rgba(0,0,0,.7);margin-inline:auto;position:relative}
@@ -98,13 +105,22 @@
   .paso .movil-ph{display:none}
   .funciona .titulo{margin-bottom:clamp(8px,2vw,24px)}
 
+  /* funciones */
+  .funciones{background:var(--blanco)}
+  .funciones h2{max-width:16ch}
+  .funciones ul{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(20px,3vw,44px);margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--linea)}
+  .funciones li{padding:26px 0 30px;border-bottom:1px solid var(--linea)}
+  .funciones li p{color:var(--suave);margin-top:8px;max-width:34ch}
+
   /* para qué sirve */
   .usos{background:var(--noche);color:var(--niebla)}
-  .usos ul{list-style:none;margin-top:clamp(28px,4vw,48px);border-top:1px solid var(--linea-osc)}
-  .usos li{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr) auto;gap:20px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--linea-osc)}
-  .usos li h3{font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-.035em}
-  .usos li p{opacity:.78;max-width:46ch}
-  .usos li b{font-family:var(--titulo);color:var(--naranja);font-weight:600;font-variant-numeric:tabular-nums}
+  .usos .w{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:center}
+  .usos .foto{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5}
+  .usos .foto img{width:100%;height:100%;object-fit:cover}
+  .usos ul{list-style:none;margin-top:clamp(24px,3vw,40px);border-top:1px solid var(--linea-osc)}
+  .usos li{padding:24px 0;border-bottom:1px solid var(--linea-osc)}
+  .usos li h3{font-size:clamp(1.5rem,2.6vw,2.1rem);letter-spacing:-.03em}
+  .usos li p{opacity:.78;max-width:46ch;margin-top:6px}
 
   .faq .w{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:start}
   .faq details{border-bottom:1px solid var(--linea)}
@@ -115,26 +131,31 @@
   .faq details[open] summary::after{transform:rotate(45deg)}
   .faq details p{padding:0 0 22px;color:var(--suave);max-width:60ch}
 
-  .cierre{background:var(--naranja);color:var(--naranja-tinta);text-align:left}
+  .cierre{background:var(--naranja);color:var(--naranja-tinta)}
   .cierre .w{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px 48px}
   .cierre h2{max-width:14ch;font-size:clamp(2.4rem,6vw,5rem);letter-spacing:-.045em}
   .cierre .btn{background:var(--noche);color:var(--niebla)}
   .cierre .acciones{display:flex;flex-wrap:wrap;gap:12px}
 
-  footer{background:var(--noche);color:rgba(241,244,247,.75);padding-block:32px;font-size:.92rem}
-  footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px}
+  footer{background:var(--noche);color:rgba(241,244,247,.7);padding-block:26px;font-size:.92rem}
+  footer .w{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px}
+  footer .marca{font-size:1.1rem;color:var(--niebla)}
+  footer nav{display:flex;flex-wrap:wrap;gap:4px 24px}
+  footer nav a{min-height:36px;display:inline-flex;align-items:center}
+  @media (hover:hover){footer nav a:hover{color:var(--niebla)}}
 
   .barra{display:none}
   @media (max-width:900px){
     header nav a:not(.btn){display:none}
-    .hero .w,.funciona .w,.faq .w{grid-template-columns:minmax(0,1fr)}
-    .hero .tel{margin-top:16px}
+    .inicio{--pad:12px}
+    .funciona .w,.faq .w,.usos .w{grid-template-columns:minmax(0,1fr)}
+    .funciones ul{grid-template-columns:minmax(0,1fr)}
+    .usos .foto{aspect-ratio:4/3}
     .funciona .tel-sticky{display:none}
     .paso{min-height:0;opacity:1;padding-block:32px}
     .paso .movil-ph{display:block;margin-top:18px}
     .paso .movil-ph .tel{width:min(260px,100%)}
     .paso .movil-ph .pant>div{opacity:1;transform:none}
-    .usos li{grid-template-columns:minmax(0,1fr);gap:6px}
     .barra{display:block;position:fixed;left:0;right:0;bottom:0;z-index:45;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--noche);border-top:1px solid var(--linea-osc);transform:translateY(100%);transition:transform .25s var(--ease)}
     .barra.ver{transform:none}
     .barra .btn{width:100%}
@@ -144,13 +165,13 @@
 </style>
 </head>
 <body>
-<div class="aviso">Landing de ejemplo de Lumen Studio. La app y sus datos son ficticios.</div>
 
 <header id="cab">
   <div class="w">
     <a class="marca" href="#inicio" aria-label="Mancomún, inicio"><i aria-hidden="true">M</i>Mancomún</a>
     <nav>
       <a href="#como-funciona">Cómo funciona</a>
+      <a href="#funciones">Funciones</a>
       <a href="#usos">Para qué sirve</a>
       <a href="#preguntas">Preguntas</a>
       <a class="btn" href="#descargar">Descargar</a>
@@ -159,19 +180,25 @@
 </header>
 
 <main id="inicio">
-  <section class="hero">
-    <div class="w">
-      <div>
-        <h1>Dividí gastos sin hacer cuentas</h1>
-        <p class="baja">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
-        <div class="acciones" id="acciones-hero">
-          <a class="btn" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
-          <a class="btn btn-borde" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
-        </div>
-        <p class="nota">Gratis para grupos de hasta cinco personas.</p>
+  <section class="inicio" id="apertura" aria-label="Presentación">
+    <div class="escena">
+      <div class="marco">
+        <img src="img/hero.jpg" alt="Amigos brindando alrededor de una mesa" width="1900" height="1268">
+        <div class="texto"><div class="w">
+          <h1>Dividí gastos sin hacer cuentas</h1>
+          <p class="baja">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
+          <div class="acciones" id="acciones-hero">
+            <a class="btn" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
+            <a class="btn btn-borde" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
+          </div>
+          <p class="nota">Gratis para grupos de hasta cinco personas.</p>
+        </div></div>
       </div>
-      <div class="tel" aria-hidden="true"><div class="pant" id="pant-hero"></div></div>
     </div>
+  </section>
+
+  <section class="intro">
+    <div class="w"><p>Una cena, un viaje, el alquiler. Siempre alguien pone la plata y después hay que acordarse de todo. <span>Mancomún lleva la cuenta por vos.</span></p></div>
   </section>
 
   <section class="funciona" id="como-funciona">
@@ -186,14 +213,31 @@
     </div>
   </section>
 
+  <section class="funciones" id="funciones">
+    <div class="w">
+      <h2>Todo lo que hace falta para ajustar cuentas</h2>
+      <ul>
+        <li><h3>Partes como quieras</h3><p>Iguales, por porcentaje o con un monto exacto para cada persona.</p></li>
+        <li><h3>Varias monedas</h3><p>Pesos y dólares en el mismo grupo, ideal para viajes.</p></li>
+        <li><h3>Menos pagos</h3><p>La app simplifica las deudas para que hagan falta menos transferencias.</p></li>
+        <li><h3>Tickets adjuntos</h3><p>Sacale una foto al comprobante y queda junto al gasto.</p></li>
+        <li><h3>Invitación por link</h3><p>Quien no tiene la app ve su saldo desde el celular, sin registrarse.</p></li>
+        <li><h3>Recordatorios</h3><p>Un aviso amable a quien todavía no saldó su parte.</p></li>
+      </ul>
+    </div>
+  </section>
+
   <section class="usos" id="usos">
     <div class="w">
-      <h2>Para cada grupo, una cuenta clara</h2>
-      <ul>
-        <li><h3>Viajes</h3><p>Alojamiento, nafta y cenas: cada gasto queda anotado y al volver se salda todo junto.</p><b>Tickets</b></li>
-        <li><h3>Departamento compartido</h3><p>Alquiler, expensas y servicios, con cuotas iguales o distintas según cada uno.</p><b>Mensual</b></li>
-        <li><h3>Salidas y asados</h3><p>Uno paga el total y los demás le devuelven su parte sin hacer cuentas en la mesa.</p><b>Al instante</b></li>
-      </ul>
+      <div class="foto"><img src="img/telefonos.jpg" alt="Amigos mirando sus celulares en una reunión" loading="lazy" width="667" height="1000"></div>
+      <div>
+        <h2>Para cada grupo, una cuenta clara</h2>
+        <ul>
+          <li><h3>Viajes</h3><p>Alojamiento, nafta y cenas: cada gasto queda anotado y al volver se salda todo junto.</p></li>
+          <li><h3>Departamento compartido</h3><p>Alquiler, expensas y servicios, con cuotas iguales o distintas según cada uno.</p></li>
+          <li><h3>Salidas y asados</h3><p>Uno paga el total y los demás le devuelven su parte sin hacer cuentas en la mesa.</p></li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -201,7 +245,7 @@
     <div class="w">
       <h2>Preguntas frecuentes</h2>
       <div>
-        <details><summary>¿Hay que pagar para usarla?</summary><p>En este proyecto de ejemplo no hay precios reales. Una app de verdad define su plan gratuito y sus planes pagos.</p></details>
+        <details><summary>¿Hay que pagar para usarla?</summary><p>Es gratis para grupos de hasta cinco personas, con gastos ilimitados. Para grupos más grandes hay un plan mensual.</p></details>
         <details><summary>¿Todos tienen que instalarla?</summary><p>No. Quien arma el grupo puede invitar por link, y cada persona ve su saldo desde el celular.</p></details>
         <details><summary>¿Se puede dividir en partes desiguales?</summary><p>Sí. Podés repartir en partes iguales, por porcentaje o con un monto fijo para cada persona.</p></details>
         <details><summary>¿Cómo se paga lo que se debe?</summary><p>La app calcula cuánto le toca a cada uno y los pagos se hacen por fuera, como siempre. Después se marcan como saldados.</p></details>
@@ -213,15 +257,18 @@
     <div class="w">
       <h2>Empezá hoy con tu grupo</h2>
       <div class="acciones" id="acciones-fin">
-        <a class="btn" href="#inicio">App Store</a>
-        <a class="btn" href="#inicio">Google Play</a>
+        <a class="btn" href="#inicio"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
+        <a class="btn" href="#inicio"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
       </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="w"><span>Mancomún, landing de ejemplo de Lumen Studio.</span><span>Todos los datos de las pantallas son ficticios.</span></div>
+  <div class="w">
+    <a class="marca" href="#inicio" aria-label="Mancomún, inicio">Mancomún</a>
+    <nav aria-label="Pie"><a href="#como-funciona">Cómo funciona</a><a href="#funciones">Funciones</a><a href="#usos">Para qué sirve</a><a href="#preguntas">Preguntas</a></nav>
+  </div>
 </footer>
 
 <div class="barra" id="barra"><a class="btn" href="#descargar">Descargar la app</a></div>
@@ -254,9 +301,9 @@
   function montar(c, activa, todas){
     c.innerHTML = PANTALLAS.map(function(h, i){ return h.replace("<div>", '<div class="' + (todas ? "on" : (i === activa ? "on" : "")) + '">'); }).join("");
   }
-  var sticky = $("pant-sticky"), hero = $("pant-hero");
+  var sticky = $("pant-sticky");
   var ORDEN = [1, 0, 2]; // el paso 1 muestra el gasto nuevo, el 2 el saldo y el 3 el pago
-  montar(hero, 0); montar(sticky, ORDEN[0]);
+  montar(sticky, ORDEN[0]);
   [].forEach.call(document.querySelectorAll(".paso"), function(p){
     var cont = p.querySelector(".movil-ph");
     cont.innerHTML = '<div class="tel" aria-hidden="true"><div class="pant"></div></div>';
@@ -264,16 +311,16 @@
     pant.innerHTML = PANTALLAS[ORDEN[Number(p.dataset.p)]].replace("<div>", '<div class="on">');
   });
 
-  /* ---- número del total que cuenta ---- */
   var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function contar(el){
-    var fin = Number(el.dataset.n);
-    if (reducido){ el.textContent = "$ " + fmt(fin); return; }
-    var t0 = performance.now();
-    (function paso(t){ var k = Math.min(1, (t - t0) / 1200); el.textContent = "$ " + fmt(Math.round(fin * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(paso); })(t0);
-  }
-  [].forEach.call(document.querySelectorAll("[data-n]"), function(el){ el.textContent = "$ " + fmt(Number(el.dataset.n)); });
-  if (!reducido) setTimeout(function(){ var e = hero.querySelector("[data-n]"); if (e) contar(e); }, 300);
+  var clamp = function(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); };
+
+  /* ---- inicio: la foto se encoge con esquinas redondeadas al bajar ---- */
+  var ap = $("apertura"), meta = 0, actual = 0, corriendo = false;
+  function prog(){ var r = ap.getBoundingClientRect(), t = r.height - window.innerHeight; return t > 0 ? clamp(-r.top / (t * 0.9), 0, 1) : 0; }
+  function paso(){ actual += (meta - actual) * (reducido ? 1 : 0.16); if (Math.abs(meta - actual) < 0.001) actual = meta; ap.style.setProperty("--p", actual.toFixed(4)); if (actual !== meta) requestAnimationFrame(paso); else corriendo = false; }
+  function alScroll(){ meta = prog(); if (!corriendo){ corriendo = true; requestAnimationFrame(paso); } }
+  window.addEventListener("scroll", alScroll, { passive: true }); window.addEventListener("resize", alScroll);
+  meta = prog(); actual = meta; ap.style.setProperty("--p", actual.toFixed(4));
 
   /* ---- el teléfono cambia de pantalla al bajar ---- */
   var pasos = [].slice.call(document.querySelectorAll(".paso"));
@@ -290,7 +337,7 @@
 
   /* ---- barra superior y barra del celular ---- */
   var cab = $("cab");
-  function alBajar(){ cab.classList.toggle("solida", window.scrollY > 80); cab.style.top = Math.max(0, document.querySelector(".aviso").offsetHeight - window.scrollY) + "px"; }
+  function alBajar(){ cab.classList.toggle("solida", window.scrollY > 80);  }
   alBajar(); window.addEventListener("scroll", alBajar, { passive: true });
   var barra = $("barra"), vistos = new Set();
   if ("IntersectionObserver" in window){
