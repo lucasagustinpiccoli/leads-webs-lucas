@@ -49,33 +49,38 @@
   header nav .btn{min-height:44px;padding:0 20px}
   @media (hover:hover){header nav a:not(.btn):hover{opacity:1}}
 
-  /* inicio: la foto ocupa todo y al bajar se encoge con esquinas redondeadas (idea de RadiusOnScroll) */
-  .inicio{height:170vh;position:relative;background:var(--niebla);padding:0}
-  .inicio .escena{position:sticky;top:0;height:100svh;padding:calc(var(--p,0) * var(--pad,22px));box-sizing:border-box}
-  .inicio .marco{position:relative;width:100%;height:100%;overflow:hidden;border-radius:calc(var(--p,0) * 44px);background:#2a2018;isolation:isolate}
-  .inicio .marco img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.08 - var(--p,0) * .08))}
-  .inicio .marco::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(17,12,8,.82) 0%,rgba(17,12,8,.3) 52%,rgba(17,12,8,.4) 100%)}
-  .inicio .movil{position:absolute;inset:0}
-  .inicio .movil img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:deriva 16s ease-in-out infinite alternate}
-  .inicio .movil .m1{animation:alterna 14s ease-in-out infinite,deriva 16s ease-in-out infinite alternate}
-  .inicio .movil .m2{opacity:0;animation:alterna 14s ease-in-out infinite reverse,deriva 16s ease-in-out infinite alternate-reverse}
+  /* inicio estilo Dewpoint: título arriba, teléfono que asoma abajo y tarjetas flotantes */
+  .hero2{position:relative;min-height:max(100svh,760px);padding:clamp(112px,15vh,150px) 0 0;overflow:hidden;background:var(--noche);color:var(--niebla);isolation:isolate;text-align:center}
+  .hero2 .fondo{position:absolute;inset:0;z-index:-2}
+  .hero2 .fondo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:deriva 18s ease-in-out infinite alternate}
+  .hero2 .fondo .m2{opacity:0;animation:alterna 16s ease-in-out infinite reverse,deriva 18s ease-in-out infinite alternate-reverse}
+  .hero2 .fondo .m1{animation:alterna 16s ease-in-out infinite,deriva 18s ease-in-out infinite alternate}
   @keyframes alterna{0%,42%{opacity:1}50%,92%{opacity:0}100%{opacity:1}}
   @keyframes deriva{from{translate:-1.2% 0;scale:1.04}to{translate:1.2% -.6%;scale:1.12}}
-  .inicio .marco>img{display:none}
+  .hero2::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(22,33,43,.82) 0%,rgba(22,33,43,.9) 55%,var(--noche) 100%),radial-gradient(50% 40% at 50% 70%,rgba(255,122,47,.2),transparent 70%)}
+  .hero2 h1{font-size:clamp(2.8rem,7vw,5.8rem);font-weight:700;letter-spacing:-.05em;line-height:.96;max-width:13ch;margin-inline:auto}
+  .hero2 .baja{margin:20px auto 0;max-width:42ch;font-size:clamp(1.05rem,1.6vw,1.3rem);opacity:.85}
+  .hero2 .acciones{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .hero2 .btn-borde{color:var(--niebla)}
+  .hero2 .nota{margin-top:14px;font-size:.92rem;opacity:.65}
+  .hero2 .escena-t{position:relative;width:min(300px,76vw);margin:clamp(36px,6vh,64px) auto -240px}
+  .hero2 .escena-t .tel{width:100%;box-shadow:0 0 0 2px #2B3B49 inset,0 -30px 100px -20px rgba(255,122,47,.35)}
+  .flota-c{position:absolute;background:rgba(22,33,43,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--linea-osc);border-radius:16px;padding:12px 16px;text-align:left;font-size:.9rem;display:grid;gap:2px;animation:flota 6s ease-in-out infinite alternate}
+  .flota-c small{opacity:.65}
+  .flota-c b{font-family:var(--titulo);font-size:1.25rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .flota-c b.mas{color:#5BD3A6}
+  .flota-c.f1{left:calc(50% - 480px);top:34%}
+  .flota-c.f2{right:calc(50% - 470px);top:56%;animation-delay:-3s}
+  @keyframes flota{from{translate:0 -6px}to{translate:0 8px}}
+  @media (max-width:1100px){.flota-c.f1{left:var(--gut)}.flota-c.f2{right:var(--gut)}}
+  @media (max-width:700px){.flota-c{display:none}}
   .rev{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(12px);animation:rev .9s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(var(--i) * 55ms + .2s)}
   @keyframes rev{to{opacity:1;filter:blur(0);transform:none}}
-  .inicio .despues{opacity:0;animation:aparece 1s ease forwards;animation-delay:1.2s}
+  .despues{opacity:0;animation:aparece 1s ease forwards;animation-delay:1.1s}
   @keyframes aparece{to{opacity:1}}
-  .inicio .texto{position:absolute;left:0;right:0;top:0;bottom:0;display:grid;place-items:center;text-align:center;z-index:2;color:#fff;padding-inline:var(--gut)}
-  .inicio .texto h1,.inicio .texto .baja{margin-inline:auto}
-  .inicio .texto .acciones{justify-content:center}
-  .inicio h1{font-size:clamp(2.9rem,8vw,7rem);font-weight:700;letter-spacing:-.05em;line-height:.95;max-width:12ch}
-  .inicio .baja{margin-top:18px;max-width:40ch;font-size:clamp(1.05rem,1.6vw,1.3rem);opacity:.92}
-  .inicio .acciones{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
-  .inicio .nota{margin-top:14px;font-size:.92rem;opacity:.8}
-  .inicio .btn-borde{color:#fff}
+  @media (prefers-reduced-motion:reduce){.hero2 .fondo img,.flota-c{animation:none}.hero2 .fondo .m2{opacity:0}.rev,.despues{animation:none;opacity:1;filter:none;transform:none}}
 
-  .intro{background:var(--niebla);padding-block:clamp(72px,10vw,150px)}
+  .intro{background:var(--noche);padding-block:clamp(72px,10vw,150px)}
   .intro p{font-family:var(--titulo);font-weight:600;font-size:clamp(1.8rem,4.4vw,3.6rem);letter-spacing:-.035em;line-height:1.08;max-width:22ch;text-wrap:balance}
   .intro p{white-space:normal}
 
@@ -110,7 +115,7 @@
   .escena-m{position:sticky;top:0;height:100svh;overflow:hidden}
   .mano::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 40% at 50% 60%,rgba(255,122,47,.16),transparent 70%);pointer-events:none}
   .mano-t{position:absolute;top:clamp(84px,12vh,120px);left:0;right:0;text-align:center;font-size:clamp(1.55rem,3.2vw,2.7rem);letter-spacing:-.04em;max-width:30ch;margin-inline:auto;z-index:2;padding-inline:var(--gut)}
-  .tel-m{position:absolute;left:50%;top:calc(var(--ty,60) * 1vh + 50% + 56px);width:min(310px,70vw,calc((100svh - 250px) * .4737));transform:translate(-50%,-50%) scale(var(--sc,.9));z-index:1}
+  .tel-m{position:absolute;left:50%;top:calc(var(--ty,60) * 1vh + 50% + 56px);width:300px;transform:translate(-50%,-50%) scale(calc(var(--sc,.9) * var(--k,1)));z-index:1}
   .tel-m .tel{width:100%;box-shadow:0 0 0 2px #2B3B49 inset,0 50px 100px -30px rgba(0,0,0,.8)}
   .pant>.rollo{inset:auto;left:0;right:0;top:0;height:300%;padding:0;gap:0;display:block;opacity:1;transform:translateY(calc(var(--s,0) * -33.3333%));transition:none;will-change:transform}
   .rollo>div{height:33.3333%;padding:48px 18px 18px;display:flex;flex-direction:column;gap:12px}
@@ -184,7 +189,7 @@
     header nav a:not(.btn){display:none}
     .inicio{--pad:12px}
     .faq .w,.usos .w{grid-template-columns:minmax(0,1fr)}
-    .tel-m{width:min(230px,56vw,calc((100svh - 410px) * .4737));top:calc(var(--ty,60) * 1vh + 50% + 14px)}
+    .tel-m{top:calc(var(--ty,60) * 1vh + 50% + 14px)}
     .mano-t{top:78px}
     .feat,.feat[data-lado]{left:var(--gut);right:var(--gut);top:auto;bottom:calc(86px + env(safe-area-inset-bottom));width:auto;transform:translateY(18px);text-align:center}
     .feat.on{transform:none}
@@ -219,23 +224,6 @@
   .flujo i{flex:0 0 64px;height:2px;background:linear-gradient(90deg,var(--linea-osc),var(--naranja))}
   .bx h3{font-size:1.25rem}
   .bx p{color:rgba(241,244,247,.7)}
-  .calc{background:var(--noche);color:var(--niebla)}
-  .calc .w{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,6vw,96px);align-items:center}
-  .calc .sub{color:rgba(241,244,247,.7);margin-top:12px;max-width:34ch}
-  .calc-f{background:rgba(241,244,247,.04);border:1px solid var(--linea-osc);border-radius:24px;padding:clamp(22px,3vw,34px);display:grid;gap:18px}
-  .calc-f label{display:grid;gap:8px;font-weight:600}
-  .calc-f input{min-height:56px;border-radius:14px;border:1px solid var(--linea-osc);background:rgba(0,0,0,.2);padding:0 16px;font:600 1.4rem var(--titulo);color:var(--niebla);font-variant-numeric:tabular-nums}
-  .fila-c{display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:600}
-  .paso-c{display:flex;align-items:center;gap:14px}
-  .paso-c button,.chips button{min-width:44px;min-height:44px;border-radius:999px;border:1px solid var(--linea-osc);background:none;cursor:pointer;color:var(--niebla);font-weight:600;padding:0 14px}
-  .paso-c output{font:600 1.4rem var(--titulo);min-width:2ch;text-align:center}
-  .chips{display:flex;gap:8px}
-  .chips button[aria-pressed="true"]{background:var(--naranja);border-color:var(--naranja);color:var(--naranja-tinta)}
-  .res-c{border-top:1px solid var(--linea-osc);padding-top:16px;display:grid;gap:2px}
-  .res-c span{color:rgba(241,244,247,.7)}
-  .res-c b{font:600 clamp(2.4rem,5vw,3.4rem) var(--titulo);letter-spacing:-.04em;color:var(--naranja);font-variant-numeric:tabular-nums}
-  .res-c small{color:rgba(241,244,247,.6)}
-  .calc-f :focus-visible{outline-color:var(--naranja)}
   .resenas{background:var(--noche-2);color:var(--niebla)}
   .resenas .sub{color:rgba(241,244,247,.7)}
   .res{background:rgba(241,244,247,.05);border-color:var(--linea-osc);color:var(--niebla)}
@@ -243,11 +231,35 @@
   .faq{background:var(--noche);color:var(--niebla)}
   .faq details,.faq details:first-of-type{border-color:var(--linea-osc)}
   .faq details p{color:rgba(241,244,247,.7)}
-  @media (max-width:900px){.cifras .w{grid-template-columns:minmax(0,1fr)}.bento{grid-template-columns:minmax(0,1fr)}.bx,.bx-a,.bx-b{grid-column:auto;min-height:0}.calc .w{grid-template-columns:minmax(0,1fr)}}
-  .calc .w>*,.calc-f>*{min-width:0}
-  .calc-f input{width:100%}
-  .fila-c{flex-wrap:wrap}
-  .chips button{padding:0 12px}
+  @media (max-width:900px){.cifras .w{grid-template-columns:minmax(0,1fr)}.bento{grid-template-columns:minmax(0,1fr)}.bx,.bx-a,.bx-b{grid-column:auto;min-height:0}}
+
+  .bento2{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:clamp(28px,4vw,56px)}
+  .bg{background:rgba(241,244,247,.04);border:1px solid var(--linea-osc);border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:8px;grid-column:span 6;min-height:340px}
+  .bg-1{grid-column:span 7}.bg-2{grid-column:span 5}.bg-3{grid-column:span 5}.bg-4{grid-column:span 7}
+  .bg .mini{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding-bottom:14px}
+  .bg h3{font-size:1.3rem}.bg p{color:rgba(241,244,247,.7);max-width:44ch}
+  .mfila{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:12px;font-size:.92rem}
+  .mfila i{height:8px;border-radius:99px;background:linear-gradient(90deg,#5BD3A6 var(--w),rgba(241,244,247,.08) var(--w))}
+  .mfila i.neg{background:linear-gradient(90deg,var(--naranja) var(--w),rgba(241,244,247,.08) var(--w))}
+  .mfila em{font-style:normal;font-weight:600;font-variant-numeric:tabular-nums}.mfila em.mas{color:#5BD3A6}.mfila em.menos{color:var(--naranja)}
+  .chips-m{display:flex;flex-wrap:wrap;gap:8px}
+  .res-m{margin-top:12px;display:grid}.res-m small{color:rgba(241,244,247,.65)}
+  .res-m b{font:600 clamp(2.6rem,5vw,3.6rem) var(--titulo);letter-spacing:-.05em;color:var(--naranja)}
+  .grupo{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:.95rem}
+  .grupo b{font-variant-numeric:tabular-nums}
+  .grupo i{grid-column:1/-1;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--naranja) var(--w),rgba(241,244,247,.08) var(--w))}
+  .bg-4 .flujo{flex-direction:row;align-items:center;flex-wrap:wrap;justify-content:flex-start}
+  .chicos{margin-top:14px}
+  .noche-f{position:relative;min-height:min(80vh,680px);display:flex;align-items:center;overflow:hidden;isolation:isolate;background:#000;color:#fff;padding:0}
+  .noche-f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .noche-f::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(14,22,29,.9) 0%,rgba(14,22,29,.55) 55%,rgba(14,22,29,.2) 100%)}
+  .noche-f .w{display:flex;flex-wrap:wrap;gap:32px 64px;align-items:center;justify-content:space-between;padding-block:clamp(64px,9vw,120px)}
+  .noche-f .txt{max-width:560px}.noche-f h2{font-size:clamp(2rem,4.6vw,3.8rem);letter-spacing:-.045em}
+  .noche-f p{margin-top:16px;opacity:.85;max-width:44ch}
+  .notif{display:flex;gap:14px;align-items:center;background:rgba(22,33,43,.82);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--linea-osc);border-radius:20px;padding:16px 20px;min-width:min(320px,100%)}
+  .notif div{display:grid;gap:2px}.notif small{opacity:.65}.notif b{font-size:1.05rem}.notif span{opacity:.8}
+  .logo-n{width:40px;height:40px;border-radius:12px;background:var(--noche) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 5a11 11 0 0 0 0 22Z' fill='%23FF7A2F' transform='translate(-1.4 1.4)'/%3E%3Cpath d='M16 5a11 11 0 0 1 0 22Z' fill='%23F1F4F7' transform='translate(1.4 -1.4)'/%3E%3C/svg%3E") center/70% no-repeat;flex:none}
+  @media (max-width:900px){.bg,.bg-1,.bg-2,.bg-3,.bg-4{grid-column:span 12;min-height:0}}
 </style>
 </head>
 <body>
@@ -266,20 +278,21 @@
 </header>
 
 <main id="inicio">
-  <section class="inicio" id="apertura" aria-label="Presentación">
-    <div class="escena">
-      <div class="marco">
-        <div class="movil" aria-hidden="true"><img class="m1" src="img/hero.jpg" alt="" width="1900" height="1268"><img class="m2" src="img/mesa.jpg" alt="" width="1600" height="1067"></div>
-        <div class="texto"><div>
-          <h1>Dividí gastos sin hacer cuentas</h1>
-          <p class="baja despues">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
-          <div class="acciones despues" id="acciones-hero">
-            <a class="btn" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
-            <a class="btn btn-borde" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
-          </div>
-          <p class="nota despues">Gratis para grupos de hasta cinco personas.</p>
-        </div></div>
+  <section class="hero2" id="apertura" aria-label="Presentación">
+    <div class="fondo" aria-hidden="true"><img class="m1" src="img/hero.jpg" alt="" width="1900" height="1268"><img class="m2" src="img/mesa.jpg" alt="" width="1600" height="1067"></div>
+    <div class="w">
+      <h1>Dividí gastos sin hacer cuentas</h1>
+      <p class="baja despues">Anotá lo que pagó cada uno y la app te dice quién le debe a quién.</p>
+      <div class="acciones despues" id="acciones-hero">
+        <a class="btn" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.7 2.2-4 2.3-4.06-1.25-1.83-3.2-2.08-3.9-2.11-1.66-.17-3.24.98-4.08.98-.85 0-2.14-.96-3.52-.93-1.81.03-3.48 1.05-4.41 2.67-1.88 3.26-.48 8.1 1.35 10.75.9 1.3 1.97 2.76 3.37 2.7 1.35-.05 1.86-.87 3.5-.87s2.1.87 3.53.84c1.46-.02 2.38-1.32 3.27-2.63 1.03-1.5 1.45-2.96 1.48-3.03-.03-.01-2.85-1.09-2.9-4.3ZM14.4 4.07c.75-.91 1.25-2.17 1.11-3.43-1.07.04-2.37.71-3.14 1.62-.69.8-1.29 2.08-1.13 3.31 1.19.09 2.41-.6 3.16-1.5Z"/></svg>App Store</a>
+        <a class="btn btn-borde" href="#descargar"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.4c-.2.2-.3.6-.3 1v17.2c0 .4.1.8.3 1l9.6-9.6L3.6 2.4Zm10.7 8.5 2.6-2.6L5.7 2.1c-.3-.2-.6-.2-.9-.1l9.5 8.9Zm0 2.2-9.5 8.9c.3.1.6.1.9-.1l11.2-6.2-2.6-2.6Zm3.9-1.1-2.9 1.6 2.4 2.4 3-1.7c.8-.5.8-1.2 0-1.7l-2.5-1.4v.8Z"/></svg>Google Play</a>
       </div>
+      <p class="nota despues">Gratis para grupos de hasta cinco personas.</p>
+    </div>
+    <div class="escena-t">
+      <div class="tel" aria-hidden="true"><div class="pant" id="pant-hero"></div></div>
+      <div class="flota-c f1" aria-hidden="true"><small>Cena del sábado, pagó Sofi</small><b>$ 18.600</b></div>
+      <div class="flota-c f2" aria-hidden="true"><small>Ana te debe</small><b class="mas">$ 12.400</b></div>
     </div>
   </section>
 
@@ -307,30 +320,47 @@
 
   <section class="funciones" id="funciones">
     <div class="w">
-      <h2>Todo lo que hace falta para ajustar cuentas</h2>
-      <div class="bento">
-        <article class="bx bx-a"><div class="vis"><span class="pill on">Iguales</span><span class="pill">Porcentaje</span><span class="pill">Montos</span></div><h3>Partes como quieras</h3><p>Iguales, por porcentaje o con un monto exacto para cada persona.</p></article>
+      <h2>Todo lo que necesitás para ajustar cuentas. Nada que no.</h2>
+      <div class="bento2">
+        <article class="bg bg-1">
+          <div class="mini">
+            <div class="mfila"><span>Ana</span><i style="--w:78%"></i><em class="mas">+ $ 12.400</em></div>
+            <div class="mfila"><span>Sofi</span><i style="--w:22%"></i><em class="mas">+ $ 3.100</em></div>
+            <div class="mfila"><span>Lucho</span><i class="neg" style="--w:46%"></i><em class="menos">- $ 7.300</em></div>
+            <div class="mfila"><span>Martín</span><i class="neg" style="--w:52%"></i><em class="menos">- $ 8.200</em></div>
+          </div>
+          <h3>Saldos al instante</h3><p>Cada gasto actualiza lo que le toca a cada uno. Siempre sabés quién le debe a quién.</p>
+        </article>
+        <article class="bg bg-2">
+          <div class="mini"><div class="chips-m"><span class="pill on">Iguales</span><span class="pill">Porcentaje</span><span class="pill">Montos</span></div><div class="res-m"><small>Entre 4 personas</small><b>$ 4.650</b></div></div>
+          <h3>Partes como quieras</h3><p>Dividí en partes iguales, por porcentaje o con un monto exacto para cada persona.</p>
+        </article>
+        <article class="bg bg-3">
+          <div class="mini">
+            <div class="grupo"><span>Viaje a las sierras</span><b>$ 84.300</b><i style="--w:82%"></i></div>
+            <div class="grupo"><span>Departamento</span><b>$ 212.000</b><i style="--w:55%"></i></div>
+            <div class="grupo"><span>Asado del domingo</span><b>$ 36.800</b><i style="--w:100%"></i></div>
+          </div>
+          <h3>Un grupo para cada plan</h3><p>Viajes, alquiler, salidas. Cada grupo tiene sus gastos, sus saldos y su historial.</p>
+        </article>
+        <article class="bg bg-4">
+          <div class="mini flujo"><b>8</b><i></i><b class="na">2</b><span class="pill on">Te debe $ 4.650</span></div>
+          <h3>Menos pagos y recordatorios</h3><p>La app simplifica las deudas y avisa con amabilidad a quien todavía no saldó su parte.</p>
+        </article>
+      </div>
+      <div class="bento chicos">
         <article class="bx"><div class="vis"><span class="pill on">$ ARS</span><span class="pill">US$</span></div><h3>Varias monedas</h3><p>Pesos y dólares en el mismo grupo, ideal para viajes.</p></article>
-        <article class="bx"><div class="vis flujo"><b>8</b><i></i><b class="na">2</b></div><h3>Menos pagos</h3><p>La app simplifica las deudas para que hagan falta menos transferencias.</p></article>
-        <article class="bx bx-b"><div class="vis"><span class="pill">saldo.app/g/asado</span></div><h3>Invitación por link</h3><p>Quien no tiene la app ve su saldo desde el celular, sin registrarse.</p></article>
+        <article class="bx"><div class="vis"><span class="pill">saldo.app/g/asado</span></div><h3>Invitación por link</h3><p>Quien no tiene la app ve su saldo desde el celular, sin registrarse.</p></article>
         <article class="bx"><div class="vis"><span class="pill on">Ticket adjunto</span></div><h3>Tickets adjuntos</h3><p>Sacale una foto al comprobante y queda junto al gasto.</p></article>
-        <article class="bx"><div class="vis"><span class="pill">Te debe $ 4.650</span></div><h3>Recordatorios</h3><p>Un aviso amable a quien todavía no saldó su parte.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="calc" id="calculadora">
+  <section class="noche-f" aria-label="Después de la cena">
+    <img src="img/brindis.jpg" alt="Amigos brindando en la mesa" loading="lazy" width="1400" height="934">
     <div class="w">
-      <div>
-        <h2>Probá cómo se reparte</h2>
-        <p class="sub">Poné el total, cuántos son y la propina. Así de rápido se hace la cuenta en la app.</p>
-      </div>
-      <form class="calc-f" id="calc" onsubmit="return false">
-        <label>Total de la cuenta<input id="c-total" inputmode="numeric" value="48000" autocomplete="off"></label>
-        <div class="fila-c"><span>Personas</span><div class="paso-c"><button type="button" id="c-menos" aria-label="Una persona menos">−</button><output id="c-pers">4</output><button type="button" id="c-mas" aria-label="Una persona más">+</button></div></div>
-        <div class="fila-c"><span>Propina</span><div class="chips" id="c-prop" role="group" aria-label="Propina"><button type="button" data-v="0" aria-pressed="false">Sin</button><button type="button" data-v="10" aria-pressed="true">10%</button><button type="button" data-v="15" aria-pressed="false">15%</button></div></div>
-        <div class="res-c"><span>Cada uno paga</span><b id="c-cada">$ 13.200</b><small id="c-sub">Total con propina: $ 52.800</small></div>
-      </form>
+      <div class="txt"><h2>Después de la cena, la cuenta ya está hecha.</h2><p>Mientras todos se levantan de la mesa, Saldo calcula lo que le toca a cada uno y avisa al grupo.</p></div>
+      <div class="notif"><i class="logo-n"></i><div><small>Saldo, ahora</small><b>Sofi pagó la cena</b><span>Tu parte: $ 4.650</span></div></div>
     </div>
   </section>
 
@@ -419,17 +449,11 @@
   var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var clamp = function(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); };
 
-  /* ---- inicio: la foto se encoge con esquinas redondeadas al bajar ---- */
-  var ap = $("apertura"), meta = 0, actual = 0, corriendo = false;
-  function prog(){ var r = ap.getBoundingClientRect(), t = r.height - window.innerHeight; return t > 0 ? clamp(-r.top / (t * 0.9), 0, 1) : 0; }
-  function paso(){ actual += (meta - actual) * (reducido ? 1 : 0.16); if (Math.abs(meta - actual) < 0.001) actual = meta; ap.style.setProperty("--p", actual.toFixed(4)); if (actual !== meta) requestAnimationFrame(paso); else corriendo = false; }
-  function alScroll(){ meta = prog(); if (!corriendo){ corriendo = true; requestAnimationFrame(paso); } }
-  window.addEventListener("scroll", alScroll, { passive: true }); window.addEventListener("resize", alScroll);
-  meta = prog(); actual = meta; ap.style.setProperty("--p", actual.toFixed(4));
+  var ph = $("pant-hero"); if (ph) ph.innerHTML = PANTALLAS[0].replace("<div>", '<div class="on">');
 
   /* ---- título del inicio: aparece desenfocado y se aclara ---- */
   (function(){
-    var h = document.querySelector(".inicio h1"); if (!h || reducido) return;
+    var h = document.querySelector(".hero2 h1"); if (!h || reducido) return;
     var t = h.textContent; h.setAttribute("aria-label", t);
     h.innerHTML = t.split(" ").map(function(w, i){ return '<span class="rev" aria-hidden="true" style="--i:' + i + '">' + w + "</span>"; }).join(" ");
   })();
@@ -450,23 +474,13 @@
     meta = lee(); act = meta; pintar(act);
   })();
 
-  /* ---- calculadora de reparto ---- */
-  (function(){
-    var tot = $("c-total"), pers = $("c-pers"), prop = 10, n = 4;
-    function leer(){ return Number(String(tot.value).replace(/[^0-9]/g, "")) || 0; }
-    function calc(){ var t = leer(), con = t * (1 + prop / 100); $("c-cada").textContent = "$ " + fmt(Math.round(con / n)); $("c-sub").textContent = "Total con propina: $ " + fmt(Math.round(con)); pers.textContent = n; }
-    tot.addEventListener("input", calc);
-    $("c-menos").addEventListener("click", function(){ n = Math.max(2, n - 1); calc(); });
-    $("c-mas").addEventListener("click", function(){ n = Math.min(20, n + 1); calc(); });
-    [].forEach.call($("c-prop").children, function(b){ b.addEventListener("click", function(){ prop = Number(b.dataset.v); [].forEach.call($("c-prop").children, function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); calc(); }); });
-    calc();
-  })();
-
   /* ---- teléfono que sube y cambia de pantalla con el scroll (idea de la landing de VetX) ---- */
   (function(){
     var sec = document.querySelector(".mano"), tel = $("tel-m"), feats = [].slice.call(sec.querySelectorAll(".feat"));
     var meta = 0, act = 0, corre = false;
     function tramos(v, ins, outs){ if (v <= ins[0]) return outs[0]; for (var i = 1; i < ins.length; i++) if (v <= ins[i]){ var t = (v - ins[i-1]) / (ins[i] - ins[i-1]); t = t*t*(3-2*t); return outs[i-1] + (outs[i] - outs[i-1]) * t; } return outs[outs.length-1]; }
+    function medir(){ var m = window.innerWidth <= 900, k = (window.innerHeight - (m ? 410 : 250)) / 633; k = Math.min(k, (window.innerWidth * (m ? 0.6 : 0.9)) / 300); sec.style.setProperty("--k", clamp(k, 0.42, 1).toFixed(3)); }
+    window.addEventListener("resize", medir); medir();
     function lee(){ var r = sec.getBoundingClientRect(), tot = r.height - window.innerHeight; return tot > 0 ? clamp(-r.top / tot, 0, 1) : 0; }
     var activa = -1;
     function pintar(p){
