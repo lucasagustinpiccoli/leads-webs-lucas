@@ -82,7 +82,7 @@
   /* colección dividida */
   .div2{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);min-height:min(88vh,760px);align-items:stretch}
   .div2 .img{position:relative;overflow:hidden;min-height:340px}
-  .div2 .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .div2 .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .div2 .info{display:flex;flex-direction:column;justify-content:center;gap:16px;padding:clamp(32px,6vw,96px)}
   .div2 .info small{color:var(--suave)}
   .div2 h2{font-size:clamp(1.9rem,3.6vw,3rem)}
@@ -253,14 +253,33 @@
   .rev-t{font-size:clamp(1.6rem,3.4vw,2.8rem);letter-spacing:-.03em;line-height:1.12;max-width:26ch;margin-bottom:clamp(28px,4vw,48px);font-weight:500;text-wrap:balance}
   .rev-t .pw{transition:color .2s}
   .gal-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,22px)}
-  .gal-g figure{display:grid;gap:10px}
-  .gal-g img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:20px;background:var(--papel-2)}
-  .gal-g figcaption{font-size:.98rem;font-weight:500}
+  .gal-g{align-items:start}
+  .gal-g figure{display:block}
+  .gal-g .im{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;border-radius:20px;background:var(--papel-2)}
+  .gal-g .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s var(--ease)}
+  @media (hover:hover){.gal-g figure:hover .im img{transform:scale(1.04)}}
+  .gal-g figcaption{margin-top:12px;font-size:.98rem;font-weight:500}
   @media (max-width:700px){.gal-g{grid-template-columns:repeat(2,minmax(0,1fr))}}
   .lista{padding-block:clamp(56px,8vw,110px);text-align:center}
   .lista h2{font-size:clamp(1.6rem,3vw,2.4rem)}
   .lista p{color:var(--suave);margin:10px auto 22px;max-width:46ch}
   .lista .btn-o{align-self:auto}
+
+  .tienda{padding-block:clamp(40px,6vw,80px) clamp(56px,8vw,110px)}
+  .tienda-g{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:center}
+  .tienda-t{display:grid;gap:16px;justify-items:start}
+  .tienda-t small{color:var(--suave)}
+  .tienda-t h2{font-size:clamp(1.9rem,3.6vw,3rem);max-width:14ch}
+  .tienda-t p{color:var(--suave);max-width:38ch}
+  .tienda-t dl{width:min(380px,100%);border-top:1px solid var(--linea)}
+  .tienda-t dl div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--linea);font-size:.95rem}
+  .tienda-t dt{color:var(--suave)}
+  .tienda-f{position:relative;aspect-ratio:5/4;max-height:520px;overflow:hidden;border-radius:20px;background:var(--papel-2)}
+  .tienda-f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;display:block}
+  @media (max-width:900px){.tienda-g{grid-template-columns:minmax(0,1fr)}.tienda-f{aspect-ratio:4/3}}
+
+  .tienda.inv .tienda-g{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+  @media (max-width:900px){.tienda.inv .tienda-g{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -335,24 +354,39 @@
     <div class="info"><small>Nuestro taller</small><h2>Diseñamos, fabricamos y probamos cada pieza</h2><p>Trabajamos con maderas macizas, piedra y tapizados en lino. Cada pieza se hace por encargo y se entrega armada.</p><button type="button" class="btn-o" data-ir="">Ver el catálogo</button></div>
   </section>
 
-  <section class="div2" id="materiales">
-    <div class="img"><img src="img/materiales.jpg" alt="Primer plano de una piedra con vetas suaves" loading="lazy" width="1050" height="1400" style="object-position:50% 40%"></div>
-    <div class="info"><small>Materiales</small><h2>Piedra, madera y lino, elegidos a mano</h2><p>Antes de fabricar, mostramos las muestras en el taller para que elijas el acabado de cada pieza.</p><button type="button" class="btn-o" data-ir="">Ver el catálogo</button></div>
+  <section class="tienda w inv" id="materiales">
+    <div class="tienda-g">
+      <div class="tienda-f"><img src="img/materiales.jpg" alt="Primer plano de una piedra con vetas suaves" loading="lazy" width="1050" height="1400" style="object-position:50% 40%"></div>
+      <div class="tienda-t">
+        <small>Materiales</small>
+        <h2>Piedra, madera y lino, elegidos a mano</h2>
+        <p>Antes de fabricar, mostramos las muestras en el taller para que elijas el acabado de cada pieza.</p>
+        <button type="button" class="btn-o" data-ir="">Ver el catálogo</button>
+      </div>
+    </div>
   </section>
 
   <section class="galeria w" aria-label="En el taller">
     <p class="rev-t" id="rev-t" data-texto="Cada pieza empieza con un boceto, pasa por la madera y la piedra, y se prueba antes de llegar a tu casa.">Cada pieza empieza con un boceto, pasa por la madera y la piedra, y se prueba antes de llegar a tu casa.</p>
     <div class="gal-g">
-      <figure><img src="img/diseno.jpg" alt="Manos dibujando el boceto de una pieza" loading="lazy" width="1400" height="933"><figcaption>Boceto</figcaption></figure>
-      <figure><img src="img/cepillo.jpg" alt="Cepillado de una tabla de madera" loading="lazy" width="1400" height="933"><figcaption>Madera</figcaption></figure>
-      <figure><img src="img/muestras.jpg" alt="Muestras de telas, maderas y piedras" loading="lazy" width="1400" height="933"><figcaption>Muestras</figcaption></figure>
-      <figure><img src="img/travertino.jpg" alt="Primer plano de una piedra con vetas anaranjadas" loading="lazy" width="933" height="1400"><figcaption>Piedra</figcaption></figure>
+      <figure><span class="im"><img src="img/diseno.jpg" alt="Manos dibujando el boceto de una pieza" loading="lazy" width="1400" height="933" style="object-position:30% 50%"></span><figcaption>Boceto</figcaption></figure>
+      <figure><span class="im"><img src="img/cepillo.jpg" alt="Cepillado de una tabla de madera" loading="lazy" width="1400" height="933" style="object-position:60% 50%"></span><figcaption>Madera</figcaption></figure>
+      <figure><span class="im"><img src="img/muestras.jpg" alt="Muestras de telas, maderas y piedras" loading="lazy" width="1400" height="933" style="object-position:70% 50%"></span><figcaption>Muestras</figcaption></figure>
+      <figure><span class="im"><img src="img/travertino.jpg" alt="Primer plano de una piedra con vetas anaranjadas" loading="lazy" width="933" height="1400"></span><figcaption>Piedra</figcaption></figure>
     </div>
   </section>
 
-  <section class="div2 inv" id="tienda">
-    <div class="img"><img src="img/tienda.jpg" alt="Rincón del showroom con un sillón y un arco" loading="lazy" width="935" height="1400" style="object-position:50% 60%"></div>
-    <div class="info"><small>Nuestra tienda</small><h2>Vení a conocer nuestro espacio</h2><p>Avenida del Sol 1200. De lunes a sábado, de 10 a 19 h. Podés ver las piezas y las muestras de materiales.</p><a class="btn-o" href="https://www.google.com/maps/search/?api=1&query=Avenida%20del%20Sol%201200" target="_blank" rel="noopener">Cómo llegar</a></div>
+  <section class="tienda w" id="tienda">
+    <div class="tienda-g">
+      <div class="tienda-t">
+        <small>Nuestra tienda</small>
+        <h2>Vení a conocer nuestro espacio</h2>
+        <p>Podés ver las piezas y las muestras de materiales antes de decidir.</p>
+        <dl><div><dt>Dirección</dt><dd>Avenida del Sol 1200</dd></div><div><dt>Horario</dt><dd>Lunes a sábado, de 10 a 19 h</dd></div></dl>
+        <a class="btn-o" href="https://www.google.com/maps/search/?api=1&query=Avenida%20del%20Sol%201200" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+      <div class="tienda-f"><img src="img/tienda.jpg" alt="Rincón del showroom con un sillón y un arco" loading="lazy" width="935" height="1400"></div>
+    </div>
   </section>
 
   <section class="hecho" id="hecho">
