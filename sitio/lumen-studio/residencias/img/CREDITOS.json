@@ -1,57 +1,55 @@
 {
- "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre. Son fotos de referencia de otros edificios; en un proyecto real se reemplazan por las del desarrollo.",
+ "_licencia": "Fotos de Pexels (https://www.pexels.com/license/): uso libre. Edificio (31656143, 31656145, 31656146, 31656149) y departamento (7534542 a 7534554) son dos series de un mismo fotógrafo, para que las imágenes sean coherentes entre sí. De referencia: en un proyecto real se reemplazan.",
  "fotos": [
   {
-   "archivo": "living.jpg",
-   "pexels": "https://www.pexels.com/photo/6186813/"
+   "id": "31656149",
+   "uso": "hero",
+   "pexels": "https://www.pexels.com/photo/31656149/"
   },
   {
-   "archivo": "balcon.jpg",
-   "pexels": "https://www.pexels.com/photo/7534285/"
-  },
-  {
-   "archivo": "complejo.jpg",
-   "pexels": "https://www.pexels.com/photo/30707660/"
-  },
-  {
-   "archivo": "hero.jpg",
-   "pexels": "https://www.pexels.com/photo/27307397/"
-  },
-  {
-   "archivo": "balcones.jpg",
-   "pexels": "https://www.pexels.com/photo/12029115/"
-  },
-  {
-   "archivo": "fachada.jpg",
+   "id": "31656143",
+   "uso": "fachada",
    "pexels": "https://www.pexels.com/photo/31656143/"
   },
   {
-   "archivo": "pileta.jpg",
-   "pexels": "https://www.pexels.com/photo/261102/"
+   "id": "31656146",
+   "uso": "balcones",
+   "pexels": "https://www.pexels.com/photo/31656146/"
   },
   {
-   "archivo": "noche.jpg",
-   "pexels": "https://www.pexels.com/photo/20120228/"
+   "id": "7534554",
+   "uso": "living",
+   "pexels": "https://www.pexels.com/photo/7534554/"
   },
   {
-   "archivo": "mono.jpg",
-   "pexels": "https://www.pexels.com/photo/6934189/"
+   "id": "7534548",
+   "uso": "cocina / tres",
+   "pexels": "https://www.pexels.com/photo/7534548/"
   },
   {
-   "archivo": "dos.jpg",
-   "pexels": "https://www.pexels.com/photo/37192232/"
+   "id": "7534552",
+   "uso": "comedor / pent",
+   "pexels": "https://www.pexels.com/photo/7534552/"
   },
   {
-   "archivo": "tres.jpg",
-   "pexels": "https://www.pexels.com/photo/7534550/"
+   "id": "7534542",
+   "uso": "dormitorio",
+   "pexels": "https://www.pexels.com/photo/7534542/"
   },
   {
-   "archivo": "pent.jpg",
-   "pexels": "https://www.pexels.com/photo/5793547/"
+   "id": "7534546",
+   "uso": "barra / dos",
+   "pexels": "https://www.pexels.com/photo/7534546/"
   },
   {
-   "archivo": "hall.jpg",
-   "pexels": "https://www.pexels.com/photo/7031907/"
+   "id": "31656145",
+   "uso": "bloques",
+   "pexels": "https://www.pexels.com/photo/31656145/"
+  },
+  {
+   "id": "7534543",
+   "uso": "mono",
+   "pexels": "https://www.pexels.com/photo/7534543/"
   }
  ]
 }
