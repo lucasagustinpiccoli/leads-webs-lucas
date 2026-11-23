@@ -193,6 +193,11 @@
 .x-panel[aria-expanded="false"] img { transform: scale(1.04); }
 .x-rotulo { position: absolute; left: var(--space-lg); bottom: var(--space-lg); margin: 0; max-width: calc(100% - 2 * var(--space-lg)); font-family: var(--font-marca); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; font-size: var(--text-xl); line-height: 1.1; color: var(--color-on-night); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity var(--dur-short) var(--ease-out); }
 .x-panel[aria-expanded="true"] .x-rotulo { opacity: 0; }
+
+@media (min-width: 900px) {
+  /* con siete proyectos, los paneles cerrados son angostos: el nombre va vertical para leerse completo */
+  .x-panel[aria-expanded="false"] .x-rotulo { writing-mode: vertical-rl; transform: rotate(180deg); left: 50%; bottom: var(--space-lg); margin-left: -0.55em; max-width: none; max-height: calc(100% - 2 * var(--space-lg)); font-size: var(--text-lg, 1.4rem); white-space: nowrap; }
+}
 .x-detalle { position: absolute; left: var(--space-lg); right: var(--space-lg); bottom: var(--space-lg); display: grid; gap: var(--space-sm); justify-items: start; color: var(--color-on-night); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out); }
 .x-panel[aria-expanded="true"] .x-detalle { opacity: 1; transform: none; pointer-events: auto; transition-delay: 150ms; }
 .x-detalle h3 { font-family: var(--font-marca); font-weight: 400; text-transform: uppercase; letter-spacing: 0.015em; font-size: clamp(1.75rem, 2.5vw, 2.35rem); line-height: 1; max-width: 22ch; }
