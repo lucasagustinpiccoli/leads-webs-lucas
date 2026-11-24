@@ -132,4 +132,6 @@ fotos, horarios, link_maps, web, estado_negocio, busqueda`
 4. ✅ Puntaje de prospecto y selección de demos (rankear.py). Tanda 01: Caseros, Ramos Mejía, Morón, Castelar (10 rubros, sin talleres).
 5. ✅ Plantilla de landing alimentada por JSON (demo.py). Rubro listo: salones de eventos (5 demos de la tanda 01).
 6. ✅ Mensajes de contacto: `python scripts/mensajes.py --base https://tu-dominio` arma `output/mensajes-{tanda}.csv` (día 0, 3 y 7, Instagram y link de WhatsApp) y `output/mensajes-plantillas.md` trae la guía (red cercana, respuestas, cierre).
-7. ⏳ Planilla de seguimiento.
+7. ✅ Planilla de seguimiento: `python scripts/planilla.py importar` pasa la última tanda (y sus mensajes) a `output/leads-halo.xlsx`
+   (hojas Leads, Mensajes {Rubro} y Templates, con desplegable de Estado, como la guía del buscador de leads). Saltea los ya cargados.
+   `leer` imprime la hoja Leads y `actualizar cambios.json` cambia estados sin pisar filas.
