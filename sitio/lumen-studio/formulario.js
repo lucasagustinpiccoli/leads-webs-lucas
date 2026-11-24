@@ -68,6 +68,7 @@
     abierto = true; ultimo = desde || document.activeElement;
     raiz.hidden = false; document.documentElement.classList.add("fm-abierto");
     requestAnimationFrame(function () { raiz.classList.add("ver"); });
+    if (actual >= TOTAL) enviado = false;
     mostrar(actual >= TOTAL ? 0 : actual);
   }
   function cerrar() {
@@ -78,9 +79,28 @@
     if (ultimo && ultimo.focus) ultimo.focus({ preventScroll: true });
   }
 
-  sig.addEventListener("click", function () { if (completo(actual)) mostrar(actual + 1); });
+  /* Las respuestas van a un Google Form (queda en una hoja de cálculo). La respuesta de Google no se puede leer desde la página (no-cors). */
+  var GF = "https://docs.google.com/forms/d/e/1FAIpQLSf5Q3EbDCnlDwYFOxMDZ3g02kSShxp97C5NLdcKTKSIXZApUA/formResponse";
+  var CAMPOS = { nombre: "784819223", lugar: "1508206983", tel: "1182865596", email: "1144432110", negocio: "570423621", sobre: "449006908", necesita: "1250606072" };
+  function guardar() {
+    var d = new URLSearchParams(), pais = raiz.querySelector("select").value, num = dato("tel").replace(/\D/g, "").replace(/^0+/, "");
+    d.append("entry." + CAMPOS.nombre, dato("nombre"));
+    d.append("entry." + CAMPOS.lugar, dato("lugar"));
+    d.append("entry." + CAMPOS.tel, "+" + pais + " " + num);
+    d.append("entry." + CAMPOS.email, dato("email"));
+    d.append("entry." + CAMPOS.negocio, dato("negocio"));
+    d.append("entry." + CAMPOS.sobre, dato("sobre"));
+    d.append("entry." + CAMPOS.necesita, servicios().join(", "));
+    try { fetch(GF, { method: "POST", mode: "no-cors", body: d, keepalive: true }); } catch (e) {}
+  }
+  var enviado = false;
+  sig.addEventListener("click", function () {
+    if (!completo(actual)) return;
+    if (actual === TOTAL - 1 && !enviado) { enviado = true; guardar(); }
+    mostrar(actual + 1);
+  });
   atras.addEventListener("click", function () { mostrar(actual - 1); });
-  raiz.querySelector("[data-fm-volver]").addEventListener("click", function () { mostrar(0); });
+  var c2 = raiz.querySelector("[data-fm-cerrar2]"); if (c2) c2.addEventListener("click", cerrar);
   raiz.querySelector("[data-fm-cerrar]").addEventListener("click", cerrar);
   enviar.addEventListener("click", function () { if (!window.LP_WA) cerrar(); });
   raiz.addEventListener("input", function () { sig.disabled = !completo(actual); });
