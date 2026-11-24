@@ -179,7 +179,7 @@
 .hace-intro { position: sticky; top: 112px; display: grid; gap: var(--space-md); }
 .hace-intro p { color: var(--color-ink-2); max-width: 36ch; }
 .hace-bloques { display: grid; gap: var(--space-2xl); }
-.hace-tit { font-family: var(--font-display); font-weight: 400; font-size: var(--text-title); letter-spacing: var(--tracking-display); color: var(--color-ink); padding-bottom: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-ink); max-width: none; }
+.hace-tit { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg, 1.25rem); letter-spacing: -0.005em; color: var(--color-ink); padding-bottom: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-ink); max-width: none; }
 .hace-bloque ul { margin: 0; padding: 0; list-style: none; }
 .hace-bloque li { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); gap: var(--gap-columns); padding-block: var(--space-lg); border-bottom: var(--rule-hair) solid var(--color-rule); align-items: baseline; }
 .hace-bloque h4 { margin: 0; font-family: var(--font-marca); font-weight: 400; text-transform: uppercase; letter-spacing: 0.015em; font-size: clamp(1.5rem, 2.1vw, 2rem); line-height: 1.05; }
