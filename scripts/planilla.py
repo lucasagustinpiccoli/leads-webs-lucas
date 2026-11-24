@@ -168,7 +168,8 @@ def importar(tanda_csv=None, mensajes_csv=None):
         agregados.append((n, t, ig, wa, mensajes.get(int(t["ranking"]))))
         conocidos.add(maps)
 
-    for rubro in sorted({t["rubro"] for _, t, _, _, _ in agregados}):
+    # sin mensajes de esa tanda todavía: se cargan los leads y las hojas "Mensajes" quedan para cuando estén escritos
+    for rubro in sorted({t["rubro"] for _, t, _, _, _ in agregados if mensajes}):
         nombre = re.sub(r"[\\/*?:\[\]]+", "-", f"Mensajes {rubro}")[:31]
         if nombre not in wb.sheetnames:
             ms = wb.create_sheet(nombre, index=wb.sheetnames.index("Templates"))

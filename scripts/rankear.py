@@ -36,7 +36,7 @@ COLUMNAS = ["ranking", "puntaje", "demo", "motivo", "negocio", "rubro", "categor
 
 # Rubros con más margen primero (plan: clínicas, dentistas, estudios, veterinarias antes que negocios chicos).
 PESO_RUBRO = {"dentista": 10, "clinica": 10, "abogado": 10, "salon_eventos": 10, "veterinaria": 9, "idiomas": 9,
-              "estetica": 9, "contador": 8, "academia": 8, "ropa": 7}
+              "estetica": 9, "constructora": 10, "arquitectura": 10, "contador": 8, "academia": 8, "ropa": 7, "tienda": 7}
 
 AGREGADORES = ("linktr.ee", "linkin.bio", "beacons.ai", "taplink", "bio.link", "msha.ke", "lnk.bio", "linkbio",
                "wa.me", "api.whatsapp.com", "wa.link", "whatsapp.com")
@@ -176,6 +176,7 @@ def main():
     ap.add_argument("--demos", type=int, default=15)
     ap.add_argument("--demos-por-rubro", type=int, default=5,
                     help="tope de demos por rubro: cada rubro necesita su plantilla, conviene concentrarlas")
+    ap.add_argument("--localidades", help="solo prospectos de estas localidades (separadas por coma), ej: \"Palermo,Almagro\"")
     ap.add_argument("--no-marcar", action="store_true", help="no sumar la tanda a entregados.json (prueba)")
     a = ap.parse_args()
 
@@ -185,6 +186,9 @@ def main():
 
     lugares = cargar_raw()
     nuevos = {k: v for k, v in lugares.items() if k not in entregados}
+    if a.localidades:
+        loc = {sin_acentos(x.strip()) for x in a.localidades.split(",")}
+        nuevos = {k: v for k, v in nuevos.items() if sin_acentos(v["localidad"]) in loc}
     candidatos, descartes = preparar(nuevos, rubros, excluir)
     tanda = candidatos[: a.tamano]
     if not tanda:

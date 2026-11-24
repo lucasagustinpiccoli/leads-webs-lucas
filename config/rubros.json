@@ -75,5 +75,28 @@
       "local de ropa",
       "boutique"
     ]
+  },
+  "constructora": {
+    "nombre": "Constructora",
+    "busquedas": [
+      "constructora",
+      "empresa constructora",
+      "construcciones y reformas"
+    ]
+  },
+  "arquitectura": {
+    "nombre": "Estudio de arquitectura",
+    "busquedas": [
+      "estudio de arquitectura",
+      "arquitecto",
+      "estudio de arquitectos"
+    ]
+  },
+  "tienda": {
+    "nombre": "Tienda",
+    "busquedas": [
+      "tienda de decoración",
+      "tienda de regalos"
+    ]
   }
 }
