@@ -234,21 +234,71 @@
       }
     }
 
+    /* Baño: el lugar de cada artefacto se busca para que NINGUNO quede frente a una puerta (zona de giro) ni se pise con otro.
+       Las posiciones salen de pocas opciones por artefacto (contra cada pared) y se elige la primera combinación que cumple. */
+    function zonasPuerta(x, y, w, d) {
+      var zonas = [];
+      (g.doors || []).forEach(function (dr) {
+        var dx = dr[0], dy = dr[1], L = dr[2], horiz = dr[3] === "h", abre = dr[4] !== "open", prof = (abre ? L : 0.5) + 0.12;
+        if (horiz) {
+          if (dx + L <= x + 0.05 || dx >= x + w - 0.05) return;
+          if (Math.abs(dy - y) < 0.08) zonas.push([dx - x - 0.05, 0, L + 0.1, prof]);
+          else if (Math.abs(dy - (y + d)) < 0.08) zonas.push([dx - x - 0.05, d - prof, L + 0.1, prof]);
+        } else {
+          if (dy + L <= y + 0.05 || dy >= y + d - 0.05) return;
+          if (Math.abs(dx - x) < 0.08) zonas.push([0, dy - y - 0.05, prof, L + 0.1]);
+          else if (Math.abs(dx - (x + w)) < 0.08) zonas.push([w - prof, dy - y - 0.05, prof, L + 0.1]);
+        }
+      });
+      return zonas;
+    }
+    function pisa(a, b, m) { return a[0] < b[0] + b[2] + m && a[0] + a[2] + m > b[0] && a[1] < b[1] + b[3] + m && a[1] + a[3] + m > b[1]; }
     function addBathroom(x, y, w, d) {
-      // vanitory + espejo retroiluminado
-      var vw = Math.min(1.35, w - 0.45);
-      addBox(x + w - vw - 0.15, y + d - 0.58, 0.22, vw, 0.48, 0.56, MAT.woodDark);
-      addBox(x + w - vw - 0.17, y + d - 0.6, 0.78, vw + 0.04, 0.52, 0.06, MAT.marble);
-      addBox(x + w - vw * 0.72 - 0.15, y + d - 0.52, 0.84, 0.48, 0.34, 0.08, MAT.sheet);
-      addBox(x + w - vw - 0.1, y + d - 0.14, 1.05, vw - 0.1, 0.04, 0.78, MAT.glow);
-      // bañera o ducha walk-in
-      if (w >= 2.2) {
-        addBox(x + 0.14, y + 0.16, 0, Math.min(1.65, w - 0.4), 0.78, 0.52, MAT.sheet);
-        addBox(x + 0.28, y + 0.26, 0.42, Math.min(1.37, w - 0.68), 0.58, 0.12, MAT.marble);
+      var zonas = zonasPuerta(x, y, w, d), tw = Math.min(1.65, w - 0.4), th = Math.min(1.65, d - 0.4), vw = Math.min(1.35, w - 0.45);
+      var tinas = [
+        { r: [0.14, 0.16, tw, 0.78], v: false }, { r: [0.14, d - 0.94, tw, 0.78], v: false },
+        { r: [0.14, 0.16, 0.78, th], v: true }, { r: [w - 0.92, 0.16, 0.78, th], v: true }];
+      var lavs = [
+        { r: [w - vw - 0.15, d - 0.58, vw, 0.48], pared: "abajo" }, { r: [0.15, d - 0.58, vw, 0.48], pared: "abajo" },
+        { r: [w - vw - 0.15, 0.1, vw, 0.48], pared: "arriba" }, { r: [0.15, 0.1, vw, 0.48], pared: "arriba" }];
+      var inodoros = [
+        { r: [0.24, d - 0.86, 0.42, 0.66] }, { r: [w - 0.66, d - 0.86, 0.42, 0.66] },
+        { r: [0.24, 0.2, 0.42, 0.66] }, { r: [w - 0.66, 0.2, 0.42, 0.66] }];
+      function libre(r) { return r[0] >= 0.05 && r[1] >= 0.05 && r[0] + r[2] <= w - 0.05 && r[1] + r[3] <= d - 0.05 && !zonas.some(function (z) { return pisa(r, z, 0); }); }
+      var elegido = null;
+      for (var ti = 0; ti < tinas.length && !elegido; ti++) {
+        if (w < 2.2 && !tinas[ti].v && ti < 2) { /* baño angosto: la bañera va a lo largo si entra */ }
+        if (!libre(tinas[ti].r)) continue;
+        for (var li = 0; li < lavs.length && !elegido; li++) {
+          if (!libre(lavs[li].r) || pisa(lavs[li].r, tinas[ti].r, 0.05)) continue;
+          for (var ii = 0; ii < inodoros.length; ii++) {
+            var iw = inodoros[ii].r;
+            if (libre(iw) && !pisa(iw, tinas[ti].r, 0.05) && !pisa(iw, lavs[li].r, 0.05)) { elegido = { t: tinas[ti], l: lavs[li], i: inodoros[ii] }; break; }
+          }
+        }
       }
-      // sanitario
-      addBox(x + 0.24, y + d - 0.86, 0, 0.42, 0.66, 0.4, MAT.sheet);
-      addBox(x + 0.24, y + d - 0.4, 0.4, 0.42, 0.2, 0.38, MAT.sheet);
+      if (!elegido) { // sin lugar para la bañera con la puerta libre: ducha cuadrada en la esquina más lejana
+        for (var k = 0; k < inodoros.length && !elegido; k++) {
+          for (var m = 0; m < lavs.length && !elegido; m++) {
+            if (libre(lavs[m].r) && libre(inodoros[k].r) && !pisa(lavs[m].r, inodoros[k].r, 0.05)) elegido = { t: null, l: lavs[m], i: inodoros[k] };
+          }
+        }
+      }
+      if (!elegido) return;
+      var L = elegido.l, T = elegido.t, I = elegido.i.r;
+      // lavatorio + espejo retroiluminado sobre la pared que le toca
+      addBox(x + L.r[0], y + L.r[1], 0.22, L.r[2], L.r[3], 0.56, MAT.woodDark);
+      addBox(x + L.r[0] - 0.02, y + L.r[1] - 0.02, 0.78, L.r[2] + 0.04, L.r[3] + 0.04, 0.06, MAT.marble);
+      addBox(x + L.r[0] + L.r[2] * 0.28, y + L.r[1] + 0.07, 0.84, 0.48, 0.34, 0.08, MAT.sheet);
+      addBox(x + L.r[0] + 0.05, y + (L.pared === "abajo" ? d - 0.14 : 0.06), 1.05, L.r[2] - 0.1, 0.04, 0.78, MAT.glow);
+      if (T) { // bañera
+        addBox(x + T.r[0], y + T.r[1], 0, T.r[2], T.r[3], 0.52, MAT.sheet);
+        addBox(x + T.r[0] + 0.14, y + T.r[1] + 0.1, 0.42, T.r[2] - 0.28, T.r[3] - 0.2, 0.12, MAT.marble);
+      }
+      // inodoro: pie y mochila contra la pared más cercana
+      var arriba = elegido.i.r[1] < d / 2;
+      addBox(x + I[0], y + I[1] + (arriba ? 0.2 : 0), 0, I[2], I[3] - 0.2, 0.4, MAT.sheet);
+      addBox(x + I[0], y + (arriba ? I[1] : I[1] + I[3] - 0.2), 0.4, I[2], 0.2, 0.38, MAT.sheet);
     }
 
     function addStudy(x, y, w, d) {
