@@ -53,8 +53,13 @@
   .btn-l{display:inline-flex;align-items:center;min-height:46px;margin-top:22px;padding:0 22px;border:1px solid currentColor;font-size:.92rem;font-weight:500;transition:background-color .2s,color .2s}
   .hero .btn-l:hover{background:#fff;color:var(--tinta)}
   .puntos{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;z-index:2;display:flex;gap:8px}
-  .puntos button{width:34px;height:3px;background:rgba(255,255,255,.4);padding:0;min-height:18px;background-clip:content-box;border-block:7px solid transparent}
-  .puntos button.on{background-color:#fff}
+  .puntos button{position:relative;width:46px;min-height:24px;padding:0;background:none;border:0}
+  .puntos button::before,.puntos button::after{content:"";position:absolute;left:0;right:0;top:50%;height:3px;margin-top:-1.5px}
+  .puntos button::before{background:rgba(255,255,255,.4)}
+  .puntos button::after{background:#fff;transform:scaleX(0);transform-origin:left}
+  .puntos button.on::after{animation:carga 5s linear forwards}
+  @keyframes carga{to{transform:scaleX(1)}}
+  @media (prefers-reduced-motion:reduce){.puntos button.on::after{animation:none;transform:none}}
 
   /* catálogo */
   .cat{padding-block:clamp(56px,8vw,110px) clamp(40px,6vw,80px)}
@@ -585,10 +590,9 @@
   var slides = [].slice.call(document.querySelectorAll(".slide")), pts = [].slice.call(document.querySelectorAll(".puntos button"));
   var TXT = [["Living", "Piezas para vivir despacio"], ["Comedor", "La mesa es el centro de la casa"], ["Cocina", "Cocinas que invitan a quedarse"]];
   var cur = 0, timer;
-  function ver(i){ cur = i; slides.forEach(function(s, k){ s.classList.toggle("on", k === i); }); pts.forEach(function(s, k){ s.classList.toggle("on", k === i); }); $("h-sm").textContent = TXT[i][0]; $("h-t").textContent = TXT[i][1]; }
-  pts.forEach(function(b, i){ b.addEventListener("click", function(){ ver(i); clearInterval(timer); timer = setInterval(sig, 7000); }); });
+  function ver(i){ cur = i; slides.forEach(function(s, k){ s.classList.toggle("on", k === i); }); pts.forEach(function(s){ s.classList.remove("on"); }); void pts[i].offsetWidth; pts[i].classList.add("on"); $("h-sm").textContent = TXT[i][0]; $("h-t").textContent = TXT[i][1]; }
+  pts.forEach(function(b, i){ b.addEventListener("click", function(){ ver(i); }); b.addEventListener("animationend", function(e){ if (e.animationName === "carga" && b.classList.contains("on")) sig(); }); });
   function sig(){ ver((cur + 1) % slides.length); }
-  if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) timer = setInterval(sig, 7000);
 
   /* ---- barra superior ---- */
   function alBajar(){ cab.classList.toggle("sol", window.scrollY > window.innerHeight * 0.6 || location.hash === "#/catalogo"); }
