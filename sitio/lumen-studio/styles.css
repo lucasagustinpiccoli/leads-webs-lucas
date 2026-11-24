@@ -442,3 +442,23 @@
 .foot-chica { margin-top: var(--space-xs); color: var(--color-on-night-muted); }
 .foot-copy { margin-top: var(--space-xl); text-align: center; font-size: var(--text-xs); letter-spacing: 0.06em; color: color-mix(in oklab, var(--color-on-night-muted) 70%, transparent); }
 @media (max-width: 40rem) { .foot-fila, .foot-chica { flex-direction: column; align-items: flex-start; } }
+
+/* Proyectos en el celular: carrusel de tarjetas que se desliza (en computadora sigue el acordeón) */
+@media (max-width: 60rem) {
+  .expand { flex-direction: row; height: auto; gap: var(--space-md); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 0; -webkit-overflow-scrolling: touch; padding-bottom: var(--space-sm); scrollbar-width: none; }
+  .expand::-webkit-scrollbar { display: none; }
+  .expand .x-panel[aria-expanded] { flex: 0 0 84% !important; min-width: 0; display: flex; flex-direction: column; overflow: hidden; scroll-snap-align: start; cursor: default; background: var(--color-night); color: var(--color-on-night); border-radius: var(--radius-card); isolation: auto; transition: none; }
+  .expand .x-panel::after, .expand .x-rotulo { display: none; }
+  .expand .x-panel[aria-expanded] img { position: static; inset: auto; z-index: auto; width: 100%; height: auto; aspect-ratio: 16 / 11; object-fit: cover; object-position: left top; transform: none; flex: none; }
+  .expand .x-panel[aria-expanded] .x-detalle { position: static; inset: auto; opacity: 1; transform: none; pointer-events: auto; transition: none; padding: var(--space-lg); gap: var(--space-md); align-content: start; flex: 1; }
+  .expand .x-detalle h3 { font-size: clamp(1.6rem, 7vw, 2rem); max-width: none; }
+  .expand .x-detalle p { font-size: var(--text-md); line-height: 1.5; max-width: none; color: var(--color-on-night-muted); }
+  .expand .x-acciones { gap: var(--space-xs); }
+  .expand .x-btn { min-height: 48px; }
+}
+.x-dots { display: none; }
+@media (max-width: 60rem) {
+  .x-dots { display: flex; justify-content: center; gap: 8px; margin-top: var(--space-md); }
+  .x-dots i { width: 8px; height: 8px; border-radius: 50%; background: color-mix(in oklab, var(--color-ink) 28%, transparent); transition: background-color 200ms, width 200ms; }
+  .x-dots i.on { width: 22px; border-radius: 4px; background: var(--color-ink); }
+}

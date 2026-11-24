@@ -391,6 +391,12 @@
       });
     }
     if (cont && paneles.length) {
+      // puntos de posición del carrusel (solo se ven en el celular)
+      var dots = document.createElement("div"); dots.className = "x-dots"; dots.setAttribute("aria-hidden", "true");
+      dots.innerHTML = paneles.map(function(){ return "<i></i>"; }).join("");
+      cont.parentNode.insertBefore(dots, cont.nextSibling);
+      function marcar(){ var w = paneles[0].offsetWidth + 16, i = Math.round(cont.scrollLeft / w); [].forEach.call(dots.children, function(d, k){ d.className = k === i ? "on" : ""; }); }
+      cont.addEventListener("scroll", marcar, { passive: true }); marcar();
       activar(0);
       window.addEventListener("resize", function(){ var i = paneles.findIndex(function(p){ return p.getAttribute("aria-expanded") === "true"; }); activar(Math.max(0, i)); });
       var puntero = window.matchMedia("(hover: hover) and (pointer: fine)");
