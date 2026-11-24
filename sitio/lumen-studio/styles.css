@@ -15,8 +15,8 @@
 }
 
 /* controles impresos */
-.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 var(--space-lg); border: var(--rule-hair) solid var(--color-ink); border-radius: 2px; background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); white-space: nowrap; text-decoration: none; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
-.btn::after { content: ""; position: absolute; inset: 2px; border: var(--rule-hair) solid var(--color-mark); pointer-events: none; }
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 var(--space-lg); border: var(--rule-hair) solid var(--color-ink); border-radius: 8px; background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); white-space: nowrap; text-decoration: none; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+.btn::after { content: ""; position: absolute; inset: 2px; border-radius: 6px; border: var(--rule-hair) solid var(--color-mark); pointer-events: none; }
 .btn:hover { background: var(--color-paper-2); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; transform: none; }
@@ -120,7 +120,7 @@
 .chat-input { padding: var(--space-sm) var(--space-md) var(--space-md); border-top: var(--rule-hair) solid var(--color-rule); display: grid; gap: var(--space-sm); min-height: 84px; align-content: start; }
 .chat-input:empty { opacity: 0; }
 .opciones { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-.opcion { min-height: 44px; padding: 0 var(--space-md); background: transparent; color: var(--color-ink); border: var(--rule-hair) solid var(--color-ink); border-radius: 2px; font: 500 var(--text-sm)/1.2 var(--font-body); cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+.opcion { min-height: 44px; padding: 0 var(--space-md); background: transparent; color: var(--color-ink); border: var(--rule-hair) solid var(--color-ink); border-radius: 8px; font: 500 var(--text-sm)/1.2 var(--font-body); cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
 .opcion:hover { background: var(--color-paper-2); }
 .opcion:active { transform: translateY(1px); }
 .opcion[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); }
@@ -472,10 +472,10 @@
 .pulso:hover { animation: none; box-shadow: 0 0 26px 2px color-mix(in oklab, var(--color-accent) 45%, transparent); }
 @media (prefers-reduced-motion: reduce) { .pulso { animation: none; } }
 /* mismas formas en todo el sitio: esquinas casi rectas, como los botones principales */
-.fm-btn { border-radius: 2px; }
-.fm-cerrar { border-radius: 2px; }
-.fm-campo { border-radius: 2px; }
-.fm-chip { border-radius: 2px; }
+.fm-btn { border-radius: 8px; }
+.fm-cerrar { border-radius: 8px; }
+.fm-campo { border-radius: 8px; }
+.fm-chip { border-radius: 8px; }
 /* el formulario se abre con un fundido suave */
 .fm { transform: translateY(14px); transition: opacity 480ms var(--ease-out), transform 480ms var(--ease-out); }
 .fm.ver { transform: none; }
