@@ -65,8 +65,10 @@
     if (abierto) return;
     burbuja.classList.add("ver");
     clearTimeout(burbujaTimer);
-    burbujaTimer = setTimeout(function () { burbuja.classList.remove("ver"); }, 7000);
+    burbujaTimer = setTimeout(function () { burbuja.classList.remove("ver"); }, 5000);
   }
+  /* el globo no vuelve después de una interacción: cualquier toque o tecla lo cierra */
+  ["pointerdown", "keydown"].forEach(function (e) { window.addEventListener(e, function (ev) { if (burbuja.classList.contains("ver") && !burbuja.contains(ev.target)) { burbuja.classList.remove("ver"); } }, { passive: true }); });
   function alCambiarHero(heroVisible) {
     visible = !heroVisible;
     raiz.classList.toggle("ver", visible);

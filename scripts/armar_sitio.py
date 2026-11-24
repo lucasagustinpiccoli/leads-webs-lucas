@@ -11,6 +11,7 @@ La carpeta output/ no se sube a GitHub (tiene teléfonos de negocios); este scri
 """
 import argparse
 import os
+import re
 import shutil
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +36,61 @@ if not a.sin_demos:
             destino = os.path.join(OUT, PORTFOLIO[d]) if d in PORTFOLIO else os.path.join(OUT, "demos", d)
             shutil.copytree(src, destino, ignore=shutil.ignore_patterns("datos.json"))
             n += 1
+
+# --- Portfolio: número de Halo Studio en los WhatsApp de las demos + barra "Demo hecha por Halo Studio" ---
+from urllib.parse import quote
+WA_HALO = "5491178297719"
+DEMOS = {  # carpeta publicada -> nombre que se ve en el mensaje
+    "solana": "Solana", "saldo": "Saldo", "arce": "Arce", "oliva": "Oliva Atelier", "anima-center": "Anima Center",
+    "brio-dental": "Brío Dental", "rrg": "R&RG Estudio Jurídico",
+}
+with open(os.path.join(ROOT, "scripts", "halo_barra.html"), encoding="utf-8") as f:
+    BARRA = f.read()
+
+
+def leer(p):
+    with open(p, encoding="utf-8") as f:
+        return f.read()
+
+
+def escribir(p, t):
+    with open(p, "w", encoding="utf-8") as f:
+        f.write(t)
+
+
+def parchar_demo(carpeta, nombre):
+    base = os.path.join(OUT, carpeta)
+    idx = os.path.join(base, "index.html")
+    if not os.path.exists(idx):
+        return
+    msg = f"¡Hola! Estoy probando la demo de {nombre} y quiero una página así para mi negocio."
+    link = f"https://wa.me/{WA_HALO}?text={quote(msg)}"
+    prefijo = f"[Demo de {nombre}] "
+    for raiz, _, archivos in os.walk(base):
+        for nom in archivos:
+            if not nom.endswith((".html", ".js")):
+                continue
+            p = os.path.join(raiz, nom)
+            t = leer(p)
+            o = t
+            # links sin número (https://wa.me/?text=...) -> número de Halo con un mensaje que aclara el contexto
+            t = re.sub(r'https://wa\.me/\?text=[^"\'`\s<>]*', link.replace("\\", "\\\\"), t)
+            # variables con el número vacío y mensajes armados por la demo
+            t = re.sub(r'var WA = "";[^\n]*', f'var WA = "{WA_HALO}";', t)
+            t = re.sub(r'var wa = "";', f'var wa = "{WA_HALO}";', t)
+            if 'wa.me/" + WA' in t or 'wa.me/" + wa' in t:
+                t = t.replace('"?text=" + encodeURIComponent(', '"?text=" + encodeURIComponent("' + prefijo + '" + ', 1)
+            if t != o:
+                escribir(p, t)
+    t = leer(idx)
+    if "halo-barra" not in t:
+        barra = BARRA.replace("__WA__", link).replace("__DEMO__", nombre.replace('"', ""))
+        t = t.replace("</body>", barra + "\n</body>", 1) if "</body>" in t else t + barra
+        escribir(idx, t)
+
+
+for carpeta, nombre in DEMOS.items():
+    parchar_demo(carpeta, nombre)
 with open(os.path.join(OUT, "robots.txt"), "w") as f:
     f.write("User-agent: *\nDisallow: /demos/\n")
 with open(os.path.join(OUT, "_headers"), "w") as f:

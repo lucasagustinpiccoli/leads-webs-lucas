@@ -10,7 +10,7 @@
     "Empezá tu proyecto": "Start your project",
     "Halo Studio, diseño web para negocios locales": "Halo Studio, web design for local businesses",
     "Diseño web para": "Web design for",
-    "Tu sitio listo en 7 días. Demo gratuita.": "Your website ready in 7 days. Free demo.",
+    "Tu demo lista en 7 días. Sin costo ni compromiso.": "Your demo ready in 7 days. No cost, no commitment.",
     "Ver proyectos": "See our projects",
     "Cómo te ayudamos": "How we help",
     "Tu negocio ya hace bien su trabajo. Lo nuestro es que más gente lo conozca, lo elija y te escriba, y que a vos te cueste menos atenderla.": "Your business already does great work. Ours is helping more people find it, choose it and get in touch, while making it easier for you to look after them.",
@@ -55,7 +55,7 @@
     "Nuestro proceso": "Our process",
     "Con Ray": "With Ray",
     "Contás qué necesitás": "Tell us what you need",
-    "Respondés unas preguntas y ves al instante un rango de precio.": "Answer a few questions and see a price range right away.",
+    "Respondés unas preguntas y te contactamos con una propuesta.": "Answer a few questions and we'll contact you with a proposal.",
     "Empezar con Ray": "Start with Ray",
     "Dejás tus datos": "Leave your details",
     "Tu nombre y el de tu negocio. Con eso te contactamos por WhatsApp.": "Your name and your business's name. With that we contact you on WhatsApp.",
@@ -95,6 +95,10 @@
     "Terminar": "Finish",
     "Volver": "Back",
     "Cerrar el formulario": "Close the form",
+    "Solana, sitio de un desarrollo inmobiliario con la foto del edificio a pantalla completa": "Solana, website for a real-estate development with a full-screen photo of the building",
+    "Saldo, landing de una app para dividir gastos con un celular que asoma en la portada": "Saldo, landing page for an expense-splitting app with a phone peeking into the cover",
+    "Arce, catálogo de mobiliario con presupuesto por WhatsApp": "Arce, furniture catalogue with quotes over WhatsApp",
+    "R&RG Estudio Jurídico, sección de áreas de práctica de la propuesta de rediseño": "R&RG Law Firm, practice areas section of the redesign proposal",
     "Pendiente": "Pending", "En curso": "In progress", "Hecho": "Done",
     "Armamos la página, hacemos una ronda de correcciones y queda publicada en Cloudflare. Se paga el 50% restante.": "We build the site, do a round of revisions and publish it on Cloudflare. The remaining 50% is paid.",
     "Preguntas frecuentes": "Frequently asked questions",
@@ -105,13 +109,13 @@
     "¿Cómo se paga?": "How does payment work?",
     "Se paga el 50% para empezar y el 50% restante cuando la página está lista y publicada. Antes de eso ves la demo sin costo, así que no pagás nada hasta saber cómo va a quedar.": "50% is paid to start and the remaining 50% when the site is ready and published. Before that you see the demo at no cost, so you pay nothing until you know how it will look.",
     "¿Cuánto tarda el proceso?": "How long does the process take?",
-    "Depende del tamaño de la página. Por lo general ves la demo en pocos días y, una vez aprobado el diseño, la publicación lleva unos días más. Antes de empezar acordamos las etapas por escrito.": "It depends on the size of the site. You usually see the demo within a few days and, once the design is approved, publishing takes a few more days. Before starting we agree on the stages in writing.",
+    "Ves la demo de tu página en 7 días. Cuando la aprobás, la publicación lleva unos días más, según el tamaño. Antes de empezar acordamos las etapas por escrito.": "You see your page demo in 7 days. Once you approve it, publishing takes a few more days, depending on size. We agree on the stages in writing before we start.",
     "¿Qué incluye el servicio?": "What does the service include?",
     "Una página hecha con los datos de tu negocio y adaptada a celular, tablet y computadora: tus colores y tu logo, textos claros, botón de WhatsApp, mapa y dirección, y la publicación en Cloudflare. Incluye una ronda de correcciones. Después podés sumar mantenimiento y cambios menores.": "A website built with your business details and adapted to mobile, tablet and desktop: your colours and logo, clear copy, a WhatsApp button, map and address, and publishing on Cloudflare. It includes one round of revisions. Afterwards you can add maintenance and minor changes.",
     "¿Y si ya tengo Instagram?": "What if I already have Instagram?",
     "Instagram es una buena vidriera y tu perfil puede aparecer en Google, pero no es un espacio propio: depende de las reglas y del algoritmo de la plataforma, y no está pensado para tomar reservas ni ordenar la información de tu negocio. Tu página sí suma reservas, mapa, servicios y WhatsApp en un solo lugar. Se complementan: dejás el link en tu perfil y convertís seguidores en consultas.": "Instagram is a good shopfront and your profile can show up on Google, but it isn't a space you own: it depends on the platform's rules and algorithm, and it isn't built to take bookings or organise your business information. Your website adds booking, a map, services and WhatsApp in one place. They complement each other: put the link in your profile and turn followers into enquiries.",
     "¿Qué es la demo previa?": "What is the preview demo?",
-    "Antes de pagar, armamos una versión de tu página con los datos públicos de tu negocio para que la veas funcionando. No tiene costo ni compromiso: si te gusta seguimos, y si no, no pasa nada.": "Before you pay, we build a version of your site with your business's public details so you can see it working. It's free and there's no commitment: if you like it we continue, and if not, nothing happens.",
+    "Antes de pagar, armamos una versión de tu página con los datos públicos de tu negocio para que la veas funcionando. No tiene costo ni compromiso: si te gusta seguimos, y si no te convence, no pagás nada.": "Before you pay, we build a version of your page using your business's public information so you can see it working. There is no cost or commitment: if you like it we continue, and if it doesn't convince you, you pay nothing.",
     "Contanos de tu negocio": "Tell us about your business",
     "Te mostramos cómo quedaría tu página, sin costo y sin compromiso.": "We show you how your website would look, at no cost and no commitment.",
     "Diseño web para negocios locales": "Web design for local businesses",
@@ -209,7 +213,7 @@
 
   var guardado = null;
   try { guardado = localStorage.getItem("halo-lang"); } catch (e) {}
-  var inicial = guardado === "en" || guardado === "es" ? guardado : ((navigator.language || "es").slice(0, 2) === "es" ? "es" : "en");
+  var inicial = guardado === "en" ? "en" : "es"; // español por defecto; el selector EN/ES recuerda la elección
 
   window.I18N = {
     t: t,

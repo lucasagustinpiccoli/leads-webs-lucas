@@ -1,0 +1,34 @@
+<!-- Barra de Halo Studio: la agrega scripts/armar_sitio.py a cada demo del portfolio al armar el sitio -->
+<style id="halo-barra-css">
+#halo-barra{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;gap:14px;min-height:44px;padding:6px 14px calc(6px + env(safe-area-inset-bottom));box-sizing:border-box;background:#0a0a0a;color:#f4f1e8;font:500 13px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;border-top:1px solid rgba(244,241,232,.16);white-space:nowrap;transform:translateY(0);animation:hb-in .5s cubic-bezier(.16,1,.3,1) both}
+#halo-barra .hb-t{overflow:hidden;text-overflow:ellipsis}
+#halo-barra .hb-b{flex:none;display:inline-flex;align-items:center;min-height:30px;padding:0 14px;border-radius:0;background:#edbb64;color:#0a0a0a;font-weight:600;text-decoration:none}
+#halo-barra .hb-v{flex:none;color:#f4f1e8;opacity:.8;text-decoration:underline;text-underline-offset:3px}
+#halo-barra a:focus-visible{outline:2px solid #f4f1e8;outline-offset:2px}
+@media (max-width:30rem){#halo-barra{gap:10px;padding-inline:10px;font-size:12px}#halo-barra .hb-b{padding:0 10px}}@media (max-width:21rem){#halo-barra .hb-largo{display:none}}
+@keyframes hb-in{from{transform:translateY(100%)}}
+@media (prefers-reduced-motion:reduce){#halo-barra{animation:none}}
+html.hb-con{scroll-padding-bottom:44px}
+body{padding-bottom:calc(44px + env(safe-area-inset-bottom))!important}
+</style>
+<div id="halo-barra" role="region" aria-label="Halo Studio"><span class="hb-t"><span class="hb-largo" data-es="Demo hecha por " data-en="Demo made by ">Demo hecha por </span>Halo Studio</span><a class="hb-b" href="__WA__" target="_blank" rel="noopener" data-es="Pedí la tuya" data-en="Get yours">Pedí la tuya</a><a class="hb-v" href="/#trabajos" data-es="Volver" data-en="Back">Volver</a></div>
+<script>
+(function(){
+  var b=document.getElementById("halo-barra"); if(!b) return;
+  var en=false; try{en=localStorage.getItem("halo-lang")==="en";}catch(e){}
+  if(en){ b.querySelectorAll("[data-en]").forEach(function(e){e.textContent=e.getAttribute("data-en");}); var a=b.querySelector(".hb-b"); a.href=a.href.replace(/text=[^&]*/,"text="+encodeURIComponent("Hi! I'm trying the __DEMO__ demo and I'd like a website like this for my business.")); }
+  document.documentElement.classList.add("hb-con");
+  /* los botones fijos propios de la demo (abajo) suben para no quedar tapados */
+  var alto=44, hechos=new WeakSet();
+  function subir(){
+    var h=b.offsetHeight||alto, vh=window.innerHeight;
+    document.querySelectorAll("body *").forEach(function(e){
+      if(b.contains(e)||hechos.has(e)) return;
+      var cs=getComputedStyle(e); if(cs.position!=="fixed"||cs.display==="none") return;
+      var r=e.getBoundingClientRect(); if(!r.width||!r.height) return;
+      if(r.bottom>vh-h-2&&r.top>vh*0.45&&cs.bottom!=="auto"){ e.style.marginBottom=(parseFloat(cs.marginBottom)||0)+h+"px"; hechos.add(e); }
+    });
+  }
+  setTimeout(subir,600); setTimeout(subir,2500); window.addEventListener("load",function(){setTimeout(subir,300);});
+})();
+</script>
