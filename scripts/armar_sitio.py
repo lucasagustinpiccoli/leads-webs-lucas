@@ -37,15 +37,13 @@ if not a.sin_demos:
             shutil.copytree(src, destino, ignore=shutil.ignore_patterns("datos.json"))
             n += 1
 
-# --- Portfolio: número de Halo Studio en los WhatsApp de las demos + barra "Demo hecha por Halo Studio" ---
+# --- Portfolio: número de Halo Studio en los WhatsApp de las demos ---
 from urllib.parse import quote
 WA_HALO = "5491178297719"
 DEMOS = {  # carpeta publicada -> nombre que se ve en el mensaje
     "solana": "Solana", "saldo": "Saldo", "arce": "Arce", "oliva": "Oliva Atelier", "anima-center": "Anima Center",
     "brio-dental": "Brío Dental", "rrg": "R&RG Estudio Jurídico",
 }
-with open(os.path.join(ROOT, "scripts", "halo_barra.html"), encoding="utf-8") as f:
-    BARRA = f.read()
 
 
 def leer(p):
@@ -82,11 +80,6 @@ def parchar_demo(carpeta, nombre):
                 t = t.replace('"?text=" + encodeURIComponent(', '"?text=" + encodeURIComponent("' + prefijo + '" + ', 1)
             if t != o:
                 escribir(p, t)
-    t = leer(idx)
-    if "halo-barra" not in t:
-        barra = BARRA.replace("__WA__", link).replace("__DEMO__", nombre.replace('"', ""))
-        t = t.replace("</body>", barra + "\n</body>", 1) if "</body>" in t else t + barra
-        escribir(idx, t)
 
 
 for carpeta, nombre in DEMOS.items():
