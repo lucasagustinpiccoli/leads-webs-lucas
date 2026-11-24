@@ -117,7 +117,7 @@
     var sx = x + (w < 5.2 ? (tipo === "dos" ? 1.7 : .8) : 1.2), sy = y + .14, s = alfombra(sx - .3, sy + .5, 2.9, 2.0, "#d9d2c3");
     s += sofa(sx, sy, 2.2, .95);
     s += RR(sx + .6, sy + 1.25, 1.0, .6, MAD, .06) + RR(sx + .72, sy + 1.32, .36, .26, 'fill="#fff" stroke="#cfc6b6" stroke-width=".3"', .04) + CC(sx + 1.3, sy + 1.55, .08, 'fill="#e9e3d6" stroke="#cfc6b6" stroke-width=".25"');
-    if (tipo === "dos") s += '<g transform="rotate(14 ' + f1(x + w - .9) + " " + f1(y + 2.1) + ')">' + RR(x + w - 1.35, y + 1.7, .85, .85, TEL, .3) + RR(x + w - 1.35, y + 2.45, .85, .15, TELO, .07) + "</g>";
+    if (tipo === "dos") s += '<g transform="rotate(-8 ' + f1(x + 1.2) + " " + f1(y + 2.9) + ')">' + RR(x + .75, y + 2.45, .85, .85, TEL, .3) + RR(x + .75, y + 3.2, .85, .15, TELO, .07) + "</g>";
     if (tipo === "tres") s += mesaRedonda(x + w - 1.45, y + 2.75, 1.1, 4);
     if (tipo === "pent") s += mesaRedonda(x + 4.5, y + 4.2, 1.2, 6) + '<g transform="rotate(-10 ' + f1(x + 4.6) + " " + f1(y + 1.6) + ')">' + RR(x + 4.2, y + 1.2, .85, .85, TEL, .3) + RR(x + 4.2, y + 1.95, .85, .15, TELO, .07) + "</g>";
     return s + (tipo === "dos" ? "" : planta(x + .32, y + .32, .25)) + (tipo === "tres" ? "" : planta(x + w - .3, y + .3, .22));
@@ -160,7 +160,7 @@
     if (n.indexOf("cocina") > -1) return giro(cocinaM(x, y, w, h), x, y, w, h);
     if (n.indexOf("estar") > -1) return estarDorm(x, y, w, h);
     if (n.indexOf("living") > -1) return livingM(x, y, w, h, tipoActual);
-    if (n.indexOf("baño") > -1) return banoM(x, y, w, h);
+    if (n.indexOf("baño") > -1) return (tipoActual === "dos" || tipoActual === "tres") ? giro(banoM(x, y, w, h), x, y, w, h) : banoM(x, y, w, h);
     if (n.indexOf("escritorio") > -1) return escrM(x, y, w, h);
     return dormM(x, y, w, h, n.indexOf("suite") > -1 ? "king" : "");
   }
@@ -169,15 +169,15 @@
     mono: { W: 7.0, H: 5.4, rooms: [["Estar y dormitorio", 0, 0, 4.4, 5.4], ["Baño", 4.4, 0, 2.6, 2.4], ["Cocina", 4.4, 2.4, 2.6, 3.0]], bal: [-1.2, 0.6, 1.2, 4.2],
       ven: [[0.6, 0, 1.8, "h"], [2.6, 0, 1.2, "h"], [5.2, 0, 1.2, "h"], [7.0, 3.0, 1.4, "v"]],
       pu: [[0, 1.2, 1.8, "v", 0], [3.0, 5.4, 0.9, "h", -1], [4.4, 1.5, 0.8, "v", -1], [4.4, 3.0, 1.2, "v", 0]] },
-    dos: { W: 9.0, H: 6.9, rooms: [["Living", 0, 0, 4.8, 4.8], ["Cocina", 0, 4.8, 2.4, 2.1], ["Baño", 2.4, 4.8, 2.4, 2.1], ["Dormitorio", 4.8, 0, 4.2, 3.9], ["Escritorio", 4.8, 3.9, 4.2, 3.0]], bal: [-1.7, 0, 1.7, 4.8],
-      ven: [[2.4, 0, 2.2, "h"], [5.6, 0, 2.6, "h"], [9.0, 0.9, 1.8, "v"], [5.6, 6.9, 2.6, "h"]],
-      pu: [[0, 1.2, 1.9, "v", 0], [0.5, 0, 0.9, "h", 1], [4.8, 2.9, 0.8, "v", -1], [4.8, 3.95, 0.8, "v", -1], [3.0, 4.8, 0.8, "h", -1], [0.3, 4.8, 1.6, "h", 0]] },
+    dos: { W: 9.0, H: 6.9, rooms: [["Living", 0, 0, 4.8, 4.3], ["Cocina", 0, 4.3, 2.4, 2.6], ["Baño", 2.4, 4.3, 2.4, 2.6], ["Escritorio", 4.8, 0, 4.2, 2.6], ["Dormitorio", 4.8, 2.6, 4.2, 4.3]], bal: [-1.7, 0, 1.7, 4.3],
+      ven: [[2.4, 0, 2.2, "h"], [5.6, 0, 2.6, "h"], [9.0, 0.5, 1.6, "v"], [9.0, 3.4, 2.4, "v"], [5.6, 6.9, 2.6, "h"]],
+      pu: [[0, 1.0, 1.9, "v", 0], [0.5, 0, 0.9, "h", 1], [4.8, 1.2, 0.8, "v", -1], [4.8, 3.2, 0.8, "v", -1], [3.0, 4.3, 0.8, "h", -1], [0.3, 4.3, 1.6, "h", 0]] },
     tres: { W: 11.0, H: 8.5, rooms: [["Living", 0, 0, 5.0, 4.8], ["Cocina", 0, 4.8, 2.8, 3.7], ["Baño", 2.8, 4.8, 2.2, 3.7], ["Dormitorio 1", 5.0, 0, 6.0, 3.4], ["Pasillo", 5.0, 3.4, 6.0, 1.1], ["Dormitorio 2", 5.0, 4.5, 3.0, 4.0], ["Dormitorio 3", 8.0, 4.5, 3.0, 4.0]], bal: [-2.5, 0, 2.5, 4.8],
       ven: [[0.5, 0, 2.6, "h"], [5.8, 0, 4.4, "h"], [11.0, 0.8, 1.8, "v"], [11.0, 5.4, 1.8, "v"], [5.6, 8.5, 2.0, "h"], [8.4, 8.5, 2.0, "h"], [0, 5.6, 1.4, "v"]],
       pu: [[0, 1.2, 2.0, "v", 0], [3.9, 0, 0.9, "h", 1], [5.0, 3.5, 0.9, "v", 0], [6.0, 3.4, 0.8, "h", -1], [5.2, 4.5, 0.8, "h", 1], [9.2, 4.5, 0.8, "h", 1], [3.4, 4.8, 0.8, "h", -1], [0.4, 4.8, 1.6, "h", 0]] },
     pent: { W: 13.0, H: 11.4, rooms: [["Living", 0, 0, 6.4, 6.0], ["Cocina", 0, 6.0, 3.4, 5.4], ["Baño", 3.4, 6.0, 3.0, 5.4], ["Pasillo", 6.4, 0, 1.2, 11.4], ["Suite", 7.6, 0, 3.4, 5.6], ["Baño en suite", 11.0, 0, 2.0, 3.4], ["Vestidor", 11.0, 3.4, 2.0, 2.2], ["Escritorio", 7.6, 5.6, 5.4, 2.4], ["Dormitorio", 7.6, 8.0, 5.4, 3.4]], bal: [-6.7, 0, 6.7, 6.0],
       ven: [[0.8, 0, 4.8, "h"], [8.2, 0, 4.0, "h"], [13.0, 0.8, 1.8, "v"], [13.0, 6.0, 1.6, "v"], [13.0, 8.8, 1.8, "v"], [8.4, 11.4, 3.6, "h"]],
-      pu: [[0, 1.4, 3.6, "v", 0], [4.6, 0, 0.9, "h", 1], [6.4, 2.0, 1.0, "v", 0], [7.6, 4.0, 0.8, "v", 1], [11.0, 1.6, 0.8, "v", -1], [11.0, 4.1, 0.8, "v", -1], [7.6, 6.5, 0.8, "v", 1], [7.6, 9.4, 0.8, "v", 1], [6.4, 7.0, 0.8, "v", -1], [0.5, 6.0, 1.8, "h", 0]] }
+      pu: [[0, 1.4, 3.6, "v", 0], [4.6, 0, 0.9, "h", 1], [6.4, 2.0, 1.0, "v", 0], [7.6, 4.0, 0.8, "v", 1], [11.0, 2.55, 0.8, "v", -1], [11.0, 4.1, 0.8, "v", -1], [7.6, 6.5, 0.8, "v", 1], [7.6, 9.4, 0.8, "v", 1], [6.4, 7.0, 0.8, "v", -1], [0.5, 6.0, 1.8, "h", 0]] }
   };
 
   var tipoActual = "";
@@ -192,7 +192,7 @@
       oclu += '<clipPath id="cp' + n + '"><rect x="' + f1(x) + '" y="' + f1(y) + '" width="' + f1(w) + '" height="' + f1(h) + '"/></clipPath><g clip-path="url(#cp' + n + ')">' + RR(x, y, w, h, 'fill="none" stroke="#000" stroke-opacity=".42" stroke-width="7" filter="url(#difuso)"') + "</g>"; n++;
       pared += RR(x, y, w, h, 'fill="none" stroke="currentColor" stroke-width="' + WT + '" stroke-linejoin="miter"');
       mue += mueble(nom, x, y, w, h);
-      var m2 = Math.round(w * h), l = nom.toLowerCase(), alto = l.indexOf("living") > -1 || l.indexOf("estar") > -1, tx = l.indexOf("estar") > -1 ? x + 1.9 : (l.indexOf("living") > -1 ? x + Math.min(2.2, w / 2) : x + w / 2), ty = l.indexOf("estar") > -1 ? y + 2.8 : (l.indexOf("living") > -1 ? y + h - .5 : y + h - .5), lab = nom.replace(" en suite", ""), ancho = lab.length * fm * .6 + fm * 2.2;
+      var m2 = Math.round(w * h), l = nom.toLowerCase(), alto = l.indexOf("living") > -1 || l.indexOf("estar") > -1, tx = l.indexOf("estar") > -1 ? x + 1.9 : (l.indexOf("living") > -1 ? x + Math.min(2.2, w / 2) : x + w / 2), ty = l.indexOf("estar") > -1 ? y + 2.8 : (l.indexOf("living") > -1 ? y + h - .5 : (l.indexOf("baño") > -1 && (t.id === "dos" || t.id === "tres") ? y + h / 2 + .3 : y + h - .5)), lab = nom.replace(" en suite", ""), ancho = lab.length * fm * .6 + fm * 2.2;
       if (l.indexOf("pasillo") > -1 && w < 2.2) return;
       etiq += RR(tx - ancho / 2, ty - fm * 1.25, ancho, fm * 2.9, 'fill="#fff" fill-opacity=".93" stroke="#d8d4cb" stroke-width=".2"', fm * .6) + '<text x="' + f1(tx) + '" y="' + f1(ty) + '" class="t1">' + lab + '</text><text x="' + f1(tx) + '" y="' + f1(ty + fm * 1.2) + '" class="t2">' + m2 + " m²</text>";
     });
@@ -283,13 +283,16 @@
     var pisos = []; for (var i = 14; i >= 1; i--) pisos.push(i);
     function porPiso(p) { return UNIDADES.filter(function (u) { return u.piso === p; }); }
     function dibujar() {
-      cont.innerHTML = pisos.map(function (p) {
-        var us = porPiso(p), d = us.filter(function (u) { return u.estado === "disponible"; }).length;
-        var ancho = p >= 13 ? 62 : 100 - (p % 2) * 4;
-        return '<button type="button" class="piso" data-p="' + p + '" aria-pressed="' + (p === pisoSel) + '" style="--w:' + ancho + '%"><span class="n">' + (p < 10 ? "0" + p : p) + '</span><i></i><em>' + (d ? d + (d === 1 ? " disponible" : " disponibles") : "Sin disponibles") + '</em></button>';
+      var filas = pisos.map(function (p) {
+        var us = porPiso(p), d = us.filter(function (u) { return u.estado === "disponible"; }).length, atico = p >= 13;
+        var ven = us.map(function (u) { return '<i class="v ' + u.estado + '"></i>'; }).join("");
+        return '<button type="button" class="piso' + (atico ? " atico" : "") + (p === 14 ? " ultimo" : "") + '" data-p="' + p + '" aria-pressed="' + (p === pisoSel) + '" aria-label="Piso ' + p + ', ' + (d ? d + (d === 1 ? " unidad disponible" : " unidades disponibles") : "sin unidades disponibles") + '"><span class="n">' + (p < 10 ? "0" + p : p) + '</span><span class="fach">' + ven + '</span></button>';
       }).join("");
+      cont.innerHTML = '<div class="azotea" aria-hidden="true"><i class="antena"></i><i class="tanque"></i></div>' + filas + '<div class="pb" aria-hidden="true"><span class="n"></span><span class="base"><i class="toldo"></i><i class="vidrio"></i><i class="vidrio"></i><i class="puerta"></i><i class="vidrio"></i><i class="vidrio"></i></span></div><div class="vereda" aria-hidden="true"></div>';
       var us = porPiso(pisoSel);
+      var dsp = us.filter(function (u) { return u.estado === "disponible"; }).length;
       $("t-piso").textContent = "Piso " + pisoSel;
+      $("t-sub").textContent = dsp ? dsp + (dsp === 1 ? " unidad disponible" : " unidades disponibles") : "Sin unidades disponibles";
       lista.innerHTML = us.map(function (u) {
         var t = TIPOS.filter(function (x) { return x.id === u.tipo; })[0], ok = u.estado === "disponible";
         return '<li><div><b>' + t.nombre + '</b><span>' + t.m2 + ' m², ' + t.ext.toLowerCase() + '</span></div><span class="est ' + u.estado + '">' + (ok ? "Disponible" : u.estado === "reservada" ? "Reservada" : "Vendida") + '</span>' + (ok ? '<button type="button" class="ver" data-t="' + t.id + '">Ver plano</button>' : "<span></span>") + '</li>';
