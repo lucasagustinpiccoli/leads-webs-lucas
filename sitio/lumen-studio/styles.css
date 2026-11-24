@@ -462,3 +462,6 @@
   .x-dots i { width: 8px; height: 8px; border-radius: 50%; background: color-mix(in oklab, var(--color-ink) 28%, transparent); transition: background-color 200ms, width 200ms; }
   .x-dots i.on { width: 22px; border-radius: 4px; background: var(--color-ink); }
 }
+
+.fm-ayuda { min-height: 1.4em; margin-top: var(--space-sm); font-size: var(--text-sm, .9rem); color: color-mix(in oklab, var(--color-on-night) 60%, transparent); }
+.fm-ayuda.mal { color: var(--color-accent); }

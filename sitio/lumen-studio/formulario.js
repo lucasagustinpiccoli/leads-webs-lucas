@@ -17,9 +17,37 @@
   function lista(a, y) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " " + y + " " + a[a.length - 1]; }
   function minus(x) { return x.charAt(0).toLowerCase() + x.slice(1); }
   function servicios() { return [].slice.call(raiz.querySelectorAll(".fm-chip input:checked")).map(function (i) { return i.parentNode.querySelector("span").textContent.trim(); }); }
+  /* Cantidad de dígitos del número nacional (sin código de país ni 0 inicial), por código de país. */
+  var LARGO = { "54": [10, 10], "598": [8, 9], "56": [9, 9], "595": [9, 9], "591": [8, 8], "55": [10, 11], "51": [9, 9], "57": [10, 10], "58": [10, 10], "593": [9, 9], "52": [10, 10], "506": [8, 8], "507": [7, 8], "503": [8, 8], "502": [8, 8], "504": [8, 8], "505": [8, 8], "53": [8, 8], "1": [10, 10], "34": [9, 9], "39": [9, 11], "33": [9, 9], "49": [10, 11], "44": [10, 10], "351": [9, 9], "41": [9, 9], "31": [9, 9], "32": [8, 9], "43": [10, 11], "30": [10, 10], "353": [9, 9], "46": [9, 9], "47": [8, 8], "45": [8, 8], "48": [9, 9], "40": [9, 9], "380": [9, 9], "7": [10, 10], "90": [10, 10], "972": [9, 9], "971": [9, 9], "966": [9, 9], "20": [10, 10], "212": [9, 9], "27": [9, 9], "91": [10, 10], "86": [11, 11], "81": [10, 10], "82": [9, 10], "65": [8, 8], "61": [9, 9], "64": [8, 10] };
+  function telOk() {
+    var inp = raiz.querySelector('[data-k="tel"]'), sel = raiz.querySelector("select"), ay = raiz.querySelector("[data-fm-ayuda]");
+    var d = inp.value.replace(/\D/g, "").replace(/^0+/, ""), r = LARGO[sel.value] || [6, 14];
+    var ok = d.length >= r[0] && d.length <= r[1];
+    var cuantos = r[0] === r[1] ? String(r[0]) : r[0] + " " + (en() ? "to" : "a") + " " + r[1];
+    var pais = sel.options[sel.selectedIndex].text;
+    if (ay) {
+      ay.textContent = en() ? pais + ": enter " + cuantos + " digits, without the country code." : pais + ": ingresá " + cuantos + " números, sin el código de país" + (sel.value === "54" ? " ni el 0 ni el 15" : "") + ".";
+      ay.classList.toggle("mal", !!d.length && !ok);
+    }
+    return ok;
+  }
+  var DOMINIOS_MAL = { "gmial.com": "gmail.com", "gmai.com": "gmail.com", "gmil.com": "gmail.com", "gmail.con": "gmail.com", "gamil.com": "gmail.com", "gmail.com.ar": "gmail.com", "hotmial.com": "hotmail.com", "hotmai.com": "hotmail.com", "outlok.com": "outlook.com", "yaho.com": "yahoo.com" };
+  function mailOk(c) {
+    var v = c.value.trim(), ay = raiz.querySelector("[data-fm-ayuda-mail]");
+    var ok = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(v) && !/\.\./.test(v);
+    var dom = v.split("@")[1] || "", sug = DOMINIOS_MAL[dom.toLowerCase()];
+    if (ay) {
+      var msg = en() ? "Type a valid email, like name@gmail.com." : "Escribí un correo válido, por ejemplo nombre@gmail.com.";
+      if (ok && sug) msg = en() ? "Did you mean " + sug + "?" : "¿Quisiste decir " + sug + "?";
+      ay.textContent = (!ok || sug) ? msg : "";
+      ay.classList.toggle("mal", !!v && (!ok || !!sug));
+    }
+    return ok && !sug;
+  }
   function completo(n) {
+    if (pasos[n].querySelector('[data-k="tel"]')) return telOk();
     var c = pasos[n].querySelector("[data-k]");
-    if (c && c.type === "email") return /^\S+@\S+\.\S+$/.test(c.value.trim());
+    if (c && c.type === "email") return mailOk(c);
     return !pasos[n].hasAttribute("data-requerido") || !!valor(n);
   }
 
@@ -103,7 +131,10 @@
   var c2 = raiz.querySelector("[data-fm-cerrar2]"); if (c2) c2.addEventListener("click", cerrar);
   raiz.querySelector("[data-fm-cerrar]").addEventListener("click", cerrar);
   enviar.addEventListener("click", function () { if (!window.LP_WA) cerrar(); });
-  raiz.addEventListener("input", function () { sig.disabled = !completo(actual); });
+  raiz.addEventListener("input", function (e) {
+    if (e.target.matches('[data-k="tel"]')) { var v = e.target.value.replace(/[^\d\s-]/g, ""); if (v !== e.target.value) e.target.value = v; }
+    sig.disabled = !completo(actual);
+  });
   raiz.addEventListener("change", function () { sig.disabled = !completo(actual); });
   raiz.addEventListener("keydown", function (e) {
     if (e.key === "Escape") { e.preventDefault(); cerrar(); return; }
