@@ -254,7 +254,7 @@
   function fotoTipo(id) { var i = document.querySelector('#fotos-tipo img[data-t="' + id + '"]'); return i ? i.getAttribute('src') : ''; }
   function pintar() {
     [].forEach.call(tabs.children, function (b) { b.setAttribute("aria-selected", b.id === "tab-" + actual.id ? "true" : "false"); });
-    $("plano").innerHTML = plano(actual); inclinar();
+    maqUnidad(actual);
     var l = libres(actual.id), pis = actual.pisos[0] === actual.pisos[1] ? "piso " + actual.pisos[0] : "pisos " + actual.pisos[0] + " a " + actual.pisos[1];
     $("ficha").innerHTML = '<img class="foto-tipo" src="' + fotoTipo(actual.id) + '" alt="Ambiente de ' + actual.nombre + '" loading="lazy"><h3>' + actual.nombre + '</h3><p class="precio">Desde USD ' + fmt(actual.precio) + '</p>' +
       '<dl><div><dt>Superficie cubierta</dt><dd>' + actual.m2 + ' m²</dd></div><div><dt>Exterior</dt><dd>' + actual.ext + '</dd></div><div><dt>Ubicación</dt><dd>' + pis + '</dd></div><div><dt>Disponibles</dt><dd>' + l + '</dd></div><div><dt>Entrega</dt><dd>Diciembre de 2027</dd></div></dl>' +
@@ -266,18 +266,23 @@
     return saludo + (t ? " Quiero consultar por un " + (t.id === "pent" ? "penthouse" : "departamento de " + t.nombre.toLowerCase()) + " en Solana." : " Quiero consultar por las unidades disponibles en Solana.") + " Muchas gracias.";
   }
   function irAWhatsApp(texto) { window.location.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(texto); }
-  var plana = false;
-  function inclinar() { var p = $("plano").querySelector(".p3d"); if (p) p.dataset.plana = plana ? "1" : "0"; }
-  var caja = $("plano").parentNode;
-  if (!reducido) {
-    caja.addEventListener("pointermove", function (e) {
-      if (plana) return;
-      var r = caja.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
-      caja.style.setProperty("--rx", (34 - py * 12).toFixed(1) + "deg"); caja.style.setProperty("--rz", (-14 + px * 16).toFixed(1) + "deg");
-    });
-    caja.addEventListener("pointerleave", function () { caja.style.removeProperty("--rx"); caja.style.removeProperty("--rz"); });
+  /* ---- maqueta 3D (maqueta3d.js): adapta GEO, que ya está en metros, al formato que lee la maqueta ---- */
+  function tipoMaq(t) {
+    var g = GEO[t.id], b = g.bal.slice(); b[4] = t.id === "pent" ? "Terraza" : "Balcón";
+    return { id: t.id, nombre: t.nombre, amb: g.rooms, geo: { W: g.W, H: g.H, bal: b, windows: g.ven,
+      doors: g.pu.map(function (d) { return [d[0], d[1], d[2], d[3], d[4] === 0 ? "open" : "hinge"]; }) } };
   }
-  var bp = $("b-plana"); if (bp) bp.addEventListener("click", function () { plana = !plana; bp.setAttribute("aria-pressed", String(plana)); bp.textContent = plana ? "Vista 3D" : "Vista plana"; inclinar(); });
+  function pausarFuera(maq, el) {
+    if (!("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (es) { maq.paused = !es[0].isIntersecting; }, { rootMargin: "120px" }).observe(el);
+  }
+  var plana = false, maqU = null;
+  function maqUnidad(t) {
+    var box = $("plano"); if (!window.SolanaMaqueta3D) return;
+    if (!maqU) { maqU = new SolanaMaqueta3D(box, tipoMaq(t), { theme: "light" }); pausarFuera(maqU, box); } else maqU.setTipo(tipoMaq(t));
+    maqU.setFlat(plana); box.classList.toggle("flat", plana);
+  }
+  var bp = $("b-plana"); if (bp) bp.addEventListener("click", function () { plana = !plana; bp.setAttribute("aria-pressed", String(plana)); bp.textContent = plana ? "Vista 3D" : "Vista plana"; if (maqU) { maqU.setFlat(plana); $("plano").classList.toggle("flat", plana); } });
   pintar();
 
   /* ---- elegí tu piso: la torre es la interfaz ----
@@ -408,7 +413,7 @@
     tarj.addEventListener("click", function (e) { var v = e.target.closest("[data-ver]"); if (v) abrir(Number(v.dataset.ver)); });
 
     /* ---- vista B: planta del piso y ficha ---- */
-    var sel = { p: 0, uid: 0 }, plana = false, zoomI = -1;
+    var sel = { p: 0, uid: 0 }, plana = false, maqT = null;
     var inn = $("te-plano-in"), ficha = $("te-ficha"), chips = $("te-chips"), planoBox = $("te-plano");
     function unico(h, pre) {
       var ids = []; h.replace(/ id="([^"]+)"/g, function (m, i) { ids.push(i); return m; });
@@ -423,7 +428,13 @@
     function unidad() { return UNIDADES.filter(function (u) { return u.piso === sel.p && u.num === sel.uid; })[0]; }
     function dibujar() {
       var u = unidad(), t = tipoDe(u.tipo), d = datos(sel.p), amb = geoAmb(t), ext = (t.ext.match(/(\d+)\s*m²/) || [0, ""])[1];
-      zoomI = -1; inn.style.transform = ""; inn.innerHTML = unico(plano(t, { hot: true }), "te-"); plana = false; $("te-plana").setAttribute("aria-pressed", "false"); $("te-plana").textContent = "Vista plana";
+      plana = false; $("te-plana").setAttribute("aria-pressed", "false"); $("te-plana").textContent = "Vista plana"; inn.classList.remove("flat");
+      if (!maqT) {
+        maqT = new SolanaMaqueta3D(inn, tipoMaq(t), { theme: "dark",
+          onHover: function (i, on) { var li = ficha.querySelector('.te-amb li[data-i="' + i + '"]'); if (li) li.classList.toggle("on", on); },
+          onSelect: function () { marcar(); } });
+      } else { maqT.setTipo(tipoMaq(t)); }
+      maqT.setFlat(false);
       chips.innerHTML = d.libres.length > 1 ? d.libres.map(function (x) { var tt = tipoDe(x.tipo); return '<button type="button" data-u="' + x.num + '" aria-pressed="' + (x.num === sel.uid) + '">' + x.num + " · " + tt.nombre + " · " + tt.m2 + " m²</button>"; }).join("") : "";
       ficha.innerHTML = '<div class="te-sup"><span class="te-k">Piso ' + sel.p + '</span><span class="te-est">Disponible</span></div><h3 id="te-tit" tabindex="-1">Departamento ' + u.num + '</h3><p class="te-sub">' + t.nombre + "</p>" +
         '<div class="te-cif"><div><b>' + t.m2 + '</b><span>m² cubiertos</span></div><div><b>' + (ext || "-") + '</b><span>m² de ' + (t.id === "pent" ? "terraza" : "balcón") + '</span></div><div><b>' + amb.length + "</b><span>espacios</span></div></div>" +
@@ -435,38 +446,16 @@
       });
       $("te-volver").addEventListener("click", volver);
     }
-    function resaltar(i, on) {
-      var g = inn.querySelector('.hs[data-i="' + i + '"]'), li = ficha.querySelector('.te-amb li[data-i="' + i + '"]');
-      if (g) g.classList.toggle("on", on); if (li) li.classList.toggle("on", on);
-    }
-    function zoom(i) {
-      var g = inn.querySelector('.hs[data-i="' + i + '"]'); if (!g) return;
-      if (zoomI === i) { zoomI = -1; inn.style.transform = ""; return; }
-      if (reducido) return;
-      inn.style.transition = "none"; inn.style.transform = "none";
-      var r = inn.getBoundingClientRect(), h = g.getBoundingClientRect(), ox = h.left + h.width / 2 - r.left, oy = h.top + h.height / 2 - r.top;
-      inn.style.transformOrigin = ox + "px " + oy + "px"; void inn.offsetWidth; inn.style.transition = "";
-      inn.style.transform = "translate(" + (r.width / 2 - ox).toFixed(0) + "px," + (r.height / 2 - oy).toFixed(0) + "px) scale(1.45)"; zoomI = i;
-    }
-    inn.addEventListener("pointerover", function (e) { var g = e.target.closest(".hs"); if (g) resaltar(g.dataset.i, true); });
-    inn.addEventListener("pointerout", function (e) { var g = e.target.closest(".hs"); if (g) resaltar(g.dataset.i, false); });
-    inn.addEventListener("click", function (e) { var g = e.target.closest(".hs"); if (g) zoom(Number(g.dataset.i)); });
+    function marcar() { [].forEach.call(ficha.querySelectorAll(".te-amb li"), function (li) { li.classList.toggle("sel", maqT && Number(li.dataset.i) === maqT.focusIdx); }); }
+    function resaltar(i, on) { if (maqT && maqT.focusIdx < 0) maqT.setHighlight(on ? Number(i) : -1); var li = ficha.querySelector('.te-amb li[data-i="' + i + '"]'); if (li) li.classList.toggle("on", on); }
+    function zoom(i) { if (!maqT || reducido) return; maqT.focusRoom(i); marcar(); }
     ficha.addEventListener("pointerover", function (e) { var b = e.target.closest("[data-i]"); if (b) resaltar(b.dataset.i, true); });
     ficha.addEventListener("pointerout", function (e) { var b = e.target.closest("[data-i]"); if (b) resaltar(b.dataset.i, false); });
     ficha.addEventListener("focusin", function (e) { var b = e.target.closest("button[data-i]"); if (b) resaltar(b.dataset.i, true); });
     ficha.addEventListener("focusout", function (e) { var b = e.target.closest("button[data-i]"); if (b) resaltar(b.dataset.i, false); });
     ficha.addEventListener("click", function (e) { var b = e.target.closest("button[data-i]"); if (b) zoom(Number(b.dataset.i)); });
     chips.addEventListener("click", function (e) { var b = e.target.closest("[data-u]"); if (!b) return; sel.uid = Number(b.dataset.u); dibujar(); });
-    $("te-plana").addEventListener("click", function () { plana = !plana; this.setAttribute("aria-pressed", String(plana)); this.textContent = plana ? "Vista 3D" : "Vista plana"; var p3 = inn.querySelector(".p3d"); if (p3) p3.dataset.plana = plana ? "1" : "0"; });
-    if (!reducido) {
-      planoBox.addEventListener("pointermove", function (e) {
-        if (plana || zoomI > -1) return;
-        var r = planoBox.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
-        inn.style.setProperty("--rx", (34 - py * 12).toFixed(1) + "deg"); inn.style.setProperty("--rz", (-14 + px * 16).toFixed(1) + "deg");
-      });
-      planoBox.addEventListener("pointerleave", function () { inn.style.removeProperty("--rx"); inn.style.removeProperty("--rz"); });
-    }
-
+    $("te-plana").addEventListener("click", function () { plana = !plana; this.setAttribute("aria-pressed", String(plana)); this.textContent = plana ? "Vista 3D" : "Vista plana"; if (maqT) maqT.setFlat(plana); inn.classList.toggle("flat", plana); });
     /* ---- transición fachada <-> planta (800 ms, con transiciones CSS para poder volver a mitad de camino) ---- */
     var plantaEl = $("te-planta");
     function abrir(p) {
@@ -474,11 +463,11 @@
       sel.p = p; sel.uid = d.libres[0].num; dibujar();
       var banda = host.querySelector('.te-banda[data-p="' + p + '"]'), f = host.getBoundingClientRect(), r = banda.getBoundingClientRect();
       host.style.setProperty("--ox", ((r.left + r.width / 2 - f.left) / f.width * 100).toFixed(1) + "%"); host.style.setProperty("--oy", ((r.top + r.height / 2 - f.top) / f.height * 100).toFixed(1) + "%");
-      ocultar(); te.dataset.vista = "planta"; plantaEl.setAttribute("aria-hidden", "false"); fach.setAttribute("inert", ""); plantaEl.removeAttribute("inert");
+      ocultar(); if (maqT) maqT.paused = false; te.dataset.vista = "planta"; plantaEl.setAttribute("aria-hidden", "false"); fach.setAttribute("inert", ""); plantaEl.removeAttribute("inert");
       setTimeout(function () { var t = $("te-tit"); if (t && te.dataset.vista === "planta") t.focus({ preventScroll: true }); }, reducido ? 0 : 500);
     }
     function volver() {
-      te.dataset.vista = "fachada"; plantaEl.setAttribute("aria-hidden", "true"); plantaEl.setAttribute("inert", ""); fach.removeAttribute("inert");
+      te.dataset.vista = "fachada"; setTimeout(function () { if (maqT && te.dataset.vista === "fachada") maqT.paused = true; }, 900); plantaEl.setAttribute("aria-hidden", "true"); plantaEl.setAttribute("inert", ""); fach.removeAttribute("inert");
       var b = host.querySelector('.te-banda[data-p="' + sel.p + '"]'); setTimeout(function () { if (b && te.dataset.vista === "fachada") b.focus({ preventScroll: true }); }, reducido ? 0 : 400);
     }
     plantaEl.setAttribute("inert", "");

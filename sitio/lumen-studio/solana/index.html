@@ -327,8 +327,6 @@
     .te-chips{top:76px}
     .te-plano .b-plana{bottom:10px}
     .te-cif b{font-size:1.05rem}
-    .te-plano .cuerpo{transform:rotateX(var(--rx,34deg)) rotateZ(var(--rz,-14deg)) scale(.62)}
-    .te-plano-in{max-width:520px;margin-top:-16%}
   }
   @media (prefers-reduced-motion:reduce){
     .te-escala{transform:translateX(-50%)!important;opacity:1!important}
@@ -337,6 +335,30 @@
     .te-sticky *{transition:opacity .15s!important;animation:none!important}
     .hs{opacity:1}
   }
+
+  /* ---- maqueta 3D amueblada (maqueta3d.js): canvas con muebles y luz cálida, puntos por ambiente ---- */
+  .maq3d-host{position:relative;width:100%;height:100%;touch-action:pan-y;cursor:grab;overflow:hidden}
+  .maq3d-host.is-dragging{cursor:grabbing}
+  .maq3d-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .maq3d-pins{position:absolute;inset:0;pointer-events:none}
+  .maq3d-pin{position:absolute;width:30px;height:30px;transform:translate(-50%,-50%);border:0;background:none;padding:0;cursor:pointer;pointer-events:auto;opacity:0;animation:pin-in .5s var(--ease) forwards;animation-delay:calc(var(--k,0) * 45ms + .35s)}
+  @keyframes pin-in{to{opacity:1}}
+  .mp-halo{position:absolute;inset:-7px;border-radius:50%;background:rgba(255,255,255,.3);animation:te-halo 2.4s ease-in-out infinite}
+  .mp-dot{position:absolute;inset:6px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.4);display:grid;place-items:center;transition:transform .15s}
+  .mp-dot i{font:600 0/1 var(--texto);color:#0A0A0A;font-style:normal;transition:font-size .15s}
+  .maq3d-pin.on .mp-dot,.maq3d-pin:hover .mp-dot{transform:scale(1.55)}
+  .maq3d-pin.on .mp-dot i,.maq3d-pin:hover .mp-dot i{font-size:8px}
+  .maq3d-pin:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:50%}
+  .mp-tip{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:rgba(10,10,10,.9);color:#fff;font:500 12px var(--texto);padding:4px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s}
+  .maq3d-pin.on .mp-tip,.maq3d-pin:hover .mp-tip,.flat .mp-tip{opacity:1}
+  .maq3d-drag-hint{position:absolute;left:14px;bottom:12px;font-size:.72rem;letter-spacing:.06em;color:#8a8a8a;pointer-events:none}
+  .claro .maq3d-drag-hint{color:#6b6b6b}
+  #plano{height:clamp(320px,44vw,520px)}
+  .te-plano-in{position:absolute;inset:68px 0 0 0;width:auto;max-width:none;height:auto}
+  .te-plano .maq3d-drag-hint{display:none}
+  .te-amb li.sel button{color:#fff;background:rgba(255,255,255,.12)}
+  @media (max-width:900px){.te-plano{padding-top:0}}
+  @media (prefers-reduced-motion:reduce){.maq3d-pin{opacity:1;animation:none}.mp-halo{animation:none}}
 </style>
 </head>
 <body>
@@ -501,6 +523,7 @@
 <div class="barra" id="barra"><a class="btn" href="#unidades">Ver unidades</a></div>
 
 <script src="scroll.js"></script>
+<script src="maqueta3d.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
