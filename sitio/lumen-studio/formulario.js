@@ -109,7 +109,7 @@
 
   /* Las respuestas van a un Google Form (queda en una hoja de cálculo). La respuesta de Google no se puede leer desde la página (no-cors). */
   var GF = "https://docs.google.com/forms/d/e/1FAIpQLSf5Q3EbDCnlDwYFOxMDZ3g02kSShxp97C5NLdcKTKSIXZApUA/formResponse";
-  var CAMPOS = { nombre: "784819223", lugar: "1508206983", tel: "1182865596", email: "1144432110", negocio: "570423621", sobre: "449006908", necesita: "1250606072" };
+  var CAMPOS = { nombre: "253240729", lugar: "1122630539", tel: "1670138292", email: "1280892985", negocio: "6761457", sobre: "1095023014", necesita: "213583391" };
   function guardar() {
     var d = new URLSearchParams(), pais = raiz.querySelector("select").value, num = dato("tel").replace(/\D/g, "").replace(/^0+/, "");
     d.append("entry." + CAMPOS.nombre, dato("nombre"));
