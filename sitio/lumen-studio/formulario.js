@@ -13,13 +13,31 @@
   function en() { return !!(window.I18N && window.I18N.lang === "en"); }
 
   function valor(n) { var c = pasos[n].querySelector("[data-k]"); return c ? c.value.trim() : ""; }
+  function dato(k) { var c = raiz.querySelector('[data-k="' + k + '"]'); return c ? c.value.trim() : ""; }
+  function lista(a, y) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " " + y + " " + a[a.length - 1]; }
+  function minus(x) { return x.charAt(0).toLowerCase() + x.slice(1); }
   function servicios() { return [].slice.call(raiz.querySelectorAll(".fm-chip input:checked")).map(function (i) { return i.parentNode.querySelector("span").textContent.trim(); }); }
-  function completo(n) { return !pasos[n].hasAttribute("data-requerido") || !!valor(n); }
+  function completo(n) {
+    var c = pasos[n].querySelector("[data-k]");
+    if (c && c.type === "email") return /^\S+@\S+\.\S+$/.test(c.value.trim());
+    return !pasos[n].hasAttribute("data-requerido") || !!valor(n);
+  }
 
   function mensaje() {
-    var s = servicios(), pais = pasos[2].querySelector("select").value, num = valor(2).replace(/\D/g, "").replace(/^0+/, "");
-    if (en()) return "Hi! I'm " + valor(0) + (valor(1) ? ", from " + valor(1) : "") + "." + (valor(3) ? " My business is " + valor(3) + "." : "") + (s.length ? " I need: " + s.join(", ") + "." : "") + (valor(4) ? " About my business: " + valor(4) : "") + " My WhatsApp: +" + pais + num + ".";
-    return "¡Hola! Soy " + valor(0) + (valor(1) ? ", de " + valor(1) : "") + "." + (valor(3) ? " Mi negocio es " + valor(3) + "." : "") + (s.length ? " Necesito: " + s.join(", ") + "." : "") + (valor(4) ? " Sobre mi negocio: " + valor(4) : "") + " Mi WhatsApp: +" + pais + num + ".";
+    var s = servicios().map(minus), pais = raiz.querySelector("select").value, num = dato("tel").replace(/\D/g, "").replace(/^0+/, "");
+    var nom = dato("nombre"), lug = dato("lugar"), neg = dato("negocio"), sobre = dato("sobre"), mail = dato("email"), p = [];
+    if (en()) {
+      p.push("Hi! I'm " + nom + (lug ? ", from " + lug : "") + (neg ? ". I run " + neg + " and I'd like to get a website for it." : ". I'd like to get a website."));
+      if (s.length) p.push("What I need: " + lista(s, "and") + ".");
+      if (sobre) p.push("About my business: " + sobre.replace(/[.\s]+$/, "") + ".");
+      p.push("You can reach me on this WhatsApp (+" + pais + num + ") or at " + mail + ".\nThank you!");
+    } else {
+      p.push("¡Hola! Soy " + nom + (lug ? ", de " + lug : "") + (neg ? ". Tengo un negocio, " + neg + ", y me gustaría tener mi página web." : ". Me gustaría tener mi página web."));
+      if (s.length) p.push("Lo que necesito: " + lista(s, "y") + ".");
+      if (sobre) p.push("Sobre mi negocio: " + sobre.replace(/[.\s]+$/, "") + ".");
+      p.push("Pueden escribirme a este WhatsApp (+" + pais + num + ") o a mi correo: " + mail + ".\n¡Muchas gracias!");
+    }
+    return p.join("\n\n");
   }
 
   function mostrar(n, enfocar) {
@@ -34,7 +52,7 @@
     botonera.hidden = fin; atras.hidden = actual === 0; sig.disabled = !completo(actual);
     sig.textContent = t(actual === TOTAL - 1 ? "Terminar" : "Continuar");
     if (fin) {
-      raiz.querySelector(".fm-nombre").textContent = valor(0).split(/\s+/)[0] || "";
+      raiz.querySelector(".fm-nombre").textContent = dato("nombre").split(/\s+/)[0] || "";
       var wa = window.LP_WA || "";
       enviar.href = wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(mensaje()) : "#contacto";
       if (wa) { enviar.target = "_blank"; enviar.rel = "noopener"; } else { enviar.removeAttribute("target"); }
