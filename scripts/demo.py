@@ -40,10 +40,10 @@ TEMPLATE_SOBRIO = os.path.join(ROOT, "templates", "landing_sobrio.html")  # rubr
 FICTICIOS = {
     "dentista": {
         "fila": {"ranking": "3", "rubro": "Dentista", "negocio": "Brío Dental", "localidad": "Ramos Mejía",
-                 "direccion": "Av. de Mayo 1240, Ramos Mejía", "telefono": "", "whatsapp": "5491100000000", "rating": "",
+                 "direccion": "Av. de Mayo 1240, Ramos Mejía", "telefono": "", "whatsapp": "", "rating": "",
                  "fotos": "0", "link_maps": "https://www.google.com/maps/search/?api=1&query=Ramos+Mej%C3%ADa", "web": ""},
         "extra": {"horarios": "Lunes a viernes, de 9 a 19 h", "mapa_q": "Av. de Mayo 1240, Ramos Mejía, Buenos Aires",
-                  "aviso": ""},
+                  "aviso": "", "wa_sin_numero": True},
     },
 }
 
@@ -177,7 +177,7 @@ def titular_html(t):
 
 def render(d):
     wa = d["whatsapp"]
-    wa_link = f"https://wa.me/{wa}?text={quote(d['mensaje_wa'])}" if wa else d["link_maps"]
+    wa_link = f"https://wa.me/{wa}?text={quote(d['mensaje_wa'])}" if wa else (f"https://wa.me/?text={quote(d['mensaje_wa'])}" if d.get("wa_sin_numero") else d["link_maps"])
 
     estilo = d.get("estilo")
     sobrio = estilo in ("sobrio", "cercano", "clinico", "evento")  # sin palabras en cursiva ni énfasis; comparten el armado de textos
@@ -272,7 +272,7 @@ def render(d):
         "negocio_pie": e(corto), "foto_fondo": e(gal[-1]),
         "aviso": e(d["aviso"] if d.get("aviso") is not None else f'Demo preparada para {d["negocio"]}. Fotos y textos de referencia.'),
         **extra_clinico,
-        "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
+        "wa_sin_numero_js": "true" if d.get("wa_sin_numero") else "false", "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }
     if sobrio:  # textos sin énfasis, botones de la plantilla sobria
         valores.update({k: plano(d[k]) for k in ("intro", "banda", "seccion_tipos", "seccion_galeria", "seccion_ubicacion") if k in d})

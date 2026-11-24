@@ -1,7 +1,7 @@
 /* Residencias Solana: unidades, planos, etapas y formulario. Todo lo que se muestra sale de los datos de abajo. */
 (function () {
   "use strict";
-  var WA = "5491100000000";
+  var WA = ""; // demo: sin número, WhatsApp abre para elegir un contacto
   var $ = function (id) { return document.getElementById(id); };
   var fmt = function (n) { return n.toLocaleString("es-AR"); };
   function azar(n) { var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }

@@ -45,4 +45,4 @@ Los botones "Empezá tu proyecto" abren un formulario de pantalla completa (`for
 - `loteo/` (Aromos del Valle): loteo ficticio con mapa de lotes interactivo. Los datos de lotes, superficie y precio se generan en el propio `index.html` (arreglo `LOTES`).
 - `app/` (Mancomún): landing de una app ficticia, con el teléfono armado en HTML. Las pantallas están en `PANTALLAS`.
 - Los dos llevan sus tipografías incluidas (`fonts/`, `fuentes.css`) y `noindex`. `python scripts/inlinar.py sitio/lumen-studio/loteo output/proyecto-loteo.html` arma un solo archivo que abre completo aunque se descargue solo.
-- El número de WhatsApp de ambos es de relleno (`5491100000000`); hay que cambiarlo si se muestran a un cliente.
+- Las demos del portfolio no llevan número de WhatsApp: sus botones abren WhatsApp para elegir un contacto (`wa.me/?text=`).

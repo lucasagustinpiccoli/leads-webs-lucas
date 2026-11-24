@@ -514,7 +514,7 @@
       r.innerHTML = "";
       filas.forEach(function(f){ var d = document.createElement("div"), a = document.createElement("dt"), b = document.createElement("dd"); a.textContent = f[0]; b.textContent = f[1]; d.appendChild(a); d.appendChild(b); r.appendChild(d); });
       // En el navegador de Instagram o de Google Maps, window.open suele bloquearse: el link se abre en la misma pestaña.
-      $("enviar").href = wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(mensaje()) : "{{link_maps}}";
+      $("enviar").href = wa || {{wa_sin_numero_js}} ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(mensaje()) : "{{link_maps}}";
     }
 
     // Los botones "Pedí turno" y "Pedir turno" de cada tratamiento llevan al formulario.
