@@ -466,40 +466,17 @@
 .fm-ayuda { min-height: 1.4em; margin-top: var(--space-sm); font-size: var(--text-sm, .9rem); color: color-mix(in oklab, var(--color-on-night) 60%, transparent); }
 .fm-ayuda.mal { color: var(--color-accent); }
 
-/* Botones del hero: "Empezá tu proyecto" (círculo con flecha que se expande) y "Ver proyectos" (flecha que cambia de lado) */
-.afb { --h: 58px; --circ: 44px; --der: 7px; --cy: calc((100% - var(--circ)) / 2); --d: 450ms; --e: cubic-bezier(0.785, 0.135, 0.15, 0.86);
-  position: relative; display: inline-flex; align-items: center; height: var(--h); padding: 0 30px; padding-right: calc(var(--circ) + var(--der) + 22px); border-radius: 999px; overflow: hidden; cursor: pointer;
-  background: var(--color-accent); color: var(--color-accent-ink); font: 500 1.0625rem/1 var(--font-body); white-space: nowrap; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-.afb-l { position: relative; z-index: 1; padding-bottom: 1px; }
-.afb-c { position: absolute; z-index: 2; pointer-events: none; border-radius: 999px; background: var(--color-night); top: var(--cy); bottom: var(--cy); right: var(--der); left: calc(100% - var(--der) - var(--circ)); transition: inset var(--d) var(--e), background-color var(--d) var(--e); }
-.afb-m { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; padding: 0 30px; padding-right: calc(var(--circ) + var(--der) + 22px); pointer-events: none; color: var(--color-accent);
-  clip-path: inset(var(--cy) var(--der) var(--cy) calc(100% - var(--der) - var(--circ))); transition: clip-path var(--d) var(--e), color var(--d) var(--e); }
-.afb-m span { padding-bottom: 1px; }
-.afb-i { position: absolute; z-index: 3; pointer-events: none; right: var(--der); top: 50%; width: var(--circ); height: var(--circ); transform: translateY(-50%); border-radius: 999px; overflow: hidden; display: grid; place-items: center; color: var(--color-accent); transition: color var(--d) var(--e); }
-.afb-i svg { grid-area: 1 / 1; width: 20px; height: 20px; transition: transform var(--d) var(--e); }
-.afb-in { transform: translateX(-170%) scale(0); }
-.afb-out { transform: none; }
-.afb:focus-visible, .aab:focus-visible { outline: 2px solid var(--color-on-night); outline-offset: 4px; }
-.aab { position: relative; display: inline-flex; align-items: center; gap: 9px; min-height: 58px; padding: 0 22px 0 20px; border-radius: 8px; overflow: hidden; cursor: pointer; background: var(--color-on-night); color: var(--color-night);
-  font: 600 1.0625rem/1 var(--font-body); letter-spacing: -0.02em; text-decoration: none; white-space: nowrap; -webkit-tap-highlight-color: transparent; --e: cubic-bezier(0.22, 1, 0.36, 1); }
-.aab-f { display: grid; place-items: center; width: 14px; height: 14px; flex: none; transition: transform 380ms var(--e), opacity 300ms var(--e); }
-.aab-f svg { width: 14px; height: 14px; }
-.aab-fl { position: absolute; left: 20px; top: 50%; margin-top: -7px; opacity: 0; transform: translateX(-26px); }
-.aab-t { transition: transform 380ms var(--e); }
-@media (hover: hover) {
-  .afb:hover .afb-c { inset: 0; background-color: var(--color-on-night); }
-  .afb:hover .afb-m { clip-path: inset(0 0 0 0); color: var(--color-night); }
-  .afb:hover .afb-i { color: var(--color-night); }
-  .afb:hover .afb-in { transform: none; }
-  .afb:hover .afb-out { transform: translateX(170%) scale(0); }
-  .aab:hover .aab-fl { opacity: 1; transform: none; }
-  .aab:hover .aab-t { transform: translateX(23px); }
-  .aab:hover .aab-fr { opacity: 0; transform: translateX(30px); }
-}
-.afb:active .afb-c { inset: 0; background-color: var(--color-on-night); } .afb:active .afb-m { clip-path: inset(0 0 0 0); color: var(--color-night); } .afb:active .afb-i { color: var(--color-night); } .afb:active .afb-in { transform: none; } .afb:active .afb-out { transform: translateX(170%) scale(0); }
-.aab:active .aab-fl { opacity: 1; transform: none; } .aab:active .aab-t { transform: translateX(23px); } .aab:active .aab-fr { opacity: 0; transform: translateX(30px); }
-@media (max-width: 40rem) { .hero .actions { flex-direction: column; align-items: stretch; } .aab { justify-content: center; } }
-@media (prefers-reduced-motion: reduce) { .afb-c, .afb-m, .afb-i svg, .aab-f, .aab-t { transition: none; } }
+/* Botón "Empezá tu proyecto" del hero: botón pulsante (componente Pulse Button de Framer, variante Ripple): aros que se expanden y se desvanecen */
+.pulso { --p: var(--color-accent); position: relative; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.pulso-o { position: absolute; inset: 0; border-radius: 50px; background: var(--p); pointer-events: none; opacity: 0; animation: pulso-aro 2s ease-out infinite; animation-delay: calc(var(--n) * 0.6s); will-change: transform, opacity; backface-visibility: hidden; }
+.pulso-o:nth-child(1) { --n: 0; } .pulso-o:nth-child(2) { --n: 1; } .pulso-o:nth-child(3) { --n: 2; } .pulso-o:nth-child(4) { --n: 3; }
+@keyframes pulso-aro { 0% { transform: scale(1); opacity: 0.35; } 83% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1.4); opacity: 0; } }
+.pulso-b { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 var(--space-lg); border-radius: 50px; background: var(--p); color: var(--color-accent-ink); font: 500 var(--text-md)/1 var(--font-body);
+  box-shadow: 0 0 20px color-mix(in oklab, var(--p) 55%, transparent); transition: transform 280ms var(--ease-out), filter 280ms var(--ease-out), box-shadow 280ms var(--ease-out); }
+.pulso:hover .pulso-b { transform: scale(1.05); filter: brightness(1.1); box-shadow: 0 0 25px color-mix(in oklab, var(--p) 75%, transparent); }
+.pulso:active .pulso-b { transform: scale(0.95); filter: brightness(0.9); box-shadow: 0 0 10px color-mix(in oklab, var(--p) 75%, transparent); }
+.pulso:focus-visible { outline: 2px solid var(--color-on-night); outline-offset: 5px; border-radius: 50px; }
+@media (prefers-reduced-motion: reduce) { .pulso-o { animation: none; } }
 /* el formulario se abre con un fundido suave */
 .fm { transform: translateY(14px); transition: opacity 480ms var(--ease-out), transform 480ms var(--ease-out); }
 .fm.ver { transform: none; }
