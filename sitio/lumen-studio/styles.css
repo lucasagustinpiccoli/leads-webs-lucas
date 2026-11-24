@@ -466,17 +466,17 @@
 .fm-ayuda { min-height: 1.4em; margin-top: var(--space-sm); font-size: var(--text-sm, .9rem); color: color-mix(in oklab, var(--color-on-night) 60%, transparent); }
 .fm-ayuda.mal { color: var(--color-accent); }
 
-/* Botón "Empezá tu proyecto" del hero: botón pulsante (componente Pulse Button de Framer, variante Ripple): aros que se expanden y se desvanecen */
-.pulso { --p: var(--color-accent); position: relative; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-.pulso-o { position: absolute; inset: 0; border-radius: 50px; background: var(--p); pointer-events: none; opacity: 0; animation: pulso-aro 2s ease-out infinite; animation-delay: calc(var(--n) * 0.6s); will-change: transform, opacity; backface-visibility: hidden; }
-.pulso-o:nth-child(1) { --n: 0; } .pulso-o:nth-child(2) { --n: 1; } .pulso-o:nth-child(3) { --n: 2; } .pulso-o:nth-child(4) { --n: 3; }
-@keyframes pulso-aro { 0% { transform: scale(1); opacity: 0.35; } 83% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1.4); opacity: 0; } }
-.pulso-b { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 var(--space-lg); border-radius: 50px; background: var(--p); color: var(--color-accent-ink); font: 500 var(--text-md)/1 var(--font-body);
-  box-shadow: 0 0 20px color-mix(in oklab, var(--p) 55%, transparent); transition: transform 280ms var(--ease-out), filter 280ms var(--ease-out), box-shadow 280ms var(--ease-out); }
-.pulso:hover .pulso-b { transform: scale(1.05); filter: brightness(1.1); box-shadow: 0 0 25px color-mix(in oklab, var(--p) 75%, transparent); }
-.pulso:active .pulso-b { transform: scale(0.95); filter: brightness(0.9); box-shadow: 0 0 10px color-mix(in oklab, var(--p) 75%, transparent); }
-.pulso:focus-visible { outline: 2px solid var(--color-on-night); outline-offset: 5px; border-radius: 50px; }
-@media (prefers-reduced-motion: reduce) { .pulso-o { animation: none; } }
+/* "Empezá tu proyecto" del hero: mismo botón del sitio, con una luz que respira muy despacio para invitar a tocarlo */
+.pulso { animation: pulso-luz 4.8s ease-in-out infinite; }
+@keyframes pulso-luz { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 0%, transparent); } 50% { box-shadow: 0 0 26px 2px color-mix(in oklab, var(--color-accent) 38%, transparent); } }
+.pulso:hover { animation: none; box-shadow: 0 0 26px 2px color-mix(in oklab, var(--color-accent) 45%, transparent); }
+@media (prefers-reduced-motion: reduce) { .pulso { animation: none; } }
+/* mismas formas en todo el sitio: esquinas casi rectas, como los botones principales */
+.fm-btn { border-radius: 2px; }
+.fm-cerrar { border-radius: 2px; }
+.fm-campo { border-radius: 2px; }
+.fm-chip { border-radius: 2px; }
 /* el formulario se abre con un fundido suave */
 .fm { transform: translateY(14px); transition: opacity 480ms var(--ease-out), transform 480ms var(--ease-out); }
 .fm.ver { transform: none; }
+.fm-campo input:focus, .fm-campo input:focus-visible, .fm-campo textarea:focus, .fm-campo select:focus { outline: none; box-shadow: none; }
