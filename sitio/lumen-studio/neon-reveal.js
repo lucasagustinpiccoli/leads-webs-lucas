@@ -9,7 +9,7 @@
   "use strict";
   var DEFAULTS = {
     colors: ["#FF9FFC", "#B163E9"], revealDelay: 300, revealDuration: 2500, thickness: 3, glow: 1, spill: 1, reach: 1,
-    intensity: 1, inset: 24, length: 0.9, hum: 1, flicker: 1, interactive: true, intro: true
+    intensity: 1, inset: 24, length: 0.9, hum: 1, flicker: 1, interactive: false, intro: true
   };
   function rgba(hex, a) {
     var n = parseInt(hex.replace("#", ""), 16);

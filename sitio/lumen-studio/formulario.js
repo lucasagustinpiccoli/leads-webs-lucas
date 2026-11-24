@@ -103,7 +103,7 @@
     if (!abierto) return;
     abierto = false; raiz.classList.remove("ver");
     document.documentElement.classList.remove("fm-abierto");
-    setTimeout(function () { if (!abierto) raiz.hidden = true; }, 260);
+    setTimeout(function () { if (!abierto) raiz.hidden = true; }, 500);
     if (ultimo && ultimo.focus) ultimo.focus({ preventScroll: true });
   }
 

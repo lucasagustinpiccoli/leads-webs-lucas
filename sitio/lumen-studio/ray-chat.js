@@ -107,7 +107,7 @@
         var ir = boton(L("Ver los proyectos", "See the projects"), "btn btn--primary");
         ir.addEventListener("click", function () {
           cerrarChat();
-          var t = document.getElementById("trabajos"); if (t) t.scrollIntoView({ behavior: reducido ? "auto" : "smooth" });
+          var t = document.getElementById("trabajos"); if (t) { if (window.IrA) window.IrA(t); else t.scrollIntoView({ behavior: reducido ? "auto" : "smooth" }); }
         });
         return opcionesFinales(ir);
       });
