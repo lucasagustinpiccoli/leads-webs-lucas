@@ -24,6 +24,8 @@
       UNIDADES.push({ tipo: t.id, piso: p, estado: r < 0.58 ? "disponible" : r < 0.74 ? "reservada" : "vendida" });
     }
   });
+  /* número de departamento: piso * 10 + orden dentro del piso (no toca azar() ni el estado de cada unidad) */
+  (function () { var c = {}; UNIDADES.forEach(function (u) { c[u.piso] = (c[u.piso] || 0) + 1; u.num = u.piso * 10 + c[u.piso]; }); })();
   var TOTAL = UNIDADES.length, DISP = UNIDADES.filter(function (u) { return u.estado === "disponible"; }).length;
   function libres(id) { return UNIDADES.filter(function (u) { return u.tipo === id && u.estado === "disponible"; }).length; }
 
@@ -181,7 +183,7 @@
   };
 
   var tipoActual = "";
-  function plano(t) {
+  function plano(t, opts) {
     tipoActual = t.id;
     var g = GEO[t.id], piso = "", pared = "", mue = "", etiq = "", oclu = "", n = 0;
     var b = g.bal, minx = Math.min(0, b[0]), maxx = Math.max(g.W, b[0] + b[2]), miny = 0, maxy = g.H;
@@ -196,6 +198,8 @@
       if (l.indexOf("pasillo") > -1 && w < 2.2) return;
       etiq += RR(tx - ancho / 2, ty - fm * 1.25, ancho, fm * 2.9, 'fill="#fff" fill-opacity=".93" stroke="#d8d4cb" stroke-width=".2"', fm * .6) + '<text x="' + f1(tx) + '" y="' + f1(ty) + '" class="t1">' + lab + '</text><text x="' + f1(tx) + '" y="' + f1(ty + fm * 1.2) + '" class="t2">' + m2 + " m²</text>";
     });
+    var hot = "";
+    if (opts && opts.hot) { var hi = 0; g.rooms.forEach(function (a) { if (/pasillo/i.test(a[0])) return; var cx = a[1] + a[3] / 2, cy = a[2] + a[4] / 2; hot += '<g class="hs" data-i="' + hi + '" style="--k:' + hi + '"><circle class="hh" cx="' + f1(cx) + '" cy="' + f1(cy) + '" r="' + f1(.62) + '"/><circle class="hd" cx="' + f1(cx) + '" cy="' + f1(cy) + '" r="' + f1(.27) + '"/><text x="' + f1(cx) + '" y="' + f1(cy) + '">' + (hi + 1 < 10 ? "0" : "") + (hi + 1) + "</text></g>"; hi++; }); }
     // exterior
     piso += RR(b[0], b[1], b[2], b[3], 'fill="url(#deck)"');
     pared += RR(b[0], b[1], b[2], b[3], 'fill="none" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 2"');
@@ -244,7 +248,7 @@
     var comp = '<g transform="translate(' + f1(maxx + .2) + " " + f1(miny - .2) + ')"><circle r="7" fill="#fff" stroke="#1a1a1a" stroke-width=".6"/><path d="M0 -4.4L2.8 3.2L0 1.7L-2.8 3.2Z" fill="#1a1a1a"/><text y="-9.4" class="t2">N</text></g>';
     function svg(cls, cont, z, estilo) { return '<svg class="capa ' + cls + '" viewBox="' + VB + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="--fs:' + fs.toFixed(2) + ';' + (z !== undefined ? "transform:translateZ(" + z + "px);" : "") + (estilo || "") + '">' + (cls === "c-piso" ? defs : "") + cont + "</svg>"; }
     return '<div class="p3d" role="img" aria-label="Plano de ' + t.nombre + ', con muebles"><div class="cuerpo">' +
-      svg("c-piso", piso + oclu + RR(minx, miny, maxx - minx, maxy - miny, 'fill="url(#luz)"')) + extruir(svg, pared, "c-pared", 12, 8, 1.7, ["#0b0b0b", "#2a2a2a"], true) + extruir(svg, mue, "c-mueble", 26, 4, 1.6, null, false) + svg("c-etiq", etiq + comp, 44) + "</div></div>";
+      svg("c-piso", piso + oclu + RR(minx, miny, maxx - minx, maxy - miny, 'fill="url(#luz)"')) + extruir(svg, pared, "c-pared", 12, 8, 1.7, ["#0b0b0b", "#2a2a2a"], true) + extruir(svg, mue, "c-mueble", 26, 4, 1.6, null, false) + svg("c-etiq", etiq + comp, 44) + (opts && opts.hot ? svg("c-hot", hot, 60) : "") + "</div></div>";
   }
 
   function fotoTipo(id) { var i = document.querySelector('#fotos-tipo img[data-t="' + id + '"]'); return i ? i.getAttribute('src') : ''; }
@@ -276,31 +280,209 @@
   var bp = $("b-plana"); if (bp) bp.addEventListener("click", function () { plana = !plana; bp.setAttribute("aria-pressed", String(plana)); bp.textContent = plana ? "Vista 3D" : "Vista plana"; inclinar(); });
   pintar();
 
-  /* ---- elegí tu piso ---- */
+  /* ---- elegí tu piso: la torre es la interfaz ----
+     CÓMO CALIBRAR: abrí la página con ?calibrar=1 (por ejemplo solana/?calibrar=1#pisos). Cada piso se dibuja con borde rojo y su número.
+       Los valores salen de BANDAS, un arreglo en porcentajes de la imagen: {p: piso, t: top %, h: alto %, l: izquierda %, w: ancho %}.
+       Con la torre dibujada en SVG ya coinciden; si cambiás la imagen, ajustá esos números hasta que cada banda cubra su piso.
+     CÓMO CAMBIAR LA IMAGEN: poné la ruta de una foto vertical de la torre completa en TORRE_IMG (por ejemplo "img/torre.jpg").
+       Si queda vacía se usa la torre dibujada en SVG (placeholder). Después recalibrá BANDAS.
+     PRECIOS DE LA TARJETA: "Desde USD" es el precio más bajo entre las unidades DISPONIBLES de ese piso; sale de TIPOS[x].precio. Si no hay disponibles no se muestra precio. */
   (function () {
-    var cont = $("torre"), lista = $("lista-piso"); if (!cont || !lista) return;
-    var pisoSel = 9;
-    var pisos = []; for (var i = 14; i >= 1; i--) pisos.push(i);
-    function porPiso(p) { return UNIDADES.filter(function (u) { return u.piso === p; }); }
-    function dibujar() {
-      var filas = pisos.map(function (p) {
-        var us = porPiso(p), d = us.filter(function (u) { return u.estado === "disponible"; }).length, atico = p >= 13;
-        var ven = us.map(function (u) { return '<i class="v ' + u.estado + '"></i>'; }).join("");
-        return '<button type="button" class="piso' + (atico ? " atico" : "") + (p === 14 ? " ultimo" : "") + '" data-p="' + p + '" aria-pressed="' + (p === pisoSel) + '" aria-label="Piso ' + p + ', ' + (d ? d + (d === 1 ? " unidad disponible" : " unidades disponibles") : "sin unidades disponibles") + '"><span class="n">' + (p < 10 ? "0" + p : p) + '</span><span class="fach">' + ven + '</span></button>';
-      }).join("");
-      cont.innerHTML = '<div class="azotea" aria-hidden="true"><i class="antena"></i><i class="tanque"></i></div>' + filas + '<div class="pb" aria-hidden="true"><span class="n"></span><span class="base"><i class="toldo"></i><i class="vidrio"></i><i class="vidrio"></i><i class="puerta"></i><i class="vidrio"></i><i class="vidrio"></i></span></div><div class="vereda" aria-hidden="true"></div>';
-      var us = porPiso(pisoSel);
-      var dsp = us.filter(function (u) { return u.estado === "disponible"; }).length;
-      $("t-piso").textContent = "Piso " + pisoSel;
-      $("t-sub").textContent = dsp ? dsp + (dsp === 1 ? " unidad disponible" : " unidades disponibles") : "Sin unidades disponibles";
-      lista.innerHTML = us.map(function (u) {
-        var t = TIPOS.filter(function (x) { return x.id === u.tipo; })[0], ok = u.estado === "disponible";
-        return '<li><div><b>' + t.nombre + '</b><span>' + t.m2 + ' m², ' + t.ext.toLowerCase() + '</span></div><span class="est ' + u.estado + '">' + (ok ? "Disponible" : u.estado === "reservada" ? "Reservada" : "Vendida") + '</span>' + (ok ? '<button type="button" class="ver" data-t="' + t.id + '">Ver plano</button>' : "<span></span>") + '</li>';
-      }).join("");
+    var host = $("te-edificio"), te = $("te"), sec = $("pisos"); if (!host || !te || !sec) return;
+    var TORRE_IMG = "";
+    var calibrar = /[?&]calibrar=1/.test(location.search);
+    var ES = function (v) { return Math.round(v * 100) / 100; };
+    var VBW = 440, VBH = 1040, FH = 62, TOP = 96, X0 = 100, X1 = 340, PX0 = 124, PX1 = 316;
+    function yTop(p) { return TOP + (14 - p) * FH; }
+    var BANDAS = [];
+    for (var q = 1; q <= 14; q++) { var a = q >= 13 ? PX0 - 24 : X0 - 8, b = q >= 13 ? PX1 + 24 : X1 + 8; BANDAS.push({ p: q, t: ES(yTop(q) / VBH * 100), h: ES(FH / VBH * 100), l: ES(a / VBW * 100), w: ES((b - a) / VBW * 100) }); }
+
+    /* ---- datos por piso (salen de UNIDADES y TIPOS, una sola fuente) ---- */
+    var tipoDe = function (id) { return TIPOS.filter(function (x) { return x.id === id; })[0]; };
+    function datos(p) {
+      var us = UNIDADES.filter(function (u) { return u.piso === p; }), li = us.filter(function (u) { return u.estado === "disponible"; });
+      var desde = li.length ? Math.min.apply(null, li.map(function (u) { return tipoDe(u.tipo).precio; })) : 0;
+      var res = us.filter(function (u) { return u.estado === "reservada"; }).length;
+      return { us: us, libres: li, desde: desde, estado: li.length ? "Disponible" : res ? "Reservado" : "Vendido" };
     }
-    cont.addEventListener("click", function (e) { var b = e.target.closest(".piso"); if (!b) return; pisoSel = Number(b.dataset.p); dibujar(); });
-    lista.addEventListener("click", function (e) { var b = e.target.closest(".ver"); if (!b) return; actual = TIPOS.filter(function (x) { return x.id === b.dataset.t; })[0]; pintar(); $("unidades").scrollIntoView(); });
-    dibujar();
+    var dosd = function (n) { return (n < 10 ? "0" : "") + n; };
+    var nombreBanda = function (p) { var d = datos(p).libres.length; return "Piso " + p + ", " + (d ? d + (d === 1 ? " unidad disponible" : " unidades disponibles") : "sin unidades disponibles"); };
+
+    /* ---- la torre dibujada (placeholder hasta tener la foto) ---- */
+    function torre() {
+      var o = '<svg viewBox="0 0 ' + VBW + " " + VBH + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMax meet"><defs>' +
+        '<linearGradient id="te-hor" x1="0" x2="1"><stop offset="0" stop-color="#6c7075"/><stop offset=".45" stop-color="#a3a7ab"/><stop offset="1" stop-color="#5d6166"/></linearGradient>' +
+        '<linearGradient id="te-vid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101215"/><stop offset="1" stop-color="#252a2f"/></linearGradient>' +
+        '<linearGradient id="te-suelo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#25272b"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient>' +
+        '<linearGradient id="te-lob" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1eee7" stop-opacity=".95"/><stop offset="1" stop-color="#c9c5bb" stop-opacity=".8"/></linearGradient></defs>';
+      // edificios vecinos (siluetas al fondo)
+      var vec = [[0, 640, 46, 330], [40, 560, 38, 410], [350, 700, 40, 270], [386, 600, 54, 370]];
+      vec.forEach(function (v, i) { o += '<rect x="' + v[0] + '" y="' + v[1] + '" width="' + v[2] + '" height="' + v[3] + '" fill="#121316"/>'; for (var k = 0; k < 14; k++) { var r = azar(i * 31 + k + 3); if (r > .45) o += '<rect x="' + (v[0] + 6 + (k % 3) * 11) + '" y="' + (v[1] + 12 + Math.floor(k / 3) * 22) + '" width="6" height="9" fill="#d9d6cf" opacity="' + (.25 + r * .3).toFixed(2) + '"/>'; } });
+      // azotea y antena
+      o += '<line x1="220" y1="22" x2="220" y2="' + (yTop(14) - 26) + '" stroke="#8a8e92" stroke-width="2"/><circle cx="220" cy="22" r="2.6" fill="#fff"/><rect x="186" y="' + (yTop(14) - 30) + '" width="68" height="22" fill="#55595e"/>';
+      for (var p = 14; p >= 1; p--) {
+        var t = yTop(p), pent = p >= 13, x0 = pent ? PX0 : X0, x1 = pent ? PX1 : X1, ancho = x1 - x0, vx = x0 + 10, vw = ancho - 20, n = pent ? 5 : 6, pw = vw / n;
+        o += '<g class="te-p" data-p="' + p + '"><rect x="' + x0 + '" y="' + t + '" width="' + ancho + '" height="' + FH + '" fill="url(#te-hor)"/>';
+        var gy = pent ? t + 8 : t + 12, gh = pent ? FH - 20 : 34;
+        o += '<rect x="' + vx + '" y="' + gy + '" width="' + vw + '" height="' + gh + '" fill="url(#te-vid)"/><g class="te-lz">';
+        for (var i = 0; i < n; i++) { var r = azar(p * 17 + i * 5 + 2); if (r > .28) o += '<rect x="' + (vx + i * pw + 1.5).toFixed(1) + '" y="' + (gy + 1.5) + '" width="' + (pw - 3).toFixed(1) + '" height="' + (gh - 3) + '" fill="#f2efe8" opacity="' + (.45 + r * .45).toFixed(2) + '"/>'; }
+        o += '</g>';
+        for (i = 1; i < n; i++) o += '<line x1="' + (vx + i * pw).toFixed(1) + '" y1="' + gy + '" x2="' + (vx + i * pw).toFixed(1) + '" y2="' + (gy + gh) + '" stroke="#000" stroke-opacity=".5" stroke-width="1.2"/>';
+        var sx = x0 - 8, sw = ancho + 16;
+        o += '<rect x="' + sx + '" y="' + (t + FH - 9) + '" width="' + sw + '" height="9" fill="#b4b7ba"/><rect x="' + sx + '" y="' + (t + FH) + '" width="' + sw + '" height="3" fill="#000" opacity=".4"/>';
+        o += '<rect x="' + sx + '" y="' + (t + FH - 30) + '" width="' + sw + '" height="21" fill="#fff" fill-opacity=".1" stroke="#fff" stroke-opacity=".3" stroke-width=".8"/>';
+        for (var px = sx + 16; px < sx + sw - 4; px += 32) o += '<line x1="' + px + '" y1="' + (t + FH - 30) + '" x2="' + px + '" y2="' + (t + FH - 9) + '" stroke="#fff" stroke-opacity=".28" stroke-width=".8"/>';
+        o += '<rect x="' + x0 + '" y="' + t + '" width="' + ancho + '" height="1.5" fill="#fff" opacity=".2"/>';
+        if (p === 13) o += '<rect x="' + X0 + '" y="' + (t + FH - 30) + '" width="' + (PX0 - X0) + '" height="30" fill="#fff" fill-opacity=".1" stroke="#fff" stroke-opacity=".3" stroke-width=".8"/><rect x="' + PX1 + '" y="' + (t + FH - 30) + '" width="' + (X1 - PX1) + '" height="30" fill="#fff" fill-opacity=".1" stroke="#fff" stroke-opacity=".3" stroke-width=".8"/>';
+        if (p === 14) o += '<rect x="112" y="' + (t - 9) + '" width="216" height="9" fill="#b4b7ba"/><rect x="112" y="' + (t - 9) + '" width="216" height="2" fill="#fff" opacity=".35"/>';
+        o += "</g>";
+      }
+      // planta baja y calle
+      var base = yTop(1) + FH;
+      o += '<rect x="0" y="' + (base + 40) + '" width="' + VBW + '" height="' + (VBH - base - 40) + '" fill="url(#te-suelo)"/><rect x="92" y="' + base + '" width="256" height="40" fill="#4c5055"/><rect x="108" y="' + (base + 6) + '" width="224" height="34" fill="url(#te-lob)"/><rect x="88" y="' + (base - 2) + '" width="264" height="7" fill="#b4b7ba"/>';
+      for (i = 1; i < 6; i++) o += '<line x1="' + (108 + i * 37.3).toFixed(1) + '" y1="' + (base + 6) + '" x2="' + (108 + i * 37.3).toFixed(1) + '" y2="' + (base + 40) + '" stroke="#000" stroke-opacity=".4" stroke-width="1.2"/>';
+      return o + "</svg>";
+    }
+    host.innerHTML = (TORRE_IMG ? '<img class="te-img" src="' + TORRE_IMG + '" alt="" decoding="async">' : torre()) + BANDAS.map(function (b) {
+      return '<button type="button" class="te-banda" data-p="' + b.p + '" style="top:' + b.t + "%;height:" + b.h + "%;left:" + b.l + "%;width:" + b.w + '%" aria-label="' + nombreBanda(b.p) + '"><i></i><span class="te-bn">' + b.p + "</span></button>";
+    }).join("");
+    if (calibrar) te.classList.add("calibrar");
+    var bandas = [].slice.call(host.querySelectorAll(".te-banda")), luces = [].slice.call(host.querySelectorAll(".te-lz"));
+    bandas.forEach(function (b) { if (!datos(Number(b.dataset.p)).libres.length) b.classList.add("agotado"); });
+
+    /* ---- entrada controlada por el scroll: la torre se acerca y se encienden las luces de abajo hacia arriba ---- */
+    var fino = matchMedia("(hover: hover) and (pointer: fine)").matches;
+    $("te-hint").textContent = fino ? "Pasá el mouse por un piso" : "Tocá un piso";
+    var eAct = -1, tick = false;
+    function entrada() {
+      var r = sec.getBoundingClientRect(), rango = r.height - innerHeight, prog = rango > 0 ? Math.max(0, Math.min(1, -r.top / rango)) : 1;
+      var e = reducido ? 1 : Math.max(0, Math.min(1, prog / .35));
+      if (Math.abs(e - eAct) > .002) {
+        eAct = e; te.style.setProperty("--e", e.toFixed(3));
+        luces.forEach(function (g, i) { var piso = Number(g.parentNode.dataset.p); g.style.opacity = reducido ? 1 : Math.max(0, Math.min(1, (e - .15 - (piso - 1) / 14 * .6) / .25)).toFixed(2); });
+        te.classList.toggle("listo", e >= .999);
+      }
+      tick = false;
+    }
+    function pedir() { if (!tick) { tick = true; requestAnimationFrame(entrada); } }
+    addEventListener("scroll", pedir, { passive: true }); addEventListener("resize", pedir); entrada();
+
+    /* ---- tarjeta flotante (hover) ---- */
+    var tarj = $("te-tarjeta"), linea = $("te-linea"), fach = $("te-fachada"), hovP = 0;
+    function tarjeta(p, abierta) {
+      var d = datos(p), nd = d.libres.length;
+      tarj.innerHTML = '<div class="te-fila"><span class="te-k">Piso</span><span class="te-est' + (nd ? "" : " no") + '">' + (nd ? "Disponible" : d.estado) + '</span></div><p class="te-n">' + dosd(p) + "</p>" +
+        '<p>' + (nd ? nd + " de " + d.us.length + (nd === 1 ? " disponible" : " disponibles") : "Sin unidades disponibles") + "</p>" + (nd ? '<p class="te-precio">Desde USD ' + fmt(d.desde) + "</p>" : "") +
+        (nd ? '<p class="te-cta">' + "Tocá para ver las plantas" + '</p><button type="button" class="btn te-ver" data-ver="' + p + '">Ver plantas</button>' : '<p class="te-cta">Vendido</p>');
+    }
+    function ubicar(banda) {
+      var f = fach.getBoundingClientRect(), r = banda.getBoundingClientRect(), cy = r.top + r.height / 2 - f.top;
+      if (innerWidth <= 900) { tarj.style.transform = "none"; return; }
+      var w = tarj.offsetWidth, h = tarj.offsetHeight, der = f.right - r.right > w + 100, x = der ? r.right - f.left + 72 : r.left - f.left - 72 - w, y = Math.max(84, Math.min(f.height - h - 24, cy - h / 2));
+      tarj.style.left = x + "px"; tarj.style.top = "0px"; tarj.style.transform = "translateY(" + y + "px)";
+      var y0 = der ? r.right - f.left : r.left - f.left - 72;
+      linea.style.left = y0 + "px"; linea.style.top = cy + "px"; linea.style.width = "72px"; linea.style.transform = "none";
+    }
+    function mostrar(p) {
+      if (!te.classList.contains("listo") && !calibrar) return;
+      var banda = host.querySelector('.te-banda[data-p="' + p + '"]'); if (!banda) return;
+      if (hovP !== p) { bandas.forEach(function (b) { b.classList.remove("on"); }); banda.classList.add("on"); tarjeta(p); hovP = p; }
+      ubicar(banda); tarj.classList.add("on"); linea.classList.toggle("on", innerWidth > 900);
+    }
+    function ocultar() { hovP = 0; tarj.classList.remove("on"); linea.classList.remove("on"); bandas.forEach(function (b) { b.classList.remove("on"); }); }
+    host.addEventListener("pointerover", function (e) { var b = e.target.closest(".te-banda"); if (b && e.pointerType !== "touch") mostrar(Number(b.dataset.p)); });
+    host.addEventListener("pointerleave", function (e) { if (fino && te.dataset.vista === "fachada") ocultar(); });
+    host.addEventListener("focusin", function (e) { var b = e.target.closest(".te-banda"); if (b) mostrar(Number(b.dataset.p)); });
+    host.addEventListener("focusout", function (e) { if (fino && !host.contains(e.relatedTarget) && !tarj.contains(e.relatedTarget)) ocultar(); });
+    host.addEventListener("keydown", function (e) {
+      var b = e.target.closest(".te-banda"); if (!b) return;
+      var i = bandas.indexOf(b), s = e.key === "ArrowUp" ? 1 : e.key === "ArrowDown" ? -1 : 0;
+      if (s) { e.preventDefault(); var n = bandas[Math.max(0, Math.min(bandas.length - 1, i + s))]; n.focus(); }
+    });
+    host.addEventListener("click", function (e) {
+      var b = e.target.closest(".te-banda"); if (!b) return;
+      var p = Number(b.dataset.p), d = datos(p); if (!d.libres.length) { mostrar(p); return; }
+      var teclado = e.detail === 0;
+      if (fino || teclado) abrir(p); else if (hovP === p && tarj.classList.contains("on")) abrir(p); else mostrar(p);
+    });
+    tarj.addEventListener("click", function (e) { var v = e.target.closest("[data-ver]"); if (v) abrir(Number(v.dataset.ver)); });
+
+    /* ---- vista B: planta del piso y ficha ---- */
+    var sel = { p: 0, uid: 0 }, plana = false, zoomI = -1;
+    var inn = $("te-plano-in"), ficha = $("te-ficha"), chips = $("te-chips"), planoBox = $("te-plano");
+    function unico(h, pre) {
+      var ids = []; h.replace(/ id="([^"]+)"/g, function (m, i) { ids.push(i); return m; });
+      ids.forEach(function (i) { h = h.split(' id="' + i + '"').join(' id="' + pre + i + '"').split("url(#" + i + ")").join("url(#" + pre + i + ")"); });
+      return h;
+    }
+    var geoAmb = function (t) { return GEO[t.id].rooms.filter(function (r) { return !/pasillo/i.test(r[0]); }); };
+    function frase(t) {
+      var amb = geoAmb(t).map(function (r) { return r[0].toLowerCase(); }), lista = amb.length > 1 ? amb.slice(0, -1).join(", ") + " y " + amb[amb.length - 1] : amb[0];
+      return t.nombre + " de " + t.m2 + " m² cubiertos, con " + lista + ". " + t.ext + ".";
+    }
+    function unidad() { return UNIDADES.filter(function (u) { return u.piso === sel.p && u.num === sel.uid; })[0]; }
+    function dibujar() {
+      var u = unidad(), t = tipoDe(u.tipo), d = datos(sel.p), amb = geoAmb(t), ext = (t.ext.match(/(\d+)\s*m²/) || [0, ""])[1];
+      zoomI = -1; inn.style.transform = ""; inn.innerHTML = unico(plano(t, { hot: true }), "te-"); plana = false; $("te-plana").setAttribute("aria-pressed", "false"); $("te-plana").textContent = "Vista plana";
+      chips.innerHTML = d.libres.length > 1 ? d.libres.map(function (x) { var tt = tipoDe(x.tipo); return '<button type="button" data-u="' + x.num + '" aria-pressed="' + (x.num === sel.uid) + '">' + x.num + " · " + tt.nombre + " · " + tt.m2 + " m²</button>"; }).join("") : "";
+      ficha.innerHTML = '<div class="te-sup"><span class="te-k">Piso ' + sel.p + '</span><span class="te-est">Disponible</span></div><h3 id="te-tit" tabindex="-1">Departamento ' + u.num + '</h3><p class="te-sub">' + t.nombre + "</p>" +
+        '<div class="te-cif"><div><b>' + t.m2 + '</b><span>m² cubiertos</span></div><div><b>' + (ext || "-") + '</b><span>m² de ' + (t.id === "pent" ? "terraza" : "balcón") + '</span></div><div><b>' + amb.length + "</b><span>espacios</span></div></div>" +
+        '<p class="te-precio">Desde USD ' + fmt(t.precio) + '</p><p class="te-desc">' + frase(t) + '</p><ol class="te-amb">' + amb.map(function (r, i) { return '<li data-i="' + i + '"><button type="button" data-i="' + i + '"><span>' + dosd(i + 1) + "</span><span>" + r[0] + "</span></button></li>"; }).join("") + "</ol>" +
+        '<div class="te-acc"><button type="button" class="btn" id="te-consultar">Consultar esta unidad</button><button type="button" class="btn btn-borde" id="te-volver">Volver a la fachada</button></div>';
+      $("te-consultar").addEventListener("click", function () {
+        $("f-tipo").value = t.id; var nom = $("f-nombre").value.trim();
+        irAWhatsApp((nom ? "¡Hola! Mi nombre es " + nom + "." : "¡Hola!") + " Quiero consultar por el departamento " + u.num + " (" + t.nombre.toLowerCase() + ", piso " + sel.p + ") en Solana. Muchas gracias.");
+      });
+      $("te-volver").addEventListener("click", volver);
+    }
+    function resaltar(i, on) {
+      var g = inn.querySelector('.hs[data-i="' + i + '"]'), li = ficha.querySelector('.te-amb li[data-i="' + i + '"]');
+      if (g) g.classList.toggle("on", on); if (li) li.classList.toggle("on", on);
+    }
+    function zoom(i) {
+      var g = inn.querySelector('.hs[data-i="' + i + '"]'); if (!g) return;
+      if (zoomI === i) { zoomI = -1; inn.style.transform = ""; return; }
+      if (reducido) return;
+      inn.style.transition = "none"; inn.style.transform = "none";
+      var r = inn.getBoundingClientRect(), h = g.getBoundingClientRect(), ox = h.left + h.width / 2 - r.left, oy = h.top + h.height / 2 - r.top;
+      inn.style.transformOrigin = ox + "px " + oy + "px"; void inn.offsetWidth; inn.style.transition = "";
+      inn.style.transform = "translate(" + (r.width / 2 - ox).toFixed(0) + "px," + (r.height / 2 - oy).toFixed(0) + "px) scale(1.45)"; zoomI = i;
+    }
+    inn.addEventListener("pointerover", function (e) { var g = e.target.closest(".hs"); if (g) resaltar(g.dataset.i, true); });
+    inn.addEventListener("pointerout", function (e) { var g = e.target.closest(".hs"); if (g) resaltar(g.dataset.i, false); });
+    inn.addEventListener("click", function (e) { var g = e.target.closest(".hs"); if (g) zoom(Number(g.dataset.i)); });
+    ficha.addEventListener("pointerover", function (e) { var b = e.target.closest("[data-i]"); if (b) resaltar(b.dataset.i, true); });
+    ficha.addEventListener("pointerout", function (e) { var b = e.target.closest("[data-i]"); if (b) resaltar(b.dataset.i, false); });
+    ficha.addEventListener("focusin", function (e) { var b = e.target.closest("button[data-i]"); if (b) resaltar(b.dataset.i, true); });
+    ficha.addEventListener("focusout", function (e) { var b = e.target.closest("button[data-i]"); if (b) resaltar(b.dataset.i, false); });
+    ficha.addEventListener("click", function (e) { var b = e.target.closest("button[data-i]"); if (b) zoom(Number(b.dataset.i)); });
+    chips.addEventListener("click", function (e) { var b = e.target.closest("[data-u]"); if (!b) return; sel.uid = Number(b.dataset.u); dibujar(); });
+    $("te-plana").addEventListener("click", function () { plana = !plana; this.setAttribute("aria-pressed", String(plana)); this.textContent = plana ? "Vista 3D" : "Vista plana"; var p3 = inn.querySelector(".p3d"); if (p3) p3.dataset.plana = plana ? "1" : "0"; });
+    if (!reducido) {
+      planoBox.addEventListener("pointermove", function (e) {
+        if (plana || zoomI > -1) return;
+        var r = planoBox.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+        inn.style.setProperty("--rx", (34 - py * 12).toFixed(1) + "deg"); inn.style.setProperty("--rz", (-14 + px * 16).toFixed(1) + "deg");
+      });
+      planoBox.addEventListener("pointerleave", function () { inn.style.removeProperty("--rx"); inn.style.removeProperty("--rz"); });
+    }
+
+    /* ---- transición fachada <-> planta (800 ms, con transiciones CSS para poder volver a mitad de camino) ---- */
+    var plantaEl = $("te-planta");
+    function abrir(p) {
+      var d = datos(p); if (!d.libres.length) return;
+      sel.p = p; sel.uid = d.libres[0].num; dibujar();
+      var banda = host.querySelector('.te-banda[data-p="' + p + '"]'), f = host.getBoundingClientRect(), r = banda.getBoundingClientRect();
+      host.style.setProperty("--ox", ((r.left + r.width / 2 - f.left) / f.width * 100).toFixed(1) + "%"); host.style.setProperty("--oy", ((r.top + r.height / 2 - f.top) / f.height * 100).toFixed(1) + "%");
+      ocultar(); te.dataset.vista = "planta"; plantaEl.setAttribute("aria-hidden", "false"); fach.setAttribute("inert", ""); plantaEl.removeAttribute("inert");
+      setTimeout(function () { var t = $("te-tit"); if (t && te.dataset.vista === "planta") t.focus({ preventScroll: true }); }, reducido ? 0 : 500);
+    }
+    function volver() {
+      te.dataset.vista = "fachada"; plantaEl.setAttribute("aria-hidden", "true"); plantaEl.setAttribute("inert", ""); fach.removeAttribute("inert");
+      var b = host.querySelector('.te-banda[data-p="' + sel.p + '"]'); setTimeout(function () { if (b && te.dataset.vista === "fachada") b.focus({ preventScroll: true }); }, reducido ? 0 : 400);
+    }
+    plantaEl.setAttribute("inert", "");
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && te.dataset.vista === "planta") volver(); });
   })();
 
   /* ---- formulario ---- */
@@ -333,6 +515,6 @@
       es.forEach(function (x) { x.isIntersecting ? vistos.add(x.target) : vistos.delete(x.target); });
       var ocultar = vistos.size > 0; flota.classList.toggle("oculta", ocultar); barra.classList.toggle("ver", !ocultar);
     });
-    ["#apertura", "#unidades", "#contacto", "footer"].forEach(function (s) { var el = document.querySelector(s); if (el) io.observe(el); });
+    ["#apertura", "#unidades", "#pisos", "#contacto", "footer"].forEach(function (s) { var el = document.querySelector(s); if (el) io.observe(el); });
   } else { barra.classList.add("ver"); }
 })();
