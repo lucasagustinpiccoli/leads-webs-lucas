@@ -467,9 +467,9 @@
 .fm-ayuda.mal { color: var(--color-accent); }
 
 /* "Empezá tu proyecto" del hero: mismo botón del sitio, con una luz que respira muy despacio para invitar a tocarlo */
-.pulso { animation: pulso-luz 4.8s ease-in-out infinite; }
-@keyframes pulso-luz { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 0%, transparent); } 50% { box-shadow: 0 0 26px 2px color-mix(in oklab, var(--color-accent) 38%, transparent); } }
-.pulso:hover { animation: none; box-shadow: 0 0 26px 2px color-mix(in oklab, var(--color-accent) 45%, transparent); }
+.pulso { animation: pulso-luz 5.5s ease-in-out infinite; }
+@keyframes pulso-luz { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 0%, transparent), 0 0 0 0 color-mix(in oklab, var(--color-accent) 0%, transparent); } 50% { box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-accent) 38%, transparent), 0 0 20px 2px color-mix(in oklab, var(--color-accent) 26%, transparent); } }
+.pulso:hover { animation: none; box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-accent) 30%, transparent), 0 0 16px 1px color-mix(in oklab, var(--color-accent) 24%, transparent); }
 @media (prefers-reduced-motion: reduce) { .pulso { animation: none; } }
 /* mismas formas en todo el sitio: esquinas casi rectas, como los botones principales */
 .fm-btn { border-radius: 8px; }
