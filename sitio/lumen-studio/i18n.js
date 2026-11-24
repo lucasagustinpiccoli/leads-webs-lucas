@@ -33,7 +33,7 @@
     "Brío Dental, sitio de un consultorio odontológico con pedido de turno": "Brío Dental, website for a dental practice with appointment booking",
     "Sitio para un consultorio odontológico, con los tratamientos a la vista y un pedido de turno por pasos que termina en WhatsApp.": "A website for a dental practice, with treatments up front and a step-by-step appointment request that ends on WhatsApp.",
     "Ver el panel de control": "See the control panel",
-    "Sitio para un desarrollo inmobiliario, pensado para que el edificio se descubra con el scroll y cada unidad se pueda elegir con su plano y su precio.": "A website for a real-estate development, designed so the building is discovered as you scroll and each unit can be chosen with its floor plan and price.",
+    "Sitio para un desarrollo inmobiliario donde el edificio es la interfaz: elegís un piso en la torre y ves su planta en 3D, con la superficie y el precio.": "A website for a real-estate development where the building is the interface: you pick a floor on the tower and see its 3D floor plan, with the area and the price.",
     "Catálogo de mobiliario con filtros, favoritos y una lista de presupuesto que se envía por WhatsApp, para que cada consulta llegue armada.": "A furniture catalogue with filters, favourites and a quote list sent over WhatsApp, so every enquiry arrives ready to answer.",
     "Landing para una app de gastos compartidos, pensada para que el producto se vea en acción y la descarga esté siempre a un toque.": "A landing page for a shared-expenses app, designed so the product is seen in action and the download is always one tap away.",
     "Escribinos por WhatsApp": "Message us on WhatsApp",
