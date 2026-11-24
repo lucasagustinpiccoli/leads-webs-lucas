@@ -19,8 +19,13 @@ def datauri(ruta):
 
 html = leer("index.html")
 # hojas de estilo locales, con sus fuentes
+def con_imports(css):
+    """Pega adentro los @import locales: en un archivo suelto no hay carpeta, y un @import data: puede quedar bloqueado."""
+    return re.sub(r'@import\s+url\("([^"]+)"\)\s*;?', lambda i: con_imports(leer(i.group(1))) if not i.group(1).startswith(("http", "data:")) else i.group(0), css)
+
+
 def hoja(m):
-    css = leer(m.group(1))
+    css = con_imports(leer(m.group(1)))
     css = re.sub(r'url\("([^"]+)"\)', lambda u: f'url("{datauri(u.group(1))}")' if not u.group(1).startswith(("http", "data:")) else u.group(0), css)
     return f"<style>{css}</style>"
 html = re.sub(r'<link rel="stylesheet" href="([^"]+)">', hoja, html)

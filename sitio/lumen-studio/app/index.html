@@ -227,7 +227,7 @@
     header nav a:not(.btn){display:none}
     .inicio{--pad:12px}
     .faq .w,.usos .w{grid-template-columns:minmax(0,1fr)}
-    .tel-m{top:calc(var(--ty,60) * 1vh + 50% + 14px)}
+    .tel-m{top:calc(var(--ty,60) * 1vh + var(--cy,50%))}
     .mano-t{top:78px}
     .feat,.feat[data-lado]{left:var(--gut);right:var(--gut);top:auto;bottom:calc(86px + env(safe-area-inset-bottom));width:auto;transform:translateY(18px);text-align:center}
     .feat.on{transform:none}
@@ -493,6 +493,7 @@
   ];
   var ORDEN = [1, 0, 2]; // nuevo gasto, saldos del grupo, pago
   $("rollo").innerHTML = ORDEN.map(function(i){ return PANTALLAS[i]; }).join("");
+  [].forEach.call(document.querySelectorAll("[data-n]"), function(el){ el.textContent = "$ " + fmt(Number(el.dataset.n)); });
 
   var reducido = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var clamp = function(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); };
@@ -526,7 +527,16 @@
     var sec = document.querySelector(".mano"), tel = $("tel-m"), feats = [].slice.call(sec.querySelectorAll(".feat"));
     var meta = 0, act = 0, corre = false;
     function tramos(v, ins, outs){ if (v <= ins[0]) return outs[0]; for (var i = 1; i < ins.length; i++) if (v <= ins[i]){ var t = (v - ins[i-1]) / (ins[i] - ins[i-1]); t = t*t*(3-2*t); return outs[i-1] + (outs[i] - outs[i-1]) * t; } return outs[outs.length-1]; }
-    function medir(){ var m = window.innerWidth <= 900, k = (window.innerHeight - (m ? 410 : 250)) / 633; k = Math.min(k, (window.innerWidth * (m ? 0.6 : 0.9)) / 300); sec.style.setProperty("--k", clamp(k, 0.42, 1).toFixed(3)); }
+    function medir(){
+      var m = window.innerWidth <= 900, H = window.innerHeight;
+      if (!m) { var k = Math.min((H - 250) / 633, (window.innerWidth * 0.9) / 300); sec.style.setProperty("--k", clamp(k, 0.42, 1).toFixed(3)); sec.style.removeProperty("--cy"); return; }
+      /* celular: el teléfono ocupa solo el espacio libre entre el título y el texto de abajo */
+      var tit = sec.querySelector(".mano-t"), arriba = tit.offsetTop + tit.offsetHeight + 14;
+      var alto = 0; feats.forEach(function (f) { alto = Math.max(alto, f.offsetHeight); });
+      var abajo = 86 + alto + 18, libre = Math.max(120, H - arriba - abajo);
+      var k2 = Math.min(libre / 633, (window.innerWidth * 0.6) / 300);
+      sec.style.setProperty("--k", clamp(k2, 0.22, 1).toFixed(3)); sec.style.setProperty("--cy", (arriba + libre / 2).toFixed(0) + "px");
+    }
     window.addEventListener("resize", medir); medir();
     function lee(){ var r = sec.getBoundingClientRect(), tot = r.height - window.innerHeight; return tot > 0 ? clamp(-r.top / tot, 0, 1) : 0; }
     var activa = -1;

@@ -64,6 +64,9 @@ def main():
     # 1) menú: logo animado, sincronizado con la luz del inicio
     animado = sin_cabecera(leer("svg", "halo-logo-animated-on-dark.svg"))
     animado = amanecer(animado)
+    # el atributo transform de los textos choca con la animación CSS en WebKit (iPhone): se mueve a un grupo contenedor
+    animado = re.sub(r'<g><path class="(t[12])" d="([^"]+)" transform="(translate\([^)]+\))" fill="([^"]+)"/></g>',
+                     lambda m: f'<g transform="{m.group(3)}"><path class="{m.group(1)}" d="{m.group(2)}" fill="{m.group(4)}"/></g>', animado)
     animado = poner_clase(animado, "logo-nav")
     nav = f'<a class="wordmark" href="#inicio" aria-label="Halo Studio, inicio">{animado}</a>'
     html, n = re.subn(r'<a class="wordmark" href="#inicio" aria-label="Halo Studio, inicio">.*?</a>', lambda m: nav, html, count=1, flags=re.S)
@@ -82,7 +85,7 @@ def main():
     # 3) pie y formulario: logo estático
     est_nav = poner_clase(est, "logo-pie")
     html, n = re.subn(r'<span class="marca-pie"[^>]*>.*?</span>', lambda m: f'<span class="marca-pie" role="img" aria-label="Halo Studio">{est_nav}</span>', html, count=1, flags=re.S)
-    assert n == 1, "no encontré el pie"
+    # el pie ya no lleva logo (queda solo texto): si no está, se omite
     est_fm = poner_clase(est.replace('id="gl', 'id="fl').replace('url(#gl', 'url(#fl').replace('id="gt', 'id="ft').replace('url(#gt', 'url(#ft')
                          .replace('id="gs', 'id="fs').replace('url(#gs', 'url(#fs').replace('id="gg', 'id="fg').replace('url(#gg', 'url(#fg')
                          .replace('id="gr', 'id="fr').replace('url(#gr', 'url(#fr').replace('id="cp', 'id="fc').replace('url(#cp', 'url(#fc'), "logo-pie")
