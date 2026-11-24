@@ -43,7 +43,7 @@ FICTICIOS = {
                  "direccion": "Av. de Mayo 1240, Ramos Mejía", "telefono": "", "whatsapp": "5491100000000", "rating": "",
                  "fotos": "0", "link_maps": "https://www.google.com/maps/search/?api=1&query=Ramos+Mej%C3%ADa", "web": ""},
         "extra": {"horarios": "Lunes a viernes, de 9 a 19 h", "mapa_q": "Av. de Mayo 1240, Ramos Mejía, Buenos Aires",
-                  "aviso": "Marca de ejemplo. Sitio de muestra de Halo Studio."},
+                  "aviso": ""},
     },
 }
 
@@ -270,7 +270,7 @@ def render(d):
         "form_html": formulario(d["form"]), "form_boton": e(d["form"]["boton"]),
         "seccion_nosotros": plano(d.get("seccion_nosotros", "Quiénes somos")), "foto_nosotros": foto_nosotros,
         "negocio_pie": e(corto), "foto_fondo": e(gal[-1]),
-        "aviso": e(d.get("aviso") or f'Demo preparada para {d["negocio"]}. Fotos y textos de referencia.'),
+        "aviso": e(d["aviso"] if d.get("aviso") is not None else f'Demo preparada para {d["negocio"]}. Fotos y textos de referencia.'),
         **extra_clinico,
         "icono_wa": ICONOS["wa"], "mensaje_wa_json": json.dumps(d["mensaje_wa"], ensure_ascii=False).replace("<", "\\u003c"),
     }

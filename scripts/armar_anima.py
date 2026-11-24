@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Junta la demo de Anima Center (sitio/lumen-studio/gymflow-src/) en un solo archivo: sitio/lumen-studio/gymflow/index.html.
-Editá los archivos de gymflow-src/ y volvé a correr este script. No usa librerías."""
+"""Junta la demo de Anima Center (sitio/lumen-studio/anima-center-src/) en un solo archivo: sitio/lumen-studio/anima-center/index.html.
+Editá los archivos de anima-center-src/ y volvé a correr este script. No usa librerías."""
 import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.path.join(ROOT, "sitio", "lumen-studio", "gymflow-src")
-OUT = os.path.join(ROOT, "sitio", "lumen-studio", "gymflow", "index.html")
+SRC = os.path.join(ROOT, "sitio", "lumen-studio", "anima-center-src")
+OUT = os.path.join(ROOT, "sitio", "lumen-studio", "anima-center", "index.html")
 
 
 def leer(n):

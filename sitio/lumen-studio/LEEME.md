@@ -10,8 +10,8 @@ Una sola página (`index.html` + `img/`). Se publica junto con las demos con `py
 
 ## Anima Center (demo, antes GymFlow)
 
-El código editable está en `gymflow-src/` (`index.html`, `style.css`, `app.js`, `demo-backend.js`). Para regenerar el archivo único que se publica
-(`gymflow/index.html`): `python scripts/armar_gymflow.py`. Estilo con la skill Hallmark (tema Console, modo app): grafito, un solo acento ámbar, paneles con línea fina, sin brillos ni gradientes, cifras en
+El código editable está en `anima-center-src/` (`index.html`, `style.css`, `app.js`, `demo-backend.js`). Para regenerar el archivo único que se publica
+(`anima-center/index.html`): `python scripts/armar_anima.py`. Estilo con la skill Hallmark (tema Console, modo app): grafito, un solo acento ámbar, paneles con línea fina, sin brillos ni gradientes, cifras en
 Atkinson Hyperlegible Mono y el resto en Host Grotesk. Todo pasa por tokens al principio de `style.css`; los colores de estado (verde, rojo) solo marcan estado.
 
 ## Idioma (español / inglés)
@@ -25,7 +25,7 @@ Testimonios, reseñas, logos de clientes y años de experiencia: no hay nada de 
 
 ## Anima Center (demo interactiva, antes GymFlow)
 
-`gymflow/index.html` es una maqueta autónoma con datos ficticios (sin login, sin servidor), hecha a partir del sistema real de gimnasio. Se abre desde el panel de Trabajos. Es `noindex`. Carga la tipografía de Google y la librería de Excel (jsDelivr) desde internet; todo lo demás va dentro del archivo.
+`anima-center/index.html` es una maqueta autónoma con datos ficticios (sin login, sin servidor), hecha a partir del sistema real de gimnasio. Se abre desde el panel de Trabajos. Es `noindex`. Carga la tipografía de Google y la librería de Excel (jsDelivr) desde internet; todo lo demás va dentro del archivo.
 
 ## Cómo trabajamos, título con humo y secciones
 

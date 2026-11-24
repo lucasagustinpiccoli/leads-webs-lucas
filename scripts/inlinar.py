@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Arma un solo archivo HTML con todo adentro (estilos, fuentes, imágenes y scripts de una carpeta de proyecto).
-Uso: python scripts/inlinar.py sitio/lumen-studio/loteo output/proyecto-loteo.html
+Uso: python scripts/inlinar.py sitio/lumen-studio/solana output/proyecto-solana.html
 Así el archivo abre completo aunque se descargue solo, sin carpeta ni internet."""
 import base64, mimetypes, os, re, sys
 

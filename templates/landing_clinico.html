@@ -33,6 +33,7 @@
   h1,h2,h3{font-family:var(--display),var(--cuerpo),system-ui,sans-serif;font-weight:600;line-height:1.1;letter-spacing:-.02em}
   h2{font-size:clamp(28px,3.4vw,46px)}
   h3{font-size:clamp(20px,1.7vw,24px);line-height:1.2;letter-spacing:-.01em}
+  .aviso:empty{display:none}
   .aviso{font-size:12px;text-align:center;padding:6px 16px;background:var(--oscuro);color:rgba(255,255,255,.75)}
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:var(--r);font-family:inherit;font-weight:600;font-size:16px;line-height:1;white-space:nowrap;border:1.5px solid transparent;cursor:pointer;transition:transform .16s cubic-bezier(.23,1,.32,1),background-color .2s,border-color .2s,filter .2s}
@@ -388,7 +389,7 @@
 
     // La barra flotante arranca debajo del aviso de la demo y sube hasta quedar a 14 px del borde al bajar.
     var cab = document.querySelector("header");
-    function subir(){ cab.style.top = Math.max(14, (window.innerWidth <= 900 ? 40 : 44) - window.scrollY) + "px"; }
+    function subir(){ var av = document.querySelector(".aviso"), base = av && av.offsetHeight ? (window.innerWidth <= 900 ? 40 : 44) : 16; cab.style.top = Math.max(14, base - window.scrollY) + "px"; }
     subir(); window.addEventListener("scroll", subir, {passive: true}); window.addEventListener("resize", subir);
 
     function inicioDia(d){ var x = new Date(d); x.setHours(0,0,0,0); return x; }
