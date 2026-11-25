@@ -25,7 +25,7 @@ from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "output")
-BASE_POR_DEFECTO = "https://TU-DOMINIO.pages.dev"
+BASE_POR_DEFECTO = json.load(open(os.path.join(ROOT, "config", "sitio.json"), encoding="utf-8"))["url"]  # dirección real del sitio (config/sitio.json)
 EJEMPLO = BASE_POR_DEFECTO + "/oliva/"  # demo de muestra (Oliva Atelier) de la página madre, para prospectos sin demo
 
 # Qué consigue quien los encuentra en Google, según el rubro. Un solo beneficio por mensaje.
@@ -38,6 +38,8 @@ BENEFICIO = {
     "Estudio jurídico": "pueda hacer su consulta",
 }
 BENEFICIO_BASE = "pueda escribirte con un toque"
+RUBROS_TURNOS = {"Dentista", "Veterinaria", "Centro de estética", "Consultorio / centro médico"}
+TURNOS = ", con reserva de turnos"
 
 CAMPOS = ["ranking", "negocio", "rubro", "localidad", "canal", "whatsapp", "instagram", "demo", "link", "revisar",
           "mensaje_dia0", "mensaje_dia3", "mensaje_dia7", "mensaje_instagram", "link_wa_dia0"]
@@ -88,20 +90,20 @@ def mensajes(fila, link, con_demo, corto, ejemplo=EJEMPLO):
         f"Vi que {corto} {presencia_txt(fila['presencia'])}."
     beneficio = BENEFICIO.get(fila["rubro"], BENEFICIO_BASE)
     if con_demo:
-        cuerpo = (f"Te armé una demo con tus datos para que veas cómo quedaría: {link}\n\n"
-                  f"Tiene tu botón de WhatsApp y el mapa, para que quien te encuentre en Google {beneficio}. "
-                  "Es solo una muestra, sin costo ni compromiso.\n\n"
-                  "Si te gusta, la dejamos andando esta semana.")
+        cuerpo = (f"Te armé una demo con los datos públicos de tu negocio para que veas cómo quedaría: {link}\n\n"
+                  f"Tiene botón de WhatsApp y mapa, para que quien te encuentre en Google {beneficio}. "
+                  "Es solo una muestra: si te gusta, seguimos; si no, no pagás nada.")
         d3 = f"Hola, ¿pudiste ver la demo de {corto}? {link}\nSi querés cambiar algo, lo vemos."
     else:
-        cuerpo = (f"Te dejo un ejemplo de una página que hice para otro negocio, con reserva de turnos: {ejemplo}\n\n"
-                  f"Si te interesa, te armo la tuya con tus datos, con botón de WhatsApp y mapa, para que quien te encuentre en "
-                  f"Google {beneficio}. La ves antes de decidir, sin costo ni compromiso.")
-        d3 = f"Hola, ¿pudiste ver el ejemplo que te mandé? {ejemplo}\nSi te sirve, te preparo la de {corto} y la ves antes de decidir."
-    dia0 = f"Hola, ¿hablo con {corto}? Soy Lucas, diseño páginas web para negocios de la zona.\n\n{gancho} {cuerpo}"
-    dia7 = (f"Hola, te escribo por última vez para no molestar. Esta semana tengo lugar para entregar la página de {corto} rápido. "
-            "Si querés avanzar, te mando por escrito qué incluye y cuánto cuesta (desde USD 180). "
-            "Si no es el momento, no hay problema.")
+        cuerpo = (f"Te dejo un ejemplo de una página que hice{TURNOS if fila['rubro'] in RUBROS_TURNOS else ''}: {ejemplo}\n\n"
+                  f"Si querés, te armo una con los datos de tu negocio, con botón de WhatsApp y mapa, para que quien te encuentre en "
+                  f"Google {beneficio}. La ves antes de pagar nada.")
+        d3 = f"Hola, ¿pudiste ver el ejemplo que te mandé? {ejemplo}\nSi te sirve, te armo la de {corto} y la ves antes de pagar nada."
+    dia0 = (f"Hola, ¿hablo con {corto}? Soy Lucas, de Halo Studio: diseño páginas web para negocios de Buenos Aires.\n\n"
+            f"{gancho} {cuerpo}")
+    dia7 = (f"Hola, te escribo por última vez para no molestar. Si te interesa avanzar con la página de {corto}, "
+            "te paso por escrito qué incluye, cuánto cuesta y el plazo. Si no es el momento, no hay problema. "
+            "Y si preferís que no te escribamos más, respondé \"baja\".")
     ig = dia0.replace(f"Hola, ¿hablo con {corto}?", "Hola, ¿cómo andan?", 1)
     return dia0, d3, dia7, ig
 
@@ -165,8 +167,6 @@ def main():
         w.writerows(res)
     con = sum(1 for r in res if r["demo"] == "Sí")
     print(f"{len(res)} prospectos ({con} con demo, {len(res) - con} con ejemplo) -> {os.path.relpath(destino, ROOT)}")
-    if a.base == BASE_POR_DEFECTO:
-        print(f"Falta la dirección real: volvé a correr con --base https://tu-dominio (hoy los links dicen {BASE_POR_DEFECTO}).")
 
 
 if __name__ == "__main__":

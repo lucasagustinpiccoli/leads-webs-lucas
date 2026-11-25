@@ -7,6 +7,8 @@ Uso:
   python scripts/planilla.py importar [tanda.csv] [mensajes.csv]
       Agrega al final de Leads los prospectos de una tanda (salida de rankear.py) y sus mensajes (salida de mensajes.py)
       a "Mensajes {Rubro}". Saltea los que ya están (compara por Link Maps). Sin argumentos usa la última tanda de output/.
+  python scripts/planilla.py mensajes [tanda.csv] [mensajes.csv]
+      Refresca solo las hojas \"Mensajes {Rubro}\" de una tanda ya cargada (después de correr scripts/mensajes.py --todos).
   python scripts/planilla.py leer
       Imprime la hoja Leads como JSON.
   python scripts/planilla.py actualizar cambios.json
@@ -193,6 +195,52 @@ def importar(tanda_csv=None, mensajes_csv=None):
     print(f"Agregados {len(agregados)} leads (N {agregados[0][0]}-{agregados[-1][0]})" if agregados else "No había leads nuevos")
 
 
+def refrescar_mensajes(tanda_csv=None, mensajes_csv=None):
+    """Actualiza (o agrega) las filas de las hojas "Mensajes {Rubro}" de los leads de una tanda que ya están en Leads.
+    No toca la hoja Leads ni los estados."""
+    tanda_csv = tanda_csv or ultimo("tanda-*.csv")
+    if not tanda_csv:
+        sys.exit("No encontré una tanda en output/.")
+    base = os.path.basename(tanda_csv).replace("tanda-", "mensajes-")
+    mensajes_csv = mensajes_csv or os.path.join(os.path.dirname(tanda_csv), base)
+    if not os.path.exists(mensajes_csv):
+        sys.exit("Falta el CSV de mensajes: corré scripts/mensajes.py --todos primero.")
+    mensajes = {int(m["ranking"]): m for m in leer_csv(mensajes_csv)}
+    wb = abrir()
+    ws = wb["Leads"]
+    col_maps = LEADS_COLS.index("Link Maps") + 1
+    filas = {ws.cell(r, col_maps).hyperlink.target: ws.cell(r, 1).value for r in range(2, ws.max_row + 1) if ws.cell(r, col_maps).hyperlink}
+    hechos = 0
+    for t in leer_csv(tanda_csv):
+        n = filas.get(t["link_maps"])
+        m = mensajes.get(int(t["ranking"]))
+        if not n or not m:
+            continue
+        nombre = re.sub(r"[\\/*?:\[\]]+", "-", f"Mensajes {t['rubro']}")[:31]
+        if nombre not in wb.sheetnames:
+            ms = wb.create_sheet(nombre, index=wb.sheetnames.index("Templates"))
+            header(ms, MSG_COLS)
+        ms = wb[nombre]
+        fila = next((r for r in range(2, ms.max_row + 1) if ms.cell(r, 1).value == n), None) or ms.max_row + 1
+        wa = re.sub(r"\D", "", t.get("whatsapp", ""))
+        ig = usuario_ig(t.get("web", "")) or usuario_ig(m.get("instagram", ""))
+        d0 = m.get("mensaje_dia0", "")
+        walink = f"https://wa.me/{wa}?text={quote(d0, safe='')}" if wa and d0 else ""
+        vals = [n, t["negocio"], t["localidad"], f"@{ig}" if ig else "Buscar a mano", f"https://instagram.com/{ig}" if ig else "",
+                f"https://wa.me/{wa}" if wa else "", d0, m.get("mensaje_dia3", ""), m.get("mensaje_dia7", ""),
+                m.get("mensaje_instagram", "") if ig else "", "Abrir chat con el mensaje" if walink else "", m.get("revisar", "")]
+        urls = {"Instagram": f"https://www.instagram.com/{ig}/" if ig else None, "Link Instagram": vals[4] or None,
+                "WhatsApp": vals[5] or None, "Abrir WhatsApp con el mensaje del día 0": walink or None}
+        for c, (h, v) in enumerate(zip(MSG_COLS, vals), 1):
+            put(ms, fila, c, h, v, urls.get(h))
+        hechos += 1
+    for nombre in wb.sheetnames:
+        if nombre.startswith("Mensajes"):
+            wb[nombre].auto_filter.ref = wb[nombre].dimensions
+    guardar(wb)
+    print(f"Mensajes actualizados para {hechos} leads")
+
+
 def leer():
     if not os.path.exists(XLSX):
         print("[]")
@@ -228,6 +276,8 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
     if cmd == "importar":
         importar(*(sys.argv[2:4]))
+    elif cmd == "mensajes":
+        refrescar_mensajes(*(sys.argv[2:4]))
     elif cmd == "leer":
         leer()
     elif cmd == "actualizar" and len(sys.argv) > 2:
