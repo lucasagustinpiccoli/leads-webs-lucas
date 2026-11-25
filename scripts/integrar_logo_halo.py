@@ -10,7 +10,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITIO = os.path.join(ROOT, "sitio", "lumen-studio")
 SRC = sys.argv[1] if len(sys.argv) > 1 else "/tmp/hl/x/halo-logo-v3"
-INICIO = 1.0  # segundos: cuando el tubo de neón empieza a abrirse, el sol empieza a salir
+INICIO = 0.2  # segundos: el logo del menú se anima rápido, casi a la par de la luz del inicio
 
 
 def leer(*p):
@@ -29,12 +29,12 @@ def sin_cabecera(svg):
 
 AMANECER = """<style>
 .line,.refl,.sun,.ring,.glow,.t1,.t2{animation-fill-mode:both}
-.line{transform-box:fill-box;transform-origin:50% 50%;animation:lineIn .70s 1.00s cubic-bezier(.23,1,.32,1)}
-.sun{animation:rise 2.20s 1.70s cubic-bezier(.28,.55,.2,1)}
+.line{transform-box:fill-box;transform-origin:50% 50%;animation:lineIn .45s .20s cubic-bezier(.23,1,.32,1)}
+.sun{animation:rise 1.10s .55s cubic-bezier(.28,.55,.2,1)}
 .ring{transform-box:fill-box;transform-origin:50% 100%;animation-timing-function:cubic-bezier(.23,1,.32,1)}
-.r1{animation:ringIn .90s 2.90s}.r2{animation:ringIn .90s 3.10s}.r3{animation:ringIn .90s 3.30s}
-.glow{animation:fade 1.60s 2.30s ease-out}.refl{animation:fade .80s 3.20s}
-.t1{animation:textIn .80s 3.10s cubic-bezier(.23,1,.32,1)}.t2{animation:textIn .80s 3.30s cubic-bezier(.23,1,.32,1)}
+.r1{animation:ringIn .60s .95s}.r2{animation:ringIn .60s 1.05s}.r3{animation:ringIn .60s 1.15s}
+.glow{animation:fade .90s .80s ease-out}.refl{animation:fade .50s 1.10s}
+.t1{animation:textIn .50s 1.00s cubic-bezier(.23,1,.32,1)}.t2{animation:textIn .50s 1.10s cubic-bezier(.23,1,.32,1)}
 @keyframes lineIn{from{transform:scaleX(0)}}
 @keyframes rise{from{transform:translateY(21px);filter:brightness(.55)}55%{filter:brightness(.85)}to{transform:none;filter:none}}
 @keyframes ringIn{from{opacity:0;transform:scale(.82)}}
