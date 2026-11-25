@@ -96,7 +96,7 @@
     "Garantía.": "Warranty.",
     "Un mes desde la publicación para corregir sin costo los errores de funcionamiento.": "One month from publishing to fix functional errors at no cost.",
     "Mantenimiento.": "Maintenance.",
-    "Opcional y mensual, para cambios menores de contenido, un informe mensual de visitas y mejoras menores.": "Optional and monthly, for minor content changes, a monthly visits report and minor improvements.",
+    "Opcional y mensual, para cambios de contenido, un informe mensual de visitas y mejoras menores.": "Optional and monthly, for content changes, a monthly visits report and minor improvements.",
     "Acepto la": "I accept the", "política de privacidad": "privacy policy", "y que mis datos se guarden en servidores de Google, que pueden estar fuera de la Argentina.": "and that my data be stored on Google servers, which may be outside Argentina.", "Aviso legal": "Legal notice", "Política de privacidad": "Privacy policy",
     "¿Cuál es tu correo electrónico?": "What's your email address?", "Te enviamos la demo y la propuesta por ahí.": "We'll send the demo and the proposal there.", "Correo electrónico": "Email address",
     "¿A qué número te escribimos?": "Which number should we write to?",
