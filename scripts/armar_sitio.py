@@ -87,11 +87,52 @@ for carpeta, nombre in DEMOS.items():
 with open(os.path.join(OUT, "robots.txt"), "w") as f:
     f.write("User-agent: *\nDisallow: /demos/\n")
 with open(os.path.join(OUT, "_headers"), "w") as f:
-    f.write("/demos/*\n  X-Robots-Tag: noindex, nofollow\n")
+    f.write("""# Seguridad para todo el sitio. HSTS se activa solo con dominio propio (en workers.dev ya lo maneja Cloudflare).
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# Archivos que casi no cambian: el navegador los guarda 30 días (las fuentes, 1 año)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/*/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/img/*
+  Cache-Control: public, max-age=2592000
+/*/img/*
+  Cache-Control: public, max-age=2592000
+/logo/*
+  Cache-Control: public, max-age=2592000
+/demos/*/img/*
+  Cache-Control: public, max-age=2592000
+
+# Las demos para negocios no se indexan
+/demos/*
+  X-Robots-Tag: noindex, nofollow
+""")
 # Direcciones anteriores de los proyectos del portfolio: redirigen a las nuevas
 with open(os.path.join(OUT, "_redirects"), "w") as f:
     for viejo, nuevo in (("gymflow", "anima-center"), ("app", "saldo"), ("catalogo", "arce"), ("residencias", "solana"), ("demos/ejemplo-dentista", "brio-dental")):
         f.write(f"/{viejo}/ /{nuevo}/ 301\n")
+
+# --- Favicon: las páginas de demo sin ícono reciben uno con la inicial del título; Oliva apuntaba a archivos que no existen ---
+import html as _html
+for _raiz, _, _arch in os.walk(OUT):
+    if "index.html" not in _arch or os.path.abspath(_raiz) in (os.path.abspath(OUT), os.path.join(os.path.abspath(OUT), "privacidad"), os.path.join(os.path.abspath(OUT), "aviso-legal")):
+        continue
+    _p = os.path.join(_raiz, "index.html")
+    _t = open(_p, encoding="utf-8", errors="ignore").read()
+    _t2 = re.sub(r'<link rel="(?:icon|apple-touch-icon)"[^>]*href="\./(?:favicon-32\.png|apple-touch-icon\.png)"[^>]*>\s*', "", _t)
+    if not re.search(r'<link rel="(?:shortcut )?icon"', _t2):
+        _m = re.search(r"<title>\s*(.*?)\s*</title>", _t2, re.S)
+        _l = (re.sub(r"[^A-Za-zÁÉÍÓÚÑ0-9]", "", _html.unescape(_m.group(1)))[:1] or "H").upper() if _m else "H"
+        _svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#111"/>'
+                f'<text x="32" y="45" font-family="Georgia,serif" font-size="38" text-anchor="middle" fill="#f4f1e8">{_l}</text></svg>')
+        _t2 = _t2.replace("</head>", '<link rel="icon" href="data:image/svg+xml;base64,' + __import__("base64").b64encode(_svg.encode()).decode() + '">\n</head>', 1)
+    if _t2 != _t:
+        open(_p, "w", encoding="utf-8").write(_t2)
 zip_path = shutil.make_archive(os.path.join(ROOT, "output", "publicar"), "zip", OUT)
 mb = os.path.getsize(zip_path) / 1e6
 print(f"Listo: página madre + {n} demos en output/publicar/ ({mb:.1f} MB en {os.path.relpath(zip_path, ROOT)})")

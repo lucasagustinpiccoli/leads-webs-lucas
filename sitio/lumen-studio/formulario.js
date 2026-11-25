@@ -45,6 +45,8 @@
     return ok && !sug;
   }
   function completo(n) {
+    var ac = pasos[n].querySelector("[data-acepto]");
+    if (ac) return ac.checked;
     if (pasos[n].querySelector('[data-k="tel"]')) return telOk();
     var c = pasos[n].querySelector("[data-k]");
     if (c && c.type === "email") return mailOk(c);
@@ -93,7 +95,7 @@
 
   function abrir(desde) {
     if (abierto) return;
-    abierto = true; ultimo = desde || document.activeElement;
+    abierto = true; if (actual === 0) abiertoEn = Date.now(); ultimo = desde || document.activeElement;
     raiz.hidden = false; document.documentElement.classList.add("fm-abierto");
     requestAnimationFrame(function () { raiz.classList.add("ver"); });
     if (actual >= TOTAL) enviado = false;
@@ -121,10 +123,15 @@
     d.append("entry." + CAMPOS.necesita, servicios().join(", "));
     try { fetch(GF, { method: "POST", mode: "no-cors", body: d, keepalive: true }); } catch (e) {}
   }
-  var enviado = false;
+  var enviado = false, abiertoEn = Date.now();
   sig.addEventListener("click", function () {
     if (!completo(actual)) return;
-    if (actual === TOTAL - 1 && !enviado) { enviado = true; guardar(); }
+    if (actual === TOTAL - 1 && !enviado) {
+      enviado = true;
+      var trampa = raiz.querySelector("[data-trampa]");
+      // un bot completa el campo oculto o envía en menos de 3 segundos: no se guarda nada, pero la pantalla sigue igual
+      if (!(trampa && trampa.value) && Date.now() - abiertoEn > 3000) guardar();
+    }
     mostrar(actual + 1);
   });
   atras.addEventListener("click", function () { mostrar(actual - 1); });

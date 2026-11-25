@@ -486,3 +486,12 @@
 @media (min-width: 75rem) { .nav .btn--icono { width: auto; padding: 0 var(--space-sm); gap: var(--space-xs); } .nav .btn--icono .wa-txt { display: inline; font-size: var(--text-sm); font-weight: 500; } }
 /* Ray sube cuando está la barra fija "Empezá tu proyecto" del celular */
 @media (max-width: 60rem) { .hay-barra .ray { bottom: calc(var(--space-xs) + 84px + env(safe-area-inset-bottom)); } .ray { transition-property: opacity, transform, bottom; } }
+
+/* aceptación de la política de privacidad y trampa para bots del formulario */
+.fm-acepto{display:flex;align-items:flex-start;gap:12px;margin-top:var(--space-md,16px);max-width:640px;color:var(--color-on-night-muted,#a9a69d);font-size:var(--text-sm,.9rem);cursor:pointer}
+.fm-acepto input{flex:none;width:20px;height:20px;margin-top:2px;accent-color:var(--color-accent)}
+.fm-acepto a{color:var(--color-accent);text-underline-offset:3px}
+.fm-trampa{position:absolute!important;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.foot-legal{display:flex;flex-wrap:wrap;gap:var(--space-md,16px);margin-top:10px}
+.foot-legal a{color:inherit;opacity:.7;font-size:.85rem;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
+.foot-legal a:hover{opacity:1}

@@ -67,6 +67,7 @@
     "Para empezar, ¿cómo te llamás?": "To start, what's your name?",
     "¿Desde dónde nos escribís?": "Where are you writing from?",
     "Ciudad y país": "City and country",
+    "Acepto la": "I accept the", "política de privacidad": "privacy policy", "Aviso legal": "Legal notice", "Política de privacidad": "Privacy policy",
     "¿Cuál es tu correo electrónico?": "What's your email address?", "Te enviamos la demo y la propuesta por ahí.": "We'll send the demo and the proposal there.", "Correo electrónico": "Email address",
     "¿A qué número te escribimos?": "Which number should we write to?",
     "Coordinamos por WhatsApp. Elegí tu país y escribí el número sin el código.": "We coordinate on WhatsApp. Choose your country and type the number without the code.",

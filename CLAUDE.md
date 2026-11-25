@@ -135,3 +135,13 @@ fotos, horarios, link_maps, web, estado_negocio, busqueda`
 7. ✅ Planilla de seguimiento: `python scripts/planilla.py importar` pasa la última tanda (y sus mensajes) a `output/leads-halo.xlsx`
    (hojas Leads, Mensajes {Rubro} y Templates, con desplegable de Estado, como la guía del buscador de leads). Saltea los ya cargados.
    `leer` imprime la hoja Leads y `actualizar cambios.json` cambia estados sin pisar filas.
+
+## Páginas legales, SEO y seguridad (paquete de lanzamiento)
+
+- `config/sitio.json` guarda nombre, CUIT, mail, dominio (`url`) y el token de Cloudflare Web Analytics. Para cambiar el mail o el dominio:
+  editá ese archivo, corré `python scripts/legales.py` y después `python scripts/armar_sitio.py`. Genera `privacidad/`, `aviso-legal/`, `404.html`,
+  `sitemap.xml` y el bloque SEO de la home (canonical, vista previa para redes e `ld+json`), entre `<!--seo:inicio-->` y `<!--seo:fin-->`.
+- El formulario de la home exige aceptar la política de privacidad y tiene un campo trampa para bots (`data-trampa`): si viene lleno, o si se envía en
+  menos de 3 segundos desde que se abrió, no se guarda nada en el Google Form.
+- `armar_sitio.py` escribe `_headers` con encabezados de seguridad (sin CSP todavía: hay scripts en línea) y caché larga para fuentes e imágenes,
+  y les pone un favicon con la inicial a las demos que no tienen.
