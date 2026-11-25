@@ -107,7 +107,7 @@ def mensajes(fila, link, con_demo, corto, ejemplo=EJEMPLO):
                  if ("gratuita" in pres or "caída" in pres) else
                  "noté que aún no tiene un sitio web propio, así que armamos una demo de cómo podría ser tu página")
         uno = (f"Hola! Soy Lucas de Halo Studio, diseñamos páginas web que ayudan a convertir visitas en clientes. "
-               f"Conocí {corto} y me {verbo} {gusto}, pero {falta}: {link}. No tiene costo ni compromiso. "
+               f"Encontré {corto} en Google Maps y me {verbo} {gusto}, pero {falta}, con los datos públicos de tu negocio: {link}. No tiene costo ni compromiso. "
                "Si te interesa, la ajustamos con vos. ¿La mirás y me contás qué te parece?")
         si = "¡Buenísimo! Contame qué cambiarías (textos, colores, fotos) y la ajustamos. Cuando quede como querés, te paso por escrito qué incluye, cuánto cuesta y el plazo."
         d3 = f"Hola! ¿Pudiste mirar la demo de {corto}? {link}\nSi querés cambiar algo, la ajustamos."
