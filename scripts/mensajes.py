@@ -98,6 +98,22 @@ def mensajes(fila, link, con_demo, corto, ejemplo=EJEMPLO):
         sin_web = "me di cuenta de que su web actual se puede mejorar"
     else:
         sin_web = "me di cuenta de que todavía no tienen página web"
+    if con_demo:
+        # leads con demo ya armada: un solo mensaje, con el link adentro (texto de Lucas)
+        r = rating_txt(fila["rating"])
+        gusto = f"las buenas reseñas que tienen en Google ({r})" if buena and r else "lo que hacen"
+        verbo = "gustaron" if buena and r else "gustó"
+        falta = ("noté que su web actual se puede mejorar, así que armamos una demo de cómo podría ser tu página"
+                 if ("gratuita" in pres or "caída" in pres) else
+                 "noté que aún no tiene un sitio web propio, así que armamos una demo de cómo podría ser tu página")
+        uno = (f"Hola! Soy Lucas de Halo Studio, diseñamos páginas web que ayudan a convertir visitas en clientes. "
+               f"Conocí {corto} y me {verbo} {gusto}, pero {falta}: {link}. No tiene costo ni compromiso. "
+               "Si te interesa, la ajustamos con vos. ¿La mirás y me contás qué te parece?")
+        si = "¡Buenísimo! Contame qué cambiarías (textos, colores, fotos) y la ajustamos. Cuando quede como querés, te paso por escrito qué incluye, cuánto cuesta y el plazo."
+        d3 = f"Hola! ¿Pudiste mirar la demo de {corto}? {link}\nSi querés cambiar algo, la ajustamos."
+        d7 = (f"Hola! Te escribo por última vez para no molestar. Si en algún momento querés retomar la página de {corto}, "
+              "avisame y seguimos. Y si preferís que no te escribamos más, respondé \"baja\".")
+        return {"dia0": uno, "dia0b": "", "si": si, "dia3": d3, "dia7": d7, "instagram": uno}
     if buena:
         uno = f"Hola! Soy Lucas de Halo Studio. Vi {corto} y, a pesar de tener tan buenas reseñas en Google, {sin_web}."
     else:
@@ -120,7 +136,9 @@ def revisar_txt(fila, con_demo):
     notas = []
     if fila.get("notas"):
         notas.append(fila["notas"])
-    if not con_demo:
+    if con_demo:
+        notas.append("Personalizar el \"me gustó\" si podés (ahora sale de la calificación de Maps)")
+    else:
         notas.append("Sin demo todavía: va con el ejemplo")
     return "; ".join(notas)
 
