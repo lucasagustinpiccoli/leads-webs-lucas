@@ -495,3 +495,12 @@
 .foot-legal{display:flex;flex-wrap:wrap;gap:var(--space-md,16px);margin-top:10px}
 .foot-legal a{color:inherit;opacity:.7;font-size:.85rem;text-underline-offset:3px;min-height:44px;display:inline-flex;align-items:center}
 .foot-legal a:hover{opacity:1}
+
+/* respuesta de la FAQ con estructura: una frase y tres puntos */
+.faq-r{padding:0 var(--space-2xl) var(--space-xl) calc(1.6em + var(--space-md) + var(--space-xs));max-width:62rem;color:var(--color-ink-2)}
+.faq .faq-r p{padding:0;margin:0 0 var(--space-sm)}
+.faq-r ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-sm)}
+.faq-r li{position:relative;padding-left:1.1rem}
+.faq-r li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;border-radius:50%;background:var(--color-accent)}
+.faq-r strong{font-weight:500;color:var(--color-ink)}
+@media (max-width:60rem){.faq-r{padding-right:0}}
