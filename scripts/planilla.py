@@ -33,13 +33,13 @@ XLSX = os.path.join(ROOT, "output", "leads-halo.xlsx")
 
 LEADS_COLS = ["N", "Negocio", "Rubro", "Zona", "Dirección", "Teléfono", "WhatsApp", "Instagram", "Web", "Presencia",
               "Rating", "Fotos", "Puntaje", "Demo", "Link Maps", "Estado", "Canal", "Fecha contacto", "Próximo paso", "Notas"]
-MSG_COLS = ["N", "Negocio", "Zona", "Instagram", "Link Instagram", "WhatsApp", "Mensaje día 0", "Mensaje día 3",
-            "Mensaje día 7", "DM Instagram", "Abrir WhatsApp con el mensaje del día 0", "Revisar"]
+MSG_COLS = ["N", "Negocio", "Zona", "Instagram", "Link Instagram", "WhatsApp", "Mensaje 1 (día 0)", "Mensaje 2 (día 0)",
+            "Si responde que sí", "Mensaje día 3", "Mensaje día 7", "DM Instagram", "Abrir WhatsApp con el mensaje 1", "Revisar"]
 WIDTHS = {"N": 5, "Negocio": 32, "Rubro": 16, "Zona": 15, "Dirección": 34, "Teléfono": 17, "WhatsApp": 28, "Instagram": 26,
           "Web": 26, "Presencia": 20, "Rating": 7, "Fotos": 7, "Puntaje": 8, "Demo": 7, "Link Maps": 14, "Estado": 16,
-          "Canal": 11, "Fecha contacto": 14, "Próximo paso": 22, "Notas": 40, "Link Instagram": 30, "Mensaje día 0": 60,
-          "Mensaje día 3": 50, "Mensaje día 7": 50, "DM Instagram": 60, "Abrir WhatsApp con el mensaje del día 0": 24, "Revisar": 30}
-WRAP = {"Mensaje día 0", "Mensaje día 3", "Mensaje día 7", "DM Instagram", "Notas", "Dirección", "Revisar"}
+          "Canal": 11, "Fecha contacto": 14, "Próximo paso": 22, "Notas": 40, "Link Instagram": 30, "Mensaje 1 (día 0)": 50, "Mensaje 2 (día 0)": 50, "Si responde que sí": 50,
+          "Mensaje día 3": 50, "Mensaje día 7": 50, "DM Instagram": 60, "Abrir WhatsApp con el mensaje 1": 24, "Revisar": 30}
+WRAP = {"Mensaje 1 (día 0)", "Mensaje 2 (día 0)", "Si responde que sí", "Mensaje día 3", "Mensaje día 7", "DM Instagram", "Notas", "Dirección", "Revisar"}
 ESTADOS = ["Sin contactar", "Contactado", "Seguimiento 1", "Seguimiento 2", "Respondió", "Reunión", "Propuesta enviada",
            "Cliente", "No interesado", "Frío"]
 TEMPLATES = [
@@ -134,6 +134,19 @@ def num(v):
         return ""
 
 
+def valores_mensajes(n, t, ig, wa, m):
+    """Fila de una hoja "Mensajes {Rubro}": valores y links de cada celda."""
+    d0 = m.get("mensaje_dia0", "")
+    walink = f"https://wa.me/{wa}?text={quote(d0, safe='')}" if wa and d0 else ""
+    vals = [n, t["negocio"], t["localidad"], f"@{ig}" if ig else "Buscar a mano", f"https://instagram.com/{ig}" if ig else "",
+            f"https://wa.me/{wa}" if wa else "", d0, m.get("mensaje_dia0b", ""), m.get("mensaje_si", ""), m.get("mensaje_dia3", ""),
+            m.get("mensaje_dia7", ""), m.get("mensaje_instagram", "") if ig else "", "Abrir chat con el mensaje 1" if walink else "",
+            m.get("revisar", "")]
+    urls = {"Instagram": f"https://www.instagram.com/{ig}/" if ig else None, "Link Instagram": vals[4] or None,
+            "WhatsApp": vals[5] or None, "Abrir WhatsApp con el mensaje 1": walink or None}
+    return vals, urls
+
+
 def importar(tanda_csv=None, mensajes_csv=None):
     tanda_csv = tanda_csv or ultimo("tanda-*.csv")
     if not tanda_csv:
@@ -180,13 +193,7 @@ def importar(tanda_csv=None, mensajes_csv=None):
         fila = ms.max_row + 1
         for nn, t, ig, wa, m in [x for x in agregados if x[1]["rubro"] == rubro]:
             m = m or {}
-            d0 = m.get("mensaje_dia0", "")
-            walink = f"https://wa.me/{wa}?text={quote(d0, safe='')}" if wa and d0 else ""
-            vals = [nn, t["negocio"], t["localidad"], f"@{ig}" if ig else "Buscar a mano", f"https://instagram.com/{ig}" if ig else "",
-                    f"https://wa.me/{wa}" if wa else "", d0, m.get("mensaje_dia3", ""), m.get("mensaje_dia7", ""),
-                    m.get("mensaje_instagram", "") if ig else "", "Abrir chat con el mensaje" if walink else "", m.get("revisar", "")]
-            urls = {"Instagram": f"https://www.instagram.com/{ig}/" if ig else None, "Link Instagram": vals[4] or None,
-                    "WhatsApp": vals[5] or None, "Abrir WhatsApp con el mensaje del día 0": walink or None}
+            vals, urls = valores_mensajes(nn, t, ig, wa, m)
             for c, (h, v) in enumerate(zip(MSG_COLS, vals), 1):
                 put(ms, fila, c, h, v, urls.get(h))
             fila += 1
@@ -207,6 +214,8 @@ def refrescar_mensajes(tanda_csv=None, mensajes_csv=None):
         sys.exit("Falta el CSV de mensajes: corré scripts/mensajes.py --todos primero.")
     mensajes = {int(m["ranking"]): m for m in leer_csv(mensajes_csv)}
     wb = abrir()
+    for viejo in [x for x in wb.sheetnames if x.startswith("Mensajes") and [c.value for c in wb[x][1]] != MSG_COLS]:
+        del wb[viejo]  # esquema anterior: se rehacen con las columnas nuevas (las hojas de mensajes no guardan estados)
     ws = wb["Leads"]
     col_maps = LEADS_COLS.index("Link Maps") + 1
     filas = {ws.cell(r, col_maps).hyperlink.target: ws.cell(r, 1).value for r in range(2, ws.max_row + 1) if ws.cell(r, col_maps).hyperlink}
@@ -224,13 +233,7 @@ def refrescar_mensajes(tanda_csv=None, mensajes_csv=None):
         fila = next((r for r in range(2, ms.max_row + 1) if ms.cell(r, 1).value == n), None) or ms.max_row + 1
         wa = re.sub(r"\D", "", t.get("whatsapp", ""))
         ig = usuario_ig(t.get("web", "")) or usuario_ig(m.get("instagram", ""))
-        d0 = m.get("mensaje_dia0", "")
-        walink = f"https://wa.me/{wa}?text={quote(d0, safe='')}" if wa and d0 else ""
-        vals = [n, t["negocio"], t["localidad"], f"@{ig}" if ig else "Buscar a mano", f"https://instagram.com/{ig}" if ig else "",
-                f"https://wa.me/{wa}" if wa else "", d0, m.get("mensaje_dia3", ""), m.get("mensaje_dia7", ""),
-                m.get("mensaje_instagram", "") if ig else "", "Abrir chat con el mensaje" if walink else "", m.get("revisar", "")]
-        urls = {"Instagram": f"https://www.instagram.com/{ig}/" if ig else None, "Link Instagram": vals[4] or None,
-                "WhatsApp": vals[5] or None, "Abrir WhatsApp con el mensaje del día 0": walink or None}
+        vals, urls = valores_mensajes(n, t, ig, wa, m)
         for c, (h, v) in enumerate(zip(MSG_COLS, vals), 1):
             put(ms, fila, c, h, v, urls.get(h))
         hechos += 1

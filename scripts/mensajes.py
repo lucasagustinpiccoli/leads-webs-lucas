@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Paso 6: mensajes de contacto para los prospectos marcados para demo de una tanda.
 
-Por cada prospecto arma, con sus datos públicos de Maps: el primer mensaje (día 0), el recordatorio (día 3), el último
+Por cada prospecto arma, con sus datos públicos de Maps: dos mensajes seguidos para el día 0 (observación y oferta con pregunta),
+la respuesta para cuando dicen que sí (lleva el link de la demo si existe, o un ejemplo), el recordatorio (día 3), el último
 toque (día 7), la versión para mensaje directo de Instagram y un link de wa.me con el primer mensaje ya escrito.
-Si el prospecto tiene demo, el primer mensaje lleva su link; si no, lleva un ejemplo ya publicado.
 
 No envía nada: Lucas copia y manda cada mensaje a mano.
 
@@ -42,7 +42,7 @@ RUBROS_TURNOS = {"Dentista", "Veterinaria", "Centro de estética", "Consultorio 
 TURNOS = ", con reserva de turnos"
 
 CAMPOS = ["ranking", "negocio", "rubro", "localidad", "canal", "whatsapp", "instagram", "demo", "link", "revisar",
-          "mensaje_dia0", "mensaje_dia3", "mensaje_dia7", "mensaje_instagram", "link_wa_dia0"]
+          "mensaje_dia0", "mensaje_dia0b", "mensaje_si", "mensaje_dia3", "mensaje_dia7", "mensaje_instagram", "link_wa_dia0"]
 
 
 def cargar_demo():
@@ -84,28 +84,36 @@ def presencia_txt(presencia):
 
 
 def mensajes(fila, link, con_demo, corto, ejemplo=EJEMPLO):
-    """Devuelve (dia0, dia3, dia7, instagram) para una fila de la tanda."""
-    r = rating_txt(fila["rating"])
-    gancho = f"Vi que {corto} tiene {r} en Google Maps y {presencia_txt(fila['presencia'])}." if r else \
-        f"Vi que {corto} {presencia_txt(fila['presencia'])}."
-    beneficio = BENEFICIO.get(fila["rubro"], BENEFICIO_BASE)
-    if con_demo:
-        cuerpo = (f"Te armé una demo con los datos públicos de tu negocio para que veas cómo quedaría: {link}\n\n"
-                  f"Tiene botón de WhatsApp y mapa, para que quien te encuentre en Google {beneficio}. "
-                  "Es solo una muestra: si te gusta, seguimos; si no, no pagás nada.")
-        d3 = f"Hola, ¿pudiste ver la demo de {corto}? {link}\nSi querés cambiar algo, lo vemos."
+    """Devuelve un dict con los textos de una fila de la tanda.
+
+    El primer contacto va en dos mensajes seguidos (día 0): una observación y una oferta que termina en pregunta.
+    La demo (o el ejemplo) se manda solo si responden que sí ("si"). Día 3 y día 7 son los recordatorios.
+    """
+    try:
+        buena = float(str(fila["rating"]).replace(",", ".")) >= 4.4
+    except ValueError:
+        buena = False
+    pres = (fila.get("presencia") or "").lower()
+    if "gratuita" in pres or "caída" in pres:
+        sin_web = "me di cuenta de que su web actual se puede mejorar"
     else:
-        cuerpo = (f"Te dejo un ejemplo de una página que hice{TURNOS if fila['rubro'] in RUBROS_TURNOS else ''}: {ejemplo}\n\n"
-                  f"Si querés, te armo una con los datos de tu negocio, con botón de WhatsApp y mapa, para que quien te encuentre en "
-                  f"Google {beneficio}. La ves antes de pagar nada.")
-        d3 = f"Hola, ¿pudiste ver el ejemplo que te mandé? {ejemplo}\nSi te sirve, te armo la de {corto} y la ves antes de pagar nada."
-    dia0 = (f"Hola, ¿hablo con {corto}? Soy Lucas, de Halo Studio: diseño páginas web para negocios de Buenos Aires.\n\n"
-            f"{gancho} {cuerpo}")
-    dia7 = (f"Hola, te escribo por última vez para no molestar. Si te interesa avanzar con la página de {corto}, "
-            "te paso por escrito qué incluye, cuánto cuesta y el plazo. Si no es el momento, no hay problema. "
-            "Y si preferís que no te escribamos más, respondé \"baja\".")
-    ig = dia0.replace(f"Hola, ¿hablo con {corto}?", "Hola, ¿cómo andan?", 1)
-    return dia0, d3, dia7, ig
+        sin_web = "me di cuenta de que todavía no tienen página web"
+    if buena:
+        uno = f"Hola! Soy Lucas de Halo Studio. Vi {corto} y, a pesar de tener tan buenas reseñas en Google, {sin_web}."
+    else:
+        uno = f"Hola! Soy Lucas de Halo Studio. Vi {corto} y {sin_web}."
+    dos = ("Nos dedicamos a diseñar páginas web y te puedo mostrar cómo quedaría la tuya con una demo sin costo y sin compromiso. "
+           "Si no te convence, no pagás nada. ¿Te interesa que te la prepare?")
+    if con_demo:
+        si = f"¡Genial! Ya te dejé armada la demo de {corto}, mirala acá: {link}\nSi querés cambiar algo, lo vemos."
+        d3 = f"Hola! Te escribo por si se te pasó mi mensaje. Si querés, te muestro la demo que armé de {corto} para que la veas antes de decidir. ¿Te interesa?"
+    else:
+        si = (f"¡Genial! Te la preparo con los datos públicos de tu negocio y te aviso cuando esté lista. "
+              f"Mientras tanto, te dejo un ejemplo de una página que hice: {ejemplo}")
+        d3 = f"Hola! Te escribo por si se te pasó mi mensaje. Si querés, te preparo la demo de {corto} para que la veas antes de decidir. ¿Te interesa?"
+    d7 = (f"Hola! Te escribo por última vez para no molestar. Si en algún momento querés ver cómo quedaría la página de {corto}, "
+          "avisame y te la preparo. Y si preferís que no te escribamos más, respondé \"baja\".")
+    return {"dia0": uno, "dia0b": dos, "si": si, "dia3": d3, "dia7": d7, "instagram": uno + "\n\n" + dos}
 
 
 def revisar_txt(fila, con_demo):
@@ -132,7 +140,7 @@ def armar(filas, base, demo_mod, solo_demos=True):
         corto = nombre_corto(f["negocio"], datos, f["localidad"])
         ejemplo = f"{base.rstrip('/')}/oliva/"
         link = f"{base.rstrip('/')}/demos/{carpeta}/" if con_demo else ejemplo
-        d0, d3, d7, ig = mensajes(f, link, con_demo, corto, ejemplo)
+        m = mensajes(f, link, con_demo, corto, ejemplo)
         instagram = f["web"] if "instagram.com" in (f["web"] or "") else ""
         wa = f["whatsapp"]
         salida.append({
@@ -140,8 +148,9 @@ def armar(filas, base, demo_mod, solo_demos=True):
             "canal": "WhatsApp" if wa else ("Instagram" if instagram else "Llamar"),
             "whatsapp": wa, "instagram": instagram, "demo": "Sí" if con_demo else "No", "link": link,
             "revisar": revisar_txt(f, con_demo),
-            "mensaje_dia0": d0, "mensaje_dia3": d3, "mensaje_dia7": d7, "mensaje_instagram": ig,
-            "link_wa_dia0": f"https://wa.me/{wa}?text={quote(d0)}" if wa else "",
+            "mensaje_dia0": m["dia0"], "mensaje_dia0b": m["dia0b"], "mensaje_si": m["si"], "mensaje_dia3": m["dia3"],
+            "mensaje_dia7": m["dia7"], "mensaje_instagram": m["instagram"],
+            "link_wa_dia0": f"https://wa.me/{wa}?text={quote(m['dia0'])}" if wa else "",
         })
     return salida
 
