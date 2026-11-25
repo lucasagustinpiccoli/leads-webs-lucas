@@ -19,7 +19,9 @@ SITIO = os.path.join(ROOT, "sitio", "lumen-studio")
 C = json.load(open(os.path.join(ROOT, "config", "sitio.json"), encoding="utf-8"))
 E = html.escape
 URL = C["url"].rstrip("/")
-HOY = "25 de noviembre de 2026"
+import datetime as _dt
+_M = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+HOY = f"{_dt.date.today().day} de {_M[_dt.date.today().month - 1]} de {_dt.date.today().year}"
 CSS = """
 :root{--noche:#0a0a0a;--crema:#f4f1e8;--suave:#a9a69d;--ambar:#edbb64;--linea:rgba(244,241,232,.16)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -111,6 +113,16 @@ PRIV = f"""
 <p>Usamos tus datos únicamente para responder tu consulta, preparar la demo o la propuesta que pediste y contactarte por WhatsApp o por correo. No los vendemos ni los usamos para enviarte publicidad de terceros.</p>
 <h2>Dónde se guardan y quién los ve</h2>
 <p>Las respuestas del formulario se guardan en una hoja de cálculo de Google, en la cuenta del titular del sitio, y se pueden almacenar en servidores de Google ubicados fuera de la Argentina. El sitio se aloja en Cloudflare. No compartimos tus datos con nadie más, salvo que una autoridad lo exija por ley.</p>
+<h2>Transferencia de datos al exterior</h2>
+<p>Google, Cloudflare y WhatsApp (Meta) tienen servidores fuera de la Argentina, por ejemplo en Estados Unidos, donde el nivel de protección de datos personales puede ser distinto del argentino. Al completar el formulario y aceptar esta política, nos das tu consentimiento para que tus datos se guarden en esos servidores. Si no estás de acuerdo, podés escribirnos por correo sin completar el formulario.</p>
+<h2>Servicios de terceros</h2>
+<ul>
+<li><strong>Google:</strong> guarda las respuestas del formulario en una hoja de cálculo.</li>
+<li><strong>Cloudflare:</strong> aloja el sitio y registra datos técnicos de cada visita, como la dirección IP y el tipo de navegador, para que el sitio funcione y para su seguridad.</li>
+<li><strong>WhatsApp (Meta):</strong> si nos escribís por ahí, tus mensajes se procesan con las condiciones y la política de privacidad de WhatsApp.</li>
+</ul>
+<h2>Datos de negocios que usamos para preparar demos</h2>
+<p>Además del formulario, {E(C['marca'])} puede preparar demos para negocios locales a partir de información comercial que es pública, como el nombre, la dirección, el teléfono y las reseñas que figuran en Google Maps, y contactar al negocio por WhatsApp, Instagram o correo. Usamos solo datos comerciales del negocio, no datos personales de sus dueños. Si recibiste un mensaje nuestro y no querés recibir más, respondé &ldquo;baja&rdquo; o escribinos a {mail}: no te contactamos más y borramos tus datos.</p>
 <h2>Cuánto tiempo los conservamos</h2>
 <p>Los guardamos mientras sea necesario para atender tu consulta. Si no avanzamos con un proyecto, los borramos cuando nos lo pidas. Si contratás el servicio, aplican los plazos que figuren en el contrato.</p>
 <h2>Cookies y datos del navegador</h2>
