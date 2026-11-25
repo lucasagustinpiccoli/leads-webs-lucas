@@ -37,6 +37,12 @@ if not a.sin_demos:
             shutil.copytree(src, destino, ignore=shutil.ignore_patterns("datos.json"))
             n += 1
 
+# Demo premium hecha a mano (AS Eventos): vive en /as-eventos/ y no se indexa
+_ae = os.path.join(ROOT, "output", "as-eventos", "sitio")
+if not a.sin_demos and os.path.isdir(_ae):
+    shutil.copytree(_ae, os.path.join(OUT, "as-eventos"))
+    n += 1
+
 # --- Portfolio: número de Halo Studio en los WhatsApp de las demos ---
 from urllib.parse import quote
 WA_HALO = "5491178297719"
@@ -85,7 +91,7 @@ def parchar_demo(carpeta, nombre):
 for carpeta, nombre in DEMOS.items():
     parchar_demo(carpeta, nombre)
 with open(os.path.join(OUT, "robots.txt"), "w") as f:
-    f.write("User-agent: *\nDisallow: /demos/\n")
+    f.write("User-agent: *\nDisallow: /demos/\nDisallow: /as-eventos/\n")
 with open(os.path.join(OUT, "_headers"), "w") as f:
     f.write("""# Seguridad para todo el sitio. HSTS se activa solo con dominio propio (en workers.dev ya lo maneja Cloudflare).
 /*
@@ -110,6 +116,8 @@ with open(os.path.join(OUT, "_headers"), "w") as f:
 
 # Las demos para negocios no se indexan
 /demos/*
+  X-Robots-Tag: noindex, nofollow
+/as-eventos/*
   X-Robots-Tag: noindex, nofollow
 """)
 # Direcciones anteriores de los proyectos del portfolio: redirigen a las nuevas
