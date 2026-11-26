@@ -504,3 +504,33 @@
 .faq-r li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;border-radius:50%;background:var(--color-accent)}
 .faq-r strong{font-weight:500;color:var(--color-ink)}
 @media (max-width:60rem){.faq-r{padding-right:0}}
+
+
+/* Proyectos: carrusel 3D de celulares */
+.section--car { overflow: clip; }
+.car { --tw: clamp(190px, 16.5vw, 240px); --tg: 44px; display: flex; gap: var(--tg); overflow-x: auto; padding: var(--space-md) var(--gutter) var(--space-lg); scroll-snap-type: x proximity; scrollbar-width: none; }
+.car::-webkit-scrollbar { display: none; }
+.car-item { flex: none; width: var(--tw); scroll-snap-align: center; }
+.car-js { display: block; overflow: hidden; height: calc(var(--tw) * 2.15 + 110px); padding: 0; perspective: 1300px; perspective-origin: 50% 38%; touch-action: pan-y; cursor: grab; -webkit-mask-image: linear-gradient(90deg, transparent, var(--color-ink) 11%, var(--color-ink) 89%, transparent); mask-image: linear-gradient(90deg, transparent, var(--color-ink) 11%, var(--color-ink) 89%, transparent); }
+.car-js.arrastrando { cursor: grabbing; }
+.car-js .car-pista { position: relative; height: 100%; transform-style: preserve-3d; }
+.car-js .car-item { position: absolute; left: 0; top: var(--space-md); scroll-snap-align: none; will-change: transform; }
+.tel { display: block; color: inherit; text-decoration: none; user-select: none; -webkit-user-drag: none; border-radius: calc(var(--tw) * 0.16); }
+.tel-fr { position: relative; display: block; aspect-ratio: 9 / 19.3; padding: calc(var(--tw) * 0.032); border-radius: calc(var(--tw) * 0.16); background: var(--color-ink); box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-paper) 24%, transparent), 0 26px 46px -22px color-mix(in oklab, var(--color-ink) 55%, transparent); transition: transform var(--dur-long) var(--ease-out); }
+.tel-fr::before { content: ""; position: absolute; z-index: 2; top: calc(var(--tw) * 0.062); left: 50%; width: 30%; height: 3.3%; transform: translateX(-50%); border-radius: var(--radius-pill); background: var(--color-ink); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-paper) 10%, transparent); }
+.tel-pant { display: block; width: 100%; height: 100%; overflow: hidden; border-radius: calc(var(--tw) * 0.13); background: var(--color-paper-3); }
+.tel-pant img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .tel:hover .tel-fr { transform: scale(1.05); } }
+.tel:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 6px; }
+.car-nombre { margin: var(--space-md) 0 0; text-align: center; font: 500 var(--text-md) / 1.2 var(--font-body); }
+.car-tipo { margin: var(--space-2xs) 0 0; text-align: center; font-size: var(--text-sm); color: var(--color-muted); }
+.car-extra { display: block; margin-top: var(--space-xs); text-align: center; font-size: var(--text-sm); color: var(--color-ink-2); }
+.car-hint { margin: 0; text-align: center; font-size: var(--text-sm); color: var(--color-muted); }
+@media (max-width: 48rem) { .car { --tw: clamp(190px, 58vw, 250px); --tg: 24px; padding-inline: var(--gutter); } }
+@media (prefers-reduced-motion: reduce) { .tel-fr { transition: none; } }
+/* La pantalla arranca debajo de la isla, así no tapa el encabezado de cada página */
+.tel-pant { background: var(--color-ink); padding-top: 6.2%; }
+.tel-pant img { height: 100%; border-radius: calc(var(--tw) * 0.05) calc(var(--tw) * 0.05) calc(var(--tw) * 0.13) calc(var(--tw) * 0.13); background: var(--color-paper-3); }
+.tel-fr::before { top: calc(var(--tw) * 0.056); width: 26%; height: 2.7%; }
+.car-js .car-pista { pointer-events: none; }
+.car-js .car-item { pointer-events: auto; }

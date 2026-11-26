@@ -4,6 +4,13 @@
 (function () {
   "use strict";
   var EN = {
+    "Arrastrá para recorrerlos": "Drag to browse",
+    "Desarrollo inmobiliario": "Real estate development",
+    "App de gastos compartidos": "Shared expenses app",
+    "Sistema para gimnasios": "Gym management system",
+    "Consultorio odontológico": "Dental clinic",
+    "Catálogo de mobiliario": "Furniture catalog",
+    "Propuesta de rediseño": "Redesign proposal",
     "Trabajos": "Work",
     "Proceso": "Process",
     "Preguntas": "FAQ",
