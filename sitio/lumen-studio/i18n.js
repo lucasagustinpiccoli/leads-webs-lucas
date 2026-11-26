@@ -4,6 +4,16 @@
 (function () {
   "use strict";
   var EN = {
+    "Buen día": "Good morning",
+    "Así viene tu página": "How your website is doing",
+    "Canales": "Channels",
+    "Informes": "Reports",
+    "Ajustes": "Settings",
+    "Mi negocio": "My business",
+    "Vista": "Vista",
+    "Del clic al cliente": "From click to customer",
+    "Visitas agendadas": "Visits scheduled",
+    "Cerradas": "Closed",
     "Halo Studio, diseño web y medición para negocios locales": "Halo Studio, web design and measurement for local businesses",
     "Halo Studio | Diseño web y medición para negocios locales": "Halo Studio | Web design and measurement for local businesses",
     "Halo Studio diseña tu página web, mide cada interacción y te muestra con datos cuántas visitas se transforman en clientes. Para negocios y profesionales de Buenos Aires. Antes de contratar, te mostramos una demo sin costo.": "Halo Studio designs your website, measures every interaction and shows you with data how many visits turn into customers. For businesses and professionals in Buenos Aires. Before you hire us, we show you a free demo.",
