@@ -544,3 +544,57 @@
 @media (prefers-reduced-motion: reduce) { .nav, .nav .container, .nr .nav .container { transition: none; } }
 @media (max-width: 30rem) { .nav.flota .container { max-width: calc(100% - var(--space-md)); padding-inline: var(--space-sm); gap: var(--space-sm) !important; } .nav.flota ul { gap: var(--space-sm); } }
 @media (max-width: 30rem) { .nav.flota .container { gap: var(--space-xs) !important; padding-inline: var(--space-sm); } .nav.flota ul { gap: var(--space-xs); } .nav.flota ul a { font-size: 0.78rem; } .nav.flota .lang { font-size: 0.78rem; } .nav.flota .btn--icono { padding-inline: var(--space-xs); } }
+
+
+/* Halo Vista: tablero de ejemplo */
+.vista-head { display: grid; gap: var(--space-md); max-width: 60ch; margin-bottom: var(--space-xl); }
+.vista-head p { color: var(--color-ink-2); }
+.vista-panel { display: grid; gap: var(--space-lg); padding: clamp(1rem, 2.4vw, 1.75rem); border: var(--rule-hair) solid var(--color-rule); border-radius: calc(var(--radius-card) + 6px); background: var(--color-paper-hi); box-shadow: var(--shadow-sheet); }
+.vp-barra { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-md); }
+.vp-titulo { font-weight: 500; }
+.vp-ejemplo { padding: 2px 10px; border: var(--rule-hair) solid var(--color-accent); border-radius: var(--radius-card); background: color-mix(in oklab, var(--color-accent) 16%, transparent); font-size: var(--text-xs); color: var(--color-ink-2); }
+.vp-per { display: flex; margin-left: auto; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); overflow: hidden; }
+.vp-per button { padding: 6px 14px; border: 0; background: none; font: inherit; font-size: var(--text-sm); color: var(--color-ink-2); cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
+.vp-per button[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper-hi); }
+.vp-per button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -2px; }
+.vp-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-md); margin: 0; }
+.vp-kpis > div { padding-top: var(--space-sm); border-top: var(--rule-hair) solid var(--color-ink); }
+.vp-kpis dt { font-size: var(--text-sm); color: var(--color-muted); }
+.vp-kpis dd { margin: var(--space-2xs) 0 0; font-family: var(--font-display); font-size: clamp(2rem, 3.4vw, 2.9rem); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: var(--tracking-display); }
+.vp-cuerpo { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-xl); align-items: start; }
+.vp-grafico { margin: 0; }
+.vp-grafico figcaption, .vp-sub { margin: 0 0 var(--space-sm); font-size: var(--text-sm); font-weight: 500; color: var(--color-ink-2); }
+.vp-grafico svg { display: block; width: 100%; height: auto; }
+.vp-eje { stroke: var(--color-rule); stroke-width: 1; }
+.vp-barra-g { fill: var(--color-ink); transition: height var(--dur-long) var(--ease-out); }
+.vp-barra-g.max { fill: var(--color-accent); }
+.vp-val { font-size: 12px; font-weight: 500; fill: var(--color-ink); font-variant-numeric: tabular-nums; }
+.vp-sem { font-size: 11px; fill: var(--color-muted); }
+.vp-canales ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-md); }
+.vp-canales li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 2.8rem; align-items: center; gap: var(--space-sm); font-size: var(--text-sm); }
+.vp-canales i { display: block; height: 8px; border-radius: var(--radius-card); background: var(--color-paper-3); overflow: hidden; }
+.vp-canales b { display: block; height: 100%; background: var(--color-accent); transition: width var(--dur-long) var(--ease-out); }
+.vp-canales em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; color: var(--color-ink-2); }
+.vp-scroll { overflow-x: auto; }
+.vp-tabla table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: var(--text-sm); }
+.vp-tabla th { text-align: left; font-weight: 500; color: var(--color-muted); padding: var(--space-xs) var(--space-sm) var(--space-xs) 0; border-bottom: var(--rule-hair) solid var(--color-ink); }
+.vp-tabla td { padding: var(--space-sm) var(--space-sm) var(--space-sm) 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+.chip { display: inline-block; padding: 2px 10px; border-radius: var(--radius-card); font-size: var(--text-xs); font-weight: 500; white-space: nowrap; }
+.e-nueva { background: color-mix(in oklab, var(--color-accent) 30%, transparent); }
+.e-resp { background: var(--color-paper-3); }
+.e-visita { background: color-mix(in oklab, var(--color-ink) 12%, transparent); }
+.e-cerrada { background: color-mix(in oklab, var(--color-success) 24%, transparent); }
+.vista-dos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-columns); margin-top: var(--space-xl); }
+.vista-dos > div { padding-top: var(--space-md); border-top: var(--rule-hair) solid var(--color-ink); }
+.vista-dos h3 { font-family: var(--font-body); font-weight: 500; font-size: var(--text-lg, 1.25rem); letter-spacing: -0.005em; }
+.vista-dos p { margin-top: var(--space-xs); color: var(--color-ink-2); max-width: 46ch; }
+.vista-cta { margin-top: var(--space-xl); }
+@media (max-width: 60rem) { .vp-cuerpo { grid-template-columns: minmax(0, 1fr); } .vp-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .vista-dos { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .vp-barra-g, .vp-canales b, .vp-per button { transition: none; } }
+
+/* Barra en celular: se ven Proyectos y Preguntas */
+@media (max-width: 30rem) { .nav ul li:nth-child(1), .nav ul li:nth-child(3) { display: none; } .nav ul li:nth-child(2) { display: list-item; } }
+.vista-panel { grid-template-columns: minmax(0, 1fr); }
+.vista-panel > *, .vp-cuerpo > *, .vp-tabla { min-width: 0; }
+@media (max-width: 40rem) { .vp-per { margin-left: 0; } .vp-canales li { grid-template-columns: 4.5rem minmax(0, 1fr) 2.6rem; } }
+@media (max-width: 30rem) { .nav ul li:nth-child(4) { display: list-item; } }
