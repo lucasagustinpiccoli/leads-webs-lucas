@@ -553,6 +553,7 @@
     else if ((x = e.target.closest("[data-menos]"))) sumar(x.dataset.menos, -1);
     else if ((x = e.target.closest("[data-quitar]"))) { delete pres[x.dataset.quitar]; guardar("arce-pres", pres); actualizar(); }
     else if ((x = e.target.closest("[data-sumar]"))) { sumar(x.dataset.sumar, 1); aviso("Sumado al presupuesto"); }
+    else if ((x = e.target.closest("[data-abrir]"))) abrir(x.dataset.abrir);
     else if ((x = e.target.closest("[data-agregar]"))) { sumar(x.dataset.agregar, 1); $("dlg").close(); abrirCaj("caj-pres"); }
     else if (e.target.closest("[data-cerrar]") || e.target === $("vel")) cerrar();
   });
