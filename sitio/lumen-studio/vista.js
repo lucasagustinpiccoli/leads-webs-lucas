@@ -54,7 +54,7 @@
     puntos = sem.map(function (v, k) { return [izq + (W - izq - der) * (sem.length === 1 ? 0.5 : k / (sem.length - 1)), base - (v / tope) * (base - arriba)]; });
     var linea = curva(puntos);
     svg.appendChild(el("path", { d: linea + " L" + puntos[puntos.length - 1][0].toFixed(1) + " " + base + " L" + puntos[0][0].toFixed(1) + " " + base + " Z", "class": "vp-area" }));
-    svg.appendChild(el("path", { d: linea, "class": "vp-lin" }));
+    svg.appendChild(el("path", { d: linea, pathLength: 1, "class": "vp-lin" }));
     for (i = 0; i < sem.length; i++) if (sem.length <= 6 || i === 0 || i === sem.length - 1 || i % 3 === 0) svg.appendChild(el("text", { x: puntos[i][0].toFixed(1), y: H - 6, "text-anchor": "middle", "class": "vp-eje" }, "S" + (i + 1)));
     svg.appendChild(el("line", { id: "vp-guia", x1: 0, y1: arriba, x2: 0, y2: base, "class": "vp-guia", visibility: "hidden" }));
     svg.appendChild(el("circle", { id: "vp-pto", r: 5, cx: 0, cy: 0, "class": "vp-punto", visibility: "hidden" }));
@@ -80,21 +80,38 @@
     el0.appendChild(el("path", { d: curva(pts) }));
   }
 
+  var calmo = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var listo = calmo;   // sin movimiento: se muestra todo de entrada
+  function suave(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  // Escribe un número y, si ya se vio el panel, lo hace contar desde el valor anterior
+  function poner(nodo, valor, fmt) {
+    var desde = nodo._v === undefined ? 0 : nodo._v; nodo._v = valor;
+    if (calmo || !listo) { nodo.textContent = fmt(valor); if (!listo && !calmo) nodo._v = valor; return; }
+    var t0 = performance.now(), dur = 900;
+    (function paso(t) {
+      var k = Math.min(1, (t - t0) / dur);
+      nodo.textContent = fmt(desde + (valor - desde) * suave(k));
+      if (k < 1) requestAnimationFrame(paso);
+    })(t0);
+  }
+  function entero(v) { return num(Math.round(v)); }
+  function pct1(v) { return pct(v); }
+
   function pintar(p) {
     var d = DATOS[p]; actual = d;
     var q = function (s) { return panel.querySelector(s); };
-    q('[data-k="visitas"]').textContent = num(d.visitas);
-    q('[data-k="consultas"]').textContent = num(d.consultas);
-    q('[data-k="tasa"]').textContent = pct(d.consultas / d.visitas * 100);
-    q('[data-k="cerradas"]').textContent = num(d.cerradas);
+    poner(q('[data-k="visitas"]'), d.visitas, entero);
+    poner(q('[data-k="consultas"]'), d.consultas, entero);
+    poner(q('[data-k="tasa"]'), d.consultas / d.visitas * 100, pct1);
+    poner(q('[data-k="cerradas"]'), d.cerradas, entero);
     ["visitas", "consultas", "tasa", "cerradas"].forEach(function (k) {
       q('[data-d="' + k + '"]').textContent = "▲ " + d.delta[k];
       spark(q('[data-s="' + k + '"]'), d.spark[k]);
     });
     var filas = canales.querySelectorAll("li");
     for (var i = 0; i < filas.length; i++) { filas[i].querySelector("b").style.width = d.canales[i] + "%"; filas[i].querySelector("em").textContent = d.canales[i] + "%"; }
-    q('[data-f="visitas"]').textContent = num(d.visitas); q('[data-f="consultas"]').textContent = num(d.consultas);
-    q('[data-f="agendadas"]').textContent = num(d.agendadas); q('[data-f="cerradas"]').textContent = num(d.cerradas);
+    poner(q('[data-f="visitas"]'), d.visitas, entero); poner(q('[data-f="consultas"]'), d.consultas, entero);
+    poner(q('[data-f="agendadas"]'), d.agendadas, entero); poner(q('[data-f="cerradas"]'), d.cerradas, entero);
     var anchos = [100, Math.max(24, d.consultas / d.visitas * 900), Math.max(18, d.agendadas / d.visitas * 900), Math.max(12, d.cerradas / d.visitas * 900)];
     var emb = panel.querySelectorAll("#vp-embudo li i");
     for (var j = 0; j < emb.length; j++) emb[j].style.width = Math.min(100, anchos[j]) + "%";
@@ -121,4 +138,32 @@
   });
 
   pintar("30");
+
+  /* Movimiento, como en los paneles de referencia: el panel llega inclinado hacia atrás, más chico y más tenue,
+     y se endereza con el scroll. Cuando ya se ve, entran los indicadores de a uno, los números cuentan,
+     la línea se dibuja y las barras crecen. */
+  if (calmo) return;
+  var ventana = panel, escena = panel.parentNode, chico = window.matchMedia("(max-width: 60rem)");
+  panel.classList.add("vp-pre");
+  Array.prototype.forEach.call(panel.querySelectorAll(".vp-kpis > div, .vp-fila > *, .vp-tabla tbody tr"), function (n, i) { n.style.transitionDelay = Math.min(i, 12) * 70 + "ms"; });
+  var entro = false, esp = false;
+  function mover() {
+    esp = false;
+    var r = escena.getBoundingClientRect(), vh = window.innerHeight;
+    var t = Math.max(0, Math.min(1, (vh * 0.96 - r.top) / (vh * 0.55)));
+    var e = suave(t), giro = (chico.matches ? 12 : 22) * (1 - e);
+    ventana.style.transform = "translateY(" + ((1 - e) * 34).toFixed(1) + "px) rotateX(" + giro.toFixed(2) + "deg) scale(" + (0.9 + 0.1 * e).toFixed(4) + ")";
+    ventana.style.opacity = (0.55 + 0.45 * e).toFixed(3);
+    escena.style.setProperty("--g", e.toFixed(3));
+    if (!entro && t > 0.7) {
+      entro = true; listo = true;
+      panel.classList.remove("vp-pre");
+      // los números arrancan en cero y cuentan hasta su valor
+      var nodos = panel.querySelectorAll("[data-k],[data-f]");
+      Array.prototype.forEach.call(nodos, function (nodo) { var f = nodo._v; nodo._v = 0; nodo.textContent = nodo.hasAttribute("data-k") && nodo.getAttribute("data-k") === "tasa" ? "0%" : "0"; poner(nodo, f, nodo.getAttribute("data-k") === "tasa" ? pct1 : entero); });
+    }
+  }
+  window.addEventListener("scroll", function () { if (!esp) { esp = true; requestAnimationFrame(mover); } }, { passive: true });
+  window.addEventListener("resize", mover);
+  mover();
 })();
