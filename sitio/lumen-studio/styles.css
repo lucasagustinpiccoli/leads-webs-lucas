@@ -534,3 +534,13 @@
 .tel-fr::before { top: calc(var(--tw) * 0.056); width: 26%; height: 2.7%; }
 .car-js .car-pista { pointer-events: none; }
 .car-js .car-item { pointer-events: auto; }
+
+/* Barra: arranca pegada arriba y, al scrollear, se vuelve una barra flotante redondeada */
+.nav { transition: background-color 320ms var(--ease-out), border-color 320ms var(--ease-out), padding-top 460ms var(--ease-out); }
+.nav .container, .nr .nav .container { transition: max-width 460ms var(--ease-out), min-height 460ms var(--ease-out), padding-inline 460ms var(--ease-out), border-radius 460ms var(--ease-out), background-color 320ms var(--ease-out), border-color 320ms var(--ease-out), box-shadow 320ms var(--ease-out), opacity 700ms cubic-bezier(0.33, 0, 0.2, 1), filter 700ms cubic-bezier(0.33, 0, 0.2, 1); border: var(--rule-hair) solid transparent; }
+.nav.flota { background: transparent; border-bottom-color: transparent; padding-top: 10px; }
+.nav.flota .container { max-width: min(1180px, calc(100% - var(--space-lg))); min-height: 54px; padding-inline: var(--space-lg); border-radius: 18px; background: color-mix(in oklab, var(--color-night) 84%, transparent); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); border-color: var(--color-night-line); box-shadow: 0 14px 34px -16px color-mix(in oklab, var(--color-ink) 70%, transparent); }
+@media (max-width: 40rem) { .nav.flota .container { padding-inline: var(--space-md); } }
+@media (prefers-reduced-motion: reduce) { .nav, .nav .container, .nr .nav .container { transition: none; } }
+@media (max-width: 30rem) { .nav.flota .container { max-width: calc(100% - var(--space-md)); padding-inline: var(--space-sm); gap: var(--space-sm) !important; } .nav.flota ul { gap: var(--space-sm); } }
+@media (max-width: 30rem) { .nav.flota .container { gap: var(--space-xs) !important; padding-inline: var(--space-sm); } .nav.flota ul { gap: var(--space-xs); } .nav.flota ul a { font-size: 0.78rem; } .nav.flota .lang { font-size: 0.78rem; } .nav.flota .btn--icono { padding-inline: var(--space-xs); } }
