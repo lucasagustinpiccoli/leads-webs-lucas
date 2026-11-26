@@ -113,24 +113,25 @@
         <div class="vp-ventana" id="vista-panel" role="group" aria-label="Ejemplo del panel Halo Vista">
           <div class="vp-top" aria-hidden="true"><i></i><i></i><i></i><span>Halo Vista</span></div>
           <div class="vp-app">
-            <aside class="vp-lado" aria-hidden="true">
+            <aside class="vp-lado">
               <div class="vp-ws"><span class="vp-logo">M</span><div><b>Mi negocio</b></div></div>
               <ul class="vp-nav">
-                <li class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Resumen</span></li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg><span>Contactos</span></li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Canales</span></li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><span>Informes</span></li>
+                <li class="on" role="button" tabindex="0" data-go="resumen" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Resumen</span></li>
+                <li role="button" tabindex="0" data-go="contactos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg><span>Contactos</span></li>
+                <li role="button" tabindex="0" data-go="canales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Canales</span></li>
+                <li role="button" tabindex="0" data-go="informes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><span>Informes</span></li>
               </ul>
               <ul class="vp-nav vp-nav2">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span>Ajustes</span></li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg><span>Ayuda</span></li>
+                <li aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span>Ajustes</span></li>
+                <li aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg><span>Ayuda</span></li>
               </ul>
             </aside>
             <div class="vp-main">
+              <nav class="vp-tabs" id="vp-tabs" aria-label="Secciones del panel"></nav>
               <header class="vp-cab">
-                <div class="vp-saludo"><p class="vp-hola">Buen día</p><p class="vp-sub0">Así viene tu página</p></div>
-                                <div class="vp-der">
-                  <span class="vp-busca" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Buscar contactos…</span><kbd>⌘K</kbd></span>
+                <div class="vp-saludo"><p class="vp-hola" id="vp-tit">Buen día</p><p class="vp-sub0" id="vp-sub0">Así viene tu página</p></div>
+                <div class="vp-der">
+                  <label class="vp-busca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="vp-q" type="search" placeholder="Buscar contactos…" aria-label="Buscar contactos" autocomplete="off"></label>
                   <div class="vp-per" role="group" aria-label="Período">
                     <button type="button" data-per="30" aria-pressed="true">30 días</button>
                     <button type="button" data-per="90" aria-pressed="false">90 días</button>
@@ -138,7 +139,8 @@
                   <span class="vp-avatar" aria-hidden="true">MR</span>
                 </div>
               </header>
-              <dl class="vp-kpis">
+              <div class="vp-vista" data-v="resumen">
+                <dl class="vp-kpis">
                 <div><dt>Visitas</dt><dd data-k="visitas">1.842</dd><span class="vp-delta" data-d="visitas"></span><svg class="vp-spark" data-s="visitas" viewBox="0 0 80 24" aria-hidden="true"></svg></div>
                 <div><dt>Contactos</dt><dd data-k="consultas">126</dd><span class="vp-delta" data-d="consultas"></span><svg class="vp-spark" data-s="consultas" viewBox="0 0 80 24" aria-hidden="true"></svg></div>
                 <div><dt>Visitas que contactan</dt><dd data-k="tasa">6,8%</dd><span class="vp-delta" data-d="tasa"></span><svg class="vp-spark" data-s="tasa" viewBox="0 0 80 24" aria-hidden="true"></svg></div>
@@ -167,17 +169,33 @@
                   </ol>
                 </div>
               </div>
-              <div class="vp-tabla vp-caja">
-                <p class="vp-sub">Últimos contactos</p>
-                <div class="vp-scroll">
-                  <table>
-                    <thead><tr><th scope="col">Tipo</th><th scope="col">Origen</th><th scope="col">Dispositivo</th><th scope="col">Cuándo</th></tr></thead>
-                    <tbody>
-                      <tr><td>WhatsApp</td><td>Instagram</td><td>Celular</td><td>Hoy, 10:42</td></tr>
-                      <tr><td>Formulario</td><td>Google</td><td>Escritorio</td><td>Hoy, 09:15</td></tr>
-                      <tr><td>WhatsApp</td><td>Directo</td><td>Celular</td><td>Ayer, 21:08</td></tr>
-                    </tbody>
-                  </table>
+                <div class="vp-tabla vp-caja">
+                  <p class="vp-sub">Últimos contactos <span class="vp-filtros" id="vp-filtros"></span></p>
+                  <div class="vp-scroll"><table><thead><tr><th scope="col">Tipo</th><th scope="col">Origen</th><th scope="col">Dispositivo</th><th scope="col">Cuándo</th></tr></thead><tbody id="vp-cuerpo"></tbody></table></div>
+                  <p class="vp-vacio" id="vp-vacio" hidden>Sin contactos con ese filtro.</p>
+                </div>
+              </div>
+              <div class="vp-vista" data-v="contactos" hidden>
+                <div class="vp-caja">
+                  <div class="vp-pills" id="vp-pills" role="group" aria-label="Tipo de contacto">
+                    <button type="button" data-t="" aria-pressed="true">Todos</button><button type="button" data-t="WhatsApp" aria-pressed="false">WhatsApp</button><button type="button" data-t="Formulario" aria-pressed="false">Formulario</button><button type="button" data-t="Llamada" aria-pressed="false">Llamada</button>
+                  </div>
+                  <div class="vp-scroll vp-lista"><table><thead><tr><th scope="col">Tipo</th><th scope="col">Origen</th><th scope="col">Dispositivo</th><th scope="col">Cuándo</th></tr></thead><tbody id="vp-cuerpo2"></tbody></table></div>
+                  <p class="vp-vacio" id="vp-vacio2" hidden>Sin contactos con ese filtro.</p>
+                </div>
+              </div>
+              <div class="vp-vista" data-v="canales" hidden>
+                <div class="vp-fila vp-fila3">
+                  <div><p class="vp-sub">Por origen</p><ul class="vp-barras" id="vp-b-origen"></ul></div>
+                  <div><p class="vp-sub">Por dispositivo</p><ul class="vp-barras" id="vp-b-disp"></ul></div>
+                  <div><p class="vp-sub">Contactos por día</p><div class="vp-dias" id="vp-dias"></div></div>
+                </div>
+              </div>
+              <div class="vp-vista" data-v="informes" hidden>
+                <div class="vp-caja vp-informe">
+                  <p class="vp-sub" id="vp-inf-t">Informe del mes</p>
+                  <ul id="vp-inf"></ul>
+                  <p class="vp-inf-pie">Así es el informe mensual del servicio gestionado.</p>
                 </div>
               </div>
             </div>
