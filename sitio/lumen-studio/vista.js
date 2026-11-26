@@ -40,7 +40,7 @@
   var puntos = [];
   function grafico(sem) {
     while (svg.firstChild) svg.removeChild(svg.firstChild);
-    var W = 520, H = 190, izq = 30, der = 8, arriba = 12, abajo = 26, max = Math.max.apply(null, sem), tope = Math.ceil(max / 10) * 10 + 5;
+    var W = 520, H = 150, izq = 30, der = 8, arriba = 12, abajo = 26, max = Math.max.apply(null, sem), tope = Math.ceil(max / 10) * 10 + 5;
     var defs = el("defs", {}), g = el("linearGradient", { id: "vp-grad", x1: 0, y1: 0, x2: 0, y2: 1 });
     g.appendChild(el("stop", { offset: "0%", style: "stop-color:var(--color-accent);stop-opacity:.42" }));
     g.appendChild(el("stop", { offset: "100%", style: "stop-color:var(--color-accent);stop-opacity:0" }));
@@ -68,7 +68,7 @@
     gu.setAttribute("x1", p[0]); gu.setAttribute("x2", p[0]); gu.setAttribute("visibility", "visible");
     pt.setAttribute("cx", p[0]); pt.setAttribute("cy", p[1]); pt.setAttribute("visibility", "visible");
     tip.hidden = false; tip.textContent = "S" + (mejor + 1) + ": " + actual.semanas[mejor] + " " + tr("Consultas").toLowerCase();
-    tip.style.left = (p[0] / 520 * r.width) + "px"; tip.style.top = (p[1] / 190 * r.height) + "px";
+    tip.style.left = (p[0] / 520 * r.width) + "px"; tip.style.top = (p[1] / 150 * r.height) + "px";
   }
   function salir() { tip.hidden = true; var gu = document.getElementById("vp-guia"), pt = document.getElementById("vp-pto"); if (gu) gu.setAttribute("visibility", "hidden"); if (pt) pt.setAttribute("visibility", "hidden"); }
   svg.addEventListener("pointermove", mirar); svg.addEventListener("pointerleave", salir);
@@ -145,7 +145,7 @@
   if (calmo) return;
   var ventana = panel, escena = panel.parentNode, chico = window.matchMedia("(max-width: 60rem)");
   panel.classList.add("vp-pre");
-  Array.prototype.forEach.call(panel.querySelectorAll(".vp-kpis > div, .vp-fila > *, .vp-tabla tbody tr"), function (n, i) { n.style.transitionDelay = Math.min(i, 12) * 70 + "ms"; });
+  Array.prototype.forEach.call(panel.querySelectorAll(".vp-kpis > div, .vp-fila > *, .vp-caja, .vp-tabla tbody tr"), function (n, i) { n.style.transitionDelay = Math.min(i, 12) * 70 + "ms"; });
   var entro = false, esp = false;
   function mover() {
     esp = false;
@@ -156,7 +156,7 @@
     ventana.style.opacity = (0.55 + 0.45 * e).toFixed(3);
     escena.style.setProperty("--g", e.toFixed(3));
     if (!entro && t > 0.7) {
-      entro = true; listo = true;
+      entro = true; listo = true; setTimeout(function () { Array.prototype.forEach.call(panel.querySelectorAll(".vp-kpis > div, .vp-fila > *, .vp-tabla tbody tr, .vp-caja"), function (n) { n.style.transitionDelay = ""; }); panel.classList.add("vp-listo"); }, 1700);
       panel.classList.remove("vp-pre");
       // los números arrancan en cero y cuentan hasta su valor
       var nodos = panel.querySelectorAll("[data-k],[data-f]");
