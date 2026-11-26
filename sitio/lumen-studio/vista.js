@@ -6,16 +6,16 @@
   if (!panel) return;
   var DATOS = {
     "30": {
-      visitas: 1842, consultas: 126, agendadas: 48, cerradas: 21,
+      visitas: 1842, consultas: 126, agendadas: 10, cerradas: 94, form: 22,
       semanas: [24, 29, 35, 38], canales: [46, 31, 15, 8],
-      delta: { visitas: "+12%", consultas: "+18%", tasa: "+0,4 pp", cerradas: "+5" },
-      spark: { visitas: [410, 430, 470, 532], consultas: [24, 29, 35, 38], tasa: [5.9, 6.4, 7.1, 7.1], cerradas: [3, 5, 6, 7] }
+      delta: { visitas: "+12%", consultas: "+18%", tasa: "+0,4 pp", cerradas: "+16%" },
+      spark: { visitas: [410, 430, 470, 532], consultas: [24, 29, 35, 38], tasa: [5.9, 6.4, 7.1, 7.1], cerradas: [14, 19, 25, 36] }
     },
     "90": {
-      visitas: 5310, consultas: 389, agendadas: 141, cerradas: 68,
+      visitas: 5310, consultas: 389, agendadas: 31, cerradas: 290, form: 68,
       semanas: [21, 24, 26, 30, 28, 33, 35, 31, 38, 41, 44, 38], canales: [41, 36, 15, 8],
-      delta: { visitas: "+9%", consultas: "+14%", tasa: "+0,3 pp", cerradas: "+11" },
-      spark: { visitas: [380, 395, 410, 420, 400, 440, 452, 430, 470, 490, 505, 520], consultas: [21, 24, 26, 30, 28, 33, 35, 31, 38, 41, 44, 38], tasa: [5.5, 6.1, 6.3, 7.1, 7, 7.5, 7.7, 7.2, 8.1, 8.4, 8.7, 7.3], cerradas: [3, 4, 4, 6, 5, 6, 7, 5, 7, 8, 8, 5] }
+      delta: { visitas: "+9%", consultas: "+14%", tasa: "+0,3 pp", cerradas: "+12%" },
+      spark: { visitas: [380, 395, 410, 420, 400, 440, 452, 430, 470, 490, 505, 520], consultas: [21, 24, 26, 30, 28, 33, 35, 31, 38, 41, 44, 38], tasa: [5.5, 6.1, 6.3, 7.1, 7, 7.5, 7.7, 7.2, 8.1, 8.4, 8.7, 7.3], cerradas: [16, 18, 19, 22, 21, 24, 27, 23, 28, 31, 32, 29] }
     }
   };
   var ESTADOS = [["Nueva", "e-nueva"], ["Respondida", "e-resp"], ["Visita agendada", "e-visita"], ["Cerrada", "e-cerrada"]];
@@ -110,9 +110,9 @@
     });
     var filas = canales.querySelectorAll("li");
     for (var i = 0; i < filas.length; i++) { filas[i].querySelector("b").style.width = d.canales[i] + "%"; filas[i].querySelector("em").textContent = d.canales[i] + "%"; }
-    poner(q('[data-f="visitas"]'), d.visitas, entero); poner(q('[data-f="consultas"]'), d.consultas, entero);
-    poner(q('[data-f="agendadas"]'), d.agendadas, entero); poner(q('[data-f="cerradas"]'), d.cerradas, entero);
-    var anchos = [100, Math.max(24, d.consultas / d.visitas * 900), Math.max(18, d.agendadas / d.visitas * 900), Math.max(12, d.cerradas / d.visitas * 900)];
+    poner(q('[data-f="visitas"]'), d.cerradas, entero); poner(q('[data-f="consultas"]'), d.form, entero);
+    poner(q('[data-f="agendadas"]'), d.agendadas, entero);
+    var anchos = [100, d.form / d.cerradas * 100, d.agendadas / d.cerradas * 100];
     var emb = panel.querySelectorAll("#vp-embudo li i");
     for (var j = 0; j < emb.length; j++) emb[j].style.width = Math.min(100, anchos[j]) + "%";
     grafico(d.semanas);
